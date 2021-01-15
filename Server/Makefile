@@ -1,4 +1,4 @@
-NAME		=	front
+NAME		=	server
 
 GTKFLAGS	=	`pkg-config --cflags --libs gtk+-3.0`
 # GTKFLAGS	=	-I resource/GTK/include -L resource/GTK/lib \
