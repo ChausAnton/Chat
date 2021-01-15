@@ -4,6 +4,7 @@ int main(int argc , char *argv[])
 {
 	int sock;
 	struct sockaddr_in server;
+	struct hostent *serv;
 	char message[1000] , server_reply[2000];
 	
 	//Create socket
@@ -13,10 +14,12 @@ int main(int argc , char *argv[])
 		printf("Could not create socket");
 	}
 	puts("Socket created");
-	
-	server.sin_addr.s_addr = inet_addr("172.31.98.177");
+
+	serv = gethostbyname(SERVERADDR);
+    memset((char *) &server, 0, sizeof(server));
 	server.sin_family = AF_INET;
-	server.sin_port = htons( 8885 );
+	memcpy(&server.sin_addr.s_addr, serv->h_addr_list[0],  serv->h_length);
+	server.sin_port = htons(SERVERPORT);
 
 	//Connect to remote server
 	if (connect(sock , (struct sockaddr *)&server , sizeof(server)) < 0)

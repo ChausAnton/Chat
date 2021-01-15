@@ -10,6 +10,9 @@
 #include <time.h>
 #include <errno.h>
 #include <string.h>
+#include <memory.h>
+#include <netdb.h>
+#include <netinet/in.h>
 
 ///server
 #include <sys/socket.h>
@@ -17,7 +20,6 @@
 #include <arpa/inet.h>
 #include <sys/types.h>
 #include <time.h>
-#include <pthread.h>
 
 
 ////////gtk
