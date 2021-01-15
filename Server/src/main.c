@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
 	//Prepare the sockaddr_in structure
 	server.sin_family = AF_INET;
 	server.sin_addr.s_addr = INADDR_ANY;
-	server.sin_port = htons( 8227 );
+	server.sin_port = htons( 8222 );
 	
 	//Bind
 	if( bind(socket_desc,(struct sockaddr *)&server , sizeof(server)) < 0)
@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
 		//pthread_join( sniffer_thread , NULL);
 		puts("Handler assigned");
 	}
-	
+	close(socket_desc);
 	if (client_sock < 0)
 	{
 		perror("accept failed");

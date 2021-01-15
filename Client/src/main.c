@@ -20,13 +20,13 @@ int main(int argc , char *argv[])
 	server.sin_family = AF_INET;
 	memcpy(&server.sin_addr.s_addr, serv->h_addr_list[0],  serv->h_length);
 	server.sin_port = htons(SERVERPORT);
-
 	//Connect to remote server
 	if (connect(sock , (struct sockaddr *)&server , sizeof(server)) < 0)
 	{
 		perror("connect failed. Error");
 		return 1;
 	}
+	puts("!!!!!!!!!!!");
 	
 	puts("Connected\n");
 	

@@ -1,9 +1,11 @@
 #pragma once 
 #ifndef chat
 #define chat
-
-#define SERVERADDR "localhost"
-#define SERVERPORT 8227
+//ipconfig getifaddr en0 for get ip
+//10.11.7.8 ansh
+//10.11.7.7 anch
+#define SERVERADDR "10.11.7.8"
+#define SERVERPORT 8222
 
 #include <stdio.h>
 #include <unistd.h>
