@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
 		//pthread_join( sniffer_thread , NULL);
 		puts("Handler assigned");
 	}
-	
+	close(socket_desc);
 	if (client_sock < 0)
 	{
 		perror("accept failed");
