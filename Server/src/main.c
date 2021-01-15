@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
 	//Prepare the sockaddr_in structure
 	server.sin_family = AF_INET;
 	server.sin_addr.s_addr = INADDR_ANY;
-	server.sin_port = htons( 8883 );
+	server.sin_port = htons( 8227 );
 	
 	//Bind
 	if( bind(socket_desc,(struct sockaddr *)&server , sizeof(server)) < 0)
@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
 	puts("bind done");
 	
 	//Listen
-	listen(socket_desc , 3);	
+	listen(socket_desc , 0x100);	
 	
 	//Accept and incoming connection
 	puts("Waiting for incoming connections...");
