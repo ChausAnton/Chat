@@ -14,9 +14,9 @@ int main(int argc , char *argv[])
 	}
 	puts("Socket created");
 	
-	server.sin_addr.s_addr = inet_addr("127.0.0.1");
+	server.sin_addr.s_addr = inet_addr("172.31.98.177");
 	server.sin_family = AF_INET;
-	server.sin_port = htons( 8883 );
+	server.sin_port = htons( 8885 );
 
 	//Connect to remote server
 	if (connect(sock , (struct sockaddr *)&server , sizeof(server)) < 0)

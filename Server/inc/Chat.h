@@ -11,7 +11,6 @@
 #include <errno.h>
 #include <string.h>
 
-
 ///server
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -23,5 +22,8 @@
 
 ////////gtk
 #include <gtk/gtk.h>
+
+///////database
+#include <sqlite3.h>
 
 #endif
