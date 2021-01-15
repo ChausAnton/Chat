@@ -25,4 +25,7 @@
 ////////gtk
 #include <gtk/gtk.h>
 
+///////database
+#include <sqlite3.h>
+
 #endif
