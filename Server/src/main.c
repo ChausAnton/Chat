@@ -2,6 +2,7 @@
 
 void *connection_handler(void *socket_desc);
 
+
 int main(int argc, char *argv[]) {
     int socket_desc , client_sock , c , *new_sock;
 	struct sockaddr_in server , client;
@@ -17,7 +18,7 @@ int main(int argc, char *argv[]) {
 	//Prepare the sockaddr_in structure
 	server.sin_family = AF_INET;
 	server.sin_addr.s_addr = INADDR_ANY;
-	server.sin_port = htons( 8222 );
+	server.sin_port = htons( 8299 );
 	
 	//Bind
 	if( bind(socket_desc,(struct sockaddr *)&server , sizeof(server)) < 0)
@@ -73,26 +74,32 @@ void *connection_handler(void *socket_desc)
 	char *message , client_message[2000];
 	
 	//Send some messages to the client
-	message = "Greetings! I am your connection handler\n";
+	message = strdup("Greetings! I am your connection handler\n");
 	write(sock , message , strlen(message));
-	
-	message = "Now type something and i shall repeat what you type \n";
+	free(message);
+	message = strdup("Now type something and i shall repeat what you type \n");
 	write(sock , message , strlen(message));
+	free(message);
 	
 	//Receive a message from client
 	while( (read_size = recv(sock , client_message , 2000 , 0)) > 0 )
 	{
+		if(strcmp(client_message, "exit") == 0) {
+			puts("Client disconnected");
+			fflush(stdout);
+			break;
+		}
 		//Send the message back to client
 		write(sock , client_message , strlen(client_message));
+
+		for(int i = 0; i < 2000; i++)
+			client_message[i] = '\0';
 	}
 	
-	if(read_size == 0)
-	{
+	if(read_size == 0) {
 		puts("Client disconnected");
-		fflush(stdout);
 	}
-	else if(read_size == -1)
-	{
+	else if(read_size == -1) {
 		perror("recv failed");
 	}
 		
