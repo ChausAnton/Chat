@@ -58,7 +58,6 @@ int main(int argc, char *argv[]) {
 		perror("accept failed");
 		return 1;
 	}
-    close(sockfd);
 	
 	return 0;
 }
