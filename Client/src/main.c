@@ -29,10 +29,13 @@ int main(int argc , char *argv[])
 	puts("Connected\n");
 	
 	//keep communicating with server
+	for(int i = 0; i < 2000; i++)
+			server_reply[i] = '\0';
+
 	int i = 0;
 	while(1) {
 
-		if(i < 1) {
+		/*if(i < 1) {
 			for(int i = 0; i < 2000; i++)
 				server_reply[i] = '\0';
 			for(int j = 0; j < 2; j++, i++) {
@@ -44,12 +47,20 @@ int main(int argc , char *argv[])
 				for(int i = 0; i < 2000; i++)
 					server_reply[i] = '\0';
 			}
-		}
+		}*/
 
+		
+		if( recv(sock , server_reply , 2000 , 0) < 0) {
+			puts("recv failed");
+			break;
+		}
+		
+		printf("%s", server_reply);
+		
 		for(int i = 0; i < 2000; i++)
 			server_reply[i] = '\0';
 
-		printf("Enter message : ");
+		
 
 		for(int i = 0; i < 1000; i++)
 			message[i] = '\0';
@@ -68,12 +79,7 @@ int main(int argc , char *argv[])
 		}
 		
 		//Receive a reply from the server
-		if( recv(sock , server_reply , 2000 , 0) < 0) {
-			puts("recv failed");
-			break;
-		}
 		
-		printf("Server reply : %s\n", server_reply);
 
 	}
 	

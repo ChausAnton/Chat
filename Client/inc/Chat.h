@@ -4,8 +4,8 @@
 //ipconfig getifaddr en0 for get ip
 //10.11.7.8 ansh
 //10.11.7.7 anch
-#define SERVERADDR "10.11.7.8 "
-#define SERVERPORT 8298
+#define SERVERADDR "10.11.7.7"
+#define SERVERPORT 8433
 
 #include <stdio.h>
 #include <unistd.h>
@@ -32,5 +32,8 @@
 
 ///////database
 #include <sqlite3.h>
+
+
+
 
 #endif
