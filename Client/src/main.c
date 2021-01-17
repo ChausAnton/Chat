@@ -1,11 +1,36 @@
 #include "Chat.h"
 
+void *reader(void *new_sock) {
+	int sock = *(int *)new_sock;
+	char server_reply[2000];
+	for(int i = 0; i < 2000; i++)
+			server_reply[i] = '\0';
+
+	while(1) {
+		
+		if( recv(sock , server_reply , 2000 , 0) < 0) {
+			puts("recv failed");
+			break;
+		}
+		if(strcmp(server_reply, "exit") == 0) {
+			break;
+		}
+		
+		printf("%s\n", server_reply);
+		
+		for(int i = 0; i < 2000; i++)
+			server_reply[i] = '\0';
+	}
+
+	return 0;
+}
+
 int main(int argc , char *argv[])
 {
 	int sock;
 	struct sockaddr_in server;
 	struct hostent *serv;
-	char message[1000] , server_reply[2000];
+	char message[1000];
 	
 	//Create socket
 	sock = socket(AF_INET , SOCK_STREAM , 0);
@@ -29,45 +54,22 @@ int main(int argc , char *argv[])
 	puts("Connected\n");
 	
 	//keep communicating with server
-	for(int i = 0; i < 2000; i++)
-			server_reply[i] = '\0';
+	
+	pthread_t sniffer_thread;
+	int *new_sock = malloc(1);
+	*new_sock = sock;
+	if( pthread_create( &sniffer_thread , NULL ,  reader , (void*) new_sock) < 0) {
+		perror("could not create thread");
+		return 1;
+	}
 
-	int i = 0;
 	while(1) {
-
-		/*if(i < 1) {
-			for(int i = 0; i < 2000; i++)
-				server_reply[i] = '\0';
-			for(int j = 0; j < 2; j++, i++) {
-				if( recv(sock , server_reply , 2000 , 0) < 0) {
-					puts("recv failed");
-					break;
-				}		
-				printf("%s", server_reply);
-				for(int i = 0; i < 2000; i++)
-					server_reply[i] = '\0';
-			}
-		}*/
-
 		
-		if( recv(sock , server_reply , 2000 , 0) < 0) {
-			puts("recv failed");
-			break;
-		}
-		
-		printf("%s", server_reply);
-		
-		for(int i = 0; i < 2000; i++)
-			server_reply[i] = '\0';
-
-		
-
 		for(int i = 0; i < 1000; i++)
 			message[i] = '\0';
 
 		scanf("%s" , message);
 		
-		//Send some data
 		if( send(sock , message , strlen(message) , 0) < 0)
 		{
 			puts("Send failed");
@@ -78,9 +80,6 @@ int main(int argc , char *argv[])
 			break;
 		}
 		
-		//Receive a reply from the server
-		
-
 	}
 	
 	close(sock);

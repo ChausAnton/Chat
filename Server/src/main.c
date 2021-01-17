@@ -3,7 +3,7 @@
 int *client_anch, *client_ash;
 
 
-void *connection_handler(void *name_user);
+void *connection_handler(void *new_sock);
 
 char *mx_autentification(int sock) {
 	int read_size;
@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
 	//Prepare the sockaddr_in structure
 	server.sin_family = AF_INET;
 	server.sin_addr.s_addr = INADDR_ANY;
-	server.sin_port = htons( 8433 );
+	server.sin_port = htons( 8455 );
 	
 	//Bind
 	if( bind(socket_desc,(struct sockaddr *)&server , sizeof(server)) < 0)
@@ -171,7 +171,12 @@ void *connection_handler(void *new_sock)
 			fflush(stdout);
 			break;
 		}
-		//Send the message back to client
+
+		if(strcmp(client_message, "exit") == 0) {
+			write(sock_from , "exit" , strlen(client_message));
+			break;
+		}
+
 		write(sock_to , client_message , strlen(client_message));
 
 		for(int i = 0; i < 2000; i++)
