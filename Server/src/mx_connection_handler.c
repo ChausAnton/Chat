@@ -14,7 +14,7 @@ void *connection_handler(void *new_sock) {
 	if(name == NULL) {
 		write(sock_from, "autentification error" , strlen("autentification error"));
 		puts("Client disconnected");
-		close(client_sock);
+		close(sock_from);
 		return 0;
 	}
 
@@ -67,6 +67,6 @@ void *connection_handler(void *new_sock) {
 		perror("recv failed");
 	}
 		
-	close(client_sock);
+	close(sock_from);
 	return 0;
 }
