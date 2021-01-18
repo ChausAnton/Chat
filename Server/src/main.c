@@ -4,14 +4,15 @@ int main(int argc, char *argv[]) {
     int socket_desc , client_sock , c , *new_sock;
 	struct sockaddr_in server , client;
 	
-
-	sqlite3* db;
 	db_open("database/uchat.db", &db);
-	char *pass = db_get_user_password("áshpigunov", db);
-	printf("\náshpigunov password: %s\n", pass);
-	pass = db_get_user_password("bubuk", db);
-	printf("\nbubuk password: %s\n", pass);
 
+	//db_add_user("lala", "7777", NULL);
+
+	//char *pass = db_get_user_password("lala", db);
+	//printf("\nlala password: %s\n", pass);
+	//db_del_user("lala");
+	//pass = db_get_user_password("lala", db);
+	//printf("\nlala password: %s\n", pass);
 	
 	//db_add_user_to_online("áshpigunov", 2141, db);
 	//db_add_user_to_online("bubuk", 2142, db);
@@ -22,8 +23,7 @@ int main(int argc, char *argv[]) {
 
 	//Create socket
 	socket_desc = socket(AF_INET , SOCK_STREAM , 0);
-	if (socket_desc == -1)
-	{
+	if (socket_desc == -1) {
 		printf("Could not create socket");
 	}
 	puts("Socket created");
@@ -34,8 +34,7 @@ int main(int argc, char *argv[]) {
 	server.sin_port = htons(SERVERPORT);
 	
 	//Bind
-	if( bind(socket_desc,(struct sockaddr *)&server , sizeof(server)) < 0)
-	{
+	if( bind(socket_desc,(struct sockaddr *)&server , sizeof(server)) < 0) {
 		//print the error message
 		perror("bind failed. Error");
 		return 1;
@@ -54,8 +53,7 @@ int main(int argc, char *argv[]) {
 		client_message[i] = '\0';
 
 	int i = 0;
-	while( (client_sock = accept(socket_desc, (struct sockaddr *)&client, (socklen_t*)&c)) )
-	{
+	while( (client_sock = accept(socket_desc, (struct sockaddr *)&client, (socklen_t*)&c)) ) {
 		puts("Connection accepted");
 		/*write(client_sock, "Do you have account?\n If yes please input 'yes' else input 'no'\n", strlen("Do you have account?\n If yes please input 'yes' else input 'no'\n",))
 		if((read_size = recv(sock_from , client_message , 2000 , 0)) > 0){
@@ -80,8 +78,7 @@ int main(int argc, char *argv[]) {
 	}
 
 	close(socket_desc);
-	if (client_sock < 0)
-	{
+	if (client_sock < 0) {
 		perror("accept failed");
 		return 1;
 	}

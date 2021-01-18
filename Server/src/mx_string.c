@@ -65,3 +65,9 @@ char *mx_strnew(const int size) {
     return str;
 }
 
+char* int_to_str(int num) {
+   int length = snprintf(NULL, 0, "%d", num);
+   char* result = malloc( length + 1 );
+   snprintf(result, length + 1, "%d", num);
+   return result;
+}
