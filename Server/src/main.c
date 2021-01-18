@@ -19,7 +19,9 @@ int main(int argc, char *argv[]) {
 	//db_del_user_from_online("bubuk", db);
 	//int sock = db_get_online_user_socket("bubuk", db);
 	//printf("\nbubuk socket: %d\n", sock);
-
+	//int count_online_user = db_get_count_online_user(db);
+	//printf("\nNumber of online users: %d\n", count_online_user);
+	
 	//Create socket
 	socket_desc = socket(AF_INET , SOCK_STREAM , 0);
 	if (socket_desc == -1) {

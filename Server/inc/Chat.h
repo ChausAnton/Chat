@@ -49,16 +49,20 @@ sqlite3* db;
 void db_open(char* path, sqlite3** db);
 void db_exec(char* statement, sqlite3* db);
 
-//User Database
-void db_add_user(char *login, char *password, char *name);
+//User table
+void db_add_user(char *login, char *password);
 void db_del_user(char *login);
-void db_new_password(char *login, char *new_pass);
+void db_set_user_password(char *login, char *new_pass);
+void db_set_user_name(char *login, char *new_name);
+void db_set_user_login(char *login, char *new_login);
 char *db_get_user_password(char *login, sqlite3* db);
 int db_get_user_id(char *login, sqlite3* db);
+int db_get_count_user(sqlite3* db);
 
-//Online User database
+//Online User table
 void db_add_user_to_online(char *login, int socket, sqlite3* db);
 void db_del_user_from_online(char *login, sqlite3* db);
 int db_get_online_user_socket(char *login, sqlite3* db);
+int db_get_count_online_user(sqlite3* db);
 /**Database**/
 #endif
