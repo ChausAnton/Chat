@@ -43,14 +43,7 @@ void *connection_handler(void *new_sock) {
 	while( (read_size = recv(sock_from , client_message , 2000 , 0)) > 0 )
 	{
 		if(strcmp(client_message, "exit") == 0) {
-			puts("Client disconnected");
-			write(sock_to , "Client disconnected" , strlen(client_message));
-			fflush(stdout);
-			break;
-		}
-
-		if(strcmp(client_message, "exit") == 0) {
-			write(sock_from , "exit" , strlen(client_message));
+			write(sock_from , "exit" , strlen("exit"));
 			break;
 		}
 
@@ -66,7 +59,9 @@ void *connection_handler(void *new_sock) {
 	else if(read_size == -1) {
 		perror("recv failed");
 	}
-		
+
+
+	fflush(stdout);
 	close(sock_from);
 	return 0;
 }

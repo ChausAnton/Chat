@@ -4,12 +4,14 @@ int main(int argc, char *argv[]) {
     int socket_desc , client_sock , c , *new_sock;
 	struct sockaddr_in server , client;
 	
+
 	sqlite3* db;
 	db_open("database/uchat.db", &db);
 	char *pass = db_get_user_password("áshpigunov", db);
 	printf("\náshpigunov password: %s\n", pass);
 	pass = db_get_user_password("bubuk", db);
 	printf("\nbubuk password: %s\n", pass);
+
 	
 	//db_add_user_to_online("áshpigunov", 2141, db);
 	//db_add_user_to_online("bubuk", 2142, db);
@@ -29,7 +31,7 @@ int main(int argc, char *argv[]) {
 	//Prepare the sockaddr_in structure
 	server.sin_family = AF_INET;
 	server.sin_addr.s_addr = INADDR_ANY;
-	server.sin_port = htons( 8555 );
+	server.sin_port = htons(SERVERPORT);
 	
 	//Bind
 	if( bind(socket_desc,(struct sockaddr *)&server , sizeof(server)) < 0)
@@ -55,13 +57,13 @@ int main(int argc, char *argv[]) {
 	while( (client_sock = accept(socket_desc, (struct sockaddr *)&client, (socklen_t*)&c)) )
 	{
 		puts("Connection accepted");
-		write(client_sock, "Do you have account?\n If yes please input 'yes' else input 'no'\n", strlen("Do you have account?\n If yes please input 'yes' else input 'no'\n",))
+		/*write(client_sock, "Do you have account?\n If yes please input 'yes' else input 'no'\n", strlen("Do you have account?\n If yes please input 'yes' else input 'no'\n",))
 		if((read_size = recv(sock_from , client_message , 2000 , 0)) > 0){
 			if(strcmp(client_message, 'yes')){
 				mx_registration(client_sock);
 			}
-		}
-		
+		}*/
+
 		pthread_t sniffer_thread;
 		int *new_sock = malloc(1);
 		*new_sock = client_sock;
@@ -72,7 +74,7 @@ int main(int argc, char *argv[]) {
 		
 		
 		//Now join the thread , so that we dont terminate before the thread
-		pthread_join( sniffer_thread , NULL);
+		//pthread_join( sniffer_thread , NULL);
 		puts("Handler assigned");
 		
 	}

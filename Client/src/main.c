@@ -9,7 +9,6 @@ void *reader(void *new_sock) {
 	while(1) {
 		
 		if( recv(sock , server_reply , 2000 , 0) < 0) {
-			puts("recv failed");
 			break;
 		}
 		if(strcmp(server_reply, "exit") == 0) {
