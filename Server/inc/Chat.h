@@ -40,4 +40,9 @@ int mx_strlen(const char *s);
 char *mx_strcat(char *restrict s1, const char *restrict s2);
 char *mx_strjoin(char const *s1, char const *s2);
 
+////
+extern sqlite3* db;
+void db_open(char* path, sqlite3** db);
+char *db_get_user_password(char *login, sqlite3* db);
+
 #endif
