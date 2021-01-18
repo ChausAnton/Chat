@@ -2,6 +2,8 @@
 #ifndef chat
 #define chat
 
+#define SERVERPORT 8111
+
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -27,9 +29,10 @@
 
 ///////database
 #include <sqlite3.h>
-
-/////
+sqlite3* db;
 int *client_anch, *client_ash;
+/////
+
 
 ///////
 char *mx_autentification(int sock);
