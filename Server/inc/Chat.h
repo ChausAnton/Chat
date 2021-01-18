@@ -28,7 +28,12 @@
 ///////database
 #include <sqlite3.h>
 
+/////
+int *client_anch, *client_ash;
+
 ///////
+char *mx_autentification(int sock);
+void *connection_handler(void *new_sock);
 ////
 char *mx_strnew(const int size);
 int mx_strlen(const char *s);
