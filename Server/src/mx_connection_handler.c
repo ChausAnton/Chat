@@ -60,6 +60,7 @@ void *connection_handler(void *new_sock) {
 		perror("recv failed");
 	}
 
+
 	fflush(stdout);
 	close(sock_from);
 	return 0;
