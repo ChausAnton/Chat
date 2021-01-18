@@ -51,8 +51,10 @@ int main(int argc, char *argv[]) {
 	struct sockaddr_in server , client;
 	
 	sqlite3* db;
-	open_db("database/uchat.db", &db);
-
+	db_open("database/uchat.db", &db);
+	char *pass = strdup(db_get_user_password("bubuk", db));
+	printf("\nbubuk password: %s\n", pass);
+	
 	//Create socket
 	socket_desc = socket(AF_INET , SOCK_STREAM , 0);
 	if (socket_desc == -1)

@@ -37,6 +37,7 @@ char *mx_strjoin(char const *s1, char const *s2);
 
 ////
 extern sqlite3* db;
-void open_db(char* path, sqlite3** db);
+void db_open(char* path, sqlite3** db);
+char *db_get_user_password(char *login, sqlite3* db);
 
 #endif
