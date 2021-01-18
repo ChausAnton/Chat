@@ -7,17 +7,16 @@ int main(int argc, char *argv[]) {
 	db_open("database/uchat.db", &db);
 
 	//db_add_user("lala", "7777", NULL);
-
 	//char *pass = db_get_user_password("lala", db);
 	//printf("\nlala password: %s\n", pass);
-	//db_del_user("lala");
+	//db_new_password("lala", "9090");
 	//pass = db_get_user_password("lala", db);
-	//printf("\nlala password: %s\n", pass);
-	
+	//printf("\nlala new password: %s\n", pass);
+	//db_del_user("lala");
 	//db_add_user_to_online("áshpigunov", 2141, db);
 	//db_add_user_to_online("bubuk", 2142, db);
 	//db_del_user_from_online("áshpigunov", db);
-
+	//db_del_user_from_online("bubuk", db);
 	//int sock = db_get_online_user_socket("bubuk", db);
 	//printf("\nbubuk socket: %d\n", sock);
 

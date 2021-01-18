@@ -22,6 +22,17 @@ void db_del_user(char *login) {
     free(statement);
 }
 
+void db_new_password(char *login, char *new_pass){
+    char* statement = strdup("update users set password='");
+    statement = mx_strjoin(statement, new_pass);
+    statement = mx_strjoin(statement, "' where login='");
+    statement = mx_strjoin(statement, login);
+    statement = mx_strjoin(statement, "';");
+
+    db_exec(statement, db);
+    free(statement);
+}
+
 char *db_get_user_password(char *login, sqlite3* db){
     char *password = NULL;
     sqlite3_stmt *result;
