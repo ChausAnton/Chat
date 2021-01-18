@@ -7,22 +7,23 @@ void *reader(void *new_sock) {
 			server_reply[i] = '\0';
 
 	while(1) {
-		
 		if( recv(sock , server_reply , 2000 , 0) < 0) {
 			break;
 		}
 		if(strcmp(server_reply, "exit") == 0) {
+			close(sock);
 			break;
 		}
 		
 		printf("%s\n", server_reply);
 		
-		for(int i = 0; i < 2000; i++)
+		for(int i = 0; i < 2000; i++) {
 			server_reply[i] = '\0';
+		}
 	}
-
 	return 0;
 }
+
 
 int main(int argc , char *argv[])
 {
@@ -62,7 +63,7 @@ int main(int argc , char *argv[])
 		return 1;
 	}
 
-	while(1) {
+	while(sniffer_thread) {
 		
 		for(int i = 0; i < 1000; i++)
 			message[i] = '\0';
@@ -80,7 +81,7 @@ int main(int argc , char *argv[])
 		}
 		
 	}
-	
+	pthread_join(sniffer_thread , NULL);
 	close(sock);
 	return 0;
 }

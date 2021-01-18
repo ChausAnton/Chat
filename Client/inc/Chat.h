@@ -5,7 +5,7 @@
 //10.11.7.8 ansh
 //10.11.7.7 anch
 #define SERVERADDR "10.11.7.7"
-#define SERVERPORT 8111
+#define SERVERPORT 8696
 
 #include <stdio.h>
 #include <unistd.h>
@@ -18,6 +18,7 @@
 #include <memory.h>
 #include <netdb.h>
 #include <netinet/in.h>
+#include <stdbool.h>
 
 ///server
 #include <sys/socket.h>

@@ -2,7 +2,7 @@
 #ifndef chat
 #define chat
 
-#define SERVERPORT 8111
+#define SERVERPORT 8696
 
 #include <stdio.h>
 #include <unistd.h>
@@ -29,8 +29,6 @@
 
 ///////database
 #include <sqlite3.h>
-sqlite3* db;
-int *client_anch, *client_ash;
 /////
 
 
@@ -44,7 +42,8 @@ char *mx_strcat(char *restrict s1, const char *restrict s2);
 char *mx_strjoin(char const *s1, char const *s2);
 
 ////Database
-extern sqlite3* db;
+//extern sqlite3* db;
+sqlite3* db;
 void db_open(char* path, sqlite3** db);
 char *db_get_user_password(char *login, sqlite3* db);
 int db_get_user_id(char *login, sqlite3* db);

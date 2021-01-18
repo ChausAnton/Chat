@@ -1,6 +1,8 @@
 #include "Chat.h"
 
 char *mx_autentification(int sock) {
+	char *user_name;
+	char *password;
 	int read_size;
 	char *message;
 	char client_message[2000];
@@ -11,29 +13,28 @@ char *mx_autentification(int sock) {
 	write(sock , message , strlen(message));
 	free(message);
 	if ((read_size = recv(sock , client_message , 2000 , 0)) > 0 ) {
+		user_name = strdup(client_message);
+		for(int i = 0; i < 2000; i++)
+				client_message[i] = '\0';
+
 		message = strdup("Pleas enter your password: ");
 		write(sock , message , strlen(message));
 		free(message);
-		if(strcmp(client_message, "ashp") == 0) {
-			for(int i = 0; i < 2000; i++)
-				client_message[i] = '\0';
-			if ((read_size = recv(sock , client_message , 2000 , 0)) > 0) {
-				if(strcmp(client_message, "0000") == 0) {
-					client_ash = &sock;
-					return strdup("ashp");
-				}
+		
+		if((read_size = recv(sock , client_message , 2000 , 0)) > 0  && 
+		(password = db_get_user_password(user_name, db)) != NULL) {
+			if(strcmp(password, client_message) == 0) {
+				db_add_user_to_online(user_name, sock, db);
+				for(int i = 0; i < 2000; i++)
+					client_message[i] = '\0';
+				return user_name;
 			}
 		}
-		else if(strcmp(client_message, "anch") == 0) {
-			for(int i = 0; i < 2000; i++)
-				client_message[i] = '\0';
-			if ((read_size = recv(sock , client_message , 2000 , 0)) > 0) {
-				if(strcmp(client_message, "1111") == 0) {
-					client_anch = &sock;
-					return strdup("anch");
-				}
-			}
-		}
+
+		message = strdup("Oops, something wrong with your login or password\nTry again!!!!");
+		write(sock , message , strlen(message));
+		free(message);
+		fflush(stdout);
 		
 	}
 	return NULL;

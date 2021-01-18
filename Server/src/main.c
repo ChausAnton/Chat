@@ -5,20 +5,9 @@ int main(int argc, char *argv[]) {
 	struct sockaddr_in server , client;
 	
 
-	sqlite3* db;
+	//sqlite3* db;
 	db_open("database/uchat.db", &db);
-	char *pass = db_get_user_password("áshpigunov", db);
-	printf("\náshpigunov password: %s\n", pass);
-	pass = db_get_user_password("bubuk", db);
-	printf("\nbubuk password: %s\n", pass);
-
 	
-	//db_add_user_to_online("áshpigunov", 2141, db);
-	//db_add_user_to_online("bubuk", 2142, db);
-	//db_del_user_from_online("áshpigunov", db);
-
-	//int sock = db_get_online_user_socket("bubuk", db);
-	//printf("\nbubuk socket: %d\n", sock);
 
 	//Create socket
 	socket_desc = socket(AF_INET , SOCK_STREAM , 0);
