@@ -47,3 +47,26 @@ int db_get_online_user_socket(char *login, sqlite3* db) {
     free(statement);
     return socket;
 }
+
+int db_get_count_online_user(sqlite3* db) {
+    int count = -1;
+    sqlite3_stmt *result;
+
+    char* statement = strdup("select count(*) from online_users");
+
+    int rc = sqlite3_prepare_v2(db, statement, -1, &result, 0);    
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "Failed to fetch data: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+    }
+
+    rc = sqlite3_step(result);
+    if (rc == SQLITE_ROW) {
+        char* tmp = strdup((char*)sqlite3_column_text(result, 0));
+        count = atoi(tmp);
+    }
+
+    sqlite3_finalize(result);
+    free(statement);
+    return count;
+}
