@@ -42,13 +42,10 @@ int mx_strlen(const char *s);
 char *mx_strcat(char *restrict s1, const char *restrict s2);
 char *mx_strjoin(char const *s1, char const *s2);
 char* int_to_str(int num);
+void mx_registration(int sock);
+//void clear_client_message(char *str);
 
-<<<<<<< HEAD
-////Database
-//extern sqlite3* db;
-=======
 /**Database**/
->>>>>>> ashp
 sqlite3* db;
 void db_open(char* path, sqlite3** db);
 void db_exec(char* statement, sqlite3* db);

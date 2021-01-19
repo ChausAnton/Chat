@@ -56,12 +56,6 @@ int main(int argc, char *argv[]) {
 	int i = 0;
 	while( (client_sock = accept(socket_desc, (struct sockaddr *)&client, (socklen_t*)&c)) ) {
 		puts("Connection accepted");
-		/*write(client_sock, "Do you have account?\n If yes please input 'yes' else input 'no'\n", strlen("Do you have account?\n If yes please input 'yes' else input 'no'\n",))
-		if((read_size = recv(sock_from , client_message , 2000 , 0)) > 0){
-			if(strcmp(client_message, 'yes')){
-				mx_registration(client_sock);
-			}
-		}*/
 
 		pthread_t sniffer_thread;
 		int *new_sock = malloc(1);

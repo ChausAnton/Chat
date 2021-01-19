@@ -10,10 +10,14 @@ void *connection_handler(void *new_sock) {
 	for(int i = 0; i < 2000; i++)
 		client_message[i] = '\0';
 
+	mx_registration(sock_from);
+	
+
 	char *user_name = NULL;
 	while(user_name == NULL) {
 		user_name = mx_autentification(sock_from);
 	}
+
 
 	message = mx_strjoin("Hi, ", user_name);
 	message = mx_strjoin(message, ", Who's you want to write ?\n");
