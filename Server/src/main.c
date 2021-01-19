@@ -6,9 +6,20 @@ int main(int argc, char *argv[]) {
 	
 	db_open("database/uchat.db", &db);
 
-	//db_add_user("lala", "7777", NULL);
+	/*db_add_user("lala", "1111");
+	db_add_user("baba", "2222");
+	db_add_chat(2, "Privet");
+	int max_chat_id = db_get_last_chat_id();
+	db_add_member(max_chat_id, db_get_user_id("lala", db));
+	db_add_member(max_chat_id, db_get_user_id("baba", db));
+	db_add_msg(max_chat_id, db_get_user_id("lala", db), "some date", "Hi baba");
+	db_add_msg(max_chat_id, db_get_user_id("baba", db), "some date", "Hi lala");*/
+	//db_del_chat(1);
 	//char *pass = db_get_user_password("lala", db);
 	//printf("\nlala password: %s\n", pass);
+	//db_del_user("lala");
+	//pass = db_get_user_password("lala", db);
+	//printf("\ndeleted lala password: %s\n", pass);
 	//db_new_password("lala", "9090");
 	//pass = db_get_user_password("lala", db);
 	//printf("\nlala new password: %s\n", pass);

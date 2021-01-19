@@ -29,6 +29,7 @@
 
 ///////database
 #include <sqlite3.h>
+#include <sys/stat.h>
 /////
 
 
@@ -43,15 +44,12 @@ char *mx_strcat(char *restrict s1, const char *restrict s2);
 char *mx_strjoin(char const *s1, char const *s2);
 char* int_to_str(int num);
 
-<<<<<<< HEAD
-////Database
-//extern sqlite3* db;
-=======
 /**Database**/
->>>>>>> ashp
 sqlite3* db;
 void db_open(char* path, sqlite3** db);
 void db_exec(char* statement, sqlite3* db);
+void db_close(sqlite3* db);
+void db_create();
 
 //User table
 void db_add_user(char *login, char *password);
@@ -68,5 +66,20 @@ void db_add_user_to_online(char *login, int socket, sqlite3* db);
 void db_del_user_from_online(char *login, sqlite3* db);
 int db_get_online_user_socket(char *login, sqlite3* db);
 int db_get_count_online_user(sqlite3* db);
+
+//Chats table
+void db_add_chat(int count, char* name);
+void db_del_chat(int chat_id);
+int db_get_last_chat_id();
+
+//Messages table
+void db_add_msg(int chat_id, int user_id, char* date, char* text);
+void db_del_all_msg_from_chat(int chat_id);
+
+//Members table
+void db_add_member(int chat_id, int user_id);
+void db_del_member(int chat_id, int user_id);
+void db_del_all_member_for_chat(int chat_id);
+
 /**Database**/
 #endif
