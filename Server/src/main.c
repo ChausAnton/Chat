@@ -1,26 +1,11 @@
 #include "Chat.h"
 
+
 int main(int argc, char *argv[]) {
     int socket_desc , client_sock , c , *new_sock;
 	struct sockaddr_in server , client;
 	
 	db_open("database/uchat.db", &db);
-
-	//db_add_user("lala", "7777", NULL);
-	//char *pass = db_get_user_password("lala", db);
-	//printf("\nlala password: %s\n", pass);
-	//db_new_password("lala", "9090");
-	//pass = db_get_user_password("lala", db);
-	//printf("\nlala new password: %s\n", pass);
-	//db_del_user("lala");
-	//db_add_user_to_online("áshpigunov", 2141, db);
-	//db_add_user_to_online("bubuk", 2142, db);
-	//db_del_user_from_online("áshpigunov", db);
-	//db_del_user_from_online("bubuk", db);
-	//int sock = db_get_online_user_socket("bubuk", db);
-	//printf("\nbubuk socket: %d\n", sock);
-	//int count_online_user = db_get_count_online_user(db);
-	//printf("\nNumber of online users: %d\n", count_online_user);
 	
 	//Create socket
 	socket_desc = socket(AF_INET , SOCK_STREAM , 0);
@@ -36,7 +21,6 @@ int main(int argc, char *argv[]) {
 	
 	//Bind
 	if( bind(socket_desc,(struct sockaddr *)&server , sizeof(server)) < 0) {
-		//print the error message
 		perror("bind failed. Error");
 		return 1;
 	}
@@ -45,13 +29,9 @@ int main(int argc, char *argv[]) {
 	//Listen
 	listen(socket_desc , 0x100);	
 	
-	//Accept and incoming connection
+	//Accept an incoming connection
 	puts("Waiting for incoming connections...");
 	c = sizeof(struct sockaddr_in);
-
-	char client_message[2000];
-	for(int i = 0; i < 2000; i++)
-		client_message[i] = '\0';
 
 	int i = 0;
 	while( (client_sock = accept(socket_desc, (struct sockaddr *)&client, (socklen_t*)&c)) ) {

@@ -71,3 +71,14 @@ char* int_to_str(int num) {
    snprintf(result, length + 1, "%d", num);
    return result;
 }
+
+char *clear_client_message(char *client_message){
+	if(client_message != NULL) {
+		free(client_message);
+	}
+
+	char *message = malloc(2000 * sizeof(char));
+	for(int i = 0; i < 2000; i++)
+		message[i] = '\0';
+	return message;
+}
