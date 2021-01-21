@@ -32,7 +32,9 @@ int main(int argc, char *argv[]) {
 	//printf("\nbubuk socket: %d\n", sock);
 	//int count_online_user = db_get_count_online_user(db);
 	//printf("\nNumber of online users: %d\n", count_online_user);
-	
+	//db_add_user("dada", "3333");
+	//get_user_id_and_login();
+
 	//Create socket
 	socket_desc = socket(AF_INET , SOCK_STREAM , 0);
 	if (socket_desc == -1) {

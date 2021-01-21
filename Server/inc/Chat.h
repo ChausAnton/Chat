@@ -80,6 +80,7 @@ void db_del_all_msg_from_chat(int chat_id);
 void db_add_member(int chat_id, int user_id);
 void db_del_member(int chat_id, int user_id);
 void db_del_all_member_for_chat(int chat_id);
+char** get_all_user_id_for_chat(int chat_id);
 
 /**Database**/
 #endif
