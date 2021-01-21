@@ -117,11 +117,58 @@ int db_get_count_user(sqlite3* db) {
 
     rc = sqlite3_step(result);
     if (rc == SQLITE_ROW) {
-        char* tmp = strdup((char*)sqlite3_column_text(result, 0));
-        count = atoi(tmp);
+        count = sqlite3_column_int(result, 0);
     }
 
     sqlite3_finalize(result);
     free(statement);
     return count;
 }
+
+/*void get_user_id_and_login()  {
+    char* statement = strdup("select id, login, password from users order by id");
+    char** tmp = NULL;
+    int num_rows, num_cols;
+    char* zErrMsg = NULL;
+    int rc = sqlite3_get_table(db, statement, &tmp, &num_rows, &num_cols, &zErrMsg);
+    if( rc != SQLITE_OK ) {
+       fprintf(stderr, "SQL error: %s\n", zErrMsg);
+       sqlite3_free(zErrMsg);
+       exit(EXIT_FAILURE);
+    } 
+    char** result = (char **)malloc(sizeof(char *)*(num_cols*num_rows));
+    for(int i = 0; i < num_cols*num_rows; i++){
+        //if(i%num_cols == 0) printf("%s\n", "");
+        //printf("%s   ", result[i]);
+        result[i] = strdup(tmp[i+num_cols]);
+        //printf("%s   ", result[i]);
+    }
+    //printf("%s\n", "");
+    sqlite3_free_table(tmp);
+    free(statement);
+    return result;
+}*/
+
+/*void get_user_id_and_login() {
+    int count = -1;
+    sqlite3_stmt *result;
+
+    char* statement = strdup("select login from users order by id;");
+    int rc = sqlite3_prepare_v2(db, statement, -1, &result, 0);    
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "Failed to fetch data: %s\n", sqlite3_errmsg(db));
+        //sqlite3_close(db);
+    }
+    //count = sqlite3_column_count(result);
+    count = db_get_count_user(db);
+    printf("%d   \n", count);
+    rc = sqlite3_step(result);
+    if (rc == SQLITE_ROW) {
+        char* tmp = strdup((char *)sqlite3_column_text(result, 0));
+        printf("%s   \n", tmp);
+    }
+
+    sqlite3_finalize(result);
+    free(statement);
+    //return count;
+}*/
