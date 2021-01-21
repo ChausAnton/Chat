@@ -1,39 +1,11 @@
 #include "Chat.h"
 
+
 int main(int argc, char *argv[]) {
     int socket_desc , client_sock , c , *new_sock;
 	struct sockaddr_in server , client;
 	
 	db_open("database/uchat.db", &db);
-
-	/*db_add_user("lala", "1111");
-	db_add_user("baba", "2222");
-	db_add_chat(2, "Privet");
-	int max_chat_id = db_get_last_chat_id();
-	db_add_member(max_chat_id, db_get_user_id("lala", db));
-	db_add_member(max_chat_id, db_get_user_id("baba", db));
-	db_add_msg(max_chat_id, db_get_user_id("lala", db), "some date", "Hi baba");
-	db_add_msg(max_chat_id, db_get_user_id("baba", db), "some date", "Hi lala");*/
-	//db_del_chat(1);
-	//char *pass = db_get_user_password("lala", db);
-	//printf("\nlala password: %s\n", pass);
-	//db_del_user("lala");
-	//pass = db_get_user_password("lala", db);
-	//printf("\ndeleted lala password: %s\n", pass);
-	//db_new_password("lala", "9090");
-	//pass = db_get_user_password("lala", db);
-	//printf("\nlala new password: %s\n", pass);
-	//db_del_user("lala");
-	//db_add_user_to_online("áshpigunov", 2141, db);
-	//db_add_user_to_online("bubuk", 2142, db);
-	//db_del_user_from_online("áshpigunov", db);
-	//db_del_user_from_online("bubuk", db);
-	//int sock = db_get_online_user_socket("bubuk", db);
-	//printf("\nbubuk socket: %d\n", sock);
-	//int count_online_user = db_get_count_online_user(db);
-	//printf("\nNumber of online users: %d\n", count_online_user);
-	//db_add_user("dada", "3333");
-	//get_user_id_and_login();
 
 	//Create socket
 	socket_desc = socket(AF_INET , SOCK_STREAM , 0);
@@ -49,7 +21,6 @@ int main(int argc, char *argv[]) {
 	
 	//Bind
 	if( bind(socket_desc,(struct sockaddr *)&server , sizeof(server)) < 0) {
-		//print the error message
 		perror("bind failed. Error");
 		return 1;
 	}
@@ -58,23 +29,13 @@ int main(int argc, char *argv[]) {
 	//Listen
 	listen(socket_desc , 0x100);	
 	
-	//Accept and incoming connection
+	//Accept an incoming connection
 	puts("Waiting for incoming connections...");
 	c = sizeof(struct sockaddr_in);
-
-	char client_message[2000];
-	for(int i = 0; i < 2000; i++)
-		client_message[i] = '\0';
 
 	int i = 0;
 	while( (client_sock = accept(socket_desc, (struct sockaddr *)&client, (socklen_t*)&c)) ) {
 		puts("Connection accepted");
-		/*write(client_sock, "Do you have account?\n If yes please input 'yes' else input 'no'\n", strlen("Do you have account?\n If yes please input 'yes' else input 'no'\n",))
-		if((read_size = recv(sock_from , client_message , 2000 , 0)) > 0){
-			if(strcmp(client_message, 'yes')){
-				mx_registration(client_sock);
-			}
-		}*/
 
 		pthread_t sniffer_thread;
 		int *new_sock = malloc(1);

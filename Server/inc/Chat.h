@@ -43,6 +43,8 @@ int mx_strlen(const char *s);
 char *mx_strcat(char *restrict s1, const char *restrict s2);
 char *mx_strjoin(char const *s1, char const *s2);
 char* int_to_str(int num);
+void mx_registration(int sock);
+char *clear_client_message(char *str);
 
 /**Database**/
 sqlite3* db;
