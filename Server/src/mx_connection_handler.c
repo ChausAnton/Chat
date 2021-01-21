@@ -36,7 +36,7 @@ void *connection_handler(void *new_sock) {
 		}
 	}
 
-	message = mx_strjoin("Now type something");
+	message = strdup("Now type something");
 	write(sock_from , message , strlen(message));
 	free(message);
 	
