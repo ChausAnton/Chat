@@ -1,0 +1,80 @@
+#activity {
+    background-image: url("img/iMac - 14.png");
+    background-size: 115%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+#reg_box {
+    padding: 20px 30px 30px 30px;
+    background: rgba(119, 205, 242, 0.5);
+    border-radius: 30px;
+}
+
+
+#logo_box {
+    background: linear-gradient(134.14deg, rgba(119, 205, 242, 0.5) -33.38%, #C5E4FF 125.02%);
+    border-radius: 16px;
+}
+#logo {
+    margin-top: -20px;
+    background-image: url("img/sas 1.png");
+    background-size: 100%;
+    min-width: 190px;
+    min-height: 80px;
+}
+
+
+#login {
+    margin: 10px 20px -10px 20px;
+    background: linear-gradient(135deg, rgba(113, 195, 230, 0.6) 0%, rgba(125, 215, 254, 0.5) 100%);
+    border-radius: 16px;
+    min-width: 240px;
+    min-height: 35px;
+    font-family: PTSansPro-Demi;
+    font-size: 14px;
+}
+#password {
+    margin: 0px 20px -10px 20px;
+    background: linear-gradient(135deg, rgba(113, 195, 230, 0.6) 0%, rgba(125, 215, 254, 0.5) 100%);
+    border-radius: 16px;
+    min-width: 240px;
+    min-height: 35px;
+    font-family: PTSansPro-Demi;
+    font-size: 14px;
+}
+#password_again {
+    margin: 0px 20px -10px 20px;
+    background: linear-gradient(135deg, rgba(113, 195, 230, 0.6) 0%, rgba(125, 215, 254, 0.5) 100%);
+    border-radius: 16px;
+    min-width: 240px;
+    min-height: 35px;
+    font-family: PTSansPro-Demi;
+    font-size: 14px;
+}
+
+
+#register_button{
+    margin: 30px 10px 0px 10px;
+    background: rgba(52, 171, 207, 0.7);
+    border-radius: 16px;
+    min-width: 230px;
+    min-height: 30px;
+    color: rgba(50, 50, 50, 0.8);
+    font-family: PTSansPro-Demi;
+    font-size: 16px;
+    letter-spacing: initial;
+    opacity: 1;
+}
+/*#check_button {
+    letter-spacing: 0.9px;
+    color: rgba(50, 50, 50, 0.77);
+    font-family: PTSansPro-Demi;
+    font-size: 14px;
+}
+#privat_policy {
+    letter-spacing: 0.9px;
+    font-family: PTSansPro-Demi;
+    font-size: 14px;
+}*/
