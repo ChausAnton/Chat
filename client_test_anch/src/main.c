@@ -60,6 +60,8 @@ void start_screen(GtkWidget **activity_block) {
 
 
     g_signal_connect(G_OBJECT(enter_button), "button_press_event", G_CALLBACK(sing_in), sing_in_data);
+
+    //g_signal_connect(G_OBJECT(enter_button), "button_press_event", G_CALLBACK(sing_in), sing_in_data);
    
 }
 
@@ -75,7 +77,7 @@ int main(int argc, char *argv[]) {
     gtk_window_set_default_size(GTK_WINDOW(window), window_size_x, window_size_y);
 
     GtkCssProvider *styles = gtk_css_provider_new();
-    gtk_css_provider_load_from_path(styles, "resource/styles/styles.css", NULL);
+    gtk_css_provider_load_from_path(styles, "resource/styles/sign_in.css", NULL);
     gtk_style_context_add_provider_for_screen(gdk_screen_get_default(), GTK_STYLE_PROVIDER(styles), GTK_STYLE_PROVIDER_PRIORITY_USER);
 
     GtkWidget *activity = gtk_event_box_new();
