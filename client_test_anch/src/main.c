@@ -1,13 +1,7 @@
 #include "Chat.h"
 
+GtkWidget *sing_in_data[2];
 
-void entry_text_change_event(GtkWidget *widget, GdkEventButton *event, gpointer search_field) {
-    if (widget) {}
-    if(event->type == GDK_BUTTON_PRESS && event->button == 1){
-        char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)search_field)));
-        printf("%s\n", name);
-    }
-}
 
 void sing_in(GtkWidget *widget, GdkEventButton *event, gpointer *login[]) {
     if (widget) {}
@@ -16,10 +10,36 @@ void sing_in(GtkWidget *widget, GdkEventButton *event, gpointer *login[]) {
         printf("login: %s\n", name);
         gtk_entry_set_text(GTK_ENTRY(login[0]), "");
         char *passwrod = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)login[1])));
-        printf("passwrod: %s\n", passwrod);
+        printf("password: %s\n", passwrod);
         gtk_entry_set_text(GTK_ENTRY(login[1]), "");
     }
 }
+
+
+void start_screen(GtkWidget **activity_block) {
+    GtkWidget *enter_button = gtk_button_new_with_label ("Enter");
+    gtk_widget_set_name(GTK_WIDGET(enter_button), "enter_button");
+    gtk_button_set_relief(GTK_BUTTON(enter_button), GTK_RELIEF_NONE);
+    gtk_fixed_put(GTK_FIXED(*activity_block), enter_button, 800, 750);
+
+
+    sing_in_data[0] = gtk_entry_new();
+    gtk_widget_set_name(GTK_WIDGET(sing_in_data[0]), "login");
+    gtk_entry_set_placeholder_text(GTK_ENTRY(sing_in_data[0]), "Login:");
+    gtk_entry_set_max_length(GTK_ENTRY(sing_in_data[0]), 1000);
+    gtk_fixed_put(GTK_FIXED(*activity_block), sing_in_data[0], 700, 450);
+
+    sing_in_data[1] = gtk_entry_new();
+    gtk_widget_set_name(GTK_WIDGET(sing_in_data[1]), "Password");
+    gtk_entry_set_placeholder_text(GTK_ENTRY(sing_in_data[1]), "Password:");
+    gtk_entry_set_max_length(GTK_ENTRY(sing_in_data[1]), 1000);
+    gtk_fixed_put(GTK_FIXED(*activity_block), sing_in_data[1], 700, 500);
+
+    g_signal_connect(G_OBJECT(enter_button), "button_press_event", G_CALLBACK(sing_in), sing_in_data);
+   
+}
+
+
 
 /*void sing_in_password(GtkWidget *widget, GdkEventButton *event, gpointer passwod) {
     if (widget) {}
@@ -31,10 +51,13 @@ void sing_in(GtkWidget *widget, GdkEventButton *event, gpointer *login[]) {
 }*/
 
 
+void print_bruh(GtkToggleButton *check_button){
+     if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON (check_button))) printf("%s", "Brrruuuuuhhh\n");
+}
+
 
 int main(int argc, char *argv[]) {
     GtkWidget *window;
-    
     gtk_init(&argc, &argv);
 
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -62,33 +85,19 @@ int main(int argc, char *argv[]) {
     gtk_widget_set_size_request(GTK_WIDGET(line), 100, 900);
     gtk_fixed_put(GTK_FIXED(activity_block), line, 300, 0);
 
-    GtkWidget *enter_button = gtk_button_new_with_label ("Enter");
-    gtk_widget_set_name(GTK_WIDGET(enter_button), "enter_button");
-    gtk_button_set_relief(GTK_BUTTON(enter_button), GTK_RELIEF_NONE);
-    gtk_fixed_put(GTK_FIXED(activity_block), enter_button, 800, 750);
+    
 
 //////////////
-   /* GtkWidget *entry_block = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
-    gtk_widget_set_name(GTK_WIDGET(entry_block), "entry_block");
-    gtk_widget_set_size_request(GTK_WIDGET(entry_block), 100, 30);
-    gtk_fixed_put(GTK_FIXED(activity_block),entry_block, 700, 450);*/
-    GtkWidget *sing_in_data[2];
-    sing_in_data[0] = gtk_entry_new();
-    gtk_widget_set_name(GTK_WIDGET(sing_in_data[0]), "login");
-    gtk_entry_set_placeholder_text(GTK_ENTRY(sing_in_data[0]), "Login:");
-    gtk_entry_set_max_length(GTK_ENTRY(sing_in_data[0]), 1000);
-    gtk_fixed_put(GTK_FIXED(activity_block), sing_in_data[0], 700, 450);
 
-    sing_in_data[1] = gtk_entry_new();
-    gtk_widget_set_name(GTK_WIDGET(sing_in_data[1]), "Password");
-    gtk_entry_set_placeholder_text(GTK_ENTRY(sing_in_data[1]), "Password:");
-    gtk_entry_set_max_length(GTK_ENTRY(sing_in_data[1]), 1000);
-    gtk_fixed_put(GTK_FIXED(activity_block), sing_in_data[1], 700, 500);
-
-    g_signal_connect(G_OBJECT(enter_button), "button_press_event", G_CALLBACK(sing_in), sing_in_data);
-    //g_signal_connect(G_OBJECT(button), "button_press_event", G_CALLBACK(sing_in_password), sing_in[1]);
+    start_screen(&activity_block);
 
 //////////////
+    GtkWidget *check_button = gtk_check_button_new_with_label("I accept");
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check_button), FALSE);
+    gtk_widget_set_name(GTK_WIDGET(check_button), "check_button");
+    //gtk_widget_set_size_request(GTK_WIDGET(check_button), 10, 10);
+    gtk_fixed_put(GTK_FIXED(activity_block), check_button, 800, 750);
+    g_signal_connect (GTK_TOGGLE_BUTTON(check_button), "toggled", G_CALLBACK(print_bruh), NULL);
 
     
     g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
