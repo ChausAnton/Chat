@@ -7,6 +7,9 @@
 #define SERVERADDR "10.11.7.7"
 #define SERVERPORT 8696
 
+#define window_size_y 900
+#define window_size_x 1400
+
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -33,6 +36,10 @@
 
 ///////database
 #include <sqlite3.h>
+
+
+GtkWidget *sing_in_data[2];
+
 
 
 #endif
