@@ -15,6 +15,12 @@
 
 #logo_box {
     background: linear-gradient(134.14deg, rgba(119, 205, 242, 0.5) -33.38%, #C5E4FF 125.02%);
+    box-shadow: -26px 26px 52px rgba(143, 163, 184, 0.2), 
+    26px -26px 52px rgba(140, 158, 177, 0.2), 
+    -26px -26px 52px rgba(179, 206, 219, 0.3), 
+    26px 26px 65px rgba(138, 157, 177, 0.9), 
+    inset 1px 1px 2px rgba(207, 239, 255, 0.3), 
+    inset -1px -1px 2px rgba(169, 195, 221, 0.5);
     border-radius: 16px;
 }
 #logo {

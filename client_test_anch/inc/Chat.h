@@ -47,6 +47,7 @@ typedef struct s_main_data {
 }   t_main_data;
 t_main_data main_data;
 
-
+void register_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl);
+void start_screen(GtkWidget **activity_block);
 
 #endif
