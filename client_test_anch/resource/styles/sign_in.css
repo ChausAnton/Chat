@@ -1,6 +1,8 @@
 #activity {
-    background-image:url("../images/start.png");
+    background-image: url("../images/start.png");
     background-size: 115%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 

@@ -38,7 +38,14 @@
 #include <sqlite3.h>
 
 
-GtkWidget *sing_in_data[2];
+GtkWidget *sing_in_data[3];
+
+
+typedef struct s_main_data {
+    GtkWidget *login_box;
+    GtkWidget *reg_box;
+}   t_main_data;
+t_main_data main_data;
 
 
 
