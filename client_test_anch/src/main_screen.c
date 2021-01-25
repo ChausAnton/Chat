@@ -13,6 +13,30 @@ void add_style(GtkWidget *widget, const gchar *class_name, GtkCssProvider *css) 
     gtk_style_context_add_class(css, class_name);
     gtk_style_context_add_provider(css, GTK_STYLE_PROVIDER(css), GTK_STYLE_PROVIDER_PRIORITY_USER);
 }*/
+static char* int_to_str(int num) {
+   int length = snprintf(NULL, 0, "%d", num);
+   char* result = malloc( length + 1 );
+   snprintf(result, length + 1, "%d", num);
+   return result;
+}
+
+static void s_click(GtkWidget *widget) {
+    GList *parent = gtk_container_get_children(GTK_CONTAINER(widget));
+    GList *children = gtk_container_get_children(GTK_CONTAINER(parent->data));
+    children = children->next;
+    children = children->next;
+    int sticker_id = atoi((char*)gtk_label_get_text(GTK_LABEL(children->data)));
+    printf("Sticker: %d\n", sticker_id);
+    g_list_free(g_steal_pointer(&children));
+    g_list_free(g_steal_pointer(&parent));
+}
+
+void event_enter_notify(GtkWidget *widget) {
+    gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT, TRUE);
+}
+void event_leave_notify(GtkWidget *widget) {
+    gtk_widget_unset_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT);
+}
 
 void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl) {
     GtkWidget **activity_block = (GtkWidget **)activity_bl;
@@ -41,13 +65,55 @@ void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_b
     gtk_widget_set_size_request(GTK_WIDGET(up_box), 300, 100);
     gtk_fixed_put(GTK_FIXED(main_fixed), up_box, 3, 3);
 
+///////////////chat bar
+    GtkWidget *chats[10];
+
+    GtkWidget *chat_bar = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_widget_set_name(GTK_WIDGET(chat_bar), "chat_bar");
+    gtk_fixed_put(GTK_FIXED(main_fixed), chat_bar, 3, 107);
+    
+    GtkWidget *chat_bar_scroll = gtk_scrolled_window_new(NULL, NULL);
+    gtk_widget_set_size_request(GTK_WIDGET(chat_bar_scroll), 200, 767);
+    gtk_box_pack_start(GTK_BOX(chat_bar), chat_bar_scroll, TRUE, TRUE, 0);   
+
+    GtkWidget *chat_bar_for_scroll = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+    gtk_container_add(GTK_CONTAINER(chat_bar_scroll), chat_bar_for_scroll);
+
+    for(int i = 0; i < 10; i++) {
+        GtkWidget *chat_button = gtk_event_box_new();
+        gtk_widget_set_name(GTK_WIDGET(chat_button), "chat_button");
+        gtk_event_box_set_above_child(GTK_EVENT_BOX(chat_button), TRUE);
+        gtk_box_pack_start(GTK_BOX(chat_bar_for_scroll), chat_button, FALSE, FALSE, 0);
+
+        chats[i] = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+        gtk_widget_set_name(GTK_WIDGET(chats[i]), "chat_small_box");
+        gtk_widget_set_size_request(GTK_WIDGET(chats[i]), 30, 30);
+        gtk_container_add(GTK_CONTAINER(chat_button), chats[i]);
+
+        GtkWidget* photo_chat = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+        gtk_widget_set_name(GTK_WIDGET(photo_chat), "chat_photo");
+        gtk_widget_set_size_request(GTK_WIDGET(photo_chat), 60, 30);
+        gtk_box_pack_start(GTK_BOX(chats[i]), photo_chat, FALSE, FALSE, 10);
+
+        GtkWidget* name_chat = gtk_label_new("Lorem Ipsum");
+        gtk_widget_set_name(GTK_WIDGET(name_chat), "chat_name");
+        gtk_box_pack_start(GTK_BOX(chats[i]), name_chat, FALSE, FALSE, 10);
+
+        GtkWidget *key = gtk_label_new(int_to_str(i));
+        gtk_box_pack_start(GTK_BOX(chats[i]), key, FALSE, FALSE, 10);
+        gtk_widget_set_name(GTK_WIDGET(key), "hidden");
+        g_signal_connect(G_OBJECT(chat_button), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
+        g_signal_connect(G_OBJECT(chat_button), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
+        g_signal_connect(G_OBJECT(chat_button), "button_press_event", G_CALLBACK(s_click), NULL);
+    }
+
 ///////////////
     GtkWidget *left_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
     gtk_widget_set_name(GTK_WIDGET(left_box), "left_box");
     gtk_widget_set_size_request(GTK_WIDGET(left_box), window_size_x - 315, window_size_y - 6);
     gtk_fixed_put(GTK_FIXED(main_fixed), left_box, 310, 3);
 
-    GtkWidget *left_mid_box = gtk_label_new("Who you want to write ?");
+    GtkWidget *left_mid_box = gtk_label_new("Who you want to write?");
     gtk_widget_set_name(GTK_WIDGET(left_mid_box), "left_mid_box");
     gtk_widget_set_size_request(GTK_WIDGET(left_mid_box), 200, 30);
     gtk_box_pack_start(GTK_BOX(left_box), left_mid_box, TRUE, FALSE, 0);
