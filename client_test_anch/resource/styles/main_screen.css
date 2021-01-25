@@ -1,7 +1,9 @@
 #activity {
-    background-image: url("../images/sh.jpg");
-    background-size: 115%;
-    background-position: center;
+    background: #E5E5E5;
+}
+#up_box {
+    background: rgba(119, 205, 242, 0.42);
+    border-radius: 13.5px;
 }
 #settings_button {
     background-image: url("../images/settings_button.png");
@@ -9,7 +11,17 @@
     background-repeat: no-repeat;
     background-position: center;
 }
-
+#left_box {
+    background: rgba(119, 205, 242, 0.42);
+    border-radius: 13.5px;
+}
+#left_mid_box {
+    background: rgba(119, 205, 242, 0.42);
+    font-family: PTSansPro-Demi;
+    font-size: 16px;
+    color: #FBFDFF;
+    border-radius: 13.5px;  
+}
 #exit_button {
     background-image: url("../images/whh_exit.png");
     background-size: 100%;

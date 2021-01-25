@@ -21,34 +21,49 @@ void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_b
     gtk_widget_set_size_request(GTK_WIDGET(main_data.main_screen_box), window_size_x, window_size_y);
     gtk_fixed_put(GTK_FIXED(*activity_block), main_data.main_screen_box, 0, 0);
 
+//////////gtk_fixed
+    GtkWidget *main_fixed = gtk_fixed_new();
+    gtk_widget_set_size_request(GTK_WIDGET(main_fixed), 300, 100);
+    gtk_container_add(GTK_CONTAINER(main_data.main_screen_box), main_fixed);
+
+    GtkWidget *up_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+    gtk_widget_set_name(GTK_WIDGET(up_box), "up_box");
+    gtk_widget_set_size_request(GTK_WIDGET(up_box), 300, 100);
+    gtk_fixed_put(GTK_FIXED(main_fixed), up_box, 3, 3);
+
+    ///////////////
+    GtkWidget *left_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+    gtk_widget_set_name(GTK_WIDGET(left_box), "left_box");
+    gtk_widget_set_size_request(GTK_WIDGET(left_box), window_size_x - 315, window_size_y - 6);
+    gtk_fixed_put(GTK_FIXED(main_fixed), left_box, 310, 3);
+
+    GtkWidget *left_mid_box =     gtk_label_new("Who you want to write ?");
+    gtk_widget_set_name(GTK_WIDGET(left_mid_box), "left_mid_box");
+    gtk_widget_set_size_request(GTK_WIDGET(left_mid_box), 200, 30);
+    gtk_fixed_put(GTK_FIXED(main_fixed), left_mid_box, 698, 420);
+//////////////
+
     ///////////settings_button
-    GtkWidget *settings_block = gtk_fixed_new();
-    gtk_widget_set_size_request(GTK_WIDGET(settings_block), 100, 100);
-    gtk_container_add(GTK_CONTAINER(main_data.main_screen_box), settings_block);
 
     GtkWidget *settings_button_clickable = gtk_event_box_new();
     gtk_widget_set_halign(GTK_WIDGET(settings_button_clickable), GTK_ALIGN_CENTER);
     gtk_widget_set_valign(GTK_WIDGET(settings_button_clickable), GTK_ALIGN_CENTER);
-    gtk_fixed_put(GTK_FIXED(settings_block), settings_button_clickable, 20, 20);
-    //gtk_box_pack_start(GTK_BOX(main_data.main_screen_box), settings_button_clickable, FALSE, FALSE, 0);
+    gtk_fixed_put(GTK_FIXED(main_fixed), settings_button_clickable, 250, 10);
 
     GtkWidget *settings_button = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
     gtk_widget_set_name(GTK_WIDGET(settings_button), "settings_button");
-    gtk_widget_set_size_request(GTK_WIDGET(settings_button), 24, 24);
+    gtk_widget_set_size_request(GTK_WIDGET(settings_button), 18, 18);
     gtk_container_add(GTK_CONTAINER(settings_button_clickable), settings_button);
 
     g_signal_connect(G_OBJECT(settings_button_clickable), "button_press_event", G_CALLBACK(register_screen), (gpointer **)activity_bl);
     ////////////
 
     ///////////exit_button
-    //GtkWidget *activity_block = gtk_fixed_new();
-    //gtk_widget_set_size_request(GTK_WIDGET(activity_block), window_size_x, window_size_y);
-    //gtk_container_add(GTK_CONTAINER(activity), activity_block);
 
     GtkWidget *exit_button_clickable = gtk_event_box_new();
     gtk_widget_set_halign(GTK_WIDGET(exit_button_clickable), GTK_ALIGN_CENTER);
     gtk_widget_set_valign(GTK_WIDGET(exit_button_clickable), GTK_ALIGN_CENTER);
-    gtk_box_pack_start(GTK_BOX(main_data.main_screen_box), exit_button_clickable, FALSE, FALSE, 0);
+    gtk_fixed_put(GTK_FIXED(main_fixed), exit_button_clickable, 280, 10);
 
     GtkWidget *exit_button = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
     gtk_widget_set_name(GTK_WIDGET(exit_button), "exit_button");

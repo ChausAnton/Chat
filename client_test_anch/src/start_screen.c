@@ -56,8 +56,9 @@ void start_screen(GtkWidget **activity_block) {
     gtk_box_pack_end(GTK_BOX(main_data.login_box), registration_button, FALSE, FALSE, 0);
 
     g_signal_connect(G_OBJECT(enter_button), "button_press_event", G_CALLBACK(sing_in), sing_in_data);
-   // g_signal_connect(G_OBJECT(registration_button), "button_press_event", G_CALLBACK(register_screen), (gpointer **)activity_block);
-   g_signal_connect(G_OBJECT(registration_button), "button_press_event", G_CALLBACK(main_screen), (gpointer **)activity_block);
+    g_signal_connect(G_OBJECT(enter_button), "button_press_event", G_CALLBACK(main_screen), (gpointer **)activity_block);
+    
+    g_signal_connect(G_OBJECT(registration_button), "button_press_event", G_CALLBACK(register_screen), (gpointer **)activity_block);
 
 
     gtk_widget_show_all(main_data.login_box);
