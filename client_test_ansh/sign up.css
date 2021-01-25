@@ -14,18 +14,17 @@
 
 
 #scrollable_msg {
-    background: yellow;
-    color: yellow;
     font-family: PTSansPro-Demi;
-    font-size: 30px;
+    font-size: 14px;
     min-width: 200px;
     min-height: 30px;
     border-radius: 16px;
 }
 
 #view text{
-    background: black;
-    color: green;
+    border-radius: 0px 0px 13.5px 13.5px;
+    background: rgba(119, 205, 242, 0.42);
+    color: rgba(50, 50, 50, 0.8);
     font-family: PTSansPro-Demi;
 }
 
@@ -33,6 +32,13 @@
 #chat_box {
     padding: 10px 10px 10px 10px;
     background: rgba(119, 205, 242, 0.5);
+    border-radius: 30px;
+    min-width: 300px;
+    min-height: 300px;
+}
+#chat_box:hover {
+    padding: 10px 10px 10px 10px;
+    background: red;
     border-radius: 30px;
     min-width: 300px;
     min-height: 300px;
@@ -61,16 +67,8 @@
     font-weight: bolder;
     color: tomato;
 }
-#chat_button {
-    border-radius: 16px;
-    min-width: 150px;
-    min-height: 100px;
-}
-#chat_button:hover {
-    background: whitesmoke;
-    border: 0px solid black;
-    min-width: 130px;
-    min-height: 90px;
+#chat_button:hover > #chat_small_box {
+    background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
 }
 
 
@@ -151,3 +149,7 @@
     font-family: PTSansPro-Demi;
     font-size: 14px;
 }*/
+#hidden
+{
+    opacity: 0;
+}
