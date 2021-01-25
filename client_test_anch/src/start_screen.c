@@ -42,6 +42,7 @@ void start_screen(GtkWidget **activity_block) {
     sing_in_data[1] = gtk_entry_new();
     gtk_widget_set_name(GTK_WIDGET(sing_in_data[1]), "Password");
     gtk_entry_set_placeholder_text(GTK_ENTRY(sing_in_data[1]), "Password:");
+    gtk_entry_set_visibility(GTK_ENTRY(sing_in_data[1]), FALSE);
     gtk_entry_set_max_length(GTK_ENTRY(sing_in_data[1]), 30);
     gtk_box_pack_start(GTK_BOX(main_data.login_box), sing_in_data[1], FALSE, FALSE, 0);
 

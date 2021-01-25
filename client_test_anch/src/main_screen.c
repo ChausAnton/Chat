@@ -1,8 +1,18 @@
 #include "Chat.h"
 
-void test() {
-    printf("!!!!!!!!");
+
+/*void align(GtkWidget *widget, float x, float y) {
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    gtk_misc_set_alignment(GTK_MISC(widget), x, y);
+    #pragma clang diagnostic pop
 }
+
+void add_style(GtkWidget *widget, const gchar *class_name, GtkCssProvider *css) {
+    css = gtk_widget_get_style_context(widget);
+    gtk_style_context_add_class(css, class_name);
+    gtk_style_context_add_provider(css, GTK_STYLE_PROVIDER(css), GTK_STYLE_PROVIDER_PRIORITY_USER);
+}*/
 
 void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl) {
     GtkWidget **activity_block = (GtkWidget **)activity_bl;
@@ -26,23 +36,32 @@ void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_b
     gtk_widget_set_size_request(GTK_WIDGET(main_fixed), 300, 100);
     gtk_container_add(GTK_CONTAINER(main_data.main_screen_box), main_fixed);
 
-    GtkWidget *up_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+    GtkWidget *up_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
     gtk_widget_set_name(GTK_WIDGET(up_box), "up_box");
     gtk_widget_set_size_request(GTK_WIDGET(up_box), 300, 100);
     gtk_fixed_put(GTK_FIXED(main_fixed), up_box, 3, 3);
 
-    ///////////////
+///////////////
     GtkWidget *left_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
     gtk_widget_set_name(GTK_WIDGET(left_box), "left_box");
     gtk_widget_set_size_request(GTK_WIDGET(left_box), window_size_x - 315, window_size_y - 6);
     gtk_fixed_put(GTK_FIXED(main_fixed), left_box, 310, 3);
 
-    GtkWidget *left_mid_box =     gtk_label_new("Who you want to write ?");
+    GtkWidget *left_mid_box = gtk_label_new("Who you want to write ?");
     gtk_widget_set_name(GTK_WIDGET(left_mid_box), "left_mid_box");
     gtk_widget_set_size_request(GTK_WIDGET(left_mid_box), 200, 30);
-    gtk_fixed_put(GTK_FIXED(main_fixed), left_mid_box, 698, 420);
+    gtk_box_pack_start(GTK_BOX(left_box), left_mid_box, TRUE, FALSE, 0);
 //////////////
+    ////////////user_photo
+    GtkWidget *user_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+    gtk_widget_set_name(GTK_WIDGET(user_photo), "user_photo");
+    gtk_widget_set_size_request(GTK_WIDGET(user_photo), 60, 30);
+    gtk_box_pack_start(GTK_BOX(up_box), user_photo, FALSE, FALSE, 0);
 
+    /*GtkWidget *user_image = gtk_image_new_from_file("resource/images/sh.jpg");
+    align(user_image, 0.5f, 0.5f);
+    add_style(user_image, "user_image", styles);
+    gtk_container_add(GTK_CONTAINER(user_photo), user_image);*/
     ///////////settings_button
 
     GtkWidget *settings_button_clickable = gtk_event_box_new();

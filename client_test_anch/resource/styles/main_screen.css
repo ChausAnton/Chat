@@ -15,7 +15,18 @@
     background: rgba(119, 205, 242, 0.42);
     border-radius: 13.5px;
 }
+#user_photo {
+    margin-top: 5px;
+    margin-bottom: 40px;
+    margin-left: 5px;
+    background: rgba(0, 0, 0, 0.42);
+    border-radius: 100%;
+}
+#user_image {
+
+}
 #left_mid_box {
+    margin-left: ;
     background: rgba(119, 205, 242, 0.42);
     font-family: PTSansPro-Demi;
     font-size: 16px;
