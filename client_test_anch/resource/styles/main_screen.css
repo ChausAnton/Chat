@@ -1,0 +1,17 @@
+#activity {
+    background-image: url("../images/sh.jpg");
+    background-size: 115%;
+    background-position: center;
+}
+#settings_button {
+    background-image: url("../images/settings_button.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#exit_button {
+    background-image: url("../images/whh_exit.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+}

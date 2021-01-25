@@ -44,10 +44,12 @@ GtkWidget *sing_in_data[3];
 typedef struct s_main_data {
     GtkWidget *login_box;
     GtkWidget *reg_box;
+    GtkWidget *main_screen_box;
 }   t_main_data;
 t_main_data main_data;
 
 void register_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl);
 void start_screen(GtkWidget **activity_block);
+void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl);
 
 #endif

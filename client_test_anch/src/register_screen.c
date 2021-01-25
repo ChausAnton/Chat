@@ -18,7 +18,8 @@ static void sign_up(GtkWidget *widget, GdkEventButton *event, gpointer *sign_up[
 
 void register_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl) {
     GtkWidget **activity_block = (GtkWidget **)activity_bl;
-    gtk_widget_destroy(GTK_WIDGET(main_data.login_box));
+    //gtk_widget_destroy(GTK_WIDGET(main_data.login_box));
+    gtk_widget_destroy(GTK_WIDGET(main_data.main_screen_box));
     if (widget) {}
     if(event->type != GDK_BUTTON_PRESS && event->button != 1){
         return;
