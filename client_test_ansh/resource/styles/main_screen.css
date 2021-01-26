@@ -15,15 +15,9 @@
     min-width: 100px;
     min-height: 60px;
 }
-#chat_photo {
+#left_chat_photo_box {
     margin-top: 10px;
-    margin-bottom: 10px;
     margin-left: 10px;
-    background-image: url("../images/start.png");
-    background-size: 180%;
-    border-radius: 100%;
-    background-repeat: no-repeat;
-    background-position: center;
 }
 #chat_name {
     font-family: PTSansPro-Demi;
@@ -54,11 +48,8 @@
     border-radius: 13.5px;
 }
 #user_photo {
-    margin-top: 5px;
-    margin-bottom: 40px;
-    margin-left: 5px;
-    background: rgba(0, 0, 0, 0.42);
-    border-radius: 100%;
+    margin-top: 10px;
+    margin-left: 20px;
 }
 #hidden {
     opacity: 0;
@@ -80,10 +71,13 @@
 }
 
 
-
+#top_area {
+    background: rgba(119, 205, 242, 0.42);
+    border-radius: 13.5px 13.5px 0px 0px;
+}
 #bottom_area {
-    background: rgba(224, 242, 119, 1);
-    border-radius: 13.5px;
+    background: rgba(119, 205, 242, 1);
+    border-radius: 0px 0px 13.5px 13.5px;
 }
 #scrollable_msg {
     font-family: PTSansPro-Demi;
@@ -93,6 +87,32 @@
     margin-right: 100px;
 }
 #msg_enter text {
-    background: rgba(224, 242, 119, 1);
+    background: rgba(119, 205, 242, 1);
     color: rgba(50, 50, 50, 0.8);
+}
+
+
+#top_chat_photo_box {
+    margin-left: 15px;
+    margin-top: 10px;
+}
+#top_chat_name_box {
+    font-family: PTSansPro-Demi;
+    margin-top: 20px;
+    margin-left: 10px;
+    font-size: 20px;
+    font-weight: bolder;
+    color: rgb(230, 116, 205);
+}
+#chat_setting_button {
+    background-image: url("../images/dots-icon-12.jpg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#chat_setting_button:active {
+    background-image: url("../images/settings_button.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
