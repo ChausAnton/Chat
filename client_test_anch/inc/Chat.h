@@ -22,7 +22,6 @@
 #include <netdb.h>
 #include <netinet/in.h>
 #include <stdbool.h>
-#include <math.h>
 
 ///server
 #include <sys/socket.h>
@@ -52,8 +51,5 @@ t_main_data main_data;
 void register_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl);
 void start_screen(GtkWidget **activity_block);
 void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl);
-
-gboolean draw_user_avatar(GtkWidget *widget, cairo_t *cr, char* path);
-gboolean draw_chat_avatar(GtkWidget *widget, cairo_t *cr, char* path);
 
 #endif
