@@ -1,5 +1,5 @@
 #activity {
-    background-image: url("img/iMac - 14.png");
+    background-image: url("../images/start.png");
     background-size: 115%;
     background-repeat: no-repeat;
     background-position: center;
@@ -13,65 +13,19 @@
 }
 
 
-#scrollable_msg {
-    font-family: PTSansPro-Demi;
-    font-size: 14px;
-    min-width: 200px;
-    min-height: 30px;
-    border-radius: 16px;
-}
-
-#view text{
-    border-radius: 0px 0px 13.5px 13.5px;
-    background: rgba(119, 205, 242, 0.42);
-    color: rgba(50, 50, 50, 0.8);
-    font-family: PTSansPro-Demi;
-}
-
-
-#chat_box {
-    padding: 10px 10px 10px 10px;
-    background: rgba(119, 205, 242, 0.5);
-    border-radius: 30px;
-    min-width: 300px;
-    min-height: 300px;
-}
-#chat_small_box {
-    background: linear-gradient(90deg, #00C9FF 0%, #92FE9D 100%);
-    border-radius: 16px;
-    min-width: 150px;
-    min-height: 100px;
-}
-#chat_photo {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: 10px;
-    background-image: url("img/iMac - 14.png");
-    background-size: 180%;
-    border-radius: 100%;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-#chat_name {
-    font-family: PTSansPro-Demi;
-    margin-bottom: 30px;
-    margin-left: -5px;
-    font-size: 16px;
-    font-weight: bolder;
-    color: tomato;
-}
-#chat_button:hover > #chat_small_box {
-    background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
-}
-
-
 #logo_box {
-    background: linear-gradient(134.14deg, rgba(119, 205, 242, 0.5) -33.38%, #C5E4FF 125.02%);
+    background: linear-gradient(134.14deg, rgba(103, 167, 194, 0.5) -33.38%, #a8bcce 125.02%);
+    box-shadow: -26px 26px 52px rgba(143, 163, 184, 0.2), 
+    26px -26px 52px rgba(140, 158, 177, 0.2), 
+    -26px -26px 52px rgba(179, 206, 219, 0.3), 
+    26px 26px 65px rgba(138, 157, 177, 0.9), 
+    inset 1px 1px 2px rgba(207, 239, 255, 0.3), 
+    inset -1px -1px 2px rgba(169, 195, 221, 0.5);
     border-radius: 16px;
 }
 #logo {
     margin-top: -20px;
-    background-image: url("img/sas 1.png");
+    background-image: url("../images/Chat_name.png");
     background-size: 100%;
     min-width: 190px;
     min-height: 80px;
@@ -119,18 +73,6 @@
     letter-spacing: initial;
     opacity: 1;
 }
-#register_button:hover{
-    margin: 30px 10px 0px 10px;
-    background: rgba(101, 207, 52, 0.7);
-    border-radius: 16px;
-    min-width: 230px;
-    min-height: 30px;
-    color: rgba(50, 50, 50, 0.8);
-    font-family: PTSansPro-Demi;
-    font-size: 16px;
-    letter-spacing: initial;
-    opacity: 1;
-}
 /*#check_button {
     letter-spacing: 0.9px;
     color: rgba(50, 50, 50, 0.77);
@@ -142,7 +84,3 @@
     font-family: PTSansPro-Demi;
     font-size: 14px;
 }*/
-#hidden
-{
-    opacity: 0;
-}
