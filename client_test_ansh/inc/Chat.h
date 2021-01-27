@@ -38,7 +38,7 @@
 ///////database
 #include <sqlite3.h>
 
-
+GtkWidget *activity_block;
 GtkWidget *sing_in_data[3];
 
 

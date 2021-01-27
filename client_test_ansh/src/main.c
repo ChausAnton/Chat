@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
     gtk_widget_set_name(GTK_WIDGET(activity), "activity");
     gtk_container_add(GTK_CONTAINER(window), activity);
 
-    GtkWidget *activity_block = gtk_fixed_new();
+    activity_block = gtk_fixed_new();
     gtk_widget_set_size_request(GTK_WIDGET(activity_block), window_size_x, window_size_y);
     gtk_container_add(GTK_CONTAINER(activity), activity_block);
     

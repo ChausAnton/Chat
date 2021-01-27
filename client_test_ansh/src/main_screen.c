@@ -1,18 +1,6 @@
 #include "Chat.h"
 
 
-/*void align(GtkWidget *widget, float x, float y) {
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    gtk_misc_set_alignment(GTK_MISC(widget), x, y);
-    #pragma clang diagnostic pop
-}
-
-void add_style(GtkWidget *widget, const gchar *class_name, GtkCssProvider *css) {
-    css = gtk_widget_get_style_context(widget);
-    gtk_style_context_add_class(css, class_name);
-    gtk_style_context_add_provider(css, GTK_STYLE_PROVIDER(css), GTK_STYLE_PROVIDER_PRIORITY_USER);
-}*/
 static char* int_to_str(int num) {
    int length = snprintf(NULL, 0, "%d", num);
    char* result = malloc( length + 1 );
@@ -37,12 +25,40 @@ void event_enter_notify(GtkWidget *widget) {
 void event_leave_notify(GtkWidget *widget) {
     gtk_widget_unset_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT);
 }
-void show_chat_settings(GtkWidget *widget){
-    if (gtk_widget_get_state_flags(GTK_WIDGET(widget)) & GTK_STATE_FLAG_ACTIVE){
-        gtk_widget_unset_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE);
-    }  else {
-        gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
+void unshow_chat_settings(GtkWidget *widget, GdkEventButton *event, gpointer *p[]) {
+    if (widget) {}
+    if(event->type == GDK_BUTTON_PRESS && event->button == 1){
+        gtk_widget_unset_state_flags(GTK_WIDGET((GtkWidget *)p), GTK_STATE_FLAG_ACTIVE);
+        gtk_widget_destroy(widget);
     }
+}
+void show_chat_settings(GtkWidget *widget){
+        GtkWidget *chat_settings_event_box = gtk_event_box_new();
+        gtk_widget_set_name(GTK_WIDGET(chat_settings_event_box), "chat_settings_event_box");
+        gtk_widget_set_size_request(GTK_WIDGET(chat_settings_event_box), 1400, 900);
+        g_signal_connect(G_OBJECT(chat_settings_event_box), "button_press_event", G_CALLBACK(unshow_chat_settings), widget);
+        gtk_fixed_put(GTK_FIXED(activity_block), chat_settings_event_box, 0, 0);
+
+        GtkWidget *position_chat_settings = gtk_fixed_new();
+        gtk_container_add(GTK_CONTAINER(chat_settings_event_box), position_chat_settings);
+
+        GtkWidget *clickable_chat_settings = gtk_event_box_new();
+        gtk_widget_set_halign(GTK_WIDGET(clickable_chat_settings), GTK_ALIGN_END);
+        gtk_widget_set_valign(GTK_WIDGET(clickable_chat_settings), GTK_ALIGN_END);
+        g_signal_connect(G_OBJECT(clickable_chat_settings), "button_press_event", G_CALLBACK(gtk_widget_show), NULL);
+        gtk_fixed_put(GTK_FIXED(position_chat_settings), clickable_chat_settings, 1400-380, 900-860);
+
+        GtkWidget *chat_settings_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+        gtk_widget_set_name(GTK_WIDGET(chat_settings_box), "chat_settings_box");
+        gtk_container_add(GTK_CONTAINER(clickable_chat_settings), chat_settings_box);
+
+        GtkWidget *scrollable = gtk_scrolled_window_new(NULL, NULL);
+        gtk_widget_set_size_request(GTK_WIDGET(scrollable), 280, 350);
+        gtk_box_pack_start(GTK_BOX(chat_settings_box), scrollable, FALSE, FALSE, 0);
+
+        gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
+
+        gtk_widget_show_all(GTK_WIDGET(chat_settings_event_box));
 }
 void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl) {
     GtkWidget **activity_block = (GtkWidget **)activity_bl;
