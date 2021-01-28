@@ -36,5 +36,8 @@
             "intelliSenseMode": "clang-x64"
         }
     ],
-    "version": 4
+    "version": 4,
+    "files.associations": {
+        "system_error": "c"
+    }
 }

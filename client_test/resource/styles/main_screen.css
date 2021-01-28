@@ -14,7 +14,6 @@
     border-radius: 13.5px;
     min-width: 100px;
     min-height: 60px;
-    transition: 0.2s cubic-bezier(0.18,0.62,0.71,0.5);
 }
 #left_chat_photo_box {
     margin-top: 10px;
@@ -120,4 +119,28 @@
 #chat_settings_box {
     background: rgb(139, 230, 116);
     border-radius: 13.5px;
+}
+
+#send_button_clickable {
+    margin: 20px 20px 20px 20px;
+}
+#send_button {
+    background-image: url("../images/send.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#smile_button {
+    background-image: url("../images/smile-wink.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#message {
+    margin: 10px 10px 10px 900px;
+    min-width: 20px;
+    min-height: 30px;
+    background: #FBFDFF;
+    border-radius: 13.5px 13.5px 0px 13.5px;
 }
