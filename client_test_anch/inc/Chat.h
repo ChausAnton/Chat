@@ -40,6 +40,7 @@
 
 
 GtkWidget *sing_in_data[3];
+GtkWidget *left_box;
 
 
 typedef struct s_main_data {

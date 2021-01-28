@@ -1,5 +1,16 @@
 #include "Chat.h"
 
+void display_message(char *message_text) {
+    GtkWidget *message = gtk_label_new(message_text);
+    gtk_widget_set_name(GTK_WIDGET(message), "message");
+    gtk_label_set_line_wrap(GTK_LABEL(message), TRUE);
+    gtk_label_set_line_wrap_mode(GTK_LABEL(message), PANGO_WRAP_WORD_CHAR);
+    gtk_label_set_max_width_chars(GTK_LABEL(message), 50);
+    gtk_box_pack_start(GTK_BOX(left_box), message, FALSE, FALSE, 0);
+
+    gtk_widget_show_all(left_box);
+}
+
 void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) {
     if (widget) {}
     if(event->type == GDK_BUTTON_PRESS && event->button == 1){
@@ -10,6 +21,8 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
         gtk_text_buffer_get_bounds (buffer, &start, &end);
         text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
         printf("messsage: %s\n", text);
+        display_message(text);
+        
         g_free (text);
         gtk_text_view_set_buffer ((GtkTextView *)messsage, NULL);
     }
@@ -137,7 +150,7 @@ void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_b
     }
 
 ///////////////
-    GtkWidget *left_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+    left_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
     gtk_widget_set_name(GTK_WIDGET(left_box), "left_box");
     gtk_widget_set_size_request(GTK_WIDGET(left_box), window_size_x - 315, window_size_y - 6);
     gtk_fixed_put(GTK_FIXED(main_fixed), left_box, 310, 3);
@@ -284,7 +297,7 @@ void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_b
     gtk_widget_set_size_request(GTK_WIDGET(smile_button), 18, 18);
     gtk_container_add(GTK_CONTAINER(smile_button_clickable), smile_button);
 
-   g_signal_connect(G_OBJECT(send_button_clickable), "button_press_event", G_CALLBACK(smile_menu), NULL);
+    g_signal_connect(G_OBJECT(send_button_clickable), "button_press_event", G_CALLBACK(smile_menu), NULL);
     //g_signal_connect(G_OBJECT(smile_button_clickable), "button_press_event", G_CALLBACK(smile_menu), NULL);
 
     gtk_widget_show_all(main_data.main_screen_box);
