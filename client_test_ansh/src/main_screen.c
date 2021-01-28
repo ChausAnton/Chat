@@ -61,6 +61,7 @@ void show_chat_settings(GtkWidget *widget){
 
         gtk_widget_show_all(GTK_WIDGET(chat_settings_event_box));
 }
+
 void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl) {
     GtkWidget **activity_block = (GtkWidget **)activity_bl;
     gtk_widget_destroy(GTK_WIDGET(main_data.login_box));
