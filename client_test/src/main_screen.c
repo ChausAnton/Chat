@@ -1,4 +1,6 @@
 #include "Chat.h"
+
+
 static char* int_to_str(int num) {
    int length = snprintf(NULL, 0, "%d", num);
    char* result = malloc( length + 1 );
@@ -88,13 +90,53 @@ void show_chat_settings(GtkWidget *widget){
         g_signal_connect(G_OBJECT(clickable_chat_settings), "button_press_event", G_CALLBACK(gtk_widget_show), NULL);
         gtk_fixed_put(GTK_FIXED(position_chat_settings), clickable_chat_settings, 1400-380, 900-860);
 
-        GtkWidget *chat_settings_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+        GtkWidget *chat_settings_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
         gtk_widget_set_name(GTK_WIDGET(chat_settings_box), "chat_settings_box");
         gtk_container_add(GTK_CONTAINER(clickable_chat_settings), chat_settings_box);
 
         GtkWidget *scrollable = gtk_scrolled_window_new(NULL, NULL);
-        gtk_widget_set_size_request(GTK_WIDGET(scrollable), 280, 350);
+        gtk_widget_set_size_request(GTK_WIDGET(scrollable), 280, 100);
         gtk_box_pack_start(GTK_BOX(chat_settings_box), scrollable, FALSE, FALSE, 0);
+
+        GtkWidget *scrollable_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+        gtk_widget_set_name(GTK_WIDGET(scrollable_box), "scrollable_box");
+        gtk_container_add(GTK_CONTAINER(scrollable), scrollable_box);
+
+        GtkWidget *rename_chat_clickable = gtk_event_box_new();    //add_useer, delete_user, delete_chat, change chat image
+        gtk_widget_set_name(GTK_WIDGET(rename_chat_clickable), "rename_chat");
+        gtk_box_pack_start(GTK_BOX(scrollable_box), rename_chat_clickable, FALSE, FALSE, 0);
+
+        GtkWidget *rename_chat = gtk_label_new("rename chat");
+        gtk_container_add(GTK_CONTAINER(rename_chat_clickable), rename_chat);
+
+        GtkWidget *add_useer_clickable = gtk_event_box_new();    //add_useer, delete_user, delete_chat, change chat image
+        gtk_widget_set_name(GTK_WIDGET(add_useer_clickable), "add_useer");
+        gtk_box_pack_start(GTK_BOX(scrollable_box), add_useer_clickable, FALSE, FALSE, 0);
+
+        GtkWidget *add_useer = gtk_label_new("add useer");
+        gtk_container_add(GTK_CONTAINER(add_useer_clickable), add_useer);
+
+        GtkWidget *delete_user_clickable = gtk_event_box_new();    //add_useer, delete_user, delete_chat ,change chat image
+        gtk_widget_set_name(GTK_WIDGET(delete_user_clickable), "delete user");
+        gtk_box_pack_start(GTK_BOX(scrollable_box), delete_user_clickable, FALSE, FALSE, 0);
+
+        GtkWidget *delete_user = gtk_label_new("delete user");
+        gtk_container_add(GTK_CONTAINER(delete_user_clickable), delete_user);
+
+        GtkWidget *delete_chat_clickable = gtk_event_box_new();    //add_useer, delete_user, delete_chat, change chat image
+        gtk_widget_set_name(GTK_WIDGET(delete_chat_clickable), "delete_chat");
+        gtk_box_pack_start(GTK_BOX(scrollable_box), delete_chat_clickable, FALSE, FALSE, 0);
+
+        GtkWidget *delete_chat = gtk_label_new("delete chat");
+        gtk_container_add(GTK_CONTAINER(delete_chat_clickable), delete_chat);
+
+        GtkWidget *change_chat_image_clickable = gtk_event_box_new();    //add_useer, delete_user, delete_chat, change chat image
+        gtk_widget_set_name(GTK_WIDGET(change_chat_image_clickable), "change_chat_image");
+        gtk_box_pack_start(GTK_BOX(scrollable_box), change_chat_image_clickable, FALSE, FALSE, 0);
+
+        GtkWidget *change_chat_image = gtk_label_new("change chat image");
+        gtk_container_add(GTK_CONTAINER(change_chat_image_clickable), change_chat_image);
+
 
         gtk_widget_show_all(GTK_WIDGET(chat_settings_event_box));
 }
