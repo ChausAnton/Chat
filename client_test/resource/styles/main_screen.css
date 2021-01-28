@@ -121,3 +121,52 @@
     background: rgb(139, 230, 116);
     border-radius: 13.5px;
 }
+
+#send_button_clickable {
+    margin: 20px 20px 20px 20px;
+}
+#send_button {
+    background-image: url("../images/send.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#smile_button {
+    background-image: url("../images/smile-wink.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#smile_button_clickable:active >  #smile_button {
+    background-image: url("../images/settings_button.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+#emoji_box {
+    padding: 10px;
+    background: rgb(139, 230, 116);
+    border-radius: 13.5px;
+}
+#emoji_label {
+    font-family: PTSansPro-Demi;
+    font-size: 18px;
+}
+#emoji {
+    background: rgb(25, 10, 80);
+    border-radius: 13.5px;
+}
+#emoji:hover {
+    background: rgb(185, 27, 101);
+    border-radius: 13.5px;
+}
+
+#message {
+    margin: 10px 10px 10px 900px;
+    min-width: 20px;
+    min-height: 30px;
+    background: #FBFDFF;
+    border-radius: 13.5px 13.5px 0px 13.5px;
+}
