@@ -7,17 +7,17 @@ static char* int_to_str(int num) {
 }
 
 void display_message(char *message_text) {
-    /*GtkWidget* photo_chat_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
-    gtk_widget_set_name(GTK_WIDGET(photo_chat_box), "top_chat_photo_box");
-    gtk_container_add(GTK_CONTAINER(photo_chat_box), top_chat_avatar);
-    gtk_box_pack_start(GTK_BOX(top_area), photo_chat_box, FALSE, FALSE, 10);*/
+    
+    GtkWidget *message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+    gtk_widget_set_name(GTK_WIDGET(message_body), "messages_body");
+    gtk_box_pack_start(GTK_BOX(left_box), message_body, FALSE, FALSE, 0);
 
     GtkWidget *message = gtk_label_new(message_text);
     gtk_widget_set_name(GTK_WIDGET(message), "message");
     gtk_label_set_line_wrap(GTK_LABEL(message), TRUE);
     gtk_label_set_line_wrap_mode(GTK_LABEL(message), PANGO_WRAP_WORD_CHAR);
     gtk_label_set_max_width_chars(GTK_LABEL(message), 50);
-    gtk_box_pack_start(GTK_BOX(left_box), message, FALSE, FALSE, 0);
+    gtk_box_pack_end(GTK_BOX(message_body), message, FALSE, FALSE, 0);
 
     gtk_widget_show_all(left_box);
 }

@@ -138,9 +138,7 @@
 }
 
 #message {
-    margin: 10px 10px 10px 900px;
-    min-width: 20px;
-    min-height: 30px;
+    padding: 10px 10px 10px 10px;;
     background: #FBFDFF;
     border-radius: 13.5px 13.5px 0px 13.5px;
 }
