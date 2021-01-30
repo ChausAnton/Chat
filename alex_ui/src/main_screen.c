@@ -33,17 +33,12 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
 
         gtk_text_buffer_get_bounds (buffer, &start, &end);
         text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
+        if(strlen(text) == 0) return;
         printf("messsage: %s\n", text);
         display_message(text);
         
         g_free (text);
         gtk_text_view_set_buffer ((GtkTextView *)messsage, NULL);
-    }
-}
-
-void smile_menu(GtkWidget *widget, GdkEventButton *event) {
-    if (widget) {}
-    if(event->type == GDK_BUTTON_PRESS && event->button == 1){
     }
 }
 
@@ -112,7 +107,7 @@ void show_emoji_box(GtkWidget *widget){
         int sticker_num = 1;
         GtkWidget *single_emoji;
         
-        for(int i = 1; i <= 11; i++)    // Columns
+        for(int i = 2; i <= 11; i++)    // Columns
         {
             for(int j = 1; j <= 6; j++) // Rows
             {
@@ -208,7 +203,72 @@ void show_chat_settings(GtkWidget *widget){
         gtk_widget_show_all(GTK_WIDGET(chat_settings_event_box));
 }
 
+void send_messege_file(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) {
+    GtkWidget *dialog = gtk_file_chooser_dialog_new("User image", GTK_WINDOW(window), GTK_FILE_CHOOSER_ACTION_OPEN, "Cancel", GTK_RESPONSE_CANCEL, "Open", GTK_RESPONSE_ACCEPT, NULL);
+    gint run = gtk_dialog_run(GTK_DIALOG(dialog));
 
+    if (run == GTK_RESPONSE_ACCEPT) {
+        GtkFileChooser *chooser = GTK_FILE_CHOOSER(dialog);
+
+        gchar *source_path = gtk_file_chooser_get_filename(chooser);
+        printf("Path: %s\n", source_path);
+
+        gchar *filename = source_path;
+
+        while (strchr(filename, '/') != NULL) {
+            filename = strchr(filename, '/');
+            filename++;
+        }
+
+        GtkWidget *message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+        gtk_widget_set_name(GTK_WIDGET(message_body), "messages_body");
+        gtk_box_pack_start(GTK_BOX(left_box), message_body, FALSE, FALSE, 0);
+
+        GtkWidget *message_body_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
+        gtk_box_pack_end(GTK_BOX(message_body), message_body_box, FALSE, TRUE, 0);
+        gtk_widget_set_name(GTK_WIDGET(message_body_box), "message");
+
+        GtkWidget *message_file = gtk_image_new();
+        //gtk_widget_set_name(GTK_WIDGET(message_file), "message");
+
+        GdkPixbuf *message_file_pixbuf = gdk_pixbuf_new_from_file(source_path, NULL);
+        gint width = gdk_pixbuf_get_width(message_file_pixbuf);
+        gint height = gdk_pixbuf_get_height(message_file_pixbuf);
+
+        if (width > 200 || height > 200) {
+            gtk_image_set_from_pixbuf(GTK_IMAGE(message_file), gdk_pixbuf_new_from_file_at_scale(source_path, 200, 200, TRUE, NULL));
+        } else {
+            gtk_image_set_from_pixbuf(GTK_IMAGE(message_file), message_file_pixbuf);
+        }
+
+        g_object_unref(G_OBJECT(message_file_pixbuf));
+
+        gtk_box_pack_start(GTK_BOX(message_body_box), message_file, FALSE, TRUE, 0);
+
+        if (widget) {}
+        if(event->type == GDK_BUTTON_PRESS && event->button == 1){
+            GtkTextIter start, end;
+            gchar *text;
+            GtkTextBuffer *buffer = gtk_text_view_get_buffer((GtkTextView *)messsage);
+
+            gtk_text_buffer_get_bounds (buffer, &start, &end);
+            text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
+            printf("messsage: %s\n", text);
+            
+            if(strlen(text) != 0){
+                GtkWidget *message = gtk_label_new(text);
+                gtk_label_set_line_wrap(GTK_LABEL(message), TRUE);
+                gtk_label_set_line_wrap_mode(GTK_LABEL(message), PANGO_WRAP_WORD_CHAR);
+                gtk_label_set_max_width_chars(GTK_LABEL(message), 50);
+                gtk_box_pack_end(GTK_BOX(message_body_box), message, FALSE, FALSE, 0);
+            }
+            g_free (text);  
+            gtk_text_view_set_buffer ((GtkTextView *)messsage, NULL);
+        }
+        gtk_widget_show_all(left_box);
+    }
+    gtk_widget_destroy (dialog);
+}
 
 void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl) {
     GtkWidget **activity_block = (GtkWidget **)activity_bl;
@@ -352,23 +412,6 @@ void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_b
         gtk_widget_set_size_request(GTK_WIDGET(chat_setting_button_box), 18, 18);
         gtk_container_add(GTK_CONTAINER(chat_setting_button), chat_setting_button_box);
 
-    //////Bottom area
-    GtkWidget *bottom_area = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
-    gtk_widget_set_name(GTK_WIDGET(bottom_area), "bottom_area");
-    gtk_widget_set_size_request(GTK_WIDGET(bottom_area), 100, 70);
-    gtk_box_pack_end(GTK_BOX(left_box), bottom_area, FALSE, FALSE, 0);
-
-    GtkWidget *scrolled_message =  gtk_scrolled_window_new(NULL, NULL);
-    gtk_widget_set_name(GTK_WIDGET(scrolled_message), "scrollable_msg");
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW(scrolled_message), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-    gtk_widget_set_size_request(scrolled_message, 100, 60); 
-    gtk_box_pack_end(GTK_BOX(bottom_area), scrolled_message, FALSE, FALSE, 0);
-
-    GtkWidget *msg_enter = gtk_text_view_new();
-    gtk_widget_set_name(GTK_WIDGET(msg_enter), "msg_enter");
-    gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW(msg_enter), GTK_WRAP_WORD_CHAR);
-    gtk_container_add(GTK_CONTAINER(scrolled_message), msg_enter);
-
     ////////////user_photo
     GtkWidget *user_avatar = gtk_drawing_area_new();
     gtk_widget_set_size_request(GTK_WIDGET(user_avatar), 55, 55);
@@ -414,35 +457,73 @@ void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_b
     g_signal_connect(G_OBJECT(exit_button_clickable), "button_press_event", G_CALLBACK(gtk_main_quit), NULL);
     //////////
 
-///////send anc smile 
-    GtkWidget *send_button_clickable = gtk_event_box_new();
-    gtk_widget_set_name(GTK_WIDGET(send_button_clickable), "send_button_clickable");
-    gtk_widget_set_halign(GTK_WIDGET(send_button_clickable), GTK_ALIGN_CENTER);
-    gtk_widget_set_valign(GTK_WIDGET(send_button_clickable), GTK_ALIGN_CENTER);
-    gtk_fixed_put(GTK_FIXED(main_fixed), send_button_clickable, 1360, 853);
+//////Bottom area
+GtkWidget *bottom_area = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
+gtk_widget_set_name(GTK_WIDGET(bottom_area), "bottom_area");
+gtk_widget_set_size_request(GTK_WIDGET(bottom_area), 100, 60);
+gtk_box_pack_end(GTK_BOX(left_box), bottom_area, FALSE, FALSE, 0);
 
-    GtkWidget *send_button = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
-    gtk_widget_set_name(GTK_WIDGET(send_button), "send_button");
-    gtk_widget_set_size_request(GTK_WIDGET(send_button), 18, 18);
-    gtk_container_add(GTK_CONTAINER(send_button_clickable), send_button);
+    ///////Add file
+        GtkWidget *clip_event_box = gtk_event_box_new();
+        gtk_widget_set_name(GTK_WIDGET(clip_event_box), "clip_event_box");
+        gtk_widget_set_halign(GTK_WIDGET(clip_event_box), GTK_ALIGN_CENTER);
+        gtk_widget_set_valign(GTK_WIDGET(clip_event_box), GTK_ALIGN_CENTER);
+        gtk_box_pack_start(GTK_BOX(bottom_area), clip_event_box, FALSE, FALSE, 0);
 
-    g_signal_connect(G_OBJECT(send_button_clickable), "button_press_event", G_CALLBACK(send_message), msg_enter);
+        GtkWidget *clip_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+        gtk_widget_set_name(GTK_WIDGET(clip_box), "clip_box");
+        gtk_widget_set_size_request(GTK_WIDGET(clip_box), 23, 23);
+        gtk_container_add(GTK_CONTAINER(clip_event_box), clip_box);
 
-    GtkWidget *smile_button_clickable = gtk_event_box_new();
-    gtk_widget_set_name(GTK_WIDGET(smile_button_clickable), "smile_button_clickable");
-    gtk_widget_set_halign(GTK_WIDGET(smile_button_clickable), GTK_ALIGN_CENTER);
-    gtk_widget_set_valign(GTK_WIDGET(smile_button_clickable), GTK_ALIGN_CENTER);
-    gtk_fixed_put(GTK_FIXED(main_fixed), smile_button_clickable, 1332, 853);
 
-    g_signal_connect(G_OBJECT(smile_button_clickable), "button_press_event", G_CALLBACK(show_emoji_box), NULL);
+    ///////Msg area
+        GtkWidget *scrolled_message =  gtk_scrolled_window_new(NULL, NULL);
+        gtk_widget_set_name(GTK_WIDGET(scrolled_message), "scrollable_msg");
+        gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW(scrolled_message), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+        gtk_widget_set_size_request(scrolled_message, 100, 30); 
+        gtk_box_pack_start(GTK_BOX(bottom_area), scrolled_message, TRUE, TRUE, 0);
 
-    GtkWidget *smile_button = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
-    gtk_widget_set_name(GTK_WIDGET(smile_button), "smile_button");
-    gtk_widget_set_size_request(GTK_WIDGET(smile_button), 18, 18);
-    gtk_container_add(GTK_CONTAINER(smile_button_clickable), smile_button);
+        GtkWidget *msg_enter = gtk_text_view_new();
+        gtk_widget_set_name(GTK_WIDGET(msg_enter), "msg_enter");
+        gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW(msg_enter), GTK_WRAP_WORD_CHAR);
+        gtk_text_view_set_right_margin(GTK_TEXT_VIEW(msg_enter), 20);
+        gtk_text_view_set_top_margin(GTK_TEXT_VIEW(msg_enter), 10);
+        gtk_text_view_set_left_margin(GTK_TEXT_VIEW(msg_enter), 20);
+        gtk_container_add(GTK_CONTAINER(scrolled_message), msg_enter);
 
-    g_signal_connect(G_OBJECT(send_button_clickable), "button_press_event", G_CALLBACK(smile_menu), NULL);
-    //g_signal_connect(G_OBJECT(smile_button_clickable), "button_press_event", G_CALLBACK(smile_menu), NULL);
+        GtkWidget *important_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+        gtk_widget_set_name(GTK_WIDGET(important_box), "important_box");
+        gtk_widget_set_size_request(GTK_WIDGET(important_box), 15, 50);
+        gtk_fixed_put(GTK_FIXED(main_fixed), important_box, 1304, 842);
+
+        g_signal_connect(G_OBJECT(clip_event_box), "button_press_event", G_CALLBACK(send_messege_file), msg_enter);
+    ///////Emoji
+        GtkWidget *smile_button_clickable = gtk_event_box_new();
+        gtk_widget_set_name(GTK_WIDGET(smile_button_clickable), "smile_button_clickable");
+        gtk_widget_set_halign(GTK_WIDGET(smile_button_clickable), GTK_ALIGN_CENTER);
+        gtk_widget_set_valign(GTK_WIDGET(smile_button_clickable), GTK_ALIGN_CENTER);
+        gtk_box_pack_start(GTK_BOX(bottom_area), smile_button_clickable, FALSE, FALSE, 0);
+
+        g_signal_connect(G_OBJECT(smile_button_clickable), "button_press_event", G_CALLBACK(show_emoji_box), NULL);
+
+        GtkWidget *smile_button = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+        gtk_widget_set_name(GTK_WIDGET(smile_button), "smile_button");
+        gtk_widget_set_size_request(GTK_WIDGET(smile_button), 18, 18);
+        gtk_container_add(GTK_CONTAINER(smile_button_clickable), smile_button);
+
+    ///////Send msg
+        GtkWidget *send_button_clickable = gtk_event_box_new();
+        gtk_widget_set_name(GTK_WIDGET(send_button_clickable), "send_button_clickable");
+        gtk_widget_set_halign(GTK_WIDGET(send_button_clickable), GTK_ALIGN_CENTER);
+        gtk_widget_set_valign(GTK_WIDGET(send_button_clickable), GTK_ALIGN_CENTER);
+        gtk_box_pack_start(GTK_BOX(bottom_area), send_button_clickable, FALSE, FALSE, 0);
+
+        GtkWidget *send_button = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+        gtk_widget_set_name(GTK_WIDGET(send_button), "send_button");
+        gtk_widget_set_size_request(GTK_WIDGET(send_button), 18, 18);
+        gtk_container_add(GTK_CONTAINER(send_button_clickable), send_button);
+
+        g_signal_connect(G_OBJECT(send_button_clickable), "button_press_event", G_CALLBACK(send_message), msg_enter);
 
     gtk_widget_show_all(main_data.main_screen_box);
 }
