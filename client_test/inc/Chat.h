@@ -40,7 +40,7 @@
 
 GtkWidget *window;
 GtkWidget *activity_block;
-GtkWidget *sing_in_data[3];
+GtkWidget *sign_in_data[3];
 GtkWidget *left_box;
 
 
