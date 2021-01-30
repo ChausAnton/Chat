@@ -1,74 +1,91 @@
 #activity {
-    background-image: url("../images/start.png");
-    background-size: 115%;
+    background-image: url("../images/paporotniki_first_screen.jpeg");
+    background-size: 100%;
     background-repeat: no-repeat;
     background-position: center;
 }
 
 
 #login_box {
-    padding: 20px 30px 30px 30px;
-    background: rgba(119, 205, 242, 0.5);
-    border-radius: 30px;
+    background: rgba(32, 75, 73, 0.8);
+    min-width: 380px;
+    min-height: 900px;
+    border-radius: 8px;
 } 
 
 
 #logo_box {
-    background: linear-gradient(134.14deg, rgba(103, 167, 194, 0.5) -33.38%, #a8bcce 125.02%);
-    box-shadow: -26px 26px 52px rgba(143, 163, 184, 0.2), 
-    26px -26px 52px rgba(140, 158, 177, 0.2), 
-    -26px -26px 52px rgba(179, 206, 219, 0.3), 
-    26px 26px 65px rgba(138, 157, 177, 0.9), 
-    inset 1px 1px 2px rgba(207, 239, 255, 0.3), 
-    inset -1px -1px 2px rgba(169, 195, 221, 0.5);
-    border-radius: 16px;
+    background: white;
+    min-width: 330px;
+    min-height: 240px;
+    margin-top: 88px;
+    margin-left: 25px;
+    margin-right: 25px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
-#Chat_logo {
-    margin-top: -20px;
+#chat_logo {
     background-image:url("../images/Chat_name.png");
-    background-size: 100%;
-    min-width: 190px;
-    min-height: 80px;
+    margin: 17px 25px;
+    margin-left: 40px;
 }
 
-
+#login_label{
+    font-family: PTSansPro-Demi;
+    font-size: 18px;
+    color: white;
+    margin-top: 45px;
+    margin-right: 290px;
+}
 #login {
-    margin: 60px 20px 10px 20px;
-    min-width: 240px;
-    min-height: 35px;
+    margin: 10px 20px;
+    min-width: 330px;
+    min-height: 53px;
     font-family: PTSansPro-Demi;
-    background: linear-gradient(135deg, rgba(113, 195, 230, 0.6) 0%, rgba(125, 215, 254, 0.5) 100%);
-    border-radius: 14px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
-#Password {
-    margin: 10px 20px 10px 20px;
-    min-width: 240px;
-    min-height: 35px;
+
+#password_label {
     font-family: PTSansPro-Demi;
-    background: linear-gradient(135deg, rgba(113, 195, 230, 0.6) 0%, rgba(125, 215, 254, 0.5) 100%);
-    border-radius: 14px;
+    font-size: 18px;
+    color: white;
+    margin-top: 10px;
+    margin-right: 255px;
+}
+#password {
+    margin: 10px 20px;
+    min-width: 330px;
+    min-height: 53px;
+    font-family: PTSansPro-Demi;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 
-#enter_button {
-    margin: 50px 10px 10px 10px;
-    background: rgba(119, 205, 242, 0.7);
-    border-radius: 16px;
-    min-width: 230px;
-    min-height: 30px;
+#signin_button {
+    margin: 55px 20px 0;
+    background: linear-gradient(66.23deg, #683487 28.19%, #433FEE 111.52%);
+    border-radius: 5px;
+    min-width: 330px;
+    min-height: 53px;
     font-family: PTSansPro-Demi;
-    font-size: 16px;
+    font-size: 18px;
     letter-spacing: initial;
-    color: #FBFDFF;
+    color: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
-#registration_button {
-    margin: 0px 10px 10px 10px;
-    background: linear-gradient(135deg, rgba(113, 195, 230, 0.3) 0%, rgba(125, 215, 254, 0.3) 100%);
-    border-radius: 16px;
-    min-width: 230px;
-    min-height: 30px;
+#signup_button {
+    margin: 17px 20px;
+    background: white;
+    border-radius: 5px;
+    min-width: 330px;
+    min-height: 53px;
     font-family: PTSansPro-Demi;
-    font-size: 16px;
+    font-size: 18px;
     letter-spacing: initial;
-    color: rgba(50, 50, 50, 0.8)
+    color: black;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }

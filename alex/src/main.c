@@ -6,7 +6,7 @@ int main(int argc, char *argv[]) {
     gtk_init(&argc, &argv);
 
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title(GTK_WINDOW(window), "NiChat");
+    gtk_window_set_title(GTK_WINDOW(window), "Nichat");
     gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
     gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
     gtk_window_set_default_size(GTK_WINDOW(window), WINDOW_SIZE_X, WINDOW_SIZE_Y);
@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
     gtk_widget_set_name(GTK_WIDGET(activity), "activity");
     gtk_container_add(GTK_CONTAINER(window), activity);
 
-    GtkWidget *activity_block = gtk_fixed_new();
+    activity_block = gtk_fixed_new();
     gtk_widget_set_size_request(GTK_WIDGET(activity_block), WINDOW_SIZE_X, WINDOW_SIZE_Y);
     gtk_container_add(GTK_CONTAINER(activity), activity_block);
     
