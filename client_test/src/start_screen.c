@@ -21,11 +21,14 @@ void start_screen(GtkWidget **activity_block) {
 
     main_data.login_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_name(GTK_WIDGET(main_data.login_box), "login_box");
+
     gtk_fixed_put(GTK_FIXED(*activity_block), main_data.login_box, 208, 0);
+
 
     GtkWidget *logo_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_name(GTK_WIDGET(logo_box), "logo_box");
     gtk_box_pack_start(GTK_BOX(main_data.login_box), logo_box, FALSE, FALSE, 0);
+
 
     GtkWidget *chat_logo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_name(GTK_WIDGET(chat_logo), "chat_logo");

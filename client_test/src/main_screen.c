@@ -1,6 +1,5 @@
 #include "Chat.h"
 
-
 static char* int_to_str(int num) {
    int length = snprintf(NULL, 0, "%d", num);
    char* result = malloc( length + 1 );
@@ -19,6 +18,7 @@ void display_message(char *message_text) {
     gtk_label_set_line_wrap(GTK_LABEL(message), TRUE);
     gtk_label_set_line_wrap_mode(GTK_LABEL(message), PANGO_WRAP_WORD_CHAR);
     gtk_label_set_max_width_chars(GTK_LABEL(message), 50);
+  
     gtk_box_pack_end(GTK_BOX(message_body), message, FALSE, FALSE, 0);
 
     gtk_widget_show_all(left_box);
@@ -33,7 +33,9 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
 
         gtk_text_buffer_get_bounds (buffer, &start, &end);
         text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
+
         if(strlen(text) == 0) return;
+
         printf("messsage: %s\n", text);
         display_message(text);
         
@@ -46,6 +48,7 @@ static void chat_click(GtkWidget *widget) {
     GList *parent = gtk_container_get_children(GTK_CONTAINER(widget));
     GList *children = gtk_container_get_children(GTK_CONTAINER(parent->data));
     children = children->next->next;
+
     int chat_id = atoi((char*)gtk_label_get_text(GTK_LABEL(children->data)));
     printf("Chat_id: %d\n", chat_id);
     g_list_free(g_steal_pointer(&children));
@@ -64,13 +67,16 @@ void event_enter_notify(GtkWidget *widget) {
 void event_leave_notify(GtkWidget *widget) {
     gtk_widget_unset_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT);
 }
+
 void unpress_event_box(GtkWidget *widget, GdkEventButton *event, gpointer *p) {
+
     if (widget) {}
     if(event->type == GDK_BUTTON_PRESS && event->button == 1){
         gtk_widget_unset_state_flags(GTK_WIDGET((GtkWidget *)p), GTK_STATE_FLAG_ACTIVE);
         gtk_widget_destroy(widget);
     }
 }
+
 void show_emoji_box(GtkWidget *widget){
         
         GtkWidget *emoji_event_box = gtk_event_box_new();
@@ -133,6 +139,7 @@ void show_emoji_box(GtkWidget *widget){
 
         gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
 }
+
 void show_chat_settings(GtkWidget *widget){
 
         gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
@@ -140,7 +147,9 @@ void show_chat_settings(GtkWidget *widget){
         GtkWidget *chat_settings_event_box = gtk_event_box_new();
         gtk_widget_set_name(GTK_WIDGET(chat_settings_event_box), "chat_settings_event_box");
         gtk_widget_set_size_request(GTK_WIDGET(chat_settings_event_box), 1400, 900);
+
         g_signal_connect(G_OBJECT(chat_settings_event_box), "button_press_event", G_CALLBACK(unpress_event_box), widget);
+
         gtk_fixed_put(GTK_FIXED(activity_block), chat_settings_event_box, 0, 0);
 
         GtkWidget *position_chat_settings = gtk_fixed_new();
@@ -153,10 +162,12 @@ void show_chat_settings(GtkWidget *widget){
         gtk_fixed_put(GTK_FIXED(position_chat_settings), clickable_chat_settings, 1400-380, 900-860);
 
         GtkWidget *chat_settings_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
+
         gtk_widget_set_name(GTK_WIDGET(chat_settings_box), "chat_settings_box");
         gtk_container_add(GTK_CONTAINER(clickable_chat_settings), chat_settings_box);
 
         GtkWidget *scrollable = gtk_scrolled_window_new(NULL, NULL);
+
         gtk_widget_set_size_request(GTK_WIDGET(scrollable), 280, 100);
         gtk_box_pack_start(GTK_BOX(chat_settings_box), scrollable, FALSE, FALSE, 0);
 
@@ -284,7 +295,9 @@ void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_b
 
     main_data.main_screen_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
     gtk_widget_set_name(GTK_WIDGET(main_data.main_screen_box), "main_screen");
+
     gtk_widget_set_size_request(GTK_WIDGET(main_data.main_screen_box), WINDOW_SIZE_X, WINDOW_SIZE_Y);
+
     gtk_fixed_put(GTK_FIXED(*activity_block), main_data.main_screen_box, 0, 0);
 
 //////////gtk_fixed
@@ -355,7 +368,9 @@ void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_b
 ///////////////
     left_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
     gtk_widget_set_name(GTK_WIDGET(left_box), "left_box");
+
     gtk_widget_set_size_request(GTK_WIDGET(left_box), WINDOW_SIZE_X - 315, WINDOW_SIZE_Y - 6);
+
     gtk_fixed_put(GTK_FIXED(main_fixed), left_box, 310, 3);
 
     /*GtkWidget *left_mid_box = gtk_label_new("Who you want to write?");
@@ -373,6 +388,7 @@ void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_b
         
         //////Chat Logo
         GtkWidget *top_chat_avatar = gtk_drawing_area_new();
+
         gtk_widget_set_size_request(GTK_WIDGET(top_chat_avatar), 40, 40);
         char *path1 = strdup("resource/images/button.png");
         g_signal_connect(G_OBJECT(top_chat_avatar), "draw", G_CALLBACK(draw_chat_avatar), path1);
@@ -382,6 +398,7 @@ void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_b
         gtk_container_add(GTK_CONTAINER(photo_chat_box), top_chat_avatar);
         gtk_box_pack_start(GTK_BOX(top_area), photo_chat_box, FALSE, FALSE, 10);
         
+
         //////Chat Name
         GtkWidget* chat_name_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
         gtk_widget_set_name(GTK_WIDGET(chat_name_box), "top_chat_name_box");
