@@ -79,13 +79,15 @@
 #bottom_area {
     background: rgba(119, 205, 242, 1);
     border-radius: 0px 0px 13.5px 13.5px;
+    padding: 5px 20px 5px 10px;
+}
+#important_box {
+    background: rgba(119, 205, 242, 1);
 }
 #scrollable_msg {
     font-family: PTSansPro-Demi;
     font-size: 18px;
-    margin-bottom: 5px;
-    margin-left: 50px;
-    margin-right: 100px;
+    margin-left: 10px;
 }
 #msg_enter text {
     background: rgba(119, 205, 242, 1);
@@ -120,6 +122,14 @@
 #chat_settings_box {
     background: rgb(139, 230, 116);
     border-radius: 13.5px;
+}
+
+
+#clip_box {
+    background-image: url("../images/clip_button.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 #send_button_clickable {
@@ -164,7 +174,7 @@
 }
 
 #message {
-    padding: 10px 10px 10px 10px;;
+    padding: 10px 10px 10px 10px;
     background: #FBFDFF;
     border-radius: 13.5px 13.5px 0px 13.5px;
 }
