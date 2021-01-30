@@ -29,7 +29,7 @@ void start_screen(GtkWidget **activity_block) {
 
     GtkWidget *chat_logo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_name(GTK_WIDGET(chat_logo), "chat_logo");
-    gtk_widget_set_size_request(GTK_WIDGET(chat_logo), 280, 206);
+    gtk_widget_set_size_request(GTK_WIDGET(chat_logo), 200, 200);
     gtk_box_pack_start(GTK_BOX(logo_box), chat_logo, FALSE, FALSE, 0);
 
     GtkWidget *login_label = gtk_label_new("Login");
