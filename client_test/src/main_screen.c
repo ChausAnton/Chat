@@ -12,7 +12,7 @@ void display_message(char *message_text) {
     
     GtkWidget *message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
     gtk_widget_set_name(GTK_WIDGET(message_body), "messages_body");
-    gtk_box_pack_start(GTK_BOX(left_box), message_body, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(messanges_area_for_scroll), message_body, FALSE, FALSE, 0);
 
     GtkWidget *message = gtk_label_new(message_text);
     gtk_widget_set_name(GTK_WIDGET(message), "message");
@@ -222,7 +222,7 @@ void send_messege_file(GtkWidget *widget, GdkEventButton *event, gpointer *messs
 
         GtkWidget *message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
         gtk_widget_set_name(GTK_WIDGET(message_body), "messages_body");
-        gtk_box_pack_start(GTK_BOX(left_box), message_body, FALSE, FALSE, 0);
+        gtk_box_pack_start(GTK_BOX(messanges_area_for_scroll), message_body, FALSE, FALSE, 0);
 
         GtkWidget *message_body_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
         gtk_box_pack_end(GTK_BOX(message_body), message_body_box, FALSE, TRUE, 0);
@@ -372,7 +372,7 @@ void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_b
     gtk_box_pack_start(GTK_BOX(left_box), top_area, FALSE, FALSE, 0);
         
         //////Chat Logo
-       GtkWidget *top_chat_avatar = gtk_drawing_area_new();
+        GtkWidget *top_chat_avatar = gtk_drawing_area_new();
         gtk_widget_set_size_request(GTK_WIDGET(top_chat_avatar), 40, 40);
         char *path1 = strdup("resource/images/button.png");
         g_signal_connect(G_OBJECT(top_chat_avatar), "draw", G_CALLBACK(draw_chat_avatar), path1);
@@ -381,6 +381,7 @@ void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_b
         gtk_widget_set_name(GTK_WIDGET(photo_chat_box), "top_chat_photo_box");
         gtk_container_add(GTK_CONTAINER(photo_chat_box), top_chat_avatar);
         gtk_box_pack_start(GTK_BOX(top_area), photo_chat_box, FALSE, FALSE, 10);
+        
         //////Chat Name
         GtkWidget* chat_name_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
         gtk_widget_set_name(GTK_WIDGET(chat_name_box), "top_chat_name_box");
@@ -456,6 +457,19 @@ void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_b
 
     g_signal_connect(G_OBJECT(exit_button_clickable), "button_press_event", G_CALLBACK(gtk_main_quit), NULL);
     //////////
+
+//////Messanges area
+    GtkWidget *messanges_area = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_widget_set_name(GTK_WIDGET(messanges_area), "messanges_area");
+    gtk_box_pack_start(GTK_BOX(left_box), messanges_area, FALSE, FALSE, 0);
+    //gtk_fixed_put(GTK_FIXED(main_fixed), messanges_area, 310, 73);
+        
+    GtkWidget *messanges_area_scroll = gtk_scrolled_window_new(NULL, NULL);
+    gtk_widget_set_size_request(GTK_WIDGET(messanges_area_scroll), 200, 760);
+    gtk_box_pack_start(GTK_BOX(messanges_area), messanges_area_scroll, TRUE, TRUE, 0);   
+
+   messanges_area_for_scroll = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+    gtk_container_add(GTK_CONTAINER(messanges_area_scroll), messanges_area_for_scroll);
 
 //////Bottom area
 GtkWidget *bottom_area = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);

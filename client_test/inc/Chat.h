@@ -38,6 +38,7 @@
 ///////database
 #include <sqlite3.h>
 
+GtkWidget *messanges_area_for_scroll;
 GtkWidget *window;
 GtkWidget *activity_block;
 GtkWidget *sign_in_data[3];
