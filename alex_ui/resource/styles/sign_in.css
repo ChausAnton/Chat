@@ -5,14 +5,12 @@
     background-position: center;
 }
 
-
 #login_box {
     background: rgba(32, 75, 73, 0.8);
     min-width: 380px;
     min-height: 900px;
     border-radius: 8px;
-} 
-
+}
 
 #logo_box {
     background: whitesmoke;

@@ -24,7 +24,7 @@
 #include <stdbool.h>
 #include <math.h>
 
-///server
+// Server
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -32,16 +32,17 @@
 #include <time.h>
 
 
-////////gtk
+// Gtk
 #include <gtk/gtk.h>
 
-///////database
+// Database
 #include <sqlite3.h>
 
+GtkWidget *messanges_area_for_scroll;
 GtkWidget *window;
 GtkWidget *activity_block;
 GtkWidget *sign_in_data[3];
-GtkWidget *left_box;
+GtkWidget *chat_box;
 
 
 typedef struct s_main_data {
