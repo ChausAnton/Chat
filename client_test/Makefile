@@ -48,6 +48,7 @@ RM = rm -rf
 
 PREFIX_NAME = $(addprefix ./, $(NAME))
 QUARTZ_PATH = /Users/$$USER/.brew/Cellar/gtk+3/3.24.24/lib/gtk-3.0/3.0.0/immodules/im-quartz.so
+
 PIXBUFFLOADER_PNG_PATH = /Users/$$USER/.brew/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-png.so
 PIXBUFFLOADER_JPEG_PATH = /Users/$$USER/.brew/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-jpeg.so
 
