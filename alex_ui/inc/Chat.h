@@ -1,6 +1,7 @@
 #pragma once 
-#ifndef chat
-#define chat
+#ifndef CHAT_H
+#define CHAT_H
+
 //ipconfig getifaddr en0 for get ip
 //10.11.7.8 ansh
 //10.11.7.7 anch
@@ -31,7 +32,6 @@
 #include <sys/types.h>
 #include <time.h>
 
-
 // Gtk
 #include <gtk/gtk.h>
 
@@ -44,7 +44,6 @@ GtkWidget *activity_block;
 GtkWidget *sign_in_data[3];
 GtkWidget *chat_box;
 
-
 typedef struct s_main_data {
     GtkWidget *login_box;
     GtkWidget *reg_box;
@@ -52,8 +51,8 @@ typedef struct s_main_data {
 }   t_main_data;
 t_main_data main_data;
 
-void register_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl);
 void start_screen(GtkWidget **activity_block);
+void register_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl);
 void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl);
 
 /* message_stuff.c */
