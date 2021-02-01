@@ -6,7 +6,19 @@ static char* int_to_str(int num) {
    snprintf(result, length + 1, "%d", num);
    return result;
 }
-
+void *scrolling_msg(void *msg) {
+    int height = (strlen((char *)msg) / 50 + 1) * 15;
+    usleep(5000);
+    GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(messanges_area_scroll));
+    for(int i = 0; i < height; i++){
+        gtk_adjustment_set_value(adjustment, gtk_adjustment_get_value(adjustment) + i);
+        gtk_scrolled_window_set_vadjustment(GTK_SCROLLED_WINDOW(messanges_area_scroll), adjustment);
+        usleep(1000);
+    }
+    gtk_widget_hide(messanges_area_scroll);
+    gtk_widget_show(messanges_area_scroll);
+    return NULL;
+}
 void display_message(char *message_text) {
     
     GtkWidget *message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
@@ -17,8 +29,9 @@ void display_message(char *message_text) {
     gtk_widget_set_name(GTK_WIDGET(message), "message");
     gtk_label_set_line_wrap(GTK_LABEL(message), TRUE);
     gtk_label_set_line_wrap_mode(GTK_LABEL(message), PANGO_WRAP_WORD_CHAR);
+    gtk_label_set_selectable(GTK_LABEL(message), TRUE);
     gtk_label_set_max_width_chars(GTK_LABEL(message), 50);
-  
+
     gtk_box_pack_end(GTK_BOX(message_body), message, FALSE, FALSE, 0);
 
     gtk_widget_show_all(left_box);
@@ -37,8 +50,11 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
         if(strlen(text) == 0) return;
 
         printf("messsage: %s\n", text);
-        display_message(text);
         
+        display_message(text);
+        pthread_t display_thread = NULL;
+        pthread_create(&display_thread, NULL, scrolling_msg, (void *)text);
+                
         g_free (text);
         gtk_text_view_set_buffer ((GtkTextView *)messsage, NULL);
     }
@@ -281,6 +297,28 @@ void send_messege_file(GtkWidget *widget, GdkEventButton *event, gpointer *messs
     gtk_widget_destroy (dialog);
 }
 
+/*void scroll_value_changed (GtkAdjustment *adjustment, gpointer       user_data) {
+    double *from_bottom = user_data;
+
+    double value = gtk_adjustment_get_value (adjustment);
+    double upper = gtk_adjustment_get_upper (adjustment);
+    double page_size = gtk_adjustment_get_page_size (adjustment);
+
+    *from_bottom = upper - page_size - value;
+}
+
+void scroll_bottom_gravity (GtkWidget    *scrolled_window, gpointer      user_data)  {
+    GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment (
+        GTK_SCROLLED_WINDOW (scrolled_window));
+
+    double *from_bottom = user_data;
+
+    double upper = gtk_adjustment_get_upper (adjustment);
+    double page_size = gtk_adjustment_get_page_size (adjustment);
+
+    gtk_adjustment_set_value (adjustment, upper - page_size - *from_bottom);
+}*/
+
 void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl) {
     GtkWidget **activity_block = (GtkWidget **)activity_bl;
     gtk_widget_destroy(GTK_WIDGET(main_data.login_box));
@@ -481,11 +519,17 @@ void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_b
     gtk_box_pack_start(GTK_BOX(left_box), messanges_area, FALSE, FALSE, 0);
     //gtk_fixed_put(GTK_FIXED(main_fixed), messanges_area, 310, 73);
         
-    GtkWidget *messanges_area_scroll = gtk_scrolled_window_new(NULL, NULL);
+    messanges_area_scroll = gtk_scrolled_window_new(NULL, NULL);
     gtk_widget_set_size_request(GTK_WIDGET(messanges_area_scroll), 200, 760);
-    gtk_box_pack_start(GTK_BOX(messanges_area), messanges_area_scroll, TRUE, TRUE, 0);   
+    gtk_box_pack_start(GTK_BOX(messanges_area), messanges_area_scroll, TRUE, TRUE, 0);
+    
+    //double from_bottom = 0.0;
+    GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (messanges_area_scroll));
+    gtk_scrolled_window_set_vadjustment(GTK_SCROLLED_WINDOW(messanges_area_scroll), adjustment);
+    //g_signal_connect (messanges_area_scroll, "size-allocate", (GCallback) scrolling_to_bottom, NULL);
+   // g_signal_connect (adjustment, "value-changed", (GCallback) scroll_value_changed, &from_bottom);
 
-   messanges_area_for_scroll = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+    messanges_area_for_scroll = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
     gtk_container_add(GTK_CONTAINER(messanges_area_scroll), messanges_area_for_scroll);
 
 //////Bottom area
