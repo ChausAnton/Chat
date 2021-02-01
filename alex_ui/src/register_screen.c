@@ -1,21 +1,5 @@
 #include "Chat.h"
 
-static void sign_up(GtkWidget *widget, GdkEventButton *event, gpointer *sign_up[]) {
-
-    if (widget) {}
-    if(event->type == GDK_BUTTON_PRESS && event->button == 1){
-        char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)sign_up[0])));
-        printf("login: %s\n", name);
-        gtk_entry_set_text(GTK_ENTRY(sign_up[0]), "");
-        char *passwrod = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)sign_up[1])));
-        printf("password: %s\n", passwrod);
-        gtk_entry_set_text(GTK_ENTRY(sign_up[1]), "");
-        char *repeat_passwrod = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)sign_up[2])));
-        printf("repeat password: %s\n", repeat_passwrod);
-        gtk_entry_set_text(GTK_ENTRY(sign_up[2]), "");
-    }
-}
-
 void register_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl) {
     
     GtkWidget **activity_block = (GtkWidget **)activity_bl;
