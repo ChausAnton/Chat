@@ -1,6 +1,7 @@
 #include "Chat.h"
 
 static void sign_up(GtkWidget *widget, GdkEventButton *event, gpointer *sign_up[]) {
+
     if (widget) {}
     if(event->type == GDK_BUTTON_PRESS && event->button == 1){
         char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)sign_up[0])));
@@ -15,8 +16,8 @@ static void sign_up(GtkWidget *widget, GdkEventButton *event, gpointer *sign_up[
     }
 }
 
-
 void register_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl) {
+    
     GtkWidget **activity_block = (GtkWidget **)activity_bl;
     gtk_widget_destroy(GTK_WIDGET(main_data.login_box));
     //gtk_widget_destroy(GTK_WIDGET(main_data.main_screen_box));

@@ -1,6 +1,7 @@
 #include "Chat.h"
 
 static void sign_in(GtkWidget *widget, GdkEventButton *event, gpointer *login[]) {
+
     if (widget) {}
     if(event->type == GDK_BUTTON_PRESS && event->button == 1){
         char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)login[0])));
@@ -11,7 +12,6 @@ static void sign_in(GtkWidget *widget, GdkEventButton *event, gpointer *login[])
         gtk_entry_set_text(GTK_ENTRY(login[1]), "");
     }
 }
-
 
 void start_screen(GtkWidget **activity_block) {
     
