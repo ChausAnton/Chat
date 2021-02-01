@@ -26,7 +26,6 @@
     min-width: 300px;
     min-height: 71px;
     margin: 0px 5px 6px;
-    transition: 0.2s cubic-bezier(0.18,0.62,0.71,0.5);
 }
 #left_chat_photo_box {
     margin-top: 10px;
@@ -111,6 +110,7 @@
     font-weight: bolder;
     color: rgb(255, 255, 255);
 }
+
 #chat_setting_button {
     background-image: url("../images/triple_dot_icon.png");
     background-size: 100%;
@@ -124,8 +124,8 @@
     background-position: center;
 }
 #chat_settings_box {
-    background: rgb(139, 230, 116);
-    border-radius: 15px;
+    background: rgb(47, 120, 117);
+    border-radius: 15px 5px 15px 15px;
 }
 
 
@@ -186,31 +186,51 @@
 
 #emoji_box {
     padding: 10px;
-    background: rgb(139, 230, 116);
-    border-radius: 13.5px;
+    background: rgb(47, 120, 117);
+    border-radius: 15px 15px 5px 15px;
 }
 #emoji_label {
     font-family: PTSansPro-Demi;
     font-size: 18px;
+    color: whitesmoke;
 }
 #emoji {
     background: rgb(25, 10, 80);
-    border-radius: 13.5px;
+    border-radius: 15px;
 }
 #emoji:hover {
     background: rgb(185, 27, 101);
-    border-radius: 13.5px;
+    border-radius: 15px;
 }
 
 #message {
     padding: 10px 10px 10px 10px;
-    background: #FBFDFF;
-    border-radius: 13.5px 13.5px 0px 13.5px;
+    background: linear-gradient(231.16deg, #683487 5.87%, #433FEE 156.27%);;
+    border-radius: 15px 15px 5px 15px;
+    margin: 4px 10px 0 0;
+    color: whitesmoke;
 }
 #scrollable_box {
-    padding: 15px;
+    margin: 10px 15px 10px 0;
+    padding: 10px 10px 10px 0;
     font-family: PTSansPro-Demi;
-    font-size: 16px;
+    font-size: 18px;
     letter-spacing: initial;
-    color: #FBFDFF;
+    color: whitesmoke;
+}
+#rename_chat_label {
+    margin-left: 0;
+}
+#add_user_label {
+    margin-left: 0;
+}
+#delete_user_label {
+    margin-left: 0;
+}
+#delete_chat_label {
+    margin-left: 0;
+}
+#change_chat_image_label {
+    margin-left: 10px;
+    padding-left: 10px;
 }

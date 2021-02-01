@@ -92,18 +92,18 @@ void show_emoji_box(GtkWidget *widget){
         gtk_widget_set_halign(GTK_WIDGET(emoji_event_box_for_click), GTK_ALIGN_END);
         gtk_widget_set_valign(GTK_WIDGET(emoji_event_box_for_click), GTK_ALIGN_END);
         g_signal_connect(G_OBJECT(emoji_event_box_for_click), "button_press_event", G_CALLBACK(gtk_widget_show), NULL);
-        gtk_fixed_put(GTK_FIXED(position_emoji_box), emoji_event_box_for_click, 1400-280, 900-420);
+        gtk_fixed_put(GTK_FIXED(position_emoji_box), emoji_event_box_for_click, 1205, 545);
 
         GtkWidget *emoji_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
         gtk_widget_set_name(GTK_WIDGET(emoji_box), "emoji_box");
         gtk_container_add(GTK_CONTAINER(emoji_event_box_for_click), emoji_box);
 
         GtkWidget *scrollable_emoji = gtk_scrolled_window_new(NULL, NULL);
-        gtk_widget_set_size_request(GTK_WIDGET(scrollable_emoji), 200, 300);
+        gtk_widget_set_size_request(GTK_WIDGET(scrollable_emoji), 200, 260);
         gtk_box_pack_start(GTK_BOX(emoji_box), scrollable_emoji, FALSE, FALSE, 0);
 
         GtkWidget *emoji_grid = gtk_grid_new();
-        gtk_grid_set_row_spacing(GTK_GRID(emoji_grid), 10);
+        gtk_grid_set_row_spacing(GTK_GRID(emoji_grid), 15);
         gtk_grid_set_column_spacing(GTK_GRID(emoji_grid), 10);
 
         GtkWidget *emoji_label = gtk_label_new("Emoji");
@@ -156,17 +156,17 @@ void show_chat_settings(GtkWidget *widget){
         gtk_widget_set_halign(GTK_WIDGET(clickable_chat_settings), GTK_ALIGN_END);
         gtk_widget_set_valign(GTK_WIDGET(clickable_chat_settings), GTK_ALIGN_END);
         g_signal_connect(G_OBJECT(clickable_chat_settings), "button_press_event", G_CALLBACK(gtk_widget_show), NULL);
-        gtk_fixed_put(GTK_FIXED(position_chat_settings), clickable_chat_settings, 1400-380, 900-860);
+        gtk_fixed_put(GTK_FIXED(position_chat_settings), clickable_chat_settings, 1255, 70);
 
         GtkWidget *chat_settings_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
         gtk_widget_set_name(GTK_WIDGET(chat_settings_box), "chat_settings_box");
         gtk_container_add(GTK_CONTAINER(clickable_chat_settings), chat_settings_box);
 
         GtkWidget *scrollable = gtk_scrolled_window_new(NULL, NULL);
-        gtk_widget_set_size_request(GTK_WIDGET(scrollable), 280, 100);
+        gtk_widget_set_size_request(GTK_WIDGET(scrollable), 230, 206);
         gtk_box_pack_start(GTK_BOX(chat_settings_box), scrollable, FALSE, FALSE, 0);
 
-        GtkWidget *scrollable_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+        GtkWidget *scrollable_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
         gtk_widget_set_name(GTK_WIDGET(scrollable_box), "scrollable_box");
         gtk_container_add(GTK_CONTAINER(scrollable), scrollable_box);
 
@@ -174,35 +174,40 @@ void show_chat_settings(GtkWidget *widget){
         gtk_widget_set_name(GTK_WIDGET(rename_chat_clickable), "rename_chat");
         gtk_box_pack_start(GTK_BOX(scrollable_box), rename_chat_clickable, FALSE, FALSE, 0);
 
-        GtkWidget *rename_chat = gtk_label_new("rename chat");
+        GtkWidget *rename_chat = gtk_label_new("Rename chat");
+        gtk_widget_set_name(GTK_WIDGET(rename_chat_clickable), "rename_chat_label");
         gtk_container_add(GTK_CONTAINER(rename_chat_clickable), rename_chat);
 
         GtkWidget *add_useer_clickable = gtk_event_box_new();    //add_useer, delete_user, delete_chat, change chat image
         gtk_widget_set_name(GTK_WIDGET(add_useer_clickable), "add_useer");
         gtk_box_pack_start(GTK_BOX(scrollable_box), add_useer_clickable, FALSE, FALSE, 0);
 
-        GtkWidget *add_useer = gtk_label_new("add useer");
+        GtkWidget *add_useer = gtk_label_new("Add user");
+        gtk_widget_set_name(GTK_WIDGET(rename_chat_clickable), "add_user_label");
         gtk_container_add(GTK_CONTAINER(add_useer_clickable), add_useer);
 
         GtkWidget *delete_user_clickable = gtk_event_box_new();    //add_useer, delete_user, delete_chat ,change chat image
         gtk_widget_set_name(GTK_WIDGET(delete_user_clickable), "delete user");
         gtk_box_pack_start(GTK_BOX(scrollable_box), delete_user_clickable, FALSE, FALSE, 0);
 
-        GtkWidget *delete_user = gtk_label_new("delete user");
+        GtkWidget *delete_user = gtk_label_new("Delete user");
+        gtk_widget_set_name(GTK_WIDGET(rename_chat_clickable), "delete_user_label");
         gtk_container_add(GTK_CONTAINER(delete_user_clickable), delete_user);
 
         GtkWidget *delete_chat_clickable = gtk_event_box_new();    //add_useer, delete_user, delete_chat, change chat image
         gtk_widget_set_name(GTK_WIDGET(delete_chat_clickable), "delete_chat");
         gtk_box_pack_start(GTK_BOX(scrollable_box), delete_chat_clickable, FALSE, FALSE, 0);
 
-        GtkWidget *delete_chat = gtk_label_new("delete chat");
+        GtkWidget *delete_chat = gtk_label_new("Delete chat");
+        gtk_widget_set_name(GTK_WIDGET(rename_chat_clickable), "delete_chat_label");
         gtk_container_add(GTK_CONTAINER(delete_chat_clickable), delete_chat);
 
         GtkWidget *change_chat_image_clickable = gtk_event_box_new();    //add_useer, delete_user, delete_chat, change chat image
         gtk_widget_set_name(GTK_WIDGET(change_chat_image_clickable), "change_chat_image");
         gtk_box_pack_start(GTK_BOX(scrollable_box), change_chat_image_clickable, FALSE, FALSE, 0);
 
-        GtkWidget *change_chat_image = gtk_label_new("change chat image");
+        GtkWidget *change_chat_image = gtk_label_new("Change chat image");
+        gtk_widget_set_name(GTK_WIDGET(rename_chat_clickable), "change_chat_image_label");
         gtk_container_add(GTK_CONTAINER(change_chat_image_clickable), change_chat_image);
 
 
@@ -436,7 +441,6 @@ void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_b
     add_style(user_image, "user_image", styles);
     gtk_container_add(GTK_CONTAINER(user_photo), user_image);*/
     ///////////settings_button
-
     GtkWidget *settings_button_clickable = gtk_event_box_new();
     gtk_widget_set_halign(GTK_WIDGET(settings_button_clickable), GTK_ALIGN_CENTER);
     gtk_widget_set_valign(GTK_WIDGET(settings_button_clickable), GTK_ALIGN_CENTER);
