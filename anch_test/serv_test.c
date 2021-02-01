@@ -1,11 +1,29 @@
-#include "Chat.h"
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <ncurses.h>
+#include <time.h>
+#include <errno.h>
+#include <string.h>
+#include <memory.h>
+#include <netdb.h>
+#include <netinet/in.h>
 
+///server
+#include <sys/stat.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <sys/types.h>
+#include <time.h>
+
+
+#define SERVERPORT 8444
 
 int main(int argc, char *argv[]) {
     int socket_desc , client_sock , c , *new_sock;
 	struct sockaddr_in server , client;
-	
-	db_open("database/uchat.db", &db);
 
 	//Create socket
 	socket_desc = socket(AF_INET , SOCK_STREAM , 0);
@@ -20,6 +38,7 @@ int main(int argc, char *argv[]) {
 	server.sin_port = htons(SERVERPORT);
 	
 	//Bind
+	
 	if( bind(socket_desc,(struct sockaddr *)&server , sizeof(server)) < 0) {
 		perror("bind failed. Error");
 		return 1;
@@ -35,21 +54,18 @@ int main(int argc, char *argv[]) {
 
 	int i = 0;
 	while( (client_sock = accept(socket_desc, (struct sockaddr *)&client, (socklen_t*)&c)) ) {
-		puts("Connection accepted");
-
-		pthread_t sniffer_thread;
-		int *new_sock = malloc(1);
-		*new_sock = client_sock;
-		if( pthread_create( &sniffer_thread , NULL ,  connection_handler , (void*) new_sock) < 0) {
-			perror("could not create thread");
-			return 1;
-		}
-		
-		
-		//Now join the thread , so that we dont terminate before the thread
-		//pthread_join( sniffer_thread , NULL);
-		puts("Handler assigned");
-		
+        
+		printf("Reading Picture Size\n");
+                char p_array[1];
+                FILE *image = fopen("c1.png", "w");
+                int nb = read(client_sock, p_array, 1);
+                while (nb > 0) {
+                    fwrite(p_array, 1, nb, image);
+                    nb = read(client_sock, p_array, 1);
+                    printf("%d\n", nb);
+                }
+                fclose(image);
+                return 0;
 	}
 
 	close(socket_desc);
