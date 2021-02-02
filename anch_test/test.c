@@ -55,7 +55,7 @@ int mx_strlen(const char *s) {
 }
 
 void mx_str_reverse(char *s) {
-    int len = mx_strlen(s);
+    int len = strlen(s);
     
     for (int i = 0; i < len/2; i++) {
         mx_swap_char(&s[i], &s[len - 1 - i]);
@@ -73,7 +73,7 @@ char *mx_itoa(int number) {
     }
     
     char *arr = NULL;
-    arr = mx_strnew(lenght);
+    arr = strnew(lenght);
     bool min = false;
     num = number;
     int i = 0;

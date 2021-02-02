@@ -14,6 +14,30 @@ void *reader(void *new_sock) {
 			close(sock);
 			break;
 		}
+
+		if (strcmp(server_reply, "@image") == 0) {
+			char image_name[20];
+			recv(sock , image_name , 20 , 0);
+
+			recv(sock ,  server_reply, 2000 , 0);
+			int size = atoi(server_reply);
+
+			printf("Reading Picture\n");
+            char p_array[1];
+            FILE *image = fopen("c1.jpg", "w");
+            int nb = read(sock, p_array, 1);
+            while (size >= 1) {
+                fwrite(p_array, 1, nb, image);
+                nb = read(sock, p_array, 1);
+				size--;
+            }
+            fclose(image);
+			for(int i = 0; i < 2000; i++) {
+				server_reply[i] = '\0';
+			}
+			printf("@@@@@@@@@@@@@\n");
+			continue;
+		}
 		
 		printf("%s\n", server_reply);
 		
@@ -68,7 +92,35 @@ int main(int argc , char *argv[])
 		for(int i = 0; i < 1000; i++)
 			message[i] = '\0';
 
-		scanf("%s" , message);
+		gets(message);
+
+		if (strcmp(message, "@image") == 0) {
+			write(sock , "@image" , strlen("@image"));
+
+			printf("input image name:\n");
+			gets(message);
+			write(sock , message , strlen(message));
+
+            FILE *picture;
+			picture = fopen(message, "r");
+			fseek(picture, 0, SEEK_END);
+			int size = ftell(picture);
+			fseek(picture, 0, SEEK_SET);
+
+			write(sock , mx_itoa(size) , strlen(mx_itoa(size)));
+
+            
+            char send_buffer[1]; // no link between BUFSIZE and the file size
+            int nb = fread(send_buffer, 1, sizeof(send_buffer), picture);
+            while(!feof(picture)) {
+                write(sock, send_buffer, nb);
+                nb = fread(send_buffer, 1, sizeof(send_buffer), picture);
+            }
+			write(sock, " ", 1);
+			printf("!!!!!!\n");
+			fclose(picture);
+			continue;
+		}
 		
 		if( send(sock , message , strlen(message) , 0) < 0)
 		{

@@ -47,6 +47,35 @@ void *connection_handler(void *new_sock) {
 			break;
 		}
 
+		if (strcmp(client_message, "@image") == 0) {
+			write(sock_to , "@image" , strlen("@image"));
+			char image_name[20];
+			(read_size = recv(sock_from , image_name , 20 , 0));
+			write(sock_to , image_name , strlen(image_name));
+			printf("Reading Picture\n");
+            char p_array[1];
+
+			client_message = clear_client_message(client_message);
+			recv(sock_from ,  client_message, 20 , 0);
+			int size = atoi(client_message);
+			write(sock_to, client_message, strlen(client_message));
+
+			//FILE *image = fopen("c1.jpg", "w");
+            int nb = read(sock_from, p_array, 1);
+            while (size >= 1) {
+                //fwrite(p_array, 1, nb, image);
+				write(sock_to, p_array, nb);
+                nb = read(sock_from, p_array, 1);
+				size--;
+            }
+			write(sock_to, " ", 1);
+			write(sock_from, " ", 1);
+
+			client_message = clear_client_message(client_message);
+			printf("serv image end\n");
+			continue;
+
+		}
 		write(sock_to , client_message , strlen(client_message));
 
 		client_message = clear_client_message(client_message);
