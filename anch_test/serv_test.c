@@ -19,7 +19,7 @@
 #include <time.h>
 
 
-#define SERVERPORT 8444
+#define SERVERPORT 8445
 
 static const unsigned char base64_table[65] =
 	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -179,14 +179,18 @@ int main(int argc, char *argv[]) {
         char p_array[1000];
 		printf("Reading Picture Size\n");
         FILE *image = fopen("c1.jpg", "wb");
-		read(client_sock, p_array, 1000);
+		recv(client_sock , p_array , 1000 , 0);
 		int b64_size = atoi(p_array);
 		unsigned char b64[b64_size];
-		read(client_sock, b64, b64_size);
+		for(int i = 0; i < b64_size; i++)
+			b64[i] = '\0';
+			
+		recv(client_sock , b64 , b64_size , 0);
+
 		size_t b64_dec_len = b64_size * 3 / 4;
 		unsigned char *b64_dec = base64_decode(b64, b64_size, &b64_dec_len);
 		fwrite(b64_dec, b64_dec_len, 1, image);
-
+		printf("%s\n", b64);
         fclose(image);
         return 0;
 	}

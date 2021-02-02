@@ -18,7 +18,7 @@
 #include <sys/types.h>
 #include <time.h>
 
-#define SERVERPORT 8444
+#define SERVERPORT 8445
 #define SERVERADDR "localhost"
 
 static const unsigned char base64_table[65] =
@@ -259,9 +259,10 @@ int main(int argc , char *argv[])
 
             size_t b64_len = 0;
             unsigned char  *send_buffer = base64_encode(buffer, size, &b64_len);
+			send(sock , mx_itoa(b64_len), strlen(mx_itoa(b64_len)), 0);
+			send(sock , send_buffer, b64_len, 0);
 
-            write(sock, mx_itoa(b64_len), strlen(mx_itoa(b64_len)));
-            write(sock, send_buffer, b64_len);
+			printf("%s\n", send_buffer);
 			fclose(picture);
 
 	close(sock);
