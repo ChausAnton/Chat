@@ -1,5 +1,12 @@
 #include "Chat.h"
-
+void *scrolling_msg() {
+    usleep(50000);
+    GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(messanges_area_scroll));
+    gtk_adjustment_set_value(adjustment, gtk_adjustment_get_upper(adjustment));
+    gtk_widget_hide(messanges_area_scroll);
+    gtk_widget_show(messanges_area_scroll);
+    return NULL;
+}
 void display_message(char *message_text) {
     
     GtkWidget *message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
@@ -12,6 +19,9 @@ void display_message(char *message_text) {
     gtk_label_set_line_wrap_mode(GTK_LABEL(message), PANGO_WRAP_WORD_CHAR);
     gtk_label_set_max_width_chars(GTK_LABEL(message), 50);
     gtk_box_pack_end(GTK_BOX(message_body), message, FALSE, FALSE, 0);
+
+    pthread_t display_thread = NULL;
+    pthread_create(&display_thread, NULL, scrolling_msg, NULL);
 
     gtk_widget_show_all(chat_box);
 }
@@ -90,11 +100,14 @@ void send_messege_file(GtkWidget *widget, GdkEventButton *event, gpointer *messs
             
             if(strlen(text) != 0){
                 GtkWidget *message = gtk_label_new(text);
+                gtk_widget_set_name(GTK_WIDGET(message), "message_with_file");
                 gtk_label_set_line_wrap(GTK_LABEL(message), TRUE);
                 gtk_label_set_line_wrap_mode(GTK_LABEL(message), PANGO_WRAP_WORD_CHAR);
                 gtk_label_set_max_width_chars(GTK_LABEL(message), 50);
                 gtk_box_pack_end(GTK_BOX(message_body_box), message, FALSE, FALSE, 0);
             }
+            pthread_t display_thread = NULL;
+            pthread_create(&display_thread, NULL, scrolling_msg, NULL);
             g_free (text);  
             gtk_text_view_set_buffer ((GtkTextView *)messsage, NULL);
         }
