@@ -39,6 +39,10 @@ void *reader(void *new_sock) {
 			printf("@@@@@@@@@@@@@\n");
 			continue;
 		}
+
+		if(strcmp("@@end", server_reply) == 0) {
+			send(sock , "@@end" , strlen("@@end") , 0);
+		}
 		
 		printf("%s\n", server_reply);
 		

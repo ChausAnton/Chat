@@ -71,7 +71,7 @@ void *connection_handler(void *new_sock) {
             }
 			//fclose(image);
 			write(sock_to, "  ", 2);
-			recv(sock_to , client_message , 4 , 0);
+			recv(sock_from , client_message , 4 , 0);
 			send(sock_from , "@end" , strlen("@end") , 0);
 			printf("!!!!!!!!!!\n");
 			client_message = clear_client_message(client_message);
