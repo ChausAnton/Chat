@@ -6,7 +6,7 @@ void show_chat_settings(GtkWidget *widget) {
     
     GtkWidget *chat_settings_event_box = gtk_event_box_new();
     gtk_widget_set_name(GTK_WIDGET(chat_settings_event_box), "chat_settings_event_box");
-    gtk_widget_set_size_request(GTK_WIDGET(chat_settings_event_box), 1400, 900);
+    gtk_widget_set_size_request(GTK_WIDGET(chat_settings_event_box), 1498, 900);
     g_signal_connect(G_OBJECT(chat_settings_event_box), "button_press_event", G_CALLBACK(unpress_event_box), widget);
     gtk_fixed_put(GTK_FIXED(activity_block), chat_settings_event_box, 0, 0);
 

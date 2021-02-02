@@ -1,11 +1,5 @@
 #include "Chat.h"
 
-void smile_menu(GtkWidget *widget, GdkEventButton *event) {
-    if (widget) {}
-    if(event->type == GDK_BUTTON_PRESS && event->button == 1){
-    }
-}
-
 void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl) {
 
     GtkWidget **activity_block = (GtkWidget **)activity_bl;
@@ -24,12 +18,12 @@ void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_b
     gtk_widget_set_size_request(GTK_WIDGET(main_data.main_screen_box), WINDOW_SIZE_X, WINDOW_SIZE_Y);
     gtk_fixed_put(GTK_FIXED(*activity_block), main_data.main_screen_box, 0, 0);
 
-// Gtk fixed
+    // Gtk fixed
     GtkWidget *main_fixed = gtk_fixed_new();
     gtk_widget_set_size_request(GTK_WIDGET(main_fixed), 300, 100);
     gtk_container_add(GTK_CONTAINER(main_data.main_screen_box), main_fixed);
 
-// Chat bar
+    // Chat bar
     GtkWidget *chats[15];
 
     GtkWidget *chat_bar = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
@@ -172,10 +166,10 @@ void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_b
 
     GtkWidget *settings_button = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
     gtk_widget_set_name(GTK_WIDGET(settings_button), "settings_button");
-    gtk_widget_set_size_request(GTK_WIDGET(settings_button), 18, 18);
+    gtk_widget_set_size_request(GTK_WIDGET(settings_button), 20, 20);
     gtk_container_add(GTK_CONTAINER(settings_button_clickable), settings_button);
 
-    g_signal_connect(G_OBJECT(settings_button_clickable), "button_press_event", G_CALLBACK(register_screen), (gpointer **)activity_bl);
+    g_signal_connect(G_OBJECT(settings_button_clickable), "button_press_event", G_CALLBACK(show_user_settings), (gpointer **)activity_bl);
 
     // Exit button
     GtkWidget *exit_button_clickable = gtk_event_box_new();
@@ -185,7 +179,7 @@ void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_b
 
     GtkWidget *exit_button = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_name(GTK_WIDGET(exit_button), "exit_button");
-    gtk_widget_set_size_request(GTK_WIDGET(exit_button), 18, 18);
+    gtk_widget_set_size_request(GTK_WIDGET(exit_button), 19, 19);
     gtk_container_add(GTK_CONTAINER(exit_button_clickable), exit_button);
 
     g_signal_connect(G_OBJECT(exit_button_clickable), "button_press_event", G_CALLBACK(gtk_main_quit), NULL);

@@ -101,4 +101,6 @@ void send_messege_file(GtkWidget *widget, GdkEventButton *event, gpointer *messs
         gtk_widget_show_all(chat_box);
     }
     gtk_widget_destroy (dialog);
+    
+    gtk_widget_unset_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT);
 }

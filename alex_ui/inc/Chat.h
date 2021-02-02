@@ -76,6 +76,9 @@ void emoji_click(GtkWidget *widget);
 /* chat_settings.c */
 void show_chat_settings(GtkWidget *widget);
 
+/* user_settings.c */
+void show_user_settings(GtkWidget *widget);
+
 gboolean draw_user_avatar(GtkWidget *widget, cairo_t *cr, char* path);
 gboolean draw_chat_avatar(GtkWidget *widget, cairo_t *cr, char* path);
 
