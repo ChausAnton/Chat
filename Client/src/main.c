@@ -32,6 +32,7 @@ void *reader(void *new_sock) {
 				size--;
             }
             fclose(image);
+			send(sock , "@@end" , strlen("@@end") , 0);
 			for(int i = 0; i < 2000; i++) {
 				server_reply[i] = '\0';
 			}
@@ -119,6 +120,8 @@ int main(int argc , char *argv[])
 			write(sock, " ", 1);
 			printf("!!!!!!\n");
 			fclose(picture);
+			recv(sock, message, 3 , 0);
+			printf("&&&&&&&&&&&&&\n");
 			continue;
 		}
 		

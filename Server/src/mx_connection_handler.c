@@ -67,15 +67,18 @@ void *connection_handler(void *new_sock) {
 				write(sock_to, p_array, nb);
                 nb = read(sock_from, p_array, 1);
 				size--;
+				
             }
-			write(sock_to, " ", 1);
-			write(sock_from, " ", 1);
-
+			//fclose(image);
+			write(sock_to, "  ", 2);
+			recv(sock_to , client_message , 4 , 0);
+			send(sock_from , "@end" , strlen("@end") , 0);
+			printf("!!!!!!!!!!\n");
 			client_message = clear_client_message(client_message);
 			printf("serv image end\n");
 			continue;
-
 		}
+
 		write(sock_to , client_message , strlen(client_message));
 
 		client_message = clear_client_message(client_message);
