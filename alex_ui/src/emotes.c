@@ -11,7 +11,7 @@ void show_emoji_box(GtkWidget *widget) {
 
     GtkWidget *emoji_event_box = gtk_event_box_new();
     gtk_widget_set_name(GTK_WIDGET(emoji_event_box), "emoji_event_box");
-    gtk_widget_set_size_request(GTK_WIDGET(emoji_event_box), 1498, 900);
+    gtk_widget_set_size_request(GTK_WIDGET(emoji_event_box), 1400, 900);
     g_signal_connect(G_OBJECT(emoji_event_box), "button_press_event", G_CALLBACK(unpress_event_box), widget);
     gtk_fixed_put(GTK_FIXED(activity_block), emoji_event_box, 0, 0);
 
@@ -22,7 +22,7 @@ void show_emoji_box(GtkWidget *widget) {
     gtk_widget_set_halign(GTK_WIDGET(emoji_event_box_for_click), GTK_ALIGN_END);
     gtk_widget_set_valign(GTK_WIDGET(emoji_event_box_for_click), GTK_ALIGN_END);
     g_signal_connect(G_OBJECT(emoji_event_box_for_click), "button_press_event", G_CALLBACK(gtk_widget_show), NULL);
-    gtk_fixed_put(GTK_FIXED(position_emoji_box), emoji_event_box_for_click, 1205, 545);
+    gtk_fixed_put(GTK_FIXED(position_emoji_box), emoji_event_box_for_click, 1110, 545);
 
     GtkWidget *emoji_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_name(GTK_WIDGET(emoji_box), "emoji_box");

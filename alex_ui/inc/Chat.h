@@ -37,7 +37,7 @@
 
 // Database
 #include <sqlite3.h>
-
+GtkWidget *messages_area_scroll;
 GtkWidget *messanges_area_for_scroll;
 GtkWidget *window;
 GtkWidget *activity_block;
@@ -51,14 +51,14 @@ typedef struct s_main_data {
 }   t_main_data;
 t_main_data main_data;
 
-void start_screen(GtkWidget **activity_block);
+void start_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl);
 void register_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl);
 void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl);
 
 /* message_stuff.c */
 void display_message(char *message_text);
 void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage);
-void send_messege_file(GtkWidget *widget, GdkEventButton *event, gpointer *messsage);
+void send_message_file(GtkWidget *widget, GdkEventButton *event, gpointer *messsage);
 
 /* utility_funcs.c */
 char *int_to_str(int num);
@@ -79,7 +79,8 @@ void show_chat_settings(GtkWidget *widget);
 /* user_settings.c */
 void show_user_settings(GtkWidget *widget);
 
+/* draw.c */
 gboolean draw_user_avatar(GtkWidget *widget, cairo_t *cr, char* path);
 gboolean draw_chat_avatar(GtkWidget *widget, cairo_t *cr, char* path);
-
+gboolean draw_user_settings_avatar(GtkWidget *widget, cairo_t *cr, char* path);
 #endif

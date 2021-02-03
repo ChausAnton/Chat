@@ -37,6 +37,17 @@ void draw_circle(int width, int height, cairo_t *cr) {
     cairo_fill(cr);
 }
 
+gboolean draw_user_settings_avatar(GtkWidget *widget, cairo_t *cr, char* path) {
+    GdkPixbuf *pixbuf = get_pixbuf_with_size(path, 100, 100);
+    gdk_cairo_set_source_pixbuf(cr, pixbuf, 0, 0);
+    g_object_unref(G_OBJECT(pixbuf));
+
+    draw_circle(100, 100, cr);
+     
+    if (widget) {}
+    return FALSE;
+}
+
 gboolean draw_user_avatar(GtkWidget *widget, cairo_t *cr, char* path) {
     GdkPixbuf *pixbuf = get_pixbuf_with_size(path, 80, 80);
     gdk_cairo_set_source_pixbuf(cr, pixbuf, 0, 0);

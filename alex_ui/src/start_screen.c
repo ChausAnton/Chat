@@ -1,14 +1,21 @@
 #include "Chat.h"
 
-void start_screen(GtkWidget **activity_block) {
+void start_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl) {
     
+    write(2, "Bruuuh\n", 7);
+    if(main_data.main_screen_box)gtk_widget_destroy(GTK_WIDGET(main_data.main_screen_box));
+    if(main_data.reg_box)gtk_widget_destroy(GTK_WIDGET(main_data.reg_box));
+    if (widget) {}
+    if(event){}
+    write(2, "Bruuuh\n", 7);
+
     GtkCssProvider *styles = gtk_css_provider_new();
     gtk_css_provider_load_from_path(styles, "resource/styles/sign_in.css", NULL);
     gtk_style_context_add_provider_for_screen(gdk_screen_get_default(), GTK_STYLE_PROVIDER(styles), GTK_STYLE_PROVIDER_PRIORITY_USER);
 
     main_data.login_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_name(GTK_WIDGET(main_data.login_box), "login_box");
-    gtk_fixed_put(GTK_FIXED(*activity_block), main_data.login_box, 208, 0);
+    gtk_fixed_put(GTK_FIXED(activity_block), main_data.login_box, 208, 0);
 
     GtkWidget *logo_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_name(GTK_WIDGET(logo_box), "logo_box");
@@ -49,9 +56,8 @@ void start_screen(GtkWidget **activity_block) {
     gtk_box_pack_start(GTK_BOX(main_data.login_box), signup_button, FALSE, FALSE, 0);
 
     g_signal_connect(G_OBJECT(signin_button), "button_press_event", G_CALLBACK(sign_in), sign_in_data);
-    g_signal_connect(G_OBJECT(signin_button), "button_press_event", G_CALLBACK(main_screen), (gpointer **)activity_block);
+    g_signal_connect(G_OBJECT(signin_button), "button_press_event", G_CALLBACK(main_screen), (gpointer **)activity_bl);
     
-    g_signal_connect(G_OBJECT(signup_button), "button_press_event", G_CALLBACK(register_screen), (gpointer **)activity_block);
-
+    g_signal_connect(G_OBJECT(signup_button), "button_press_event", G_CALLBACK(register_screen), (gpointer **)activity_bl);
     gtk_widget_show_all(main_data.login_box);
 }

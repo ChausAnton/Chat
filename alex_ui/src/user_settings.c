@@ -6,7 +6,7 @@ void show_user_settings(GtkWidget *widget) {
 
     GtkWidget *user_settings_event_box = gtk_event_box_new();
     gtk_widget_set_name(GTK_WIDGET(user_settings_event_box), "user_settings_event_box");
-    gtk_widget_set_size_request(GTK_WIDGET(user_settings_event_box), 1498, 900);
+    gtk_widget_set_size_request(GTK_WIDGET(user_settings_event_box), 1400, 900);
     g_signal_connect(G_OBJECT(user_settings_event_box), "button_press_event", G_CALLBACK(unpress_event_box), widget);
     gtk_fixed_put(GTK_FIXED(activity_block), user_settings_event_box, 0, 0);
 
@@ -17,7 +17,7 @@ void show_user_settings(GtkWidget *widget) {
     gtk_widget_set_halign(GTK_WIDGET(clickable_user_settings), GTK_ALIGN_END);
     gtk_widget_set_valign(GTK_WIDGET(clickable_user_settings), GTK_ALIGN_END);
     g_signal_connect(G_OBJECT(clickable_user_settings), "button_press_event", G_CALLBACK(gtk_widget_show), NULL);
-    gtk_fixed_put(GTK_FIXED(position_user_settings), clickable_user_settings, 680, 100);
+    gtk_fixed_put(GTK_FIXED(position_user_settings), clickable_user_settings, 640, 100);
 
     GtkWidget *user_settings_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
     gtk_widget_set_name(GTK_WIDGET(user_settings_box), "user_settings_box");
@@ -30,6 +30,18 @@ void show_user_settings(GtkWidget *widget) {
     GtkWidget *scrollable_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_name(GTK_WIDGET(scrollable_box), "scrollable_box");
     gtk_container_add(GTK_CONTAINER(scrollable), scrollable_box);
+
+    GtkWidget *user_settings_avatar = gtk_drawing_area_new();
+    gtk_widget_set_size_request(GTK_WIDGET(user_settings_avatar), 100, 100);
+    char *path = strdup("resource/images/start.png");
+    g_signal_connect(G_OBJECT(user_settings_avatar), "draw", G_CALLBACK(draw_user_settings_avatar), path);
+
+    GtkWidget *user_settings_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_widget_set_name(GTK_WIDGET(user_settings_photo), "user_settings_photo");
+    gtk_container_add(GTK_CONTAINER(user_settings_photo), user_settings_avatar);
+    gtk_box_pack_start(GTK_BOX(scrollable_box), user_settings_photo, FALSE, FALSE, 0);
+
+    
 
     gtk_widget_show_all(GTK_WIDGET(user_settings_event_box));
 }

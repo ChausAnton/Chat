@@ -20,13 +20,16 @@
         background-repeat: no-repeat;
         background-position: center;
     }
-    #user_settings_event_box{
-        background: rgba(0, 0, 0, 0.4);
-    }
-    #user_settings_box {
-        background: rgb(47, 120, 117);
-        border-radius: 15px;
-    }
+        #user_settings_event_box {
+            background: rgba(0, 0, 0, 0.4);
+        }
+        #user_settings_box {
+            background: rgb(47, 120, 117);
+            border-radius: 15px;
+        }
+        #user_settings_photo {
+            margin: 10px;
+        }
 
     #user_photo {
         margin-top: 10px;
@@ -77,7 +80,7 @@
             background: linear-gradient(119.22deg, rgba(104, 52, 135, 0.8) 22.83%, rgba(67, 63, 238, 0.8) 119.04%);
             margin-left: 5px;
             margin-right: 5px;
-            transition: 250ms ease-in-out;
+            transition: 100ms ease-in-out;
         }
 /****************************************/
 
@@ -113,8 +116,14 @@
         background-repeat: no-repeat;
         background-position: center;
     }
+    #chat_setting_button:hover {
+        background-image: url("../images/tripledot_icon_active.png");
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
     #chat_setting_button:active {
-        background-image: url("../images/settings_icon.png");
+        background-image: url("../images/tripledot_icon_active.png");
         background-size: 100%;
         background-repeat: no-repeat;
         background-position: center;
@@ -277,6 +286,8 @@
     border-radius: 15px 15px 5px 15px;
     margin: 4px 10px 0 0;
     color: whitesmoke;
+    font-family: PTSansPro-Demi;
+    font-size: 18px;
 }
 #message_with_file {
     margin-top: 3px;

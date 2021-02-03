@@ -1,12 +1,17 @@
 #include "Chat.h"
+
 void *scrolling_msg() {
+
     usleep(50000);
-    GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(messanges_area_scroll));
+    GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(messages_area_scroll));
     gtk_adjustment_set_value(adjustment, gtk_adjustment_get_upper(adjustment));
-    gtk_widget_hide(messanges_area_scroll);
-    gtk_widget_show(messanges_area_scroll);
+
+    gtk_widget_hide(messages_area_scroll);
+    gtk_widget_show(messages_area_scroll);
+
     return NULL;
 }
+
 void display_message(char *message_text) {
     
     GtkWidget *message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
@@ -37,7 +42,7 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
         gtk_text_buffer_get_bounds (buffer, &start, &end);
         text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
         if(strlen(text) == 0) return;
-        printf("messsage: %s\n", text);
+        //printf("messsage: %s\n", text);
         display_message(text);
         
         g_free (text);
@@ -45,7 +50,7 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
     }
 }
 
-void send_messege_file(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) {
+void send_message_file(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) {
 
     GtkWidget *dialog = gtk_file_chooser_dialog_new("User image", GTK_WINDOW(window), GTK_FILE_CHOOSER_ACTION_OPEN, "Cancel", GTK_RESPONSE_CANCEL, "Open", GTK_RESPONSE_ACCEPT, NULL);
     gint run = gtk_dialog_run(GTK_DIALOG(dialog));
@@ -54,7 +59,7 @@ void send_messege_file(GtkWidget *widget, GdkEventButton *event, gpointer *messs
         GtkFileChooser *chooser = GTK_FILE_CHOOSER(dialog);
 
         gchar *source_path = gtk_file_chooser_get_filename(chooser);
-        printf("Path: %s\n", source_path);
+        //printf("Path: %s\n", source_path);
 
         gchar *filename = source_path;
 
@@ -96,11 +101,12 @@ void send_messege_file(GtkWidget *widget, GdkEventButton *event, gpointer *messs
 
             gtk_text_buffer_get_bounds (buffer, &start, &end);
             text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
-            printf("messsage: %s\n", text);
+            //printf("messsage: %s\n", text);
             
             if(strlen(text) != 0){
                 GtkWidget *message = gtk_label_new(text);
                 gtk_widget_set_name(GTK_WIDGET(message), "message_with_file");
+                gtk_widget_set_halign(GTK_WIDGET(message), GTK_ALIGN_START);
                 gtk_label_set_line_wrap(GTK_LABEL(message), TRUE);
                 gtk_label_set_line_wrap_mode(GTK_LABEL(message), PANGO_WRAP_WORD_CHAR);
                 gtk_label_set_max_width_chars(GTK_LABEL(message), 50);
@@ -114,6 +120,6 @@ void send_messege_file(GtkWidget *widget, GdkEventButton *event, gpointer *messs
         gtk_widget_show_all(chat_box);
     }
     gtk_widget_destroy (dialog);
-    
+
     gtk_widget_unset_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT);
 }
