@@ -39,6 +39,7 @@ void register_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activi
 
     sign_in_data[1] = gtk_entry_new();
     gtk_widget_set_name(GTK_WIDGET(sign_in_data[1]), "password");
+    gtk_entry_set_visibility(GTK_ENTRY(sign_in_data[1]), FALSE);
     gtk_entry_set_max_length(GTK_ENTRY(sign_in_data[1]), 30);
     gtk_box_pack_start(GTK_BOX(main_data.reg_box), sign_in_data[1], FALSE, FALSE, 0);
 
@@ -48,6 +49,7 @@ void register_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activi
 
     sign_in_data[2] = gtk_entry_new();
     gtk_widget_set_name(GTK_WIDGET(sign_in_data[2]), "repeat_password");
+    gtk_entry_set_visibility(GTK_ENTRY(sign_in_data[2]), FALSE);
     gtk_entry_set_max_length(GTK_ENTRY(sign_in_data[2]), 30);
     gtk_box_pack_start(GTK_BOX(main_data.reg_box), sign_in_data[2], FALSE, FALSE, 0);
 
@@ -57,6 +59,19 @@ void register_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activi
     gtk_box_pack_start(GTK_BOX(main_data.reg_box), signup_button, FALSE, FALSE, 0);
 
     g_signal_connect(G_OBJECT(signup_button), "button_press_event", G_CALLBACK(sign_up), sign_in_data);
+
+    GtkWidget *account_exists_clickable = gtk_event_box_new();
+    gtk_widget_set_name(GTK_WIDGET(account_exists_clickable), "account_exists_clickable");
+    gtk_box_pack_start(GTK_BOX(main_data.reg_box), account_exists_clickable, FALSE, FALSE, 0);
+
+    GtkWidget *account_exists_label = gtk_label_new("Already have an account?");
+    gtk_widget_set_name(GTK_WIDGET(account_exists_label), "account_exists_label");
+    gtk_container_add(GTK_CONTAINER(account_exists_clickable), account_exists_label);
+
+    g_signal_connect(G_OBJECT(account_exists_clickable), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
+    g_signal_connect(G_OBJECT(account_exists_clickable), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
+
+    g_signal_connect(G_OBJECT(account_exists_clickable), "button_press_event", G_CALLBACK(start_screen), (gpointer **)activity_block);
 
     gtk_widget_show_all(main_data.reg_box);
 }
