@@ -2,12 +2,12 @@
 
 void start_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl) {
     
-    write(2, "Bruuuh\n", 7);
-    if(main_data.main_screen_box)gtk_widget_destroy(GTK_WIDGET(main_data.main_screen_box));
-    if(main_data.reg_box)gtk_widget_destroy(GTK_WIDGET(main_data.reg_box));
+    //if(back_from_reg_screen_button_clickable) gtk_widget_destroy(GTK_WIDGET(back_from_reg_screen_button_clickable));
+    if(main_data.main_screen_box) gtk_widget_destroy(GTK_WIDGET(main_data.main_screen_box));
+    if(main_data.reg_box) gtk_widget_destroy(GTK_WIDGET(main_data.reg_box));
+
     if (widget) {}
     if(event){}
-    write(2, "Bruuuh\n", 7);
 
     GtkCssProvider *styles = gtk_css_provider_new();
     gtk_css_provider_load_from_path(styles, "resource/styles/sign_in.css", NULL);
@@ -59,5 +59,6 @@ void start_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_
     g_signal_connect(G_OBJECT(signin_button), "button_press_event", G_CALLBACK(main_screen), (gpointer **)activity_bl);
     
     g_signal_connect(G_OBJECT(signup_button), "button_press_event", G_CALLBACK(register_screen), (gpointer **)activity_bl);
+
     gtk_widget_show_all(main_data.login_box);
 }

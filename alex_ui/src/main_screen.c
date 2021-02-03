@@ -9,8 +9,8 @@ void *load_scc(){
 }
 void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_block) {
 
-    if(main_data.login_box)gtk_widget_destroy(GTK_WIDGET(main_data.login_box));
-    if(main_data.reg_box)gtk_widget_destroy(GTK_WIDGET(main_data.reg_box));
+    if(main_data.login_box) gtk_widget_destroy(GTK_WIDGET(main_data.login_box));
+    if(main_data.reg_box) gtk_widget_destroy(GTK_WIDGET(main_data.reg_box));
     if (widget) {}
     if(event->type != GDK_BUTTON_PRESS && event->button != 1){
         return;
@@ -24,10 +24,9 @@ void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_b
     gtk_widget_set_size_request(GTK_WIDGET(main_data.main_screen_box), WINDOW_SIZE_X, WINDOW_SIZE_Y);
     gtk_fixed_put(GTK_FIXED(activity_block), main_data.main_screen_box, 0, 0);
     
-    write(2, "Braaah\n", 7);
     pthread_t display_thread = NULL;
     pthread_create(&display_thread, NULL, load_scc, NULL);
-    write(2, "Braaah\n", 7);
+
     // Gtk fixed
     GtkWidget *main_fixed = gtk_fixed_new();
     gtk_widget_set_size_request(GTK_WIDGET(main_fixed), 300, 100);
@@ -150,6 +149,7 @@ void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_b
 
         g_signal_connect(G_OBJECT(chat_setting_button), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
         g_signal_connect(G_OBJECT(chat_setting_button), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
+
         g_signal_connect(G_OBJECT(chat_setting_button), "button_press_event", G_CALLBACK(show_chat_settings), NULL);
 
         GtkWidget *chat_setting_button_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
