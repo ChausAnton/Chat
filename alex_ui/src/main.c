@@ -18,7 +18,9 @@ int main(int argc, char *argv[]) {
     gtk_widget_set_size_request(GTK_WIDGET(activity_block), WINDOW_SIZE_X, WINDOW_SIZE_Y);
     gtk_container_add(GTK_CONTAINER(activity), activity_block);
     
-    start_screen(&activity_block);
+    //g_signal_connect(window, "activate-default", G_CALLBACK(start_screen), (void *)activity_block);
+    start_screen(activity, NULL, (void *)activity_block);
+    
     gtk_widget_show_all(window);
     g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
     gtk_main();

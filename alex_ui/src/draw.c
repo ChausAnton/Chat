@@ -37,22 +37,43 @@ void draw_circle(int width, int height, cairo_t *cr) {
     cairo_fill(cr);
 }
 
-gboolean draw_user_avatar(GtkWidget *widget, cairo_t *cr, char* path) {
-    GdkPixbuf *pixbuf = get_pixbuf_with_size(path, 55, 55);
+gboolean draw_user_settings_avatar(GtkWidget *widget, cairo_t *cr, char* path) {
+    GdkPixbuf *pixbuf = get_pixbuf_with_size(path, 100, 100);
     gdk_cairo_set_source_pixbuf(cr, pixbuf, 0, 0);
     g_object_unref(G_OBJECT(pixbuf));
 
-    draw_circle(55, 55, cr);
+    draw_circle(100, 100, cr);
      
     if (widget) {}
     return FALSE;
 }
+
+gboolean draw_user_avatar(GtkWidget *widget, cairo_t *cr, char* path) {
+    GdkPixbuf *pixbuf = get_pixbuf_with_size(path, 80, 80);
+    gdk_cairo_set_source_pixbuf(cr, pixbuf, 0, 0);
+    g_object_unref(G_OBJECT(pixbuf));
+
+    draw_circle(80, 80, cr);
+     
+    if (widget) {}
+    return FALSE;
+}
+
 gboolean draw_chat_avatar(GtkWidget *widget, cairo_t *cr, char* path) {
     GdkPixbuf *pixbuf = get_pixbuf_with_size(path, 40, 40);
     gdk_cairo_set_source_pixbuf(cr, pixbuf, 0, 0);
     g_object_unref(G_OBJECT(pixbuf));
 
     draw_circle(40, 40, cr);
+     
+    if (widget) {}
+    return FALSE;
+}
+gboolean draw_sticker_photo(GtkWidget *widget, cairo_t *cr, char* path) {
+   GdkPixbuf *pixbuf = get_pixbuf_with_size(path, 55, 55);
+    gdk_cairo_set_source_pixbuf(cr, pixbuf, 0, 0);
+    g_object_unref(G_OBJECT(pixbuf));
+    cairo_paint(cr);
      
     if (widget) {}
     return FALSE;

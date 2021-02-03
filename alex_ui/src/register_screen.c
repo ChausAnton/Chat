@@ -1,29 +1,11 @@
 #include "Chat.h"
 
-static void sign_up(GtkWidget *widget, GdkEventButton *event, gpointer *sign_up[]) {
-    if (widget) {}
-    if(event->type == GDK_BUTTON_PRESS && event->button == 1){
-        char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)sign_up[0])));
-        printf("login: %s\n", name);
-        gtk_entry_set_text(GTK_ENTRY(sign_up[0]), "");
-        char *passwrod = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)sign_up[1])));
-        printf("password: %s\n", passwrod);
-        gtk_entry_set_text(GTK_ENTRY(sign_up[1]), "");
-        char *repeat_passwrod = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)sign_up[2])));
-        printf("repeat password: %s\n", repeat_passwrod);
-        gtk_entry_set_text(GTK_ENTRY(sign_up[2]), "");
-    }
-}
-
-
 void register_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl) {
-    GtkWidget **activity_block = (GtkWidget **)activity_bl;
-    gtk_widget_destroy(GTK_WIDGET(main_data.login_box));
-    //gtk_widget_destroy(GTK_WIDGET(main_data.main_screen_box));
+    
+    if(main_data.login_box)gtk_widget_destroy(GTK_WIDGET(main_data.login_box));
     if (widget) {}
-    if(event->type != GDK_BUTTON_PRESS && event->button != 1){
-        return;
-    }
+    if(activity_bl){}
+    if(event){}
 
     GtkCssProvider *styles = gtk_css_provider_new();
     gtk_css_provider_load_from_path(styles, "resource/styles/sign_up.css", NULL);
@@ -31,7 +13,7 @@ void register_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activi
 
     main_data.reg_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_name(GTK_WIDGET(main_data.reg_box), "reg_box");
-    gtk_fixed_put(GTK_FIXED(*activity_block), main_data.reg_box, 208, 0);
+    gtk_fixed_put(GTK_FIXED(activity_block), main_data.reg_box, 208, 0);
 
     GtkWidget *logo_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_name(GTK_WIDGET(logo_box), "logo_box");
