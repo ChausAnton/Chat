@@ -7,6 +7,7 @@
 #define SERVERADDR "10.11.7.7"
 #define SERVERPORT 8696
 
+
 #define WINDOW_SIZE_Y 900
 #define WINDOW_SIZE_X 1400
 
@@ -33,13 +34,18 @@
 
 
 ////////gtk
-#include <gtk/gtk.h>
+
+#include "gtk-3.0/gtk/gtk.h"
+
 
 ///////database
 #include <sqlite3.h>
 
+GtkWidget *messanges_area_for_scroll;
+GtkWidget *window;
 GtkWidget *activity_block;
-GtkWidget *sing_in_data[3];
+GtkWidget *sign_in_data[3];
+
 GtkWidget *left_box;
 
 

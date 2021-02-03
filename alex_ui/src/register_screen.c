@@ -5,9 +5,7 @@ void register_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activi
     if(main_data.login_box)gtk_widget_destroy(GTK_WIDGET(main_data.login_box));
     if (widget) {}
     if(activity_bl){}
-    if(event->type != GDK_BUTTON_PRESS && event->button != 1){
-        return;
-    }
+    if(event){}
 
     GtkCssProvider *styles = gtk_css_provider_new();
     gtk_css_provider_load_from_path(styles, "resource/styles/sign_up.css", NULL);
