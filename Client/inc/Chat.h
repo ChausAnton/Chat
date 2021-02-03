@@ -47,4 +47,6 @@ char *mx_strjoin(char const *s1, char const *s2);
 
 char **mx_strsplit(char const *s, char c);
 
+int mx_get_char_index(const char *str, char c);
+
 #endif

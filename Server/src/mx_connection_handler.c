@@ -1,5 +1,28 @@
 #include "Chat.h"
 
+void file_work(int sock_from, int sock_to) {
+	write(sock_to , "@image" , strlen("@image"));
+	char image_name[20];
+	recv(sock_from , image_name , 20 , 0);
+	write(sock_to , image_name , strlen(image_name));
+	printf("Reading Picture\n");
+    char p_array[1000];
+
+	printf("Reading Picture Size\n");
+
+	recv(sock_from , p_array , 1000 , 0);
+	send(sock_to , p_array, strlen(p_array), 0);//size
+	int b64_size = atoi(p_array);
+						
+	unsigned char b64[b64_size];
+	for(int i = 0; i < b64_size; i++)
+		b64[i] = '\0';
+	recv(sock_from , b64 , b64_size , 0);
+	send(sock_to , b64, b64_size, 0);
+	printf("Reading Picture End\n");
+}
+
+
 void *connection_handler(void *new_sock) {
 	int sock_from = *(int *)new_sock;
 	int read_size;
@@ -48,26 +71,7 @@ void *connection_handler(void *new_sock) {
 		}
 
 		if (strcmp(client_message, "@image") == 0) {
-			write(sock_to , "@image" , strlen("@image"));
-			char image_name[20];
-			(read_size = recv(sock_from , image_name , 20 , 0));
-			write(sock_to , image_name , strlen(image_name));
-			printf("Reading Picture\n");
-            char p_array[1000];
-
-			printf("Reading Picture Size\n");
-
-			recv(sock_from , p_array , 1000 , 0);
-			send(sock_to , p_array, strlen(p_array), 0);//size
-			int b64_size = atoi(p_array);
-						
-			unsigned char b64[b64_size];
-			for(int i = 0; i < b64_size; i++)
-				b64[i] = '\0';
-			recv(sock_from , b64 , b64_size , 0);
-			send(sock_to , b64, b64_size, 0);
-			printf("Reading Picture End\n");
-			
+			file_work(sock_from, sock_to);
 			continue;
 		}
 

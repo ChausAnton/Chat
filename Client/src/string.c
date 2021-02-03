@@ -1,7 +1,13 @@
 
 #include "Chat.h"
 
-
+int mx_get_char_index(const char *str, char c) {
+    if (str == NULL) return -2;
+    for (int i = 0; i < strlen(str); i++) {
+        if (str[i] == c) return i;
+    }
+    return -1;
+}
 
 char *mx_strnew(const int size) {
 
