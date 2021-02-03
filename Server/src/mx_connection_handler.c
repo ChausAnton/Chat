@@ -53,29 +53,21 @@ void *connection_handler(void *new_sock) {
 			(read_size = recv(sock_from , image_name , 20 , 0));
 			write(sock_to , image_name , strlen(image_name));
 			printf("Reading Picture\n");
-            char p_array[1];
+            char p_array[1000];
 
-			client_message = clear_client_message(client_message);
-			recv(sock_from ,  client_message, 20 , 0);
-			int size = atoi(client_message);
-			write(sock_to, client_message, strlen(client_message));
+			printf("Reading Picture Size\n");
 
-			//FILE *image = fopen("c1.jpg", "w");
-            int nb = read(sock_from, p_array, 1);
-            while (size >= 1) {
-                //fwrite(p_array, 1, nb, image);
-				write(sock_to, p_array, nb);
-                nb = read(sock_from, p_array, 1);
-				size--;
-				
-            }
-			//fclose(image);
-			write(sock_to, "  ", 2);
-			recv(sock_from , client_message , 4 , 0);
-			send(sock_from , "@end" , strlen("@end") , 0);
-			printf("!!!!!!!!!!\n");
-			client_message = clear_client_message(client_message);
-			printf("serv image end\n");
+			recv(sock_from , p_array , 1000 , 0);
+			send(sock_to , p_array, strlen(p_array), 0);//size
+			int b64_size = atoi(p_array);
+						
+			unsigned char b64[b64_size];
+			for(int i = 0; i < b64_size; i++)
+				b64[i] = '\0';
+			recv(sock_from , b64 , b64_size , 0);
+			send(sock_to , b64, b64_size, 0);
+			printf("Reading Picture End\n");
+			
 			continue;
 		}
 

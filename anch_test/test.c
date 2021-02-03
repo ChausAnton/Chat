@@ -10,6 +10,7 @@
 #include <netdb.h>
 #include <netinet/in.h>
 
+#include <sys/ioctl.h>
 ///server
 #include <sys/stat.h>
 #include <sys/socket.h>
@@ -18,7 +19,7 @@
 #include <sys/types.h>
 #include <time.h>
 
-#define SERVERPORT 8445
+#define SERVERPORT 8448
 #define SERVERADDR "localhost"
 
 static const unsigned char base64_table[65] =
@@ -150,21 +151,6 @@ void mx_swap_char(char *s1, char *s2) {
     *s1 = temp2;
 }
 
-char *mx_strnew(const int size) {
-
-    char *str = (char*) malloc((size + 1) * sizeof(char));
-
-    if (str == NULL || size < 0) {
-        return NULL;
-    }
-
-    for (int i = 0; i < size; i++) {
-        str[i] = '\0';
-    }
-    str[size] = '\0';
-    return str;
-}
-
 int mx_strlen(const char *s) {
     int j = 0;
     char i = s[0];
@@ -181,6 +167,21 @@ void mx_str_reverse(char *s) {
     for (int i = 0; i < len/2; i++) {
         mx_swap_char(&s[i], &s[len - 1 - i]);
     }
+}
+
+char *mx_strnew(const int size) {
+
+    char *str = (char*) malloc((size + 1) * sizeof(char));
+
+    if (str == NULL || size < 0) {
+        return NULL;
+    }
+
+    for (int i = 0; i < size; i++) {
+        str[i] = '\0';
+    }
+    str[size] = '\0';
+    return str;
 }
 
 
@@ -214,6 +215,47 @@ char *mx_itoa(int number) {
     mx_str_reverse(arr);
     return arr;
 }
+
+char *mx_strcat(char *restrict s1, const char *restrict s2) {
+    int len_1 = mx_strlen(s1);
+    int len_2 = mx_strlen(s2);
+
+    for (int i = 0; i < len_2; i++) {
+        s1[len_1 + i] = s2[i];
+    }
+    s1[len_1 + len_2] = '\0';
+    return s1;
+}
+
+char *mx_strjoin(char const *s1, char const *s2) {
+    if (s1 == NULL && s2 == NULL) {
+        return NULL;
+    }
+
+    int length1 = 0;
+    if(s1 != NULL) {
+        length1 = strlen(s1);
+    }
+
+    int length2 = 0;
+    if(s2 != NULL) {
+        length2 = strlen(s2);
+    }
+
+    char *str = mx_strnew(length1 + length2);
+    if (str == NULL) {
+        return NULL;
+    }
+
+    if(s1 != NULL)
+        mx_strcat(str, s1);
+    if(s2 != NULL)
+        mx_strcat(str, s2);
+    return str;
+
+}
+
+
 
 int main(int argc , char *argv[])
 {
@@ -250,20 +292,23 @@ int main(int argc , char *argv[])
 	*new_sock = sock;
 
 		FILE *picture;
-			picture = fopen(argv[1], "rb");
-			fseek(picture, 0, SEEK_END);
-			int size = ftell(picture);
-			fseek(picture, 0, SEEK_SET);
-            unsigned char buffer[size]; // no link between BUFSIZE and the file size
-            fread(buffer, size, 1, picture);
+		picture = fopen(argv[1], "rb");
+		fseek(picture, 0, SEEK_END);
+		int size = ftell(picture);
+		fseek(picture, 0, SEEK_SET);
+        unsigned char buffer[size]; // no link between BUFSIZE and the file size
+        fread(buffer, size, 1, picture);
 
-            size_t b64_len = 0;
-            unsigned char  *send_buffer = base64_encode(buffer, size, &b64_len);
-			send(sock , mx_itoa(b64_len), strlen(mx_itoa(b64_len)), 0);
-			send(sock , send_buffer, b64_len, 0);
+        size_t b64_len = 0;
+        unsigned char  *send_buffer = base64_encode(buffer, size, &b64_len);
 
-			printf("%s\n", send_buffer);
-			fclose(picture);
+		send(sock , mx_itoa(b64_len), strlen(mx_itoa(b64_len)), 0);
+		char check[100];
+		recv(sock , check , 100 , 0);
+		send(sock , send_buffer, b64_len, 0);
+
+		printf("file send end\n");
+		fclose(picture);
 
 	close(sock);
 	return 0;

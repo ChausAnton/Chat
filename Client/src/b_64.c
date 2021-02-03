@@ -1,29 +1,8 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <ncurses.h>
-#include <time.h>
-#include <errno.h>
-#include <string.h>
-#include <memory.h>
-#include <netdb.h>
-#include <netinet/in.h>
+#include "Chat.h"
 
-///server
-#include <sys/stat.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <sys/types.h>
-#include <time.h>
-
-
-#define SERVERPORT 8448
 
 static const unsigned char base64_table[65] =
 	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-
 
 unsigned char * base64_encode(const unsigned char *src, size_t len,
 			      size_t *out_len)
@@ -142,64 +121,3 @@ unsigned char * base64_decode(const unsigned char *src, size_t len,
 	*out_len = pos - out;
 	return out;
 }
-
-int main(int argc, char *argv[]) {
-    int socket_desc , client_sock , c , *new_sock;
-	struct sockaddr_in server , client;
-
-	//Create socket
-	socket_desc = socket(AF_INET , SOCK_STREAM , 0);
-	if (socket_desc == -1) {
-		printf("Could not create socket");
-	}
-	puts("Socket created");
-	
-	//Prepare the sockaddr_in structure
-	server.sin_family = AF_INET;
-	server.sin_addr.s_addr = INADDR_ANY;
-	server.sin_port = htons(SERVERPORT);
-	
-	//Bind
-	
-	if( bind(socket_desc,(struct sockaddr *)&server , sizeof(server)) < 0) {
-		perror("bind failed. Error");
-		return 1;
-	}
-	puts("bind done");
-	
-	//Listen
-	listen(socket_desc , 0x100);	
-	
-	//Accept an incoming connection
-	puts("Waiting for incoming connections...");
-	c = sizeof(struct sockaddr_in);
-
-	int i = 0;
-	while( (client_sock = accept(socket_desc, (struct sockaddr *)&client, (socklen_t*)&c)) ) {
-        char p_array[1000];
-		printf("Reading Picture Size\n");
-        FILE *image = fopen("c1.jpg", "wb");
-		recv(client_sock , p_array , 1000 , 0);
-		int b64_size = atoi(p_array);
-		unsigned char b64[b64_size];
-		for(int i = 0; i < b64_size; i++)
-			b64[i] = '\0';
-		recv(client_sock , b64 , b64_size , 0);
-
-		size_t b64_dec_len = b64_size * 3 / 4;
-		unsigned char *b64_dec = base64_decode(b64, b64_size, &b64_dec_len);
-		fwrite(b64_dec, b64_dec_len, 1, image);
-        fclose(image);
-		printf("Reading Picture End\n");
-        return 0;
-	}
-
-	close(socket_desc);
-	if (client_sock < 0) {
-		perror("accept failed");
-		return 1;
-	}
-	
-	return 0;
-}
-

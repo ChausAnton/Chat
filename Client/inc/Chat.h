@@ -5,7 +5,7 @@
 //10.11.7.8 ansh
 //10.11.7.7 anch
 #define SERVERADDR "10.11.7.7"
-#define SERVERPORT 8799
+#define SERVERPORT 8339
 
 #include <stdio.h>
 #include <unistd.h>
@@ -36,5 +36,15 @@
 
 char *mx_itoa(int number);
 
+unsigned char * base64_encode(const unsigned char *src, size_t len,
+			      size_t *out_len);
+
+
+unsigned char * base64_decode(const unsigned char *src, size_t len,
+			      size_t *out_len);
+
+char *mx_strjoin(char const *s1, char const *s2);
+
+char **mx_strsplit(char const *s, char c);
 
 #endif
