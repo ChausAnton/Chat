@@ -1,26 +1,13 @@
 #include "Chat.h"
 
-void file_work(int sock_from, int sock_to) {
-	write(sock_to , "@file" , strlen("@file"));
-	char image_name[20];
-	recv(sock_from , image_name , 20 , 0);
-	write(sock_to , image_name , strlen(image_name));
-	printf("Reading file\n");
-    char p_array[1000];
 
-	printf("Reading file Size\n");
+void message_send(char *str, int sock_to) {
+	time_t t;
+    time(&t);
 
-	recv(sock_from , p_array , 1000 , 0);
-	send(sock_to , p_array, strlen(p_array), 0);//size
-	int b64_size = atoi(p_array);
-						
-	unsigned char b64[b64_size];
-	for(int i = 0; i < b64_size; i++)
-		b64[i] = '\0';
-	recv(sock_from , b64 , b64_size , 0);
-	send(sock_to , b64, b64_size, 0);
+	write(sock_to , str , strlen(str));
 
-	printf("Reading file End\n");
+	//db_add_msg(int chat_id, int user_id, char* date, char* text)
 }
 
 
@@ -70,14 +57,12 @@ void *connection_handler(void *new_sock) {
 			write(sock_from , "exit" , strlen("exit"));
 			break;
 		}
-
-		if (strcmp(client_message, "@file") == 0) {
+		else if (strcmp(client_message, "@file") == 0) {
 			file_work(sock_from, sock_to);
-			client_message = clear_client_message(client_message);
-			continue;
 		}
-
-		write(sock_to , client_message , strlen(client_message));
+		else {
+			message_send(client_message, sock_to);
+		}
 
 		client_message = clear_client_message(client_message);
 	}
