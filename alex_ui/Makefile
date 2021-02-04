@@ -41,6 +41,7 @@ clean:
 	@printf "$(OBJ_DIR) in $(NAME)\t \033[31;1mdeleted\033[0m\n"
 
 uninstall: clean
+	@$(RM) $(OBJ_DIR)
 	@$(RM) $(NAME)
 	@@printf "$(NAME)\t \033[31;1muninstalled\033[0m\n"
 	

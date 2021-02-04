@@ -42,6 +42,8 @@ GtkWidget *messanges_area_for_scroll;
 GtkWidget *sign_in_data[3];
 GtkWidget *chat_box;
 
+enum chat_settings_message {RENAME_CHAT = 1, ADD_USER, DELETE_USER, DELETE_CHAT, CHANGE_CHAT_IMAGE};
+
 typedef struct s_login_box {
     GtkWidget *all_login_box;
     GtkCssProvider *styles;
@@ -84,6 +86,7 @@ void event_enter_notify(GtkWidget *widget);
 void event_leave_notify(GtkWidget *widget);
 void unpress_event_box(GtkWidget *widget, GdkEventButton *event, gpointer *p);
 void chat_click(GtkWidget *widget);
+void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *data);
 void sign_in();
 void sign_up();
 void logout(GtkWidget *widget, GdkEventButton *event);

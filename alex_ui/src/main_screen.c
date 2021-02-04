@@ -7,9 +7,7 @@ void *load_scc(){
     return NULL;
 }
 void main_screen() {
-
     gtk_widget_destroy(GTK_WIDGET(main_data.activity_block));
- 
     
     main_data.activity_block = gtk_fixed_new();
     gtk_widget_set_size_request(GTK_WIDGET(main_data.activity_block), WINDOW_SIZE_X, WINDOW_SIZE_Y);
