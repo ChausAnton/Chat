@@ -39,21 +39,39 @@
 #include <sqlite3.h>
 GtkWidget *messages_area_scroll;
 GtkWidget *messanges_area_for_scroll;
-GtkWidget *window;
-GtkWidget *activity_block;
 GtkWidget *sign_in_data[3];
 GtkWidget *chat_box;
 
+typedef struct s_login_box {
+    GtkWidget *all_login_box;
+    GtkCssProvider *styles;
+    GtkWidget *sign_in_data[2];
+}   t_login_box;
+
+typedef struct s_reg_box {
+    GtkWidget *all_reg_box;
+    GtkCssProvider *styles;
+    GtkWidget *sign_up_data[3];
+}   t_reg_box;
+
+typedef struct s_main_box {
+    GtkWidget *all_main_box;
+    GtkCssProvider *styles;
+}   t_main_box;
+
+
 typedef struct s_main_data {
-    GtkWidget *login_box;
-    GtkWidget *reg_box;
-    GtkWidget *main_screen_box;
+    GtkWidget *window;
+    GtkWidget *activity;
+    GtkWidget *activity_block;
+    t_login_box login_box;
+    t_reg_box reg_box;
+    t_main_box main_box;
 }   t_main_data;
 t_main_data main_data;
-
-void start_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl);
-void register_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl);
-void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl);
+void start_screen();
+void register_screen();
+void main_screen();
 
 /* message_stuff.c */
 void *scrolling_msg();
@@ -62,14 +80,13 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage);
 void send_message_file(GtkWidget *widget, GdkEventButton *event, gpointer *messsage);
 
 /* utility_funcs.c */
-char *int_to_str(int num);
 void event_enter_notify(GtkWidget *widget);
 void event_leave_notify(GtkWidget *widget);
 void unpress_event_box(GtkWidget *widget, GdkEventButton *event, gpointer *p);
 void chat_click(GtkWidget *widget);
-void sign_in(GtkWidget *widget, GdkEventButton *event, gpointer *login[]);
-void sign_up(GtkWidget *widget, GdkEventButton *event, gpointer *sign_up[]);
-void logout(GtkWidget *widget, GdkEventButton *event, gpointer **activity_block);
+void sign_in();
+void sign_up();
+void logout(GtkWidget *widget, GdkEventButton *event);
 
 /* emotes.c */
 void *scrolling_sticker();
@@ -93,4 +110,5 @@ gboolean draw_sticker_photo(GtkWidget *widget, cairo_t *cr, char* path);
 
 /* string.c */
 char *mx_strjoin(const char *s1, const char *s2);
+char *int_to_str(int num);
 #endif
