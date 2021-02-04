@@ -11,13 +11,19 @@ void removeChar(char *str, char garbage) {
 }
 
 void read_file(int sock) {
-	char image_name[20];
-	recv(sock , image_name , 20 , 0);
+	char file_n[20];
+	for(int i = 0; i < 20; i++)
+		file_n[i] = '\0';
 
+	recv(sock , file_n , 20 , 0);
+	char *extension = mx_strsplit(file_n, '.')[1];
+	printf("extension %s\n", extension);
+	char *file_name = mx_strjoin("c1.", extension);
+	printf("file_name %s\n", file_name);
 	char p_array[1000];
 	
-	printf("Reading Picture Size\n");
-	FILE *image = fopen("c1.jpg", "wb");
+	printf("Reading file Size\n");
+	FILE *file = fopen(file_name, "wb");
 
 	recv(sock , p_array , 1000 , 0);//size
 	int b64_size = atoi(p_array);
@@ -28,7 +34,7 @@ void read_file(int sock) {
 		
 	recv(sock , b64 , b64_size , 0);
 
-	printf("%s\n", p_array);
+	printf("size: %s\n", p_array);
 
 	unsigned char *b64_fin;
 	if(strlen((char *)b64) < b64_size) {
@@ -37,26 +43,11 @@ void read_file(int sock) {
 	else
 		b64_fin = (unsigned char *)b64;
 
-	/*while(mx_get_char_index((char*)b64_fin, '>') != -1) {
-		removeChar((char*)b64_fin, '>');
-	}
-	while(mx_get_char_index((char*)b64_fin, '<') != -1) {
-		removeChar((char*)b64_fin, '<');
-	}
-	while(mx_get_char_index((char*)b64_fin, '\\') != -1) {
-		removeChar((char*)b64_fin, '\\');
-	}
-	while(mx_get_char_index((char*)b64_fin, '?') != -1) {
-		removeChar((char*)b64_fin, '?');
-	}*/
-			
-	//printf("%s\n", b64_fin);
-	//printf("%s\n", b64_fin);
 	size_t b64_dec_len = b64_size * 3 / 4;
 	unsigned char *b64_dec = base64_decode(b64_fin, b64_size, &b64_dec_len);
-	fwrite(b64_dec, b64_dec_len, 1, image);
-	fclose(image);
-	printf("Reading Picture End\n");
+	fwrite(b64_dec, b64_dec_len, 1, file);
+	fclose(file);
+	printf("Reading file End\n");
 }
 
 
@@ -76,7 +67,7 @@ void *reader(void *new_sock) {
 			break;
 		}
 
-		if (strcmp(server_reply, "@image") == 0) {
+		if (strcmp(server_reply, "@file") == 0) {
 			read_file(sock);
 			server_reply = clear_client_message(server_reply);
 			continue;
@@ -91,13 +82,13 @@ void *reader(void *new_sock) {
 
 
 void file_sending(int sock) {
-	write(sock , "@image" , strlen("@image"));
+	write(sock , "@file" , strlen("@file"));
 	char message[1000];
-	printf("input image name:\n");
+	printf("input file name:\n");
 	gets(message);
 	send(sock , message, strlen(message), 0);
 	usleep(50000);
-
+	printf("name %s\n", message);
     FILE *picture;
 	picture = fopen(message, "rb");
 	fseek(picture, 0, SEEK_END);
@@ -113,7 +104,7 @@ void file_sending(int sock) {
 	char *send_size = mx_itoa(b64_len);
 	send(sock , send_size, strlen(send_size), 0);
 	usleep(50000);	
-
+	printf("size %s\n", send_size);
 	char check[100];
 	send(sock , send_buffer, b64_len, 0);
 	usleep(50000);
@@ -167,7 +158,7 @@ int main(int argc , char *argv[])
 
 		gets(message);
 
-		if (strcmp(message, "@image") == 0) {
+		if (strcmp(message, "@file") == 0) {
 			file_sending(sock);
 			message = clear_client_message(message);
 			continue;
