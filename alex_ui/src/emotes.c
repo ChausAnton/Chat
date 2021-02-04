@@ -43,7 +43,7 @@ void show_emoji_box(GtkWidget *widget) {
     gtk_widget_set_name(GTK_WIDGET(emoji_event_box), "emoji_event_box");
     gtk_widget_set_size_request(GTK_WIDGET(emoji_event_box), 1400, 900);
     g_signal_connect(G_OBJECT(emoji_event_box), "button_press_event", G_CALLBACK(unpress_event_box), widget);
-    gtk_fixed_put(GTK_FIXED(activity_block), emoji_event_box, 0, 0);
+    gtk_fixed_put(GTK_FIXED(main_data.activity_block), emoji_event_box, 0, 0);
 
     GtkWidget *position_emoji_box = gtk_fixed_new();
     gtk_container_add(GTK_CONTAINER(emoji_event_box), position_emoji_box);

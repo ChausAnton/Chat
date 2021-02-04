@@ -8,7 +8,7 @@ void show_user_settings(GtkWidget *widget) {
     gtk_widget_set_name(GTK_WIDGET(user_settings_event_box), "user_settings_event_box");
     gtk_widget_set_size_request(GTK_WIDGET(user_settings_event_box), 1400, 900);
     g_signal_connect(G_OBJECT(user_settings_event_box), "button_press_event", G_CALLBACK(unpress_event_box), widget);
-    gtk_fixed_put(GTK_FIXED(activity_block), user_settings_event_box, 0, 0);
+    gtk_fixed_put(GTK_FIXED(main_data.activity_block), user_settings_event_box, 0, 0);
 
     GtkWidget *position_user_settings = gtk_fixed_new();
     gtk_container_add(GTK_CONTAINER(user_settings_event_box), position_user_settings);

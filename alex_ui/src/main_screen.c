@@ -1,26 +1,23 @@
 #include "Chat.h"
 void *load_scc(){
     usleep(6000);
-    GtkCssProvider *styles = gtk_css_provider_new();
-    gtk_css_provider_load_from_path(styles, "resource/styles/main_screen.css", NULL);
-    gtk_style_context_add_provider_for_screen(gdk_screen_get_default(), GTK_STYLE_PROVIDER(styles), GTK_STYLE_PROVIDER_PRIORITY_USER);
+    main_data.main_box.styles = gtk_css_provider_new();
+    gtk_css_provider_load_from_path(main_data.main_box.styles, "resource/styles/main_screen.css", NULL);
+    gtk_style_context_add_provider_for_screen(gdk_screen_get_default(), GTK_STYLE_PROVIDER(main_data.main_box.styles), GTK_STYLE_PROVIDER_PRIORITY_USER);
     return NULL;
 }
-void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_block) {
+void main_screen() {
 
-    if(main_data.login_box)gtk_widget_destroy(GTK_WIDGET(main_data.login_box));
-    if(main_data.reg_box)gtk_widget_destroy(GTK_WIDGET(main_data.reg_box));
-    if(widget) {}
-    if(event){}
+    gtk_widget_destroy(GTK_WIDGET(main_data.activity_block));
     
-    //GtkCssProvider *styles = gtk_css_provider_new();
-    //gtk_css_provider_load_from_path(styles, "resource/styles/main_screen.css", NULL);
-    //gtk_style_context_add_provider_for_screen(gdk_screen_get_default(), GTK_STYLE_PROVIDER(styles), GTK_STYLE_PROVIDER_PRIORITY_USER);
-
-    main_data.main_screen_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    gtk_widget_set_name(GTK_WIDGET(main_data.main_screen_box), "main_screen");
-    gtk_widget_set_size_request(GTK_WIDGET(main_data.main_screen_box), WINDOW_SIZE_X, WINDOW_SIZE_Y);
-    gtk_fixed_put(GTK_FIXED(activity_block), main_data.main_screen_box, 0, 0);
+    main_data.activity_block = gtk_fixed_new();
+    gtk_widget_set_size_request(GTK_WIDGET(main_data.activity_block), WINDOW_SIZE_X, WINDOW_SIZE_Y);
+    gtk_container_add(GTK_CONTAINER(main_data.activity), main_data.activity_block);
+    
+    main_data.main_box.all_main_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_widget_set_name(GTK_WIDGET(main_data.main_box.all_main_box), "main_screen");
+    gtk_widget_set_size_request(GTK_WIDGET(main_data.main_box.all_main_box), WINDOW_SIZE_X, WINDOW_SIZE_Y);
+    gtk_fixed_put(GTK_FIXED(main_data.activity_block), main_data.main_box.all_main_box, 0, 0);
     
     pthread_t display_thread = NULL;
     pthread_create(&display_thread, NULL, load_scc, NULL);
@@ -28,7 +25,7 @@ void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_b
     // Gtk fixed
     GtkWidget *main_fixed = gtk_fixed_new();
     gtk_widget_set_size_request(GTK_WIDGET(main_fixed), 300, 100);
-    gtk_container_add(GTK_CONTAINER(main_data.main_screen_box), main_fixed);
+    gtk_container_add(GTK_CONTAINER(main_data.main_box.all_main_box), main_fixed);
     
     // Chat bar
     GtkWidget *chat_bar = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
@@ -166,7 +163,7 @@ void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_b
     gtk_widget_set_size_request(GTK_WIDGET(settings_button), 20, 20);
     gtk_container_add(GTK_CONTAINER(settings_button_clickable), settings_button);
 
-    g_signal_connect(G_OBJECT(settings_button_clickable), "button_press_event", G_CALLBACK(show_user_settings), (gpointer **)activity_block);
+    g_signal_connect(G_OBJECT(settings_button_clickable), "button_press_event", G_CALLBACK(show_user_settings), (gpointer **)main_data.activity_block);
 
     // Exit button
     GtkWidget *exit_button_clickable = gtk_event_box_new();
@@ -179,7 +176,7 @@ void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_b
     gtk_widget_set_size_request(GTK_WIDGET(exit_button), 19, 19);
     gtk_container_add(GTK_CONTAINER(exit_button_clickable), exit_button);
 
-    g_signal_connect(G_OBJECT(exit_button_clickable), "button_press_event", G_CALLBACK(logout), activity_block);
+    g_signal_connect(G_OBJECT(exit_button_clickable), "button_press_event", G_CALLBACK(logout), main_data.activity_block);
 
     // Chat's messages area
     GtkWidget *messages_area = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
@@ -272,5 +269,5 @@ void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_b
 
         g_signal_connect(G_OBJECT(send_button_clickable), "button_press_event", G_CALLBACK(send_message), msg_enter);
     
-    gtk_widget_show_all(main_data.main_screen_box);
+    gtk_widget_show_all(main_data.activity_block);
 }

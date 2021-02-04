@@ -52,7 +52,7 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
 
 void send_message_file(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) {
 
-    GtkWidget *dialog = gtk_file_chooser_dialog_new("User image", GTK_WINDOW(window), GTK_FILE_CHOOSER_ACTION_OPEN, "Cancel", GTK_RESPONSE_CANCEL, "Open", GTK_RESPONSE_ACCEPT, NULL);
+    GtkWidget *dialog = gtk_file_chooser_dialog_new("User image", GTK_WINDOW(main_data.window), GTK_FILE_CHOOSER_ACTION_OPEN, "Cancel", GTK_RESPONSE_CANCEL, "Open", GTK_RESPONSE_ACCEPT, NULL);
     gint run = gtk_dialog_run(GTK_DIALOG(dialog));
 
     if (run == GTK_RESPONSE_ACCEPT) {
