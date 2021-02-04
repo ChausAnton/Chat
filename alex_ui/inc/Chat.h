@@ -21,25 +21,23 @@
 #include <string.h>
 #include <memory.h>
 #include <netdb.h>
-#include <netinet/in.h>
-#include <stdbool.h>
 #include <math.h>
+#include <netinet/in.h>
 
 // Server
 #include <sys/socket.h>
+#include <sys/types.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <sys/types.h>
-#include <time.h>
 
 // Gtk
 #include <gtk/gtk.h>
 
 // Database
 #include <sqlite3.h>
+
 GtkWidget *messages_area_scroll;
 GtkWidget *messanges_area_for_scroll;
-GtkWidget *sign_in_data[3];
 GtkWidget *chat_box;
 
 typedef struct s_login_box {
@@ -59,7 +57,6 @@ typedef struct s_main_box {
     GtkCssProvider *styles;
 }   t_main_box;
 
-
 typedef struct s_main_data {
     GtkWidget *window;
     GtkWidget *activity;
@@ -69,6 +66,7 @@ typedef struct s_main_data {
     t_main_box main_box;
 }   t_main_data;
 t_main_data main_data;
+
 void start_screen();
 void register_screen();
 void main_screen();
@@ -111,4 +109,5 @@ gboolean draw_sticker_photo(GtkWidget *widget, cairo_t *cr, char* path);
 /* string.c */
 char *mx_strjoin(const char *s1, const char *s2);
 char *int_to_str(int num);
+
 #endif

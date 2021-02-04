@@ -14,20 +14,7 @@
     border-radius: 15px;
     margin: 5px 5px 8px;
 }
-    #add_new_chat_button {
-        background-image: url("../images/add_new_chat_icon.png");
-        background-size: 100%;
-        background-repeat: no-repeat;
-        background-position: center;
-    }
-        #add_new_chat_event_box {
-            background: rgba(0, 0, 0, 0.4);
-        }   
-        #add_new_chat_box {
-            background: rgb(47, 120, 117);
-            border-radius: 15px;
-        }
-
+    /* User photo is a button as well */
     #user_photo {
         margin-top: 10px;
         margin-left: 20px;
@@ -50,6 +37,65 @@
             border-bottom: 1px solid whitesmoke;
             border-radius: 0px;
         }
+    #user_name {
+        font: 18px PTSansPro-Demi;
+        color: whitesmoke;
+        margin: 0px 0px 5px 10px;
+    }
+
+    #add_new_chat_button {
+        background-image: url("../images/add_new_chat_icon.png");
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    #add_new_chat_button:hover {
+        background-image: url("../images/add_new_chat_icon_active.png");
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+        #add_new_chat_event_box {
+            background: rgba(0, 0, 0, 0.4);
+        }   
+        #add_new_chat_box {
+            background: rgb(47, 120, 117);
+            border-radius: 15px;
+            padding-bottom: 15px;
+        }
+            #new_chat_button {
+                background:  linear-gradient(61.94deg, rgba(104, 52, 135, 0.8) 15.84%, rgba(67, 63, 238, 0.8) 111.81%);
+                font: 18px PTSansPro-Demi;
+                border-radius: 15px;
+                color: whitesmoke;
+                margin: 20px 10px 5px 10px;
+            }
+            #new_group_chat_button {
+                background:  linear-gradient(61.94deg, rgba(104, 52, 135, 0.8) 15.84%, rgba(67, 63, 238, 0.8) 111.81%);
+                font: 18px PTSansPro-Demi;
+                border-radius: 15px;
+                color: whitesmoke;
+                margin: 5px 10px 20px 10px;
+            }
+            #add_chats_scrollable_box {
+                background: rgb(47, 120, 117);
+            }
+            #search_users {
+                font: 18px PTSansPro-Demi ;
+                background: rgb(47, 120, 117);
+                border: 0px solid black;
+                border-bottom: 1px solid whitesmoke;
+                margin: 10px;
+                border-radius: 0px;
+            }
+            #add_new_chat_photo {
+                margin: 10px;
+            }
+            #user_name_in_search {
+                font: 18px PTSansPro-Demi;
+                color: whitesmoke;
+                margin: -100px 0px 0px -100px;
+            }
 
     #hidden {
         opacity: 0;
@@ -59,6 +105,13 @@
         background-image: url("../images/logout.png");
         background-size: 100%;
         background-repeat: no-repeat;
+        background-position: center;
+    }
+    #exit_button:hover {
+        background-image: url("../images/logout_active.png");
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
     }
 /****************************************/
 
@@ -160,11 +213,19 @@
             margin-left: 10px;
         }
 
+        #rename_chat:hover {
+            background: pink;
+            margin: -10px;
+        }
         #rename_chat_icon {
             background-image: url("../images/edit-button.png");
             background-size: 100%;
             background-repeat: no-repeat;
             background-position: center;
+        }
+        #add_user:hover {
+            background: pink;
+            margin: -10px;
         }
         #add_user_icon {
             background-image: url("../images/add-a-person-outlined-interface-sign.png");
@@ -172,17 +233,29 @@
             background-repeat: no-repeat;
             background-position: center;
         }
+        #delete_user:hover {
+            background: pink;
+            margin: -10px;
+        }
         #delete_user_icon {
             background-image: url("../images/delete_user.png");
             background-size: 100%;
             background-repeat: no-repeat;
             background-position: center;
         }
+        #delete_chat:hover {
+            background: pink;
+            margin: -10px;
+        }
         #delete_chat_icon {
             background-image: url("../images/trash.png");
             background-size: 100%;
             background-repeat: no-repeat;
             background-position: center;
+        }
+        #change_chat_image:hover {
+            background: pink;
+            margin: -10px;
         }
         #change_chat_image_icon {
             background-image: url("../images/change_chat_photo.png");
