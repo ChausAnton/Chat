@@ -41,7 +41,7 @@ void register_screen() {
     main_data.reg_box.sign_up_data[1] = gtk_entry_new();
     gtk_widget_set_name(GTK_WIDGET(main_data.reg_box.sign_up_data[1]), "password");
     gtk_entry_set_visibility(GTK_ENTRY(main_data.reg_box.sign_up_data[1]), FALSE);
-    gtk_entry_set_max_length(GTK_ENTRY(main_data.reg_box.sign_up_data[1]), 30);
+    gtk_entry_set_max_length(GTK_ENTRY(main_data.reg_box.sign_up_data[1]), 28);
     gtk_box_pack_start(GTK_BOX(main_data.reg_box.all_reg_box), main_data.reg_box.sign_up_data[1], FALSE, FALSE, 0);
 
     GtkWidget *repeat_password_label = gtk_label_new("Repeat Password");
@@ -51,7 +51,7 @@ void register_screen() {
     main_data.reg_box.sign_up_data[2] = gtk_entry_new();
     gtk_widget_set_name(GTK_WIDGET(main_data.reg_box.sign_up_data[2]), "repeat_password");
     gtk_entry_set_visibility(GTK_ENTRY(main_data.reg_box.sign_up_data[2]), FALSE);
-    gtk_entry_set_max_length(GTK_ENTRY(main_data.reg_box.sign_up_data[2]), 30);
+    gtk_entry_set_max_length(GTK_ENTRY(main_data.reg_box.sign_up_data[2]), 28);
     gtk_box_pack_start(GTK_BOX(main_data.reg_box.all_reg_box), main_data.reg_box.sign_up_data[2], FALSE, FALSE, 0);
 
     GtkWidget *signup_button = gtk_button_new_with_label("Sign Up");

@@ -42,7 +42,7 @@ void start_screen() {
     main_data.login_box.sign_in_data[1] = gtk_entry_new();
     gtk_widget_set_name(GTK_WIDGET(main_data.login_box.sign_in_data[1]), "password");
     gtk_entry_set_visibility(GTK_ENTRY(main_data.login_box.sign_in_data[1]), FALSE);
-    gtk_entry_set_max_length(GTK_ENTRY(main_data.login_box.sign_in_data[1]), 30);
+    gtk_entry_set_max_length(GTK_ENTRY(main_data.login_box.sign_in_data[1]), 28);
     gtk_box_pack_start(GTK_BOX(main_data.login_box.all_login_box), main_data.login_box.sign_in_data[1], FALSE, FALSE, 0);
 
     GtkWidget *signin_button = gtk_button_new_with_label ("Sign in");
