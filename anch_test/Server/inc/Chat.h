@@ -45,6 +45,8 @@ unsigned char * base64_encode(const unsigned char *src, size_t len,
 unsigned char * base64_decode(const unsigned char *src, size_t len,
 			      size_t *out_len);
 
+char *mx_itoa(int number);
+
 ////
 char *mx_strnew(const int size);
 int mx_strlen(const char *s);

@@ -14,30 +14,31 @@ void message_synchronization(char *message, int sock) {
 
 	int last_message_id = 0;
 	//func to get last message id
-	send(sock, mx_itoa(last_message_id), strlen(mx_itoa(last_message_id)));
+	send(sock, mx_itoa(last_message_id), strlen(mx_itoa(last_message_id)), 0);
 	
 	//number of message
 	recv(sock, message, 2000, 0);
 	int number_message = atoi(message);
 
 	if (number_message > 0) {
-		char **messages = (char **) malloc(sizeof(char *) * (number_message + 1))
+		char **messages = (char **) malloc(sizeof(char *) * (number_message + 1));
 		int i = 0;
 		recv(sock, message, 2000, 0);
 		while(strcmp("@end_synchronization", message) != 0) {
-			messages[i] = mx_strdup(message);
+			messages[i] = strdup(message);
 			i++;
 			recv(sock, message, 2000, 0);
 		}
 		messages[i] = NULL;
 		//func to add new messages to DB
+		for(int i = 0; i < number_message; i++) {
+			free(messages[i]);
+		}
+		free(messages);
 	}
-
-	for(int i = 0; i < number_message; i++) {
-		free(messages[i]);
-	}
-	free(messages);
 }
+
+
 
 
 void *reader(void *new_sock) {

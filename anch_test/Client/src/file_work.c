@@ -18,6 +18,7 @@ void read_file(int sock) {
 	recv(sock , p_array , 1000 , 0);//size
 	int b64_size = atoi(p_array);
 	unsigned char b64[b64_size];
+    printf("size: %d\n", b64_size);
 
 	for(int i = 0; i < b64_size; i++)
 		b64[i] = '\0';

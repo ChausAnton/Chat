@@ -1,7 +1,7 @@
 #include "Chat.h"
 
 
-void message_send(char *stmessager, int sock_to) {
+void message_send(char *message, int sock_to) {
 	time_t t;
     time(&t);
 
@@ -11,7 +11,7 @@ void message_send(char *stmessager, int sock_to) {
 }
 
 void message_synchronization(char *message, int sock_from) {
-	send(sock_from, message, strlen(message));//send @synchronization
+	send(sock_from, message, strlen(message), 0);//send @synchronization
 
 	int server_last_id = 0;
 	//get last id on server
@@ -19,24 +19,25 @@ void message_synchronization(char *message, int sock_from) {
 	//get last id no client
 	recv(sock_from, message, 1000, 0);
 	int user_last_id = atoi(message);
-
 	if (server_last_id > user_last_id) {
 		char **messages;
 		//get all message user last id to server last id
 		int size = 0;
-		while (message[i] != NULL)
+		int i = 0;
+
+		while (messages[i] != NULL)
 			size++;
-		send(sock_from, mx_itoa(size), strlen(mx_itoa(size)));
+		send(sock_from, mx_itoa(size), strlen(mx_itoa(size)), 0);
 		usleep(20);
 
-		for(int i = 0; message[i] != NULL; i++) {
-			send(sock_from, messages[i], strlen(messages[i]), 0));
+		for(int j = 0; messages[j] != NULL; i++) {
+			send(sock_from, messages[j], strlen(messages[j]), 0);
 			usleep(10);
 		}
-		send(sock_from, "@end_synchronization", strlen("@end_synchronization"), 0));
+		send(sock_from, "@end_synchronization", strlen("@end_synchronization"), 0);
 	}
 	else
-		send(sock_from, mx_itoa(-1), strlen(mx_itoa(-1)));
+		send(sock_from, mx_itoa(-1), strlen(mx_itoa(-1)), 0);
 	
 
 }
