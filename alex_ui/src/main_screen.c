@@ -175,7 +175,7 @@ void main_screen() {
     gtk_widget_set_size_request(GTK_WIDGET(add_new_chat_button), 20, 20);
     gtk_container_add(GTK_CONTAINER(add_new_chat_button_clickable), add_new_chat_button);
 
-    g_signal_connect(G_OBJECT(add_new_chat_button_clickable), "button_press_event", G_CALLBACK(show_add_new_chat), (gpointer **)activity_block);
+    g_signal_connect(G_OBJECT(add_new_chat_button_clickable), "button_press_event", G_CALLBACK(show_add_new_chat), NULL);
 
 
     // Exit button

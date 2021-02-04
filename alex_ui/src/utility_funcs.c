@@ -1,13 +1,5 @@
 #include "Chat.h"
 
-char *int_to_str(int num) {
-
-   int length = snprintf(NULL, 0, "%d", num);
-   char* result = malloc( length + 1 );
-   snprintf(result, length + 1, "%d", num);
-   return result;
-}
-
 void event_enter_notify(GtkWidget *widget) {
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT, TRUE);
 }

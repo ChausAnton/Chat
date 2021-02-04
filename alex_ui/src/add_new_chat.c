@@ -8,7 +8,7 @@ void show_add_new_chat(GtkWidget *widget) {
     gtk_widget_set_name(GTK_WIDGET(add_new_chat_event_box), "add_new_chat_event_box");
     gtk_widget_set_size_request(GTK_WIDGET(add_new_chat_event_box), 1400, 900);
     g_signal_connect(G_OBJECT(add_new_chat_event_box), "button_press_event", G_CALLBACK(unpress_event_box), widget);
-    gtk_fixed_put(GTK_FIXED(activity_block), add_new_chat_event_box, 0, 0);
+    gtk_fixed_put(GTK_FIXED(main_data.activity_block), add_new_chat_event_box, 0, 0);
 
     GtkWidget *position_add_new_chat = gtk_fixed_new();
     gtk_container_add(GTK_CONTAINER(add_new_chat_event_box), position_add_new_chat);
