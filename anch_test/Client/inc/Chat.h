@@ -51,4 +51,8 @@ int mx_get_char_index(const char *str, char c);
 
 char *clear_client_message(char *client_message);
 
+void file_sending(int sock);
+
+void read_file(int sock);
+
 #endif

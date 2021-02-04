@@ -1,13 +1,44 @@
 #include "Chat.h"
 
 
-void message_send(char *str, int sock_to) {
+void message_send(char *stmessager, int sock_to) {
 	time_t t;
     time(&t);
 
-	write(sock_to , str , strlen(str));
+	write(sock_to , message , strlen(message));
 
 	//db_add_msg(int chat_id, int user_id, char* date, char* text)
+}
+
+void message_synchronization(char *message, int sock_from) {
+	send(sock_from, message, strlen(message));//send @synchronization
+
+	int server_last_id = 0;
+	//get last id on server
+
+	//get last id no client
+	recv(sock_from, message, 1000, 0);
+	int user_last_id = atoi(message);
+
+	if (server_last_id > user_last_id) {
+		char **messages;
+		//get all message user last id to server last id
+		int size = 0;
+		while (message[i] != NULL)
+			size++;
+		send(sock_from, mx_itoa(size), strlen(mx_itoa(size)));
+		usleep(20);
+
+		for(int i = 0; message[i] != NULL; i++) {
+			send(sock_from, messages[i], strlen(messages[i]), 0));
+			usleep(10);
+		}
+		send(sock_from, "@end_synchronization", strlen("@end_synchronization"), 0));
+	}
+	else
+		send(sock_from, mx_itoa(-1), strlen(mx_itoa(-1)));
+	
+
 }
 
 
@@ -59,6 +90,9 @@ void *connection_handler(void *new_sock) {
 		}
 		else if (strcmp(client_message, "@file") == 0) {
 			file_work(sock_from, sock_to);
+		}
+		else if (strcmp(client_message, "@synchronization") == 0) {
+			message_synchronization(client_message, sock_from);
 		}
 		else {
 			message_send(client_message, sock_to);
