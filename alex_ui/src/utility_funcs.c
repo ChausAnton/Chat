@@ -28,6 +28,54 @@ void chat_click(GtkWidget *widget) {
     gtk_widget_show(main_data.main_box.all_main_box);
     main_screen();
 }
+void event_enter_notify_search(GtkWidget *widget) {
+    if(gtk_widget_get_state_flags(GTK_WIDGET(widget)) & GTK_STATE_FLAG_ACTIVE) {
+        return;
+    } else {
+        gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT, TRUE);
+    }
+}
+
+void event_leave_notify_search(GtkWidget *widget) {
+    if(gtk_widget_get_state_flags(GTK_WIDGET(widget)) & GTK_STATE_FLAG_ACTIVE) {
+        return;
+    } else {
+        gtk_widget_unset_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT);
+    }
+}
+void search_user_click(GtkWidget *widget) {
+    GList *parent = gtk_container_get_children(GTK_CONTAINER(widget));
+    GList *children = gtk_container_get_children(GTK_CONTAINER(parent->data));
+    children = children->next->next;
+    int user_id = atoi((char*)gtk_label_get_text(GTK_LABEL(children->data)));
+    //printf("Search_user_id: %d\n", user_id);
+
+    g_list_free(g_steal_pointer(&children));
+    g_list_free(g_steal_pointer(&parent));
+    if(gtk_widget_get_state_flags(GTK_WIDGET(widget)) & GTK_STATE_FLAG_ACTIVE) {
+        gtk_widget_unset_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE);
+        for(int i = 0; i < 100;  i++){
+            if(new_chat_users_id[i] == user_id) new_chat_users_id[i] = -1;
+        }
+    }else {
+        gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
+        //printf("Search_user_id: %d\n", user_id);
+        for(int i = 0; i < 100;  i++){
+            if(new_chat_users_id[i] == -1) {
+                new_chat_users_id[i] = user_id;
+                break;
+            }
+        }
+    }
+}
+
+void create_new_chat(GtkWidget *widget) {
+    if (widget){}
+    for(int i = 0; i < 100;  i++){
+            if(new_chat_users_id[i] != -1)  write(1, int_to_str(new_chat_users_id[i]), 2);
+        }
+    write(1, "Chat created!\n", 14);
+}
 
 void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *data) {
     if (widget&&event){}
@@ -51,7 +99,6 @@ void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *dat
         default:
             break;
     }
-    
 }
 
 void sign_in() {
@@ -92,7 +139,6 @@ void sign_up() {
     }
 }
 void unpress_logout(GtkWidget *widget, GdkEventButton *event, gpointer *p) {
-
     if (widget) {}
     if(event->type == GDK_BUTTON_PRESS && event->button == 1){
         gtk_widget_destroy((GtkWidget *)p);
