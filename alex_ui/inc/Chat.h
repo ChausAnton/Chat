@@ -40,6 +40,8 @@ GtkWidget *messages_area_scroll;
 GtkWidget *messanges_area_for_scroll;
 GtkWidget *chat_box;
 
+enum chat_settings_message {RENAME_CHAT = 1, ADD_USER, DELETE_USER, DELETE_CHAT, CHANGE_CHAT_IMAGE};
+
 typedef struct s_login_box {
     GtkWidget *all_login_box;
     GtkCssProvider *styles;
@@ -66,7 +68,6 @@ typedef struct s_main_data {
     t_main_box main_box;
 }   t_main_data;
 t_main_data main_data;
-
 void start_screen();
 void register_screen();
 void main_screen();
@@ -82,6 +83,7 @@ void event_enter_notify(GtkWidget *widget);
 void event_leave_notify(GtkWidget *widget);
 void unpress_event_box(GtkWidget *widget, GdkEventButton *event, gpointer *p);
 void chat_click(GtkWidget *widget);
+void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *data);
 void sign_in();
 void sign_up();
 void logout(GtkWidget *widget, GdkEventButton *event);
@@ -97,9 +99,6 @@ void show_chat_settings(GtkWidget *widget);
 /* user_settings.c */
 void show_user_settings(GtkWidget *widget);
 
-/* add_new_chat.c */
-void show_add_new_chat(GtkWidget *widget);
-
 /* draw.c */
 gboolean draw_user_avatar(GtkWidget *widget, cairo_t *cr, char* path);
 gboolean draw_chat_avatar(GtkWidget *widget, cairo_t *cr, char* path);
@@ -109,5 +108,4 @@ gboolean draw_sticker_photo(GtkWidget *widget, cairo_t *cr, char* path);
 /* string.c */
 char *mx_strjoin(const char *s1, const char *s2);
 char *int_to_str(int num);
-
 #endif

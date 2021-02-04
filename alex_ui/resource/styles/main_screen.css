@@ -14,7 +14,22 @@
     border-radius: 15px;
     margin: 5px 5px 8px;
 }
+
     /* User photo is a button as well */
+    #add_new_chat_button {
+        background-image: url("../images/add_new_chat_icon.png");
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+        #add_new_chat_event_box {
+            background: rgba(0, 0, 0, 0.4);
+        }   
+        #add_new_chat_box {
+            background: rgb(47, 120, 117);
+            border-radius: 15px;
+        }
+
     #user_photo {
         margin-top: 10px;
         margin-left: 20px;
@@ -37,6 +52,7 @@
             border-bottom: 1px solid whitesmoke;
             border-radius: 0px;
         }
+
     #user_name {
         font: 18px PTSansPro-Demi;
         color: whitesmoke;

@@ -16,7 +16,6 @@ char *mx_strnew(const int size) {
 }
 
 void mx_swap_char(char *s1, char *s2) {
-    
     char temp = *s1;
     char temp2 = *s2;
     
@@ -25,7 +24,6 @@ void mx_swap_char(char *s1, char *s2) {
 }
 
 void mx_str_reverse(char *s) {
-
     int len = strlen(s);
     
     for (int i = 0; i < len/2; i++) {
@@ -34,7 +32,6 @@ void mx_str_reverse(char *s) {
 }
 
 char *mx_itoa(int number) {
-
     int lenght = 0;
     unsigned int num = number;
     while (num != 0) {
@@ -65,7 +62,6 @@ char *mx_itoa(int number) {
 }
 
 char *mx_strjoin(const char *s1, const char *s2) {
-
     if (s1 == NULL && s2 == NULL)  return NULL;
     else if (s1 == NULL) return strdup(s2);
     else if (s2 == NULL)  return strdup(s1);
