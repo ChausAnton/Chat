@@ -1,10 +1,10 @@
 #include "Chat.h"
-void *scrolling_sticker() {
 
+void *scrolling_sticker() {
     usleep(3000);
     GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(messages_area_scroll));
     gtk_adjustment_set_value(adjustment, gtk_adjustment_get_upper(adjustment));
-    gtk_widget_show_all(chat_box);
+    gtk_widget_show_all(main_data.main_box.right_chat_box);
     return NULL;
 }
 void emoji_click(GtkWidget *widget, GdkEventButton *event, gpointer *sticker_path) {
@@ -34,7 +34,7 @@ void emoji_click(GtkWidget *widget, GdkEventButton *event, gpointer *sticker_pat
         pthread_t display_thread = NULL;
         pthread_create(&display_thread, NULL, scrolling_sticker, NULL);
     }
-    gtk_widget_show_all(chat_box);
+    gtk_widget_show_all(main_data.main_box.right_chat_box);
 }
 
 void show_emoji_box(GtkWidget *widget) {

@@ -104,9 +104,9 @@
 #left_mid_box {
     margin-left: 440px;
     margin-right: 440px;
-    background: rgba(119, 205, 242, 0.42);
+    background: rgba(47, 120, 117, 0.5);
     font-family: PTSansPro-Demi;
-    font-size: 16px;
+    font-size: 15px;
     color: #FBFDFF;
     border-radius: 15px;  
 }
