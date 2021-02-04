@@ -21,25 +21,23 @@
 #include <string.h>
 #include <memory.h>
 #include <netdb.h>
-#include <netinet/in.h>
-#include <stdbool.h>
 #include <math.h>
+#include <netinet/in.h>
 
 // Server
 #include <sys/socket.h>
+#include <sys/types.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <sys/types.h>
-#include <time.h>
 
 // Gtk
 #include <gtk/gtk.h>
 
 // Database
 #include <sqlite3.h>
+
 GtkWidget *messages_area_scroll;
 GtkWidget *messanges_area_for_scroll;
-GtkWidget *sign_in_data[3];
 GtkWidget *chat_box;
 
 enum chat_settings_message {RENAME_CHAT = 1, ADD_USER, DELETE_USER, DELETE_CHAT, CHANGE_CHAT_IMAGE};
@@ -60,7 +58,6 @@ typedef struct s_main_box {
     GtkWidget *all_main_box;
     GtkCssProvider *styles;
 }   t_main_box;
-
 
 typedef struct s_main_data {
     GtkWidget *window;
@@ -101,9 +98,6 @@ void show_chat_settings(GtkWidget *widget);
 
 /* user_settings.c */
 void show_user_settings(GtkWidget *widget);
-
-/* add_new_chat.c */
-void show_add_new_chat(GtkWidget *widget);
 
 /* draw.c */
 gboolean draw_user_avatar(GtkWidget *widget, cairo_t *cr, char* path);
