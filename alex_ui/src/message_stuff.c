@@ -28,7 +28,7 @@ void display_message(char *message_text) {
     pthread_t display_thread = NULL;
     pthread_create(&display_thread, NULL, scrolling_msg, NULL);
 
-    gtk_widget_show_all(chat_box);
+    gtk_widget_show_all(main_data.main_box.right_chat_box);
 }
 
 void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) {
@@ -117,7 +117,7 @@ void send_message_file(GtkWidget *widget, GdkEventButton *event, gpointer *messs
             g_free (text);  
             gtk_text_view_set_buffer ((GtkTextView *)messsage, NULL);
         }
-        gtk_widget_show_all(chat_box);
+        gtk_widget_show_all(main_data.main_box.right_chat_box);
     }
     gtk_widget_destroy (dialog);
 

@@ -18,6 +18,9 @@ int main(int argc, char *argv[]) {
     gtk_widget_set_size_request(GTK_WIDGET(main_data.activity_block), WINDOW_SIZE_X, WINDOW_SIZE_Y);
     gtk_container_add(GTK_CONTAINER(main_data.activity), main_data.activity_block);
     //g_signal_connect(window, "activate-default", G_CALLBACK(start_screen), (void *)activity_block);
+    main_data.styles = gtk_css_provider_new();
+    //gtk_style_context_add_provider_for_screen(gdk_screen_get_default(), GTK_STYLE_PROVIDER(main_data.styles), GTK_STYLE_PROVIDER_PRIORITY_USER);
+
     start_screen();
     
     gtk_widget_show_all(main_data.window);

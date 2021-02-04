@@ -22,8 +22,11 @@ void chat_click(GtkWidget *widget) {
     children = children->next->next;
     int chat_id = atoi((char*)gtk_label_get_text(GTK_LABEL(children->data)));
     printf("Chat_id: %d\n", chat_id);
+    main_data.main_box.search_chat_id = chat_id;
     g_list_free(g_steal_pointer(&children));
     g_list_free(g_steal_pointer(&parent));
+    gtk_widget_show(main_data.main_box.all_main_box);
+    main_screen();
 }
 
 void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *data) {
@@ -54,12 +57,19 @@ void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *dat
 void sign_in() {
     char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[0])));
     printf("login: %s\n", name);
-    //gtk_entry_set_text(GTK_ENTRY(main_data.login_box.sign_in_data[0]), "");
     char *passwrod = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[1])));
     printf("password: %s\n", passwrod);
-    //gtk_entry_set_text(GTK_ENTRY(main_data.login_box.sign_in_data[1]), "");
 
-    if(TRUE) main_screen();
+    if(TRUE) {
+        gtk_entry_set_text(GTK_ENTRY(main_data.login_box.sign_in_data[0]), "");
+        gtk_entry_set_text(GTK_ENTRY(main_data.login_box.sign_in_data[1]), "");
+
+        main_data.main_box.search_chat_id = -1;
+        user_data.login = strdup(name);
+        user_data.password = strdup(passwrod);
+        load_data_for_user();
+        main_screen();
+    }
 }
 
 void sign_up() {
@@ -73,7 +83,13 @@ void sign_up() {
     printf("repeat password: %s\n", repeat_passwrod);
     //gtk_entry_set_text(GTK_ENTRY(sign_up[2]), "");
 
-    if(TRUE) main_screen();
+    if(TRUE) {
+        main_data.main_box.search_chat_id = -1;
+        user_data.login = strdup(name);
+        user_data.password = strdup(passwrod);
+        load_data_for_user();
+        main_screen();
+    }
 }
 void unpress_logout(GtkWidget *widget, GdkEventButton *event, gpointer *p) {
 
