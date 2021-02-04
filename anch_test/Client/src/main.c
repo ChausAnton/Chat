@@ -32,6 +32,11 @@ void message_synchronization(char *message, int sock) {
 		messages[i] = NULL;
 		//func to add new messages to DB
 	}
+
+	for(int i = 0; i < number_message; i++) {
+		free(messages[i]);
+	}
+	free(messages);
 }
 
 
