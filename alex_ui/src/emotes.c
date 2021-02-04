@@ -1,15 +1,16 @@
 #include "Chat.h"
 
 void *scrolling_sticker() {
+
     usleep(3000);
     GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.messages_area_scroll));
     gtk_adjustment_set_value(adjustment, gtk_adjustment_get_upper(adjustment));
     gtk_widget_show_all(main_data.main_box.right_chat_box);
     return NULL;
 }
+
 void emoji_click(GtkWidget *widget, GdkEventButton *event, gpointer *sticker_path) {
-    //pthread_t display_thread = NULL;
-    //pthread_create(&display_thread, NULL, scrolling_msg, NULL);
+
     if (widget) {}
     if(event->type == GDK_BUTTON_PRESS && event->button == 1){
         GtkWidget *message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
@@ -52,23 +53,19 @@ void show_emoji_box(GtkWidget *widget) {
     gtk_widget_set_halign(GTK_WIDGET(emoji_event_box_for_click), GTK_ALIGN_END);
     gtk_widget_set_valign(GTK_WIDGET(emoji_event_box_for_click), GTK_ALIGN_END);
     g_signal_connect(G_OBJECT(emoji_event_box_for_click), "button_press_event", G_CALLBACK(gtk_widget_show), NULL);
-    gtk_fixed_put(GTK_FIXED(position_emoji_box), emoji_event_box_for_click, 1110, 545);
+    gtk_fixed_put(GTK_FIXED(position_emoji_box), emoji_event_box_for_click, 1125, 540);
 
     GtkWidget *emoji_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_name(GTK_WIDGET(emoji_box), "emoji_box");
     gtk_container_add(GTK_CONTAINER(emoji_event_box_for_click), emoji_box);
 
     GtkWidget *scrollable_emoji = gtk_scrolled_window_new(NULL, NULL);
-    gtk_widget_set_size_request(GTK_WIDGET(scrollable_emoji), 200, 260);
+    gtk_widget_set_size_request(GTK_WIDGET(scrollable_emoji), 185, 265);
     gtk_box_pack_start(GTK_BOX(emoji_box), scrollable_emoji, FALSE, FALSE, 0);
 
     GtkWidget *emoji_grid = gtk_grid_new();
     gtk_grid_set_row_spacing(GTK_GRID(emoji_grid), 15);
     gtk_grid_set_column_spacing(GTK_GRID(emoji_grid), 10);
-
-    GtkWidget *emoji_label = gtk_label_new("Emoji");
-    gtk_widget_set_name(GTK_WIDGET(emoji_label), "emoji_label");
-    gtk_grid_attach(GTK_GRID(emoji_grid), emoji_label, 1, 0, 3, 1);
 
     int sticker_num = 1;
     GtkWidget *single_emoji;
@@ -90,7 +87,9 @@ void show_emoji_box(GtkWidget *widget) {
 
                 g_signal_connect(G_OBJECT(single_emoji), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
                 g_signal_connect(G_OBJECT(single_emoji), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
+
                 g_signal_connect(G_OBJECT(single_emoji), "button_press_event", G_CALLBACK(emoji_click), (void *)path_sticker_photo);
+
                 sticker_num++;
                 if(sticker_num > 20) break;
             }

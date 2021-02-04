@@ -31,8 +31,7 @@
         }
 
     #user_photo {
-        margin-top: 10px;
-        margin-left: 20px;
+        margin: 15px 10px 10px 10px;
     }
         #user_settings_event_box {
             background: rgba(0, 0, 0, 0.4);
@@ -110,7 +109,9 @@
             #user_name_in_search {
                 font: 18px PTSansPro-Demi;
                 color: whitesmoke;
-                margin: -100px 0px 0px -100px;
+                /*margin: -100px 0px 0px -100px;*/
+                margin-bottom: 15px;
+                margin-left: 10px;
             }
 
     #hidden {
@@ -169,13 +170,31 @@
         }
 /****************************************/
 
+/**/
+#user_small_box {
+    background: rgba(47, 120, 117, 0.5);
+    border-radius: 15px;
+    min-width: 300px;
+    min-height: 71px;
+    margin: 0px 5px 6px;
+}
+    #user_button:hover > #user_small_box {
+        background: linear-gradient(119.22deg, rgba(104, 52, 135, 0.8) 22.83%, rgba(67, 63, 238, 0.8) 119.04%);
+        margin-left: 5px;
+        margin-right: 5px;
+        transition: 50ms ease-in-out;
+    }
+    #user_button:active > #user_small_box {
+        background: linear-gradient(119.22deg, rgba(104, 52, 135, 0.8) 22.83%, rgba(67, 63, 238, 0.8) 119.04%);
+    }
+/**/
+
 /* 0_0 */
-#left_mid_box {
+#right_mid_box {
     margin-left: 440px;
     margin-right: 440px;
-    background: rgba(47, 120, 117, 0.5);
-    font-family: PTSansPro-Demi;
-    font-size: 15px;
+    background: rgba(47, 120, 117, 0.8);
+    font: 18px PTSansPro-Demi;
     color: #FBFDFF;
     border-radius: 15px;  
 }
@@ -416,7 +435,7 @@
 #logout_label {
     color: whitesmoke;
     font-family: PTSansPro-Demi;
-    font-size: 20px;
+    font-size: 18px;
     margin-top: 20px;
 }
 #logout_box_for_buttons {
@@ -426,15 +445,15 @@
     min-width: 70px;
     margin-left: 20px;
     background: whitesmoke;
-    font-family: PTSansPro-Demi;
-    font-size: 20px;
-    border-radius: 13.5px;
+    font: 18px PTSansPro-Demi;
+    border-radius: 15px;
+    color: black;
 }
 #no_button {
     min-width: 70px;
     background: linear-gradient(231.16deg, #683487 5.87%, #433FEE 156.27%);;
-    font-family: PTSansPro-Demi;
-    font-size: 20px;
-    margin-left: 40px;
-    border-radius: 13.5px;
+    font: 18px PTSansPro-Demi;
+    margin-left: 50px;
+    border-radius: 15px;
+    color: whitesmoke;
 }

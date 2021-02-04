@@ -36,6 +36,8 @@
 // Database
 #include <sqlite3.h>
 
+int new_chat_users_id[100];
+
 enum chat_settings_message {RENAME_CHAT = 1, ADD_USER, DELETE_USER, DELETE_CHAT, CHANGE_CHAT_IMAGE};
 
 typedef struct s_login_box {
@@ -103,10 +105,14 @@ void event_enter_notify(GtkWidget *widget);
 void event_leave_notify(GtkWidget *widget);
 void unpress_event_box(GtkWidget *widget, GdkEventButton *event, gpointer *p);
 void chat_click(GtkWidget *widget);
+void search_user_click(GtkWidget *widget);
+void create_new_chat(GtkWidget *widget);
 void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *data);
 void sign_in();
 void sign_up();
 void logout(GtkWidget *widget, GdkEventButton *event);
+void event_enter_notify_search(GtkWidget *widget);
+void event_leave_notify_search(GtkWidget *widget);
 
 /* emotes.c */
 void *scrolling_sticker();
@@ -122,6 +128,7 @@ void show_user_settings(GtkWidget *widget);
 /* add_new_chat.c */
 void show_add_new_chat(GtkWidget *widget);
 void add_new_chat();
+
 
 /* draw.c */
 gboolean draw_user_avatar(GtkWidget *widget, cairo_t *cr, char* path);
