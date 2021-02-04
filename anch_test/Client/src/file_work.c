@@ -7,9 +7,7 @@ void read_file(int sock) {
 
 	recv(sock , file_n , 20 , 0);
 	char *extension = mx_strsplit(file_n, '.')[1];
-	printf("extension %s\n", extension);
 	char *file_name = mx_strjoin("c1.", extension);
-	printf("file_name %s\n", file_name);
 	char p_array[1000];
 	
 	printf("Reading file Size\n");
@@ -17,15 +15,24 @@ void read_file(int sock) {
 
 	recv(sock , p_array , 1000 , 0);//size
 	int b64_size = atoi(p_array);
-	unsigned char b64[b64_size];
-    printf("size: %d\n", b64_size);
+    /*unsigned char *b64 = (unsigned char *) malloc(sizeof(unsigned char) * b64_size);
 
 	for(int i = 0; i < b64_size; i++)
 		b64[i] = '\0';
 		
-	recv(sock , b64 , b64_size , 0);
+	recv(sock , b64 , b64_size , 0);*/
 
-	printf("size: %s\n", p_array);
+    unsigned char *b64 = NULL;
+    int nb = 0;
+	char buf[50001];
+	for(int i = 0; i < 50001; i++) {
+		buf[i] = '\0';
+	}
+
+	while(nb < b64_size) {
+		nb += recv(sock , buf , 50000 , 0);
+		b64 = (unsigned char *)mx_strjoin((char *)b64, buf);
+	}
 
 	unsigned char *b64_fin;
 	if(strlen((char *)b64) < b64_size) {
@@ -49,7 +56,6 @@ void file_sending(int sock) {
 	gets(message);
 	send(sock , message, strlen(message), 0);
 	usleep(50000);
-	printf("name %s\n", message);
     FILE *picture;
 	picture = fopen(message, "rb");
 	fseek(picture, 0, SEEK_END);
@@ -65,9 +71,9 @@ void file_sending(int sock) {
 	char *send_size = mx_itoa(b64_len);
 	send(sock , send_size, strlen(send_size), 0);
 	usleep(50000);	
-	printf("size %s\n", send_size);
-	char check[100];
 	send(sock , send_buffer, b64_len, 0);
+    send(sock , "", 0, 0);
+	printf("size %zu\n", b64_len);
 	usleep(50000);
 
 	printf("file send end\n");
