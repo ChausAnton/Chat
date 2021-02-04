@@ -41,5 +41,11 @@ void show_user_settings(GtkWidget *widget) {
     gtk_container_add(GTK_CONTAINER(user_settings_photo), user_settings_avatar);
     gtk_box_pack_start(GTK_BOX(scrollable_box), user_settings_photo, FALSE, FALSE, 0);
 
+    user_nickname = gtk_entry_new();
+    gtk_widget_set_name(GTK_WIDGET(user_nickname), "user_nickname");
+    gtk_entry_set_visibility(GTK_ENTRY(user_nickname), FALSE);
+    gtk_entry_set_max_length(GTK_ENTRY(user_nickname), 30);
+    gtk_box_pack_start(GTK_BOX(scrollable_box), user_nickname, FALSE, FALSE, 0);
+
     gtk_widget_show_all(GTK_WIDGET(user_settings_event_box));
 }

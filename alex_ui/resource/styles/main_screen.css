@@ -30,6 +30,11 @@
         #user_settings_photo {
             margin: 10px;
         }
+        #user_nickname {
+            background: rgb(47, 120, 117);
+            color: whitesmoke;
+            margin: 0 10px;
+        }
 
     #user_photo {
         margin-top: 10px;
