@@ -85,7 +85,7 @@ void show_chat_settings(GtkWidget *widget) {
   
     // Delete user
     GtkWidget *delete_user_clickable = gtk_event_box_new();
-    gtk_widget_set_name(GTK_WIDGET(delete_user_clickable), "delete user");
+    gtk_widget_set_name(GTK_WIDGET(delete_user_clickable), "delete_user");
     gtk_box_pack_start(GTK_BOX(scrollable_box), delete_user_clickable, FALSE, FALSE, 10);
 
     g_signal_connect(G_OBJECT(delete_user_clickable), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);

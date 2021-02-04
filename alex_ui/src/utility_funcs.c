@@ -1,14 +1,17 @@
 #include "Chat.h"
 
 void event_enter_notify(GtkWidget *widget) {
+
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT, TRUE);
 }
 
 void event_leave_notify(GtkWidget *widget) {
+
     gtk_widget_unset_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT);
 }
 
 void unpress_event_box(GtkWidget *widget, GdkEventButton *event, gpointer *p) {
+
     if (widget) {}
     if(event->type == GDK_BUTTON_PRESS && event->button == 1){
         gtk_widget_unset_state_flags(GTK_WIDGET((GtkWidget *)p), GTK_STATE_FLAG_ACTIVE);
@@ -17,6 +20,7 @@ void unpress_event_box(GtkWidget *widget, GdkEventButton *event, gpointer *p) {
 }
 
 void chat_click(GtkWidget *widget) {
+
     GList *parent = gtk_container_get_children(GTK_CONTAINER(widget));
     GList *children = gtk_container_get_children(GTK_CONTAINER(parent->data));
     children = children->next->next;
@@ -30,6 +34,7 @@ void chat_click(GtkWidget *widget) {
 }
 
 void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *data) {
+
     if (widget&&event){}
     int number = *((int*)data);
     switch(number) {
@@ -55,6 +60,7 @@ void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *dat
 }
 
 void sign_in() {
+
     char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[0])));
     printf("login: %s\n", name);
     char *passwrod = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[1])));
@@ -73,6 +79,7 @@ void sign_in() {
 }
 
 void sign_up() {
+
     char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[0])));
     printf("login: %s\n", name);
     //gtk_entry_set_text(GTK_ENTRY(sign_up[0]), "");
@@ -91,6 +98,7 @@ void sign_up() {
         main_screen();
     }
 }
+
 void unpress_logout(GtkWidget *widget, GdkEventButton *event, gpointer *p) {
 
     if (widget) {}
@@ -98,7 +106,9 @@ void unpress_logout(GtkWidget *widget, GdkEventButton *event, gpointer *p) {
         gtk_widget_destroy((GtkWidget *)p);
     }
 }
+
 void logout(GtkWidget *widget, GdkEventButton *event) {
+
     if(event->type == GDK_BUTTON_PRESS && event->button == 1){
         //gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
 
@@ -123,7 +133,7 @@ void logout(GtkWidget *widget, GdkEventButton *event) {
         gtk_widget_set_name(GTK_WIDGET(logout_box), "logout_box");
         gtk_container_add(GTK_CONTAINER(clickable_logout), logout_box);
 
-        GtkWidget *logout_label = gtk_label_new("Are you sure????");
+        GtkWidget *logout_label = gtk_label_new("Are you sure you want to exit?");
         gtk_widget_set_name(GTK_WIDGET(logout_label), "logout_label");
         gtk_box_pack_start(GTK_BOX(logout_box), logout_label, FALSE, FALSE, 0);
 
