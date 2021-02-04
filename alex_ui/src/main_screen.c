@@ -226,6 +226,6 @@ void main_screen() {
         gtk_widget_set_size_request(GTK_WIDGET(left_mid_box), 240, 40);
         gtk_box_pack_start(GTK_BOX(main_data.main_box.right_chat_box), left_mid_box, TRUE, FALSE, 0);
     
-    
+    }
     gtk_widget_show_all(main_data.activity_block);
 }
