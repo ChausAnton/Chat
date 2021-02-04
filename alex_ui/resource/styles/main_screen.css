@@ -109,7 +109,9 @@
             #user_name_in_search {
                 font: 18px PTSansPro-Demi;
                 color: whitesmoke;
-                margin: -100px 0px 0px -100px;
+                /*margin: -100px 0px 0px -100px;*/
+                margin-bottom: 15px;
+                margin-left: 10px;
             }
 
     #hidden {
@@ -167,6 +169,25 @@
             transition: 50ms ease-in-out;
         }
 /****************************************/
+
+/**/
+#user_small_box {
+    background: rgba(47, 120, 117, 0.5);
+    border-radius: 15px;
+    min-width: 300px;
+    min-height: 71px;
+    margin: 0px 5px 6px;
+}
+    #user_button:hover > #user_small_box {
+        background: linear-gradient(119.22deg, rgba(104, 52, 135, 0.8) 22.83%, rgba(67, 63, 238, 0.8) 119.04%);
+        margin-left: 5px;
+        margin-right: 5px;
+        transition: 50ms ease-in-out;
+    }
+    #user_button:active > #user_small_box {
+        background: linear-gradient(119.22deg, rgba(104, 52, 135, 0.8) 22.83%, rgba(67, 63, 238, 0.8) 119.04%);
+    }
+/**/
 
 /* 0_0 */
 #right_mid_box {

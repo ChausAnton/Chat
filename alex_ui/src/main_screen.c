@@ -1,7 +1,6 @@
 #include "Chat.h"
 
 void main_screen() {
-
     gtk_widget_destroy(GTK_WIDGET(main_data.activity_block));
     
     gtk_css_provider_load_from_path(main_data.styles, "resource/styles/main_screen.css", NULL);
@@ -44,7 +43,9 @@ void main_screen() {
 
     GtkWidget *user_avatar = gtk_drawing_area_new();
     gtk_widget_set_size_request(GTK_WIDGET(user_avatar), 80, 80);
+  
     char *path = strdup("resource/images/anonymous.png");
+  
     g_signal_connect(G_OBJECT(user_avatar), "draw", G_CALLBACK(draw_user_avatar), path);
 
     GtkWidget *user_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
@@ -85,8 +86,8 @@ void main_screen() {
     gtk_widget_set_name(GTK_WIDGET(exit_button_box), "exit_button_box");
     gtk_widget_set_size_request(GTK_WIDGET(exit_button_box), 19, 19);
     gtk_container_add(GTK_CONTAINER(exit_button), exit_button_box);
-
-    //Chat list
+  
+    // Chat list
     load_chat_list();
     
     // Chat box
@@ -228,7 +229,6 @@ void main_screen() {
         gtk_widget_set_name(GTK_WIDGET(right_mid_box), "right_mid_box");
         gtk_widget_set_size_request(GTK_WIDGET(right_mid_box), 240, 40);
         gtk_box_pack_start(GTK_BOX(main_data.main_box.right_chat_box), right_mid_box, TRUE, FALSE, 0);
-    
     }
     gtk_widget_show_all(main_data.activity_block);
 }
