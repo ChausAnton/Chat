@@ -32,6 +32,9 @@ void read_file(int sock) {
 	while(nb < b64_size) {
 		nb += recv(sock , buf , 50000 , 0);
 		b64 = (unsigned char *)mx_strjoin((char *)b64, buf);
+        for(int i = 0; i < 50001; i++) {
+		    buf[i] = '\0';
+	    }
 	}
 
 	unsigned char *b64_fin;

@@ -35,7 +35,9 @@ void file_work(int sock_from, int sock_to) {
 	while(nb < b64_size) {
 		nb += recv(sock_from , buf , 50000 , 0);
 		b64 = (unsigned char *)mx_strjoin((char *)b64, buf);
-		printf("%d\n", nb);
+		for(int i = 0; i < 50001; i++) {
+		    buf[i] = '\0';
+	    }
 	}
 
 
