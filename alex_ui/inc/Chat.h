@@ -21,24 +21,22 @@
 #include <string.h>
 #include <memory.h>
 #include <netdb.h>
-#include <netinet/in.h>
-#include <stdbool.h>
 #include <math.h>
+#include <netinet/in.h>
 
 // Server
 #include <sys/socket.h>
+#include <sys/types.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <sys/types.h>
-#include <time.h>
 
 // Gtk
 #include <gtk/gtk.h>
 
 // Database
 #include <sqlite3.h>
-GtkWidget *messages_area_scroll;
-GtkWidget *messanges_area_for_scroll;
+
+enum chat_settings_message {RENAME_CHAT = 1, ADD_USER, DELETE_USER, DELETE_CHAT, CHANGE_CHAT_IMAGE};
 
 typedef struct s_login_box {
     GtkWidget *all_login_box;
@@ -63,15 +61,19 @@ typedef struct s_user {
     char *login;
     char *password;
     t_chat_list *chat_array;
+    int amount_of_chat;
 }   t_user;
 
 typedef struct s_main_box {
     GtkWidget *all_main_box;
     GtkWidget *chat_bar;
     GtkWidget *right_chat_box;
+    GtkWidget *messages_area_scroll;
+    GtkWidget *messanges_area_for_scroll;
+    GtkWidget *chat_bar_for_scroll;
+    GtkWidget *chat_bar_scroll;
     int search_chat_id;
 }   t_main_box;
-
 
 typedef struct s_main_data {
     GtkWidget *window;
@@ -101,6 +103,7 @@ void event_enter_notify(GtkWidget *widget);
 void event_leave_notify(GtkWidget *widget);
 void unpress_event_box(GtkWidget *widget, GdkEventButton *event, gpointer *p);
 void chat_click(GtkWidget *widget);
+void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *data);
 void sign_in();
 void sign_up();
 void logout(GtkWidget *widget, GdkEventButton *event);
@@ -118,6 +121,7 @@ void show_user_settings(GtkWidget *widget);
 
 /* add_new_chat.c */
 void show_add_new_chat(GtkWidget *widget);
+void add_new_chat();
 
 /* draw.c */
 gboolean draw_user_avatar(GtkWidget *widget, cairo_t *cr, char* path);

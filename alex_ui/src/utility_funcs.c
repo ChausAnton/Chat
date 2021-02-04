@@ -29,6 +29,31 @@ void chat_click(GtkWidget *widget) {
     main_screen();
 }
 
+void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *data) {
+    if (widget&&event){}
+    int number = *((int*)data);
+    switch(number) {
+        case 1:
+            write(1, "Chat renamed!\n", 14);
+            break;
+        case 2:
+            write(1, "User added!\n", 12);
+            break;
+        case 3:
+            write(1, "User deleted!\n", 14);
+            break;
+        case 4:
+            write(1, "Chat deleted!\n", 14);
+            break;
+        case 5:
+            write(1, "Chat image changed!\n", 20);
+            break;
+        default:
+            break;
+    }
+    
+}
+
 void sign_in() {
     char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[0])));
     printf("login: %s\n", name);

@@ -17,9 +17,8 @@ void show_user_settings(GtkWidget *widget) {
     gtk_widget_set_halign(GTK_WIDGET(clickable_user_settings), GTK_ALIGN_END);
     gtk_widget_set_valign(GTK_WIDGET(clickable_user_settings), GTK_ALIGN_END);
     g_signal_connect(G_OBJECT(clickable_user_settings), "button_press_event", G_CALLBACK(gtk_widget_show), NULL);
-  
-    gtk_fixed_put(GTK_FIXED(position_user_settings), clickable_user_settings, 630, 350);
 
+    gtk_fixed_put(GTK_FIXED(position_user_settings), clickable_user_settings, 680, 320);
 
     GtkWidget *user_settings_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
     gtk_widget_set_name(GTK_WIDGET(user_settings_box), "user_settings_box");
