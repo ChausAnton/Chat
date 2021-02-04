@@ -42,7 +42,7 @@ void start_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_
     sign_in_data[1] = gtk_entry_new();
     gtk_widget_set_name(GTK_WIDGET(sign_in_data[1]), "password");
     gtk_entry_set_visibility(GTK_ENTRY(sign_in_data[1]), FALSE);
-    gtk_entry_set_max_length(GTK_ENTRY(sign_in_data[1]), 30);
+    gtk_entry_set_max_length(GTK_ENTRY(sign_in_data[1]), 28);
     gtk_box_pack_start(GTK_BOX(main_data.login_box), sign_in_data[1], FALSE, FALSE, 0);
 
     GtkWidget *signin_button = gtk_button_new_with_label ("Sign in");
@@ -55,7 +55,7 @@ void start_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_
     gtk_button_set_relief(GTK_BUTTON(signup_button), GTK_RELIEF_NONE);
     gtk_box_pack_start(GTK_BOX(main_data.login_box), signup_button, FALSE, FALSE, 0);
 
-    g_signal_connect(G_OBJECT(signin_button), "button_press_event", G_CALLBACK(sign_in), sign_in_data);
+    //g_signal_connect(G_OBJECT(signin_button), "button_press_event", G_CALLBACK(sign_in), sign_in_data);
     g_signal_connect(G_OBJECT(signin_button), "button_press_event", G_CALLBACK(main_screen), (gpointer **)activity_bl);
     
     g_signal_connect(G_OBJECT(signup_button), "button_press_event", G_CALLBACK(register_screen), (gpointer **)activity_bl);

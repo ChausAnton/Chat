@@ -14,11 +14,23 @@
     border-radius: 15px;
     margin: 5px 5px 8px;
 }
-    #settings_button {
-        background-image: url("../images/settings_icon.png");
+    #add_new_chat_button {
+        background-image: url("../images/add_new_chat_icon.png");
         background-size: 100%;
         background-repeat: no-repeat;
         background-position: center;
+    }
+        #add_new_chat_event_box {
+            background: rgba(0, 0, 0, 0.4);
+        }   
+        #add_new_chat_box {
+            background: rgb(47, 120, 117);
+            border-radius: 15px;
+        }
+
+    #user_photo {
+        margin-top: 10px;
+        margin-left: 20px;
     }
         #user_settings_event_box {
             background: rgba(0, 0, 0, 0.4);
@@ -33,13 +45,12 @@
         #user_nickname {
             background: rgb(47, 120, 117);
             color: whitesmoke;
-            margin: 0 10px;
+            margin: -80px 15px 60px 140px;
+            border: 0px solid black;
+            border-bottom: 1px solid whitesmoke;
+            border-radius: 0px;
         }
 
-    #user_photo {
-        margin-top: 10px;
-        margin-left: 20px;
-    }
     #hidden {
         opacity: 0;
     }
@@ -162,7 +173,7 @@
             background-position: center;
         }
         #delete_user_icon {
-            background-image: url("../images/delete-person-outlined-interface-button.png");
+            background-image: url("../images/delete_user.png");
             background-size: 100%;
             background-repeat: no-repeat;
             background-position: center;
@@ -301,6 +312,7 @@
 .scrollbar, scrollbar {
     opacity: 0;
 }
+
 /**********LOGOUT**********/
 #logout_event_box {
     background: rgba(0, 0, 0, 0.4);

@@ -42,7 +42,6 @@ GtkWidget *messanges_area_for_scroll;
 GtkWidget *window;
 GtkWidget *activity_block;
 GtkWidget *sign_in_data[3];
-GtkWidget *user_nickname;
 GtkWidget *chat_box;
 
 typedef struct s_main_data {
@@ -82,6 +81,9 @@ void show_chat_settings(GtkWidget *widget);
 
 /* user_settings.c */
 void show_user_settings(GtkWidget *widget);
+
+/* add_new_chat.c */
+void show_add_new_chat(GtkWidget *widget);
 
 /* draw.c */
 gboolean draw_user_avatar(GtkWidget *widget, cairo_t *cr, char* path);
