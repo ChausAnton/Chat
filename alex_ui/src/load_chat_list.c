@@ -8,7 +8,6 @@ void load_chat_list() {
     main_data.main_box.chat_bar_for_scroll = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_name(GTK_WIDGET(main_data.main_box.chat_bar_for_scroll), "chat_bar_for_scroll");
     gtk_container_add(GTK_CONTAINER(main_data.main_box.chat_bar_scroll), main_data.main_box.chat_bar_for_scroll);
-
     for(int i = 0; i < user_data.amount_of_chat; i++) {
         GtkWidget *chat_button = gtk_event_box_new();
         gtk_widget_set_name(GTK_WIDGET(chat_button), "chat_button");
@@ -19,7 +18,7 @@ void load_chat_list() {
         gtk_widget_set_name(GTK_WIDGET(chat_box), "chat_small_box");
         gtk_widget_set_size_request(GTK_WIDGET(chat_box), 300, 70);
         gtk_container_add(GTK_CONTAINER(chat_button), chat_box);
-        
+
         GtkWidget *left_chat_avatar = gtk_drawing_area_new();
         gtk_widget_set_size_request(GTK_WIDGET(left_chat_avatar), 40, 40);
         char *path = strdup(user_data.chat_array[i].image_path);

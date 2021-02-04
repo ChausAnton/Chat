@@ -54,7 +54,7 @@ typedef struct s_chat_list {
     int chat_id;
     char* chat_name;
     int count_users;
-    char** users_id;
+    int* users_id;
     char* image_path;
 }   t_chat_list;
 
@@ -106,7 +106,6 @@ void event_leave_notify(GtkWidget *widget);
 void unpress_event_box(GtkWidget *widget, GdkEventButton *event, gpointer *p);
 void chat_click(GtkWidget *widget);
 void search_user_click(GtkWidget *widget);
-void create_new_chat(GtkWidget *widget);
 void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *data);
 void sign_in();
 void sign_up();

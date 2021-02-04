@@ -86,10 +86,10 @@ void main_screen() {
     gtk_widget_set_name(GTK_WIDGET(exit_button_box), "exit_button_box");
     gtk_widget_set_size_request(GTK_WIDGET(exit_button_box), 19, 19);
     gtk_container_add(GTK_CONTAINER(exit_button), exit_button_box);
-  
+    
     // Chat list
     load_chat_list();
-    
+
     // Chat box
     main_data.main_box.right_chat_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_name(GTK_WIDGET(main_data.main_box.right_chat_box), "chat_box");
@@ -102,7 +102,7 @@ void main_screen() {
         gtk_widget_set_name(GTK_WIDGET(top_area), "top_area");
         gtk_widget_set_size_request(GTK_WIDGET(top_area), WINDOW_SIZE_X - 310, 60);
         gtk_box_pack_start(GTK_BOX(main_data.main_box.right_chat_box), top_area, FALSE, FALSE, 0);
-            
+        
         // Chat logo
         GtkWidget *top_chat_avatar = gtk_drawing_area_new();
         gtk_widget_set_size_request(GTK_WIDGET(top_chat_avatar), 40, 40);

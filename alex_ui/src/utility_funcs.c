@@ -32,6 +32,7 @@ void chat_click(GtkWidget *widget) {
     gtk_widget_show(main_data.main_box.all_main_box);
     main_screen();
 }
+
 void event_enter_notify_search(GtkWidget *widget) {
     if(gtk_widget_get_state_flags(GTK_WIDGET(widget)) & GTK_STATE_FLAG_ACTIVE) {
         return;
@@ -71,14 +72,6 @@ void search_user_click(GtkWidget *widget) {
             }
         }
     }
-}
-
-void create_new_chat(GtkWidget *widget) {
-    if (widget){}
-    for(int i = 0; i < 100;  i++){
-            if(new_chat_users_id[i] != -1)  write(1, int_to_str(new_chat_users_id[i]), 2);
-        }
-    write(1, "Chat created!\n", 14);
 }
 
 void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *data) {

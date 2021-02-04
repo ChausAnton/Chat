@@ -19,6 +19,6 @@ void load_data_for_user() {
     //user_data.chat_array = (t_chat_list *)malloc(sizeof(t_chat_list) * get_count_of_chats(user_data.login));
     //fill_chat_array(user_data.login, locale_db, user_data.chat_array);
     user_data.amount_of_chat = 20;
-    user_data.chat_array = (t_chat_list *)malloc(sizeof(t_chat_list) * user_data.amount_of_chat);
+    user_data.chat_array = (t_chat_list *)malloc(sizeof(t_chat_list) * 150);
     fill_chat_array();
 }

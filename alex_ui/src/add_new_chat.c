@@ -37,7 +37,7 @@ void show_add_new_chat(GtkWidget *widget) {
     gtk_widget_set_name(GTK_WIDGET(new_chat_name), "add_new_chat_box");
     gtk_box_pack_start(GTK_BOX(new_chat_box), new_chat_name, FALSE, FALSE, 0);
 
-    g_signal_connect(G_OBJECT(new_chat_event_box), "button_press_event", G_CALLBACK(create_new_chat), NULL);
+    g_signal_connect(G_OBJECT(new_chat_event_box), "button_press_event", G_CALLBACK(add_new_chat), NULL);
 
     GtkWidget *search_users = gtk_entry_new();
     gtk_widget_set_name(GTK_WIDGET(search_users), "search_users");
@@ -86,7 +86,6 @@ void show_add_new_chat(GtkWidget *widget) {
 
         g_signal_connect(G_OBJECT(search_chat_button), "enter-notify-event", G_CALLBACK(event_enter_notify_search), NULL);
         g_signal_connect(G_OBJECT(search_chat_button), "leave-notify-event", G_CALLBACK(event_leave_notify_search), NULL);
-        
         g_signal_connect(G_OBJECT(search_chat_button), "button_press_event", G_CALLBACK(search_user_click), NULL);
     }
     
@@ -105,13 +104,30 @@ void *scrolling_chats() {
 }
 
 void add_new_chat() { 
+    int index_new = user_data.amount_of_chat;
     user_data.amount_of_chat += 1;
-    user_data.chat_array = (t_chat_list *)malloc(sizeof(t_chat_list) * user_data.amount_of_chat);
-    user_data.chat_array[user_data.amount_of_chat-1].chat_name = strdup("New Chat");
-    //user_data.chat_array[user_data.amount_of_chat-1].count_users  = amount(users_id);
+    user_data.chat_array[index_new].chat_name = strdup("New Chat");
+    user_data.chat_array[index_new].count_users = 1;
+    
+    for(int i = 0; i < 100; i++){
+        if(new_chat_users_id[i] != -1) {
+            user_data.chat_array[index_new].count_users += 1;
+        }
+    }
+    user_data.chat_array[index_new].users_id = malloc(sizeof(int)*user_data.chat_array[index_new].count_users);
+    int tmp_index = 0;
+    for(int i = 0; i < 100; i++){
+        if(new_chat_users_id[i] != -1) {
+            user_data.chat_array[index_new].users_id[tmp_index] = new_chat_users_id[i];
+            tmp_index++;
+        }
+    }
+    new_chat_users_id[tmp_index] = user_data.user_id;
+
+    //user_data.chat_array[user_data.amount_of_chat-1].count_users = amount(users_id);
     //user_data.chat_array[user_data.amount_of_chat-1].chat_id = last(chat_id in db);
-    user_data.chat_array[user_data.amount_of_chat-1].chat_id = 111;
-    user_data.chat_array[user_data.amount_of_chat-1].image_path = strdup("resource/images/stickers/047-hello.png");
+    user_data.chat_array[index_new].chat_id = index_new;
+    user_data.chat_array[index_new].image_path = strdup("resource/images/stickers/047-hello.png");
 
     GtkWidget *chat_button = gtk_event_box_new();
     gtk_widget_set_name(GTK_WIDGET(chat_button), "chat_button");
@@ -125,7 +141,7 @@ void add_new_chat() {
     
     GtkWidget *left_chat_avatar = gtk_drawing_area_new();
     gtk_widget_set_size_request(GTK_WIDGET(left_chat_avatar), 40, 40);
-    char *path = strdup(user_data.chat_array[user_data.amount_of_chat-1].image_path);
+    char *path = strdup(user_data.chat_array[index_new].image_path);
 
     g_signal_connect(G_OBJECT(left_chat_avatar), "draw", G_CALLBACK(draw_chat_avatar), path);
 
@@ -135,11 +151,11 @@ void add_new_chat() {
     gtk_widget_set_size_request(GTK_WIDGET(photo_chat), 50, 30);
     gtk_box_pack_start(GTK_BOX(chat_box), photo_chat, FALSE, FALSE, 0);
 
-    GtkWidget* name_chat = gtk_label_new(user_data.chat_array[user_data.amount_of_chat-1].chat_name);
+    GtkWidget* name_chat = gtk_label_new(user_data.chat_array[index_new].chat_name);
     gtk_widget_set_name(GTK_WIDGET(name_chat), "chat_name");
     gtk_box_pack_start(GTK_BOX(chat_box), name_chat, FALSE, FALSE, 0);
 
-    GtkWidget *chat_id = gtk_label_new(int_to_str(user_data.chat_array[user_data.amount_of_chat-1].chat_id));
+    GtkWidget *chat_id = gtk_label_new(int_to_str(user_data.chat_array[index_new].chat_id));
     gtk_box_pack_start(GTK_BOX(chat_box), chat_id, FALSE, FALSE, 0);
     gtk_widget_set_name(GTK_WIDGET(chat_id), "hidden");
 
