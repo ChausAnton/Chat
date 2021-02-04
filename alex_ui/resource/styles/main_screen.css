@@ -374,14 +374,14 @@
         font-size: 18px;
         color: whitesmoke;
     }
-    #emoji {
+    /*#emoji {
         background: rgb(25, 10, 80);
         border-radius: 15px;
-    }
+    }*/
     #emoji:hover {
-        background: rgb(185, 27, 101);
-        border-radius: 15px;
-        transition: 250ms ease-in-out;
+        box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.35);
+        border-radius: 100%;
+        transition: 150ms ease-in-out;
     }
 
     #important_box {
@@ -404,6 +404,9 @@
 }*/
 
 /* Message itself */
+#message_body {
+    margin-right: 15px;
+}
 #message {
     padding: 10px 10px 10px 10px;
     background: linear-gradient(231.16deg, #683487 5.87%, #433FEE 156.27%);;

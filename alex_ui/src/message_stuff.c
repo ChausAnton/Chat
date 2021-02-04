@@ -3,11 +3,11 @@
 void *scrolling_msg() {
 
     usleep(50000);
-    GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(messages_area_scroll));
+    GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.messages_area_scroll));
     gtk_adjustment_set_value(adjustment, gtk_adjustment_get_upper(adjustment));
 
-    gtk_widget_hide(messages_area_scroll);
-    gtk_widget_show(messages_area_scroll);
+    gtk_widget_hide(main_data.main_box.messages_area_scroll);
+    gtk_widget_show(main_data.main_box.messages_area_scroll);
 
     return NULL;
 }
@@ -16,7 +16,7 @@ void display_message(char *message_text) {
     
     GtkWidget *message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
     gtk_widget_set_name(GTK_WIDGET(message_body), "messages_body");
-    gtk_box_pack_start(GTK_BOX(messanges_area_for_scroll), message_body, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(main_data.main_box.messanges_area_for_scroll), message_body, FALSE, FALSE, 0);
 
     GtkWidget *message = gtk_label_new(message_text);
     gtk_widget_set_name(GTK_WIDGET(message), "message");
@@ -70,7 +70,7 @@ void send_message_file(GtkWidget *widget, GdkEventButton *event, gpointer *messs
 
         GtkWidget *message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
         gtk_widget_set_name(GTK_WIDGET(message_body), "messages_body");
-        gtk_box_pack_start(GTK_BOX(messanges_area_for_scroll), message_body, FALSE, FALSE, 0);
+        gtk_box_pack_start(GTK_BOX(main_data.main_box.messanges_area_for_scroll), message_body, FALSE, FALSE, 0);
 
         GtkWidget *message_body_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
         gtk_box_pack_end(GTK_BOX(message_body), message_body_box, FALSE, TRUE, 0);

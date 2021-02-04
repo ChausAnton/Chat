@@ -129,15 +129,16 @@ void sign_up() {
 
     char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[0])));
     printf("login: %s\n", name);
-    //gtk_entry_set_text(GTK_ENTRY(sign_up[0]), "");
     char *passwrod = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[1])));
     printf("password: %s\n", passwrod);
-    //gtk_entry_set_text(GTK_ENTRY(sign_up[1]), "");
     char *repeat_passwrod = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[2])));
     printf("repeat password: %s\n", repeat_passwrod);
-    //gtk_entry_set_text(GTK_ENTRY(sign_up[2]), "");
 
     if(TRUE) {
+        gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[0]), "");
+        gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[1]), "");
+        gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[2]), "");
+
         main_data.main_box.search_chat_id = -1;
         user_data.login = strdup(name);
         user_data.password = strdup(passwrod);
@@ -145,6 +146,7 @@ void sign_up() {
         main_screen();
     }
 }
+
 
 void unpress_logout(GtkWidget *widget, GdkEventButton *event, gpointer *p) {
     if (widget) {}

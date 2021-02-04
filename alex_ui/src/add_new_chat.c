@@ -92,3 +92,63 @@ void show_add_new_chat(GtkWidget *widget) {
     
     gtk_widget_show_all(GTK_WIDGET(add_new_chat_event_box));
 }
+
+
+void *scrolling_chats() {
+    usleep(15000);
+    GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.chat_bar_scroll));
+    gtk_adjustment_set_value(adjustment, gtk_adjustment_get_upper(adjustment));
+
+    gtk_widget_hide(main_data.main_box.chat_bar_scroll);
+    gtk_widget_show(main_data.main_box.chat_bar_scroll);
+    return NULL;
+}
+
+void add_new_chat() { 
+    user_data.amount_of_chat += 1;
+    user_data.chat_array = (t_chat_list *)malloc(sizeof(t_chat_list) * user_data.amount_of_chat);
+    user_data.chat_array[user_data.amount_of_chat-1].chat_name = strdup("New Chat");
+    //user_data.chat_array[user_data.amount_of_chat-1].count_users  = amount(users_id);
+    //user_data.chat_array[user_data.amount_of_chat-1].chat_id = last(chat_id in db);
+    user_data.chat_array[user_data.amount_of_chat-1].chat_id = 111;
+    user_data.chat_array[user_data.amount_of_chat-1].image_path = strdup("resource/images/stickers/047-hello.png");
+
+    GtkWidget *chat_button = gtk_event_box_new();
+    gtk_widget_set_name(GTK_WIDGET(chat_button), "chat_button");
+    gtk_event_box_set_above_child(GTK_EVENT_BOX(chat_button), TRUE);
+    gtk_box_pack_start(GTK_BOX(main_data.main_box.chat_bar_for_scroll), chat_button, FALSE, FALSE, 0);
+
+    GtkWidget *chat_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    gtk_widget_set_name(GTK_WIDGET(chat_box), "chat_small_box");
+    gtk_widget_set_size_request(GTK_WIDGET(chat_box), 300, 70);
+    gtk_container_add(GTK_CONTAINER(chat_button), chat_box);
+    
+    GtkWidget *left_chat_avatar = gtk_drawing_area_new();
+    gtk_widget_set_size_request(GTK_WIDGET(left_chat_avatar), 40, 40);
+    char *path = strdup(user_data.chat_array[user_data.amount_of_chat-1].image_path);
+
+    g_signal_connect(G_OBJECT(left_chat_avatar), "draw", G_CALLBACK(draw_chat_avatar), path);
+
+    GtkWidget* photo_chat = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_widget_set_name(GTK_WIDGET(photo_chat), "left_chat_photo_box");
+    gtk_container_add(GTK_CONTAINER(photo_chat), left_chat_avatar);
+    gtk_widget_set_size_request(GTK_WIDGET(photo_chat), 50, 30);
+    gtk_box_pack_start(GTK_BOX(chat_box), photo_chat, FALSE, FALSE, 0);
+
+    GtkWidget* name_chat = gtk_label_new(user_data.chat_array[user_data.amount_of_chat-1].chat_name);
+    gtk_widget_set_name(GTK_WIDGET(name_chat), "chat_name");
+    gtk_box_pack_start(GTK_BOX(chat_box), name_chat, FALSE, FALSE, 0);
+
+    GtkWidget *chat_id = gtk_label_new(int_to_str(user_data.chat_array[user_data.amount_of_chat-1].chat_id));
+    gtk_box_pack_start(GTK_BOX(chat_box), chat_id, FALSE, FALSE, 0);
+    gtk_widget_set_name(GTK_WIDGET(chat_id), "hidden");
+
+    g_signal_connect(G_OBJECT(chat_button), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
+    g_signal_connect(G_OBJECT(chat_button), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
+    g_signal_connect(G_OBJECT(chat_button), "button_press_event", G_CALLBACK(chat_click), NULL);
+    
+    pthread_t display_thread = NULL;
+    pthread_create(&display_thread, NULL, scrolling_chats, NULL);
+    
+    gtk_widget_show_all(main_data.main_box.chat_bar);
+}
