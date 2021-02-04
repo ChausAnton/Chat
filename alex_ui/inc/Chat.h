@@ -38,36 +38,54 @@
 
 GtkWidget *messages_area_scroll;
 GtkWidget *messanges_area_for_scroll;
-GtkWidget *chat_box;
 
 enum chat_settings_message {RENAME_CHAT = 1, ADD_USER, DELETE_USER, DELETE_CHAT, CHANGE_CHAT_IMAGE};
 
 typedef struct s_login_box {
     GtkWidget *all_login_box;
-    GtkCssProvider *styles;
     GtkWidget *sign_in_data[2];
 }   t_login_box;
 
 typedef struct s_reg_box {
     GtkWidget *all_reg_box;
-    GtkCssProvider *styles;
     GtkWidget *sign_up_data[3];
 }   t_reg_box;
 
+typedef struct s_chat_list {
+    int chat_id;
+    char* chat_name;
+    int count_users;
+    char** users_id;
+    char* image_path;
+}   t_chat_list;
+
+typedef struct s_user {
+    int user_id;
+    char *login;
+    char *password;
+    t_chat_list *chat_array;
+}   t_user;
+
 typedef struct s_main_box {
     GtkWidget *all_main_box;
-    GtkCssProvider *styles;
+    GtkWidget *chat_bar;
+    GtkWidget *right_chat_box;
+    int search_chat_id;
 }   t_main_box;
 
 typedef struct s_main_data {
     GtkWidget *window;
     GtkWidget *activity;
     GtkWidget *activity_block;
+    GtkCssProvider *styles;
     t_login_box login_box;
     t_reg_box reg_box;
     t_main_box main_box;
 }   t_main_data;
+
 t_main_data main_data;
+t_user user_data;
+
 void start_screen();
 void register_screen();
 void main_screen();
@@ -108,4 +126,10 @@ gboolean draw_sticker_photo(GtkWidget *widget, cairo_t *cr, char* path);
 /* string.c */
 char *mx_strjoin(const char *s1, const char *s2);
 char *int_to_str(int num);
+
+/* load_data.c */
+void load_data_for_user();
+
+/* load_chat_list.c */
+void load_chat_list(); 
 #endif
