@@ -57,6 +57,7 @@ void register_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activi
 void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_bl);
 
 /* message_stuff.c */
+void *scrolling_msg();
 void display_message(char *message_text);
 void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage);
 void send_message_file(GtkWidget *widget, GdkEventButton *event, gpointer *messsage);
@@ -69,10 +70,12 @@ void unpress_event_box(GtkWidget *widget, GdkEventButton *event, gpointer *p);
 void chat_click(GtkWidget *widget);
 void sign_in(GtkWidget *widget, GdkEventButton *event, gpointer *login[]);
 void sign_up(GtkWidget *widget, GdkEventButton *event, gpointer *sign_up[]);
+void logout(GtkWidget *widget, GdkEventButton *event, gpointer **activity_block);
 
 /* emotes.c */
+void *scrolling_sticker();
 void show_emoji_box(GtkWidget *widget);
-void emoji_click(GtkWidget *widget);
+void emoji_click(GtkWidget *widget, GdkEventButton *event, gpointer *sticker_path);
 
 /* chat_settings.c */
 void show_chat_settings(GtkWidget *widget);
@@ -84,4 +87,8 @@ void show_user_settings(GtkWidget *widget);
 gboolean draw_user_avatar(GtkWidget *widget, cairo_t *cr, char* path);
 gboolean draw_chat_avatar(GtkWidget *widget, cairo_t *cr, char* path);
 gboolean draw_user_settings_avatar(GtkWidget *widget, cairo_t *cr, char* path);
+gboolean draw_sticker_photo(GtkWidget *widget, cairo_t *cr, char* path);
+
+/* string.c */
+char *mx_strjoin(const char *s1, const char *s2);
 #endif

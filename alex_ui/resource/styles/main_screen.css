@@ -85,7 +85,7 @@
             background: linear-gradient(119.22deg, rgba(104, 52, 135, 0.8) 22.83%, rgba(67, 63, 238, 0.8) 119.04%);
             margin-left: 5px;
             margin-right: 5px;
-            transition: 100ms ease-in-out;
+            transition: 50ms ease-in-out;
         }
 /****************************************/
 
@@ -300,4 +300,37 @@
 }
 .scrollbar, scrollbar {
     opacity: 0;
+}
+/**********LOGOUT**********/
+#logout_event_box {
+    background: rgba(0, 0, 0, 0.4);
+}
+#logout_box {
+    background: rgb(47, 120, 117);
+    border-radius: 15px;
+}
+#logout_label {
+    color: whitesmoke;
+    font-family: PTSansPro-Demi;
+    font-size: 20px;
+    margin-top: 20px;
+}
+#logout_box_for_buttons {
+    margin-top: 20px;
+}
+#yes_button {
+    min-width: 70px;
+    margin-left: 20px;
+    background: whitesmoke;
+    font-family: PTSansPro-Demi;
+    font-size: 20px;
+    border-radius: 13.5px;
+}
+#no_button {
+    min-width: 70px;
+    background: linear-gradient(231.16deg, #683487 5.87%, #433FEE 156.27%);;
+    font-family: PTSansPro-Demi;
+    font-size: 20px;
+    margin-left: 40px;
+    border-radius: 13.5px;
 }

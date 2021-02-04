@@ -1,0 +1,13 @@
+prefix=/Users/irazumeyko/.brew/Cellar/glib/2.66.4_1
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+gmodule_supported=true
+
+Name: GModule
+Description: Dynamic module loader for GLib
+Version: 2.66.4
+Requires: glib-2.0
+Libs: -L${libdir} -lgmodule-2.0
+Libs.private: -lintl
+Cflags: -I${includedir}
