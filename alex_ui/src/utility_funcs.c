@@ -85,6 +85,9 @@ void sign_up() {
 
     if(TRUE) {
         main_data.main_box.search_chat_id = -1;
+        user_data.login = strdup(name);
+        user_data.password = strdup(passwrod);
+        load_data_for_user();
         main_screen();
     }
 }
