@@ -34,7 +34,7 @@ void show_user_settings(GtkWidget *widget) {
 
     GtkWidget *user_settings_avatar = gtk_drawing_area_new();
     gtk_widget_set_size_request(GTK_WIDGET(user_settings_avatar), 100, 100);
-    char *path = strdup("resource/images/start.png");
+    char *path = strdup(user_data.image_path);
     g_signal_connect(G_OBJECT(user_settings_avatar), "draw", G_CALLBACK(draw_user_settings_avatar), path);
 
     GtkWidget *user_settings_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
@@ -42,7 +42,9 @@ void show_user_settings(GtkWidget *widget) {
     gtk_container_add(GTK_CONTAINER(user_settings_photo), user_settings_avatar);
     gtk_box_pack_start(GTK_BOX(scrollable_box), user_settings_photo, FALSE, FALSE, 0);
 
-    GtkWidget *user_nickname = gtk_entry_new();
+    GtkEntryBuffer *nickname = gtk_entry_buffer_new(user_data.name, -1);
+
+    GtkWidget *user_nickname = gtk_entry_new_with_buffer(nickname);
     gtk_widget_set_name(GTK_WIDGET(user_nickname), "user_nickname");
     gtk_entry_set_max_length(GTK_ENTRY(user_nickname), 30);
     /*char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY(sign_in_data[0])));

@@ -44,9 +44,9 @@ void main_screen() {
     GtkWidget *user_avatar = gtk_drawing_area_new();
     gtk_widget_set_size_request(GTK_WIDGET(user_avatar), 80, 80);
   
-    char *path = strdup("resource/images/anonymous.png");
+    //char *path = strdup("resource/images/anonymous.png");
   
-    g_signal_connect(G_OBJECT(user_avatar), "draw", G_CALLBACK(draw_user_avatar), path);
+    g_signal_connect(G_OBJECT(user_avatar), "draw", G_CALLBACK(draw_user_avatar), user_data.image_path);
 
     GtkWidget *user_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_name(GTK_WIDGET(user_photo), "user_photo");
@@ -90,6 +90,10 @@ void main_screen() {
     // Chat list
     load_chat_list();
 
+    for(int i =0; i < 100; i++){
+        new_chat_users_id[i] = -1;
+    }
+
     // Chat box
     main_data.main_box.right_chat_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_name(GTK_WIDGET(main_data.main_box.right_chat_box), "chat_box");
@@ -102,6 +106,6 @@ void main_screen() {
         gtk_widget_set_size_request(GTK_WIDGET(right_mid_box), 240, 40);
         gtk_box_pack_start(GTK_BOX(main_data.main_box.right_chat_box), right_mid_box, TRUE, FALSE, 0);
     }
-    
+
     gtk_widget_show_all(main_data.activity_block);
 }

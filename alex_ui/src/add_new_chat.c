@@ -179,6 +179,8 @@ void add_new_chat() {
     //pthread_t display_thread = NULL;
     //pthread_create(&display_thread, NULL, scrolling_chats, NULL);
 
+    for(int i =0; i < 100; i++) new_chat_users_id[i] = -1;
+
     gtk_widget_destroy(main_data.main_box.add_new_chat_event_box);//Delete window
 
     gtk_widget_show_all(main_data.main_box.chat_bar);

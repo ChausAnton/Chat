@@ -17,6 +17,9 @@ void emoji_click(GtkWidget *widget, GdkEventButton *event, gpointer *sticker_pat
         gtk_widget_set_name(GTK_WIDGET(message_body), "message_body");
         gtk_box_pack_start(GTK_BOX(main_data.main_box.messanges_area_for_scroll), message_body, FALSE, FALSE, 0);
 
+        GtkWidget *message_body_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
+        gtk_box_pack_end(GTK_BOX(message_body), message_body_box, FALSE, FALSE, 0);
+
         GtkWidget *message_file = gtk_image_new();
         GdkPixbuf *message_file_pixbuf = gdk_pixbuf_new_from_file((gchar *)sticker_path, NULL);
         
@@ -30,8 +33,24 @@ void emoji_click(GtkWidget *widget, GdkEventButton *event, gpointer *sticker_pat
         }
         g_object_unref(G_OBJECT(message_file_pixbuf));
 
-        gtk_box_pack_end(GTK_BOX(message_body), message_file, FALSE, FALSE, 0);
+        gtk_box_pack_start(GTK_BOX(message_body_box), message_file, FALSE, FALSE, 0);
+        
+        time_t rawtime;
+            struct tm * timeinfo;
+            time ( &rawtime );
+            timeinfo = localtime ( &rawtime );
+            char *time_message = strdup(int_to_str(timeinfo->tm_hour));
+            time_message = mx_strjoin(time_message, ":");
+            if(timeinfo->tm_min < 10){
+                time_message = mx_strjoin(time_message, "0");
+            }
+            time_message = mx_strjoin(time_message, int_to_str(timeinfo->tm_min));
 
+            GtkWidget *message_time = gtk_label_new(time_message);
+            gtk_widget_set_name(GTK_WIDGET(message_time), "message_time_sticker");
+            gtk_widget_set_halign(GTK_WIDGET(message_time), GTK_ALIGN_END);
+            gtk_box_pack_start(GTK_BOX(message_body_box), message_time, FALSE, FALSE, 0);
+        
         pthread_t display_thread = NULL;
         pthread_create(&display_thread, NULL, scrolling_sticker, NULL);
     }
