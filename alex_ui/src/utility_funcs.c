@@ -34,6 +34,7 @@ void chat_click(GtkWidget *widget) {
 }
 
 void event_enter_notify_search(GtkWidget *widget) {
+    
     if(gtk_widget_get_state_flags(GTK_WIDGET(widget)) & GTK_STATE_FLAG_ACTIVE) {
         return;
     } else {
@@ -42,6 +43,7 @@ void event_enter_notify_search(GtkWidget *widget) {
 }
 
 void event_leave_notify_search(GtkWidget *widget) {
+
     if(gtk_widget_get_state_flags(GTK_WIDGET(widget)) & GTK_STATE_FLAG_ACTIVE) {
         return;
     } else {
@@ -49,6 +51,7 @@ void event_leave_notify_search(GtkWidget *widget) {
     }
 }
 void search_user_click(GtkWidget *widget) {
+
     GList *parent = gtk_container_get_children(GTK_CONTAINER(widget));
     GList *children = gtk_container_get_children(GTK_CONTAINER(parent->data));
     children = children->next->next;
@@ -57,12 +60,13 @@ void search_user_click(GtkWidget *widget) {
 
     g_list_free(g_steal_pointer(&children));
     g_list_free(g_steal_pointer(&parent));
+
     if(gtk_widget_get_state_flags(GTK_WIDGET(widget)) & GTK_STATE_FLAG_ACTIVE) {
         gtk_widget_unset_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE);
         for(int i = 0; i < 100;  i++){
             if(new_chat_users_id[i] == user_id) new_chat_users_id[i] = -1;
         }
-    }else {
+    } else {
         gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
         //printf("Search_user_id: %d\n", user_id);
         for(int i = 0; i < 100;  i++){
@@ -140,8 +144,8 @@ void sign_up() {
     }
 }
 
-
 void unpress_logout(GtkWidget *widget, GdkEventButton *event, gpointer *p) {
+
     if (widget) {}
     if(event->type == GDK_BUTTON_PRESS && event->button == 1){
         gtk_widget_destroy((GtkWidget *)p);

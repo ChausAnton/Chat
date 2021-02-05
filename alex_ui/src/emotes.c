@@ -71,33 +71,33 @@ void show_emoji_box(GtkWidget *widget) {
     GtkWidget *single_emoji;
     
     for(int i = 2; i <= 11; i++) {
-            for(int j = 1; j <= 3; j++) {
-                single_emoji = gtk_event_box_new();  
-                gtk_widget_set_name(GTK_WIDGET(single_emoji), "emoji");
-                gtk_grid_attach(GTK_GRID(emoji_grid), single_emoji, j, i, 1, 1);
+          for(int j = 1; j <= 3; j++) {
+              single_emoji = gtk_event_box_new();  
+              gtk_widget_set_name(GTK_WIDGET(single_emoji), "emoji");
+              gtk_grid_attach(GTK_GRID(emoji_grid), single_emoji, j, i, 1, 1);
 
-                GtkWidget *sticker_photo = gtk_drawing_area_new();
-                gtk_widget_set_size_request(GTK_WIDGET(sticker_photo), 55, 55);
-                char *path_sticker_photo = strdup("resource/images/stickers/");
-                path_sticker_photo =  mx_strjoin(path_sticker_photo, int_to_str(sticker_num));
-                path_sticker_photo =  mx_strjoin(path_sticker_photo, ".png");
-                
-                g_signal_connect(G_OBJECT(sticker_photo), "draw", G_CALLBACK(draw_sticker_photo), path_sticker_photo);
-                gtk_container_add(GTK_CONTAINER(single_emoji), sticker_photo);
+              GtkWidget *sticker_photo = gtk_drawing_area_new();
+              gtk_widget_set_size_request(GTK_WIDGET(sticker_photo), 55, 55);
+              char *path_sticker_photo = strdup("resource/images/stickers/");
+              path_sticker_photo =  mx_strjoin(path_sticker_photo, int_to_str(sticker_num));
+              path_sticker_photo =  mx_strjoin(path_sticker_photo, ".png");
 
-                g_signal_connect(G_OBJECT(single_emoji), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
-                g_signal_connect(G_OBJECT(single_emoji), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
+              g_signal_connect(G_OBJECT(sticker_photo), "draw", G_CALLBACK(draw_sticker_photo), path_sticker_photo);
+              gtk_container_add(GTK_CONTAINER(single_emoji), sticker_photo);
 
-                g_signal_connect(G_OBJECT(single_emoji), "button_press_event", G_CALLBACK(emoji_click), (void *)path_sticker_photo);
+              g_signal_connect(G_OBJECT(single_emoji), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
+              g_signal_connect(G_OBJECT(single_emoji), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
 
-                sticker_num++;
-                if(sticker_num > 20) break;
-            }
-            if(sticker_num > 20) break;
-        }
-        gtk_container_add(GTK_CONTAINER(scrollable_emoji), emoji_grid);
+              g_signal_connect(G_OBJECT(single_emoji), "button_press_event", G_CALLBACK(emoji_click), (void *)path_sticker_photo);
 
-        gtk_widget_show_all(GTK_WIDGET(emoji_event_box));
+              sticker_num++;
+              if(sticker_num > 20) break;
+          }
+          if(sticker_num > 20) break;
+    }
+    gtk_container_add(GTK_CONTAINER(scrollable_emoji), emoji_grid);
 
-        gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
+    gtk_widget_show_all(GTK_WIDGET(emoji_event_box));
+
+    gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
 }

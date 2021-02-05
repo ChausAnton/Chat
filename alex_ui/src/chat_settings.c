@@ -29,7 +29,7 @@ void show_chat_settings(GtkWidget *widget) {
     gtk_container_add(GTK_CONTAINER(clickable_chat_settings), chat_settings_box);
 
     GtkWidget *scrollable = gtk_scrolled_window_new(NULL, NULL);
-    gtk_widget_set_size_request(GTK_WIDGET(scrollable), 230, 235);
+    gtk_widget_set_size_request(GTK_WIDGET(scrollable), 230, 190);
     gtk_box_pack_start(GTK_BOX(chat_settings_box), scrollable, FALSE, FALSE, 0);
 
     GtkWidget *scrollable_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
@@ -39,7 +39,7 @@ void show_chat_settings(GtkWidget *widget) {
     // Rename chat
     GtkWidget *rename_chat_clickable = gtk_event_box_new();
     gtk_widget_set_name(GTK_WIDGET(rename_chat_clickable), "rename_chat");
-    gtk_box_pack_start(GTK_BOX(scrollable_box), rename_chat_clickable, FALSE, FALSE, 10);
+    gtk_box_pack_start(GTK_BOX(scrollable_box), rename_chat_clickable, FALSE, FALSE, 0);
     
     g_signal_connect(G_OBJECT(rename_chat_clickable), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
     g_signal_connect(G_OBJECT(rename_chat_clickable), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
@@ -62,7 +62,7 @@ void show_chat_settings(GtkWidget *widget) {
     // Add user
     GtkWidget *add_user_clickable = gtk_event_box_new();
     gtk_widget_set_name(GTK_WIDGET(add_user_clickable), "add_user");
-    gtk_box_pack_start(GTK_BOX(scrollable_box), add_user_clickable, FALSE, FALSE, 10);
+    gtk_box_pack_start(GTK_BOX(scrollable_box), add_user_clickable, FALSE, FALSE, 0);
 
     g_signal_connect(G_OBJECT(add_user_clickable), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
     g_signal_connect(G_OBJECT(add_user_clickable), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
@@ -86,7 +86,7 @@ void show_chat_settings(GtkWidget *widget) {
     // Delete user
     GtkWidget *delete_user_clickable = gtk_event_box_new();
     gtk_widget_set_name(GTK_WIDGET(delete_user_clickable), "delete_user");
-    gtk_box_pack_start(GTK_BOX(scrollable_box), delete_user_clickable, FALSE, FALSE, 10);
+    gtk_box_pack_start(GTK_BOX(scrollable_box), delete_user_clickable, FALSE, FALSE, 0);
 
     g_signal_connect(G_OBJECT(delete_user_clickable), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
     g_signal_connect(G_OBJECT(delete_user_clickable), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
@@ -110,7 +110,7 @@ void show_chat_settings(GtkWidget *widget) {
     // Delete chat
     GtkWidget *delete_chat_clickable = gtk_event_box_new();
     gtk_widget_set_name(GTK_WIDGET(delete_chat_clickable), "delete_chat");
-    gtk_box_pack_start(GTK_BOX(scrollable_box), delete_chat_clickable, FALSE, FALSE, 10);
+    gtk_box_pack_start(GTK_BOX(scrollable_box), delete_chat_clickable, FALSE, FALSE, 0);
 
     g_signal_connect(G_OBJECT(delete_chat_clickable), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
     g_signal_connect(G_OBJECT(delete_chat_clickable), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
@@ -134,7 +134,7 @@ void show_chat_settings(GtkWidget *widget) {
     // Change chat image
     GtkWidget *change_chat_image_clickable = gtk_event_box_new();
     gtk_widget_set_name(GTK_WIDGET(change_chat_image_clickable), "change_chat_image");
-    gtk_box_pack_start(GTK_BOX(scrollable_box), change_chat_image_clickable, FALSE, FALSE, 10);
+    gtk_box_pack_start(GTK_BOX(scrollable_box), change_chat_image_clickable, FALSE, FALSE, 0);
 
     g_signal_connect(G_OBJECT(change_chat_image_clickable), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
     g_signal_connect(G_OBJECT(change_chat_image_clickable), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
