@@ -3,7 +3,6 @@
 void start_screen() {
     
     gtk_widget_destroy(GTK_WIDGET(main_data.activity_block));
-    //if(main_data.reg_box.all_reg_box)gtk_widget_destroy(GTK_WIDGET(main_data.activity_block));
 
     gtk_css_provider_load_from_path(main_data.styles, "resource/styles/sign_in.css", NULL);
     gtk_style_context_add_provider_for_screen(gdk_screen_get_default(), GTK_STYLE_PROVIDER(main_data.styles), GTK_STYLE_PROVIDER_PRIORITY_USER);

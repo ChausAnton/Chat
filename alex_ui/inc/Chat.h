@@ -36,8 +36,6 @@
 // Database
 #include <sqlite3.h>
 
-GtkWidget *messages_area_scroll;
-GtkWidget *messanges_area_for_scroll;
 int new_chat_users_id[100];
 
 enum chat_settings_message {RENAME_CHAT = 1, ADD_USER, DELETE_USER, DELETE_CHAT, CHANGE_CHAT_IMAGE};
@@ -56,7 +54,7 @@ typedef struct s_chat_list {
     int chat_id;
     char* chat_name;
     int count_users;
-    char** users_id;
+    int* users_id;
     char* image_path;
 }   t_chat_list;
 
@@ -65,12 +63,17 @@ typedef struct s_user {
     char *login;
     char *password;
     t_chat_list *chat_array;
+    int amount_of_chat;
 }   t_user;
 
 typedef struct s_main_box {
     GtkWidget *all_main_box;
     GtkWidget *chat_bar;
     GtkWidget *right_chat_box;
+    GtkWidget *messages_area_scroll;
+    GtkWidget *messanges_area_for_scroll;
+    GtkWidget *chat_bar_for_scroll;
+    GtkWidget *chat_bar_scroll;
     int search_chat_id;
 }   t_main_box;
 
@@ -103,7 +106,6 @@ void event_leave_notify(GtkWidget *widget);
 void unpress_event_box(GtkWidget *widget, GdkEventButton *event, gpointer *p);
 void chat_click(GtkWidget *widget);
 void search_user_click(GtkWidget *widget);
-void create_new_chat(GtkWidget *widget);
 void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *data);
 void sign_in();
 void sign_up();
@@ -124,6 +126,7 @@ void show_user_settings(GtkWidget *widget);
 
 /* add_new_chat.c */
 void show_add_new_chat(GtkWidget *widget);
+void add_new_chat();
 
 
 /* draw.c */

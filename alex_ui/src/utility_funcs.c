@@ -32,6 +32,7 @@ void chat_click(GtkWidget *widget) {
     gtk_widget_show(main_data.main_box.all_main_box);
     main_screen();
 }
+
 void event_enter_notify_search(GtkWidget *widget) {
     
     if(gtk_widget_get_state_flags(GTK_WIDGET(widget)) & GTK_STATE_FLAG_ACTIVE) {
@@ -75,15 +76,6 @@ void search_user_click(GtkWidget *widget) {
             }
         }
     }
-}
-
-void create_new_chat(GtkWidget *widget) {
-
-    if (widget){}
-    for(int i = 0; i < 100;  i++){
-            if(new_chat_users_id[i] != -1)  write(1, int_to_str(new_chat_users_id[i]), 2);
-        }
-    write(1, "Chat created!\n", 14);
 }
 
 void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *data) {
@@ -134,15 +126,16 @@ void sign_up() {
 
     char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[0])));
     printf("login: %s\n", name);
-    //gtk_entry_set_text(GTK_ENTRY(sign_up[0]), "");
     char *passwrod = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[1])));
     printf("password: %s\n", passwrod);
-    //gtk_entry_set_text(GTK_ENTRY(sign_up[1]), "");
     char *repeat_passwrod = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[2])));
     printf("repeat password: %s\n", repeat_passwrod);
-    //gtk_entry_set_text(GTK_ENTRY(sign_up[2]), "");
 
     if(TRUE) {
+        gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[0]), "");
+        gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[1]), "");
+        gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[2]), "");
+
         main_data.main_box.search_chat_id = -1;
         user_data.login = strdup(name);
         user_data.password = strdup(passwrod);
