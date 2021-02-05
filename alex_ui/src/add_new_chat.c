@@ -1,6 +1,7 @@
 #include "Chat.h"
 
 void show_add_new_chat(GtkWidget *widget) {
+    
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
 
     main_data.main_box.add_new_chat_event_box = gtk_event_box_new();
@@ -18,7 +19,7 @@ void show_add_new_chat(GtkWidget *widget) {
     gtk_widget_set_valign(GTK_WIDGET(clickable_add_new_chat), GTK_ALIGN_END);
     g_signal_connect(G_OBJECT(clickable_add_new_chat), "button_press_event", G_CALLBACK(gtk_widget_show), NULL);
   
-    gtk_fixed_put(GTK_FIXED(position_add_new_chat), clickable_add_new_chat, 630, 140);
+    gtk_fixed_put(GTK_FIXED(position_add_new_chat), clickable_add_new_chat, 640, 120);
 
     GtkWidget *add_new_chat_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
     gtk_widget_set_name(GTK_WIDGET(add_new_chat_box), "add_new_chat_box");
@@ -39,6 +40,7 @@ void show_add_new_chat(GtkWidget *widget) {
     gtk_container_add(GTK_CONTAINER(scrollable), add_chats_scrollable_box);
 
     for(int i = 0; i < 15; i++) {
+
         GtkWidget *search_chat_button = gtk_event_box_new();
         gtk_widget_set_name(GTK_WIDGET(search_chat_button), "user_button");
         gtk_event_box_set_above_child(GTK_EVENT_BOX(search_chat_button), TRUE);
