@@ -145,4 +145,7 @@ void load_data_for_user();
 /* load_chat_list.c */
 void load_chat_list(); 
 
+/* chat_info.c */
+void show_chat_info(GtkWidget *widget);
+
 #endif

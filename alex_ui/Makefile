@@ -21,9 +21,9 @@ INC_FILES = $(wildcard $(INC_DIR)/*.h)
 MKDIR = mkdir -p
 RM = rm -rf
 
-all: install clean
+all: $(NAME)
 
-install: $(OBJ_FILES)
+$(NAME): $(OBJ_FILES)
 	@$(CC) $(CFLAGS) $^ -o $(NAME) -I $(INC_DIR) $(GTKCFLAGSLIBS)
 	@printf "\r\33[2K$@\t \033[32;1mcreated\033[0m\n"
 
@@ -45,4 +45,4 @@ uninstall: clean
 	@$(RM) $(NAME)
 	@@printf "$(NAME)\t \033[31;1muninstalled\033[0m\n"
 	
-reinstall: uninstall install clean
+reinstall: uninstall all
