@@ -19,7 +19,6 @@ void display_message(char *message_text) {
     gtk_box_pack_start(GTK_BOX(main_data.main_box.messanges_area_for_scroll), message_body, FALSE, FALSE, 0);
 
     GtkWidget *message_body_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
-    //gtk_widget_set_name(GTK_WIDGET(message_body), "messages_body");
     gtk_box_pack_end(GTK_BOX(message_body), message_body_box, FALSE, FALSE, 0);
 
     GtkWidget *message = gtk_label_new(message_text);
@@ -36,13 +35,13 @@ void display_message(char *message_text) {
     timeinfo = localtime ( &rawtime );
     char *time_message = strdup(int_to_str(timeinfo->tm_hour));
     time_message = mx_strjoin(time_message, ":");
+    if(timeinfo->tm_min < 10){
+        time_message = mx_strjoin(time_message, "0");
+    }
     time_message = mx_strjoin(time_message, int_to_str(timeinfo->tm_min));
-
     GtkWidget *message_time = gtk_label_new(time_message);
     gtk_widget_set_name(GTK_WIDGET(message_time), "message_time");
-    gtk_label_set_line_wrap(GTK_LABEL(message_time), TRUE);
-    gtk_label_set_line_wrap_mode(GTK_LABEL(message_time), PANGO_WRAP_WORD_CHAR);
-    gtk_label_set_max_width_chars(GTK_LABEL(message_time), 50);
+    gtk_widget_set_halign(GTK_WIDGET(message_time), GTK_ALIGN_END);
     gtk_box_pack_start(GTK_BOX(message_body_box), message_time, FALSE, FALSE, 0);
 
     pthread_t display_thread = NULL;
@@ -94,12 +93,14 @@ void send_message_file(GtkWidget *widget, GdkEventButton *event, gpointer *messs
         gtk_widget_set_name(GTK_WIDGET(message_body), "messages_body");
         gtk_box_pack_start(GTK_BOX(main_data.main_box.messanges_area_for_scroll), message_body, FALSE, FALSE, 0);
 
+        GtkWidget *message_body_box_with_time = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
+        gtk_box_pack_end(GTK_BOX(message_body), message_body_box_with_time, FALSE, TRUE, 0);
+
         GtkWidget *message_body_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
-        gtk_box_pack_end(GTK_BOX(message_body), message_body_box, FALSE, TRUE, 0);
+        gtk_box_pack_start(GTK_BOX(message_body_box_with_time), message_body_box, FALSE, TRUE, 0);
         gtk_widget_set_name(GTK_WIDGET(message_body_box), "message");
 
         GtkWidget *message_file = gtk_image_new();
-        //gtk_widget_set_name(GTK_WIDGET(message_file), "message");
 
         GdkPixbuf *message_file_pixbuf = gdk_pixbuf_new_from_file(source_path, NULL);
         gint width = gdk_pixbuf_get_width(message_file_pixbuf);
@@ -134,6 +135,24 @@ void send_message_file(GtkWidget *widget, GdkEventButton *event, gpointer *messs
                 gtk_label_set_max_width_chars(GTK_LABEL(message), 50);
                 gtk_box_pack_end(GTK_BOX(message_body_box), message, FALSE, FALSE, 0);
             }
+
+            ///Time
+            time_t rawtime;
+            struct tm * timeinfo;
+            time ( &rawtime );
+            timeinfo = localtime ( &rawtime );
+            char *time_message = strdup(int_to_str(timeinfo->tm_hour));
+            time_message = mx_strjoin(time_message, ":");
+            if(timeinfo->tm_min < 10){
+                time_message = mx_strjoin(time_message, "0");
+            }
+            time_message = mx_strjoin(time_message, int_to_str(timeinfo->tm_min));
+
+            GtkWidget *message_time = gtk_label_new(time_message);
+            gtk_widget_set_name(GTK_WIDGET(message_time), "message_time");
+            gtk_widget_set_halign(GTK_WIDGET(message_time), GTK_ALIGN_END);
+            gtk_box_pack_start(GTK_BOX(message_body_box_with_time), message_time, FALSE, FALSE, 0);
+
             pthread_t display_thread = NULL;
             pthread_create(&display_thread, NULL, scrolling_msg, NULL);
             g_free (text);  
