@@ -94,4 +94,5 @@ void show_chat_info(GtkWidget *widget) {
     }
 
     gtk_widget_show_all(GTK_WIDGET(chat_info_event_box));
+    gtk_widget_show_all(GTK_WIDGET(main_data.activity_block));
 }
