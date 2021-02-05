@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
     //gtk_style_context_add_provider_for_screen(gdk_screen_get_default(), GTK_STYLE_PROVIDER(main_data.styles), GTK_STYLE_PROVIDER_PRIORITY_USER);
 
     start_screen();
-    
+     
     gtk_widget_show_all(main_data.window);
     g_signal_connect(main_data.window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
     gtk_main();

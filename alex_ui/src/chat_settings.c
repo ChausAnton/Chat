@@ -1,6 +1,7 @@
 #include "Chat.h"
 
 void show_chat_settings(GtkWidget *widget) {
+    
     static int number1 = RENAME_CHAT;
     static int number2 = ADD_USER;
     static int number3 = DELETE_USER;

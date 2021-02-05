@@ -56,6 +56,7 @@ typedef struct s_chat_list {
     int count_users;
     int* users_id;
     char* image_path;
+    GtkWidget *chat_button;
 }   t_chat_list;
 
 typedef struct s_user {
@@ -132,7 +133,6 @@ void show_user_settings(GtkWidget *widget);
 void show_add_new_chat(GtkWidget *widget);
 void add_new_chat();
 
-
 /* draw.c */
 gboolean draw_user_avatar(GtkWidget *widget, cairo_t *cr, char* path);
 gboolean draw_chat_avatar(GtkWidget *widget, cairo_t *cr, char* path);
@@ -142,6 +142,7 @@ gboolean draw_sticker_photo(GtkWidget *widget, cairo_t *cr, char* path);
 /* string.c */
 char *mx_strjoin(const char *s1, const char *s2);
 char *int_to_str(int num);
+char *mx_strtrim(const char *str);
 
 /* load_data.c */
 void load_data_for_user();
@@ -151,4 +152,8 @@ void load_chat_list();
 
 /* load_chat_box.c */
 void load_right_chat_box();
+
+/* chat_info.c */
+void show_chat_info(GtkWidget *widget);
+
 #endif

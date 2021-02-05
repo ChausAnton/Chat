@@ -60,8 +60,10 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
 
         gtk_text_buffer_get_bounds (buffer, &start, &end);
         text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
+        text = mx_strtrim(text);
         if(strlen(text) == 0) return;
         //printf("messsage: %s\n", text);
+        
         display_message(text);
         
         g_free (text);

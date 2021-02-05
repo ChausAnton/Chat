@@ -17,76 +17,6 @@
     border-radius: 15px;
     margin: 5px 5px 8px;
 }
-
-    #add_new_chat_button {
-        background-image: url("../images/add_new_chat_icon.png");
-        background-size: 100%;
-        background-repeat: no-repeat;
-        background-position: center;
-    }
-        #add_new_chat_event_box {
-            background: rgba(0, 0, 0, 0.4);
-        }   
-        #new_chat_small_box {
-            background: rgb(32, 75, 73);
-            border-radius: 15px;
-            margin: 20px 5px 10px 5px;
-        }
-        #new_chat_event_box:hover > #new_chat_small_box {
-            background: linear-gradient(61.94deg, rgba(104, 52, 135, 0.8) 15.84%, rgba(67, 63, 238, 0.8) 111.81%);
-            transition: 50ms ease-in-out;
-        }
-        #new_chat_box_label {
-            background: none;
-            font: 18px PTSansPro-Demi;
-            color: whitesmoke;
-            margin-left: 150px;
-        }
-        #user_small_box {
-            background: rgb(47, 120, 117);
-            border-radius: 15px;
-            min-width: 300px;
-            min-height: 71px;
-            margin: 0px 5px 6px;
-        }
-        #user_button:hover > #user_small_box {
-            background: linear-gradient(119.22deg, rgba(104, 52, 135, 0.8) 22.83%, rgba(67, 63, 238, 0.8) 119.04%);
-            margin-left: 5px;
-            margin-right: 5px;
-            transition: 50ms ease-in-out;
-        }
-        #user_button:active > #user_small_box {
-            background: linear-gradient(119.22deg, rgba(104, 52, 135, 0.8) 22.83%, rgba(67, 63, 238, 0.8) 119.04%);
-        }
-    /* User photo is a button as well */
-    #user_photo {
-        margin: 15px 10px 10px 10px;
-    }
-        #user_settings_event_box {
-            background: rgba(0, 0, 0, 0.4);
-        }
-        #user_settings_box {
-            background: rgb(32, 75, 73);
-            border-radius: 15px;
-        }
-        #user_settings_photo {
-            margin: 10px;
-        }
-        #user_nickname {
-            background: rgb(47, 120, 117);
-            color: whitesmoke;
-            margin: -80px 15px 60px 140px;
-            border: 0px solid black;
-            border-bottom: 1px solid whitesmoke;
-            border-radius: 0px;
-        }
-
-    #user_name {
-        font: 18px PTSansPro-Demi;
-        color: whitesmoke;
-        margin: 0px 0px 5px 10px;
-    }
-
     #add_new_chat_button {
         background-image: url("../images/add_new_chat_icon.png");
         background-size: 100%;
@@ -103,10 +33,49 @@
             background: rgba(0, 0, 0, 0.4);
         }   
         #add_new_chat_box {
-            background: rgb(47, 120, 117);
+            background: rgb(32, 75, 73);
             border-radius: 15px;
-            padding-bottom: 15px;
+            padding-bottom: 10px;
         }
+            #search_users {
+                font: 18px PTSansPro-Demi ;
+                background: rgb(32, 75, 73);
+                border: 0px solid black;
+                border-bottom: 1px solid whitesmoke;
+                margin: 10px;
+                border-radius: 0px;
+                color: whitesmoke;
+            }
+
+            #add_chats_scrollable_box {
+                background: rgb(32, 75, 73);
+            }
+                #add_new_chat_photo {
+                    margin: 10px;
+                } 
+                #user_name_in_search {
+                    font: 18px PTSansPro-Demi;
+                    color: whitesmoke;
+                    margin-bottom: 15px;
+                    margin-left: 10px;
+                }
+                #user_small_box {
+                    background: rgb(32, 75, 73);
+                    border-radius: 15px;
+                    min-width: 300px;
+                    min-height: 71px;
+                    margin: 0px 5px 6px;
+                }
+                #user_button:hover > #user_small_box {
+                    background: linear-gradient(119.22deg, rgba(104, 52, 135, 0.8) 22.83%, rgba(67, 63, 238, 0.8) 119.04%);
+                    margin-left: 5px;
+                    margin-right: 5px;
+                    transition: 50ms ease-in-out;
+                }
+                #user_button:active > #user_small_box {
+                    background: linear-gradient(119.22deg, rgba(104, 52, 135, 0.8) 22.83%, rgba(67, 63, 238, 0.8) 119.04%);
+                }
+
             #new_chat_button {
                 background:  linear-gradient(61.94deg, rgba(104, 52, 135, 0.8) 15.84%, rgba(67, 63, 238, 0.8) 111.81%);
                 font: 18px PTSansPro-Demi;
@@ -114,35 +83,51 @@
                 color: whitesmoke;
                 margin: 20px 10px 5px 10px;
             }
-            #new_group_chat_button {
-                background:  linear-gradient(61.94deg, rgba(104, 52, 135, 0.8) 15.84%, rgba(67, 63, 238, 0.8) 111.81%);
-                font: 18px PTSansPro-Demi;
+            #new_chat_small_box {
+                background: rgb(47, 120, 117);
                 border-radius: 15px;
-                color: whitesmoke;
-                margin: 5px 10px 20px 10px;
+                margin: 20px 5px 10px 5px;
             }
-            #add_chats_scrollable_box {
-                background: rgb(47, 120, 117);
+            #new_chat_event_box:hover > #new_chat_small_box {
+                background: linear-gradient(61.94deg, rgba(104, 52, 135, 0.8) 15.84%, rgba(67, 63, 238, 0.8) 111.81%);
+                transition: 50ms ease-in-out;
             }
-            #search_users {
-                font: 18px PTSansPro-Demi ;
-                background: rgb(47, 120, 117);
-                border: 0px solid black;
-                border-bottom: 1px solid whitesmoke;
-                margin: 10px;
-                border-radius: 0px;
-            }
-            #add_new_chat_photo {
-                margin: 10px;
-            }
-            #user_name_in_search {
+            #new_chat_box_label {
+                background: none;
                 font: 18px PTSansPro-Demi;
                 color: whitesmoke;
-                /*margin: -100px 0px 0px -100px;*/
-                margin-bottom: 15px;
-                margin-left: 10px;
+                margin-left: 150px;
             }
 
+    /* User photo is a button as well */
+    #user_photo {
+        margin: 15px 10px 10px 10px;
+    }
+        #user_settings_event_box {
+            background: rgba(0, 0, 0, 0.4);
+        }
+        #user_settings_box {
+            background: rgb(32, 75, 73);
+            border-radius: 15px;
+        }
+        #user_settings_photo {
+            margin: 10px;
+        }
+        #user_nickname {
+            background: rgb(32, 75, 73);
+            color: whitesmoke;
+            margin: -80px 15px 60px 140px;
+            border: 0px solid black;
+            border-bottom: 1px solid whitesmoke;
+            border-radius: 0px;
+        }
+
+    #user_name_label {
+        font: 18px PTSansPro-Demi;
+        color: whitesmoke;
+        margin: 0px 0px 5px 10px;
+    }
+            
     #hidden {
         opacity: 0;
     }
@@ -177,7 +162,7 @@
         border-radius: 15px;
         min-width: 300px;
         min-height: 71px;
-        margin: 0px 5px 6px;
+        margin: 0px 5px 5px;
     }
         #left_chat_photo_box {
             margin-top: 10px;
@@ -197,6 +182,9 @@
             margin-right: 5px;
             transition: 50ms ease-in-out;
         }
+        #chat_button:active > #chat_small_box {
+            background: linear-gradient(119.22deg, rgba(104, 52, 135, 0.8) 22.83%, rgba(67, 63, 238, 0.8) 119.04%);
+        }
 /****************************************/
 
 /* 0_0 */
@@ -215,6 +203,32 @@
     background: rgb(32, 75, 73);
     padding: 10px;
 }
+    #chat_info_event_box {
+        background: rgba(0, 0, 0, 0.4);
+    }
+        #chat_info_box {
+            background: rgb(32, 75, 73);
+            border-radius: 15px;
+            padding: 10px;
+        }
+            #chat_name_label {
+                font: 18px PTSansPro-Demi;
+                color: whitesmoke;
+                margin: -160px 0 0 120px; 
+            }
+            #amnt_of_users_in_chat_label {
+                font: 18px PTSansPro-Demi;
+                color: whitesmoke;
+                margin: -100px 0 0 120px; 
+            }
+            #chat_info_photo {
+                margin: 10px;
+            }
+            #chat_info_scrollable_box {
+                background: rgb(32, 75, 73);
+                padding-bottom: 10px;
+            }
+
     #top_chat_name_box {
         font-family: PTSansPro-Demi;
         margin-top: 10px;
@@ -396,12 +410,6 @@
         font-family: PTSansPro-Demi;
         font-size: 18px;
         color: whitesmoke;
-    }
-    #emoji:hover {
-        background: rgb(185, 27, 101);
-        border-radius: 15px;
-        transition: 50ms ease-in-out;
-        box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.35);
     }
 
     #important_box {
