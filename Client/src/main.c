@@ -1,5 +1,64 @@
 #include "Chat.h"
 
+void removeChar(char *str, char garbage) {
+
+    char *src, *dst;
+    for (src = dst = str; *src != '\0'; src++) {
+        *dst = *src;
+        if (*dst != garbage) dst++;
+    }
+    *dst = '\0';
+}
+
+void read_file(int sock) {
+	char image_name[20];
+	recv(sock , image_name , 20 , 0);
+
+	char p_array[1000];
+	
+	printf("Reading Picture Size\n");
+	FILE *image = fopen("c1.jpg", "wb");
+
+	recv(sock , p_array , 1000 , 0);//size
+	int b64_size = atoi(p_array);
+	unsigned char b64[b64_size];
+
+	for(int i = 0; i < b64_size; i++)
+		b64[i] = '\0';
+	recv(sock , b64 , b64_size , 0);
+
+	printf("%s\n", p_array);
+
+	unsigned char *b64_fin;
+	if(strlen((char *)b64) < b64_size) {
+		b64_fin = (unsigned char *)mx_strjoin(mx_strsplit(p_array, '@')[1], (char *)b64);
+	}
+	else
+		b64_fin = (unsigned char *)b64;
+
+	/*while(mx_get_char_index((char*)b64_fin, '>') != -1) {
+		removeChar((char*)b64_fin, '>');
+	}
+	while(mx_get_char_index((char*)b64_fin, '<') != -1) {
+		removeChar((char*)b64_fin, '<');
+	}
+	while(mx_get_char_index((char*)b64_fin, '\\') != -1) {
+		removeChar((char*)b64_fin, '\\');
+	}
+	while(mx_get_char_index((char*)b64_fin, '?') != -1) {
+		removeChar((char*)b64_fin, '?');
+	}*/
+			
+	//printf("%s\n", b64_fin);
+	//printf("%s\n", b64_fin);
+	size_t b64_dec_len = b64_size * 3 / 4;
+	unsigned char *b64_dec = base64_decode(b64_fin, b64_size, &b64_dec_len);
+	fwrite(b64_dec, b64_dec_len, 1, image);
+	fclose(image);
+	printf("Reading Picture End\n");
+}
+
+
 void *reader(void *new_sock) {
 	int sock = *(int *)new_sock;
 	char server_reply[2000];
@@ -14,6 +73,11 @@ void *reader(void *new_sock) {
 			close(sock);
 			break;
 		}
+
+		if (strcmp(server_reply, "@image") == 0) {
+			read_file(sock);
+			continue;
+		}
 		
 		printf("%s\n", server_reply);
 		
@@ -22,6 +86,35 @@ void *reader(void *new_sock) {
 		}
 	}
 	return 0;
+}
+
+
+void file_sending(int sock) {
+	write(sock , "@image" , strlen("@image"));
+	char message[1000];
+	printf("input image name:\n");
+	gets(message);
+	write(sock , message , strlen(message));
+
+    FILE *picture;
+	picture = fopen(message, "rb");
+	fseek(picture, 0, SEEK_END);
+	int size = ftell(picture);
+	fseek(picture, 0, SEEK_SET);
+	unsigned char buffer[size];
+	fread(buffer, size, 1, picture);
+
+	size_t b64_len = 0;
+	unsigned char  *send_buffer = base64_encode(buffer, size, &b64_len);
+
+	char *send_size = mx_strjoin(mx_itoa(b64_len), "@");
+	send(sock , send_size, strlen(send_size), 0);
+			
+	char check[100];
+	send(sock , send_buffer, b64_len, 0);
+
+	printf("file send end\n");
+	fclose(picture);
 }
 
 
@@ -68,7 +161,12 @@ int main(int argc , char *argv[])
 		for(int i = 0; i < 1000; i++)
 			message[i] = '\0';
 
-		scanf("%s" , message);
+		gets(message);
+
+		if (strcmp(message, "@image") == 0) {
+			file_sending(sock);
+			continue;
+		}
 		
 		if( send(sock , message , strlen(message) , 0) < 0)
 		{

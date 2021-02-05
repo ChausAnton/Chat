@@ -63,6 +63,8 @@ typedef struct s_user {
     int user_id;
     char *login;
     char *password;
+    char *name;
+    char *image_path;
     t_chat_list *chat_array;
     int amount_of_chat;
 }   t_user;

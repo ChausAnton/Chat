@@ -97,6 +97,10 @@ void main_screen() {
         // Chat list
         load_chat_list();
 
+    for(int i =0; i < 100; i++){
+        new_chat_users_id[i] = -1;
+    }
+
     // Chat box
     main_data.main_box.right_chat_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_name(GTK_WIDGET(main_data.main_box.right_chat_box), "chat_box");
@@ -109,6 +113,6 @@ void main_screen() {
         gtk_widget_set_size_request(GTK_WIDGET(right_mid_box), 240, 40);
         gtk_box_pack_start(GTK_BOX(main_data.main_box.right_chat_box), right_mid_box, TRUE, FALSE, 0);
     }
-    
+
     gtk_widget_show_all(main_data.activity_block);
 }
