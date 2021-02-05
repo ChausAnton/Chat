@@ -115,12 +115,13 @@ void sign_in() {
     printf("password: %s\n", passwrod);
 
     if(TRUE) {
-        gtk_entry_set_text(GTK_ENTRY(main_data.login_box.sign_in_data[0]), "");
-        gtk_entry_set_text(GTK_ENTRY(main_data.login_box.sign_in_data[1]), "");
-
         main_data.main_box.search_chat_id = -1;
         user_data.login = strdup(name);
         user_data.password = strdup(passwrod);
+
+        gtk_entry_set_text(GTK_ENTRY(main_data.login_box.sign_in_data[0]), "");
+        gtk_entry_set_text(GTK_ENTRY(main_data.login_box.sign_in_data[1]), "");
+
         load_data_for_user();
         main_screen();
     }
@@ -136,13 +137,14 @@ void sign_up() {
     printf("repeat password: %s\n", repeat_passwrod);
 
     if(TRUE) {
+        main_data.main_box.search_chat_id = -1;
+        user_data.login = strdup(name);
+        user_data.password = strdup(passwrod);
+
         gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[0]), "");
         gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[1]), "");
         gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[2]), "");
 
-        main_data.main_box.search_chat_id = -1;
-        user_data.login = strdup(name);
-        user_data.password = strdup(passwrod);
         load_data_for_user();
         main_screen();
     }

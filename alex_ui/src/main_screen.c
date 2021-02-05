@@ -55,7 +55,7 @@ void main_screen() {
             gtk_box_pack_start(GTK_BOX(user_settings_button_box), user_photo, FALSE, FALSE, 0);
 
             // User name
-            GtkWidget *user_name_label = gtk_label_new("%username%");
+            GtkWidget *user_name_label = gtk_label_new(user_data.login);
             gtk_widget_set_halign(GTK_WIDGET(user_name_label), GTK_ALIGN_START);
             gtk_widget_set_name(GTK_WIDGET(user_name_label), "user_name_label");
             gtk_box_pack_start(GTK_BOX(up_box), user_name_label, FALSE, FALSE, 0);
