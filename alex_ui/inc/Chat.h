@@ -150,4 +150,8 @@ void load_chat_list();
 
 /* load_chat_box.c */
 void load_right_chat_box();
+
+/* chat_info.c */
+void show_chat_info(GtkWidget *widget);
+
 #endif
