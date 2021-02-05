@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
         new_chat_users_id[i] = -1;
     }
     start_screen();
-    
+     
     gtk_widget_show_all(main_data.window);
     g_signal_connect(main_data.window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
     gtk_main();

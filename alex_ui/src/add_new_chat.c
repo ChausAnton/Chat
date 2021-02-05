@@ -142,15 +142,15 @@ void add_new_chat() {
     user_data.chat_array[index_new].chat_id = index_new;
     user_data.chat_array[index_new].image_path = strdup("resource/images/stickers/047-hello.png");
 
-    GtkWidget *chat_button = gtk_event_box_new();
-    gtk_widget_set_name(GTK_WIDGET(chat_button), "chat_button");
-    gtk_event_box_set_above_child(GTK_EVENT_BOX(chat_button), TRUE);
-    gtk_box_pack_start(GTK_BOX(main_data.main_box.chat_bar_for_scroll), chat_button, FALSE, FALSE, 0);
+    user_data.chat_array[index_new].chat_button = gtk_event_box_new();
+    gtk_widget_set_name(GTK_WIDGET(user_data.chat_array[index_new].chat_button), "chat_button");
+    gtk_event_box_set_above_child(GTK_EVENT_BOX(user_data.chat_array[index_new].chat_button), TRUE);
+    gtk_box_pack_start(GTK_BOX(main_data.main_box.chat_bar_for_scroll), user_data.chat_array[index_new].chat_button, FALSE, FALSE, 0);
 
     GtkWidget *chat_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_widget_set_name(GTK_WIDGET(chat_box), "chat_small_box");
     gtk_widget_set_size_request(GTK_WIDGET(chat_box), 300, 70);
-    gtk_container_add(GTK_CONTAINER(chat_button), chat_box);
+    gtk_container_add(GTK_CONTAINER(user_data.chat_array[index_new].chat_button), chat_box);
     
     GtkWidget *left_chat_avatar = gtk_drawing_area_new();
     gtk_widget_set_size_request(GTK_WIDGET(left_chat_avatar), 40, 40);
@@ -172,9 +172,9 @@ void add_new_chat() {
     gtk_box_pack_start(GTK_BOX(chat_box), chat_id, FALSE, FALSE, 0);
     gtk_widget_set_name(GTK_WIDGET(chat_id), "hidden");
 
-    g_signal_connect(G_OBJECT(chat_button), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
-    g_signal_connect(G_OBJECT(chat_button), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
-    g_signal_connect(G_OBJECT(chat_button), "button_press_event", G_CALLBACK(chat_click), NULL);
+    g_signal_connect(G_OBJECT(user_data.chat_array[index_new].chat_button), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
+    g_signal_connect(G_OBJECT(user_data.chat_array[index_new].chat_button), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
+    g_signal_connect(G_OBJECT(user_data.chat_array[index_new].chat_button), "button_press_event", G_CALLBACK(chat_click), NULL);
     
     //pthread_t display_thread = NULL;
     //pthread_create(&display_thread, NULL, scrolling_chats, NULL);

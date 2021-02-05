@@ -21,7 +21,7 @@ INC_FILES = $(wildcard $(INC_DIR)/*.h)
 MKDIR = mkdir -p
 RM = rm -rf
 
-all: install clean
+all: install #add clean here to delete obj dir
 
 install: $(OBJ_FILES)
 	@$(CC) $(CFLAGS) $^ -o $(NAME) -I $(INC_DIR) $(GTKCFLAGSLIBS)
