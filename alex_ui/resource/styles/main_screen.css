@@ -394,10 +394,6 @@
         font-size: 18px;
         color: whitesmoke;
     }
-    /*#emoji {
-        background: rgb(25, 10, 80);
-        border-radius: 15px;
-    }*/
     #emoji:hover {
         background: rgb(185, 27, 101);
         border-radius: 15px;
@@ -436,6 +432,11 @@
     color: whitesmoke;
     font-family: PTSansPro-Demi;
     font-size: 18px;
+}
+#message_time {
+    font-size: 12px;
+    /*margin-right: 10px;*/
+    color: whitesmoke;
 }
 #message_with_file {
     margin-top: 3px;

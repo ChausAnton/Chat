@@ -3,14 +3,14 @@
 void show_add_new_chat(GtkWidget *widget) {
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
 
-    GtkWidget *add_new_chat_event_box = gtk_event_box_new();
-    gtk_widget_set_name(GTK_WIDGET(add_new_chat_event_box), "add_new_chat_event_box");
-    gtk_widget_set_size_request(GTK_WIDGET(add_new_chat_event_box), 1400, 900);
-    g_signal_connect(G_OBJECT(add_new_chat_event_box), "button_press_event", G_CALLBACK(unpress_event_box), widget);
-    gtk_fixed_put(GTK_FIXED(main_data.activity_block), add_new_chat_event_box, 0, 0);
+    main_data.main_box.add_new_chat_event_box = gtk_event_box_new();
+    gtk_widget_set_name(GTK_WIDGET(main_data.main_box.add_new_chat_event_box), "add_new_chat_event_box");
+    gtk_widget_set_size_request(GTK_WIDGET(main_data.main_box.add_new_chat_event_box), 1400, 900);
+    g_signal_connect(G_OBJECT(main_data.main_box.add_new_chat_event_box), "button_press_event", G_CALLBACK(unpress_event_box), widget);
+    gtk_fixed_put(GTK_FIXED(main_data.activity_block), main_data.main_box.add_new_chat_event_box, 0, 0);
 
     GtkWidget *position_add_new_chat = gtk_fixed_new();
-    gtk_container_add(GTK_CONTAINER(add_new_chat_event_box), position_add_new_chat);
+    gtk_container_add(GTK_CONTAINER(main_data.main_box.add_new_chat_event_box), position_add_new_chat);
 
     GtkWidget *clickable_add_new_chat = gtk_event_box_new();
     gtk_widget_set_name(GTK_WIDGET(clickable_add_new_chat), "clickable_add_new_chat");
@@ -95,21 +95,28 @@ void show_add_new_chat(GtkWidget *widget) {
 
     g_signal_connect(G_OBJECT(new_chat_event_box), "button_press_event", G_CALLBACK(add_new_chat), NULL);
 
-    gtk_widget_show_all(GTK_WIDGET(add_new_chat_event_box));
+    gtk_widget_show_all(GTK_WIDGET(main_data.main_box.add_new_chat_event_box));
 }
 
 
-void *scrolling_chats() {
-    usleep(15000);
-    GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.chat_bar_scroll));
-    gtk_adjustment_set_value(adjustment, gtk_adjustment_get_upper(adjustment));
+static void scrolling_chats() {
+    // usleep(15000);
+    // GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.chat_bar_scroll));
+    // gtk_adjustment_set_value(adjustment, gtk_adjustment_get_upper(adjustment));
 
-    gtk_widget_hide(main_data.main_box.chat_bar_scroll);
-    gtk_widget_show(main_data.main_box.chat_bar_scroll);
-    return NULL;
+    // gtk_widget_hide(main_data.main_box.chat_bar_scroll);
+    // gtk_widget_show(main_data.main_box.chat_bar_scroll);
+    // return NULL;
+    while (gtk_events_pending()) {
+        gtk_main_iteration();
+        GtkAdjustment *adj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.chat_bar_scroll));
+        gtk_adjustment_set_value(adj, gtk_adjustment_get_upper(adj) - gtk_adjustment_get_page_size(adj));
+        gtk_scrolled_window_set_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.chat_bar_scroll), adj);
+    }
 }
 
 void add_new_chat() { 
+
     int index_new = user_data.amount_of_chat;
     user_data.amount_of_chat += 1;
     user_data.chat_array[index_new].chat_name = strdup("New Chat");
@@ -169,8 +176,12 @@ void add_new_chat() {
     g_signal_connect(G_OBJECT(chat_button), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
     g_signal_connect(G_OBJECT(chat_button), "button_press_event", G_CALLBACK(chat_click), NULL);
     
-    pthread_t display_thread = NULL;
-    pthread_create(&display_thread, NULL, scrolling_chats, NULL);
-    
+    //pthread_t display_thread = NULL;
+    //pthread_create(&display_thread, NULL, scrolling_chats, NULL);
+
+    gtk_widget_destroy(main_data.main_box.add_new_chat_event_box);//Delete window
+
     gtk_widget_show_all(main_data.main_box.chat_bar);
+
+    scrolling_chats();
 }

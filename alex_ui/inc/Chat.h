@@ -68,12 +68,14 @@ typedef struct s_user {
 
 typedef struct s_main_box {
     GtkWidget *all_main_box;
+    GtkWidget *main_fixed;
     GtkWidget *chat_bar;
     GtkWidget *right_chat_box;
     GtkWidget *messages_area_scroll;
     GtkWidget *messanges_area_for_scroll;
     GtkWidget *chat_bar_for_scroll;
     GtkWidget *chat_bar_scroll;
+    GtkWidget *add_new_chat_event_box;
     int search_chat_id;
 }   t_main_box;
 
@@ -145,4 +147,6 @@ void load_data_for_user();
 /* load_chat_list.c */
 void load_chat_list(); 
 
+/* load_chat_box.c */
+void load_right_chat_box();
 #endif

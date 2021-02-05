@@ -29,8 +29,7 @@ void chat_click(GtkWidget *widget) {
     main_data.main_box.search_chat_id = chat_id;
     g_list_free(g_steal_pointer(&children));
     g_list_free(g_steal_pointer(&parent));
-    gtk_widget_show(main_data.main_box.all_main_box);
-    main_screen();
+    load_right_chat_box();
 }
 
 void event_enter_notify_search(GtkWidget *widget) {
