@@ -24,22 +24,6 @@ void show_add_new_chat(GtkWidget *widget) {
     gtk_widget_set_name(GTK_WIDGET(add_new_chat_box), "add_new_chat_box");
     gtk_container_add(GTK_CONTAINER(clickable_add_new_chat), add_new_chat_box);
 
-    GtkWidget *new_chat_event_box = gtk_event_box_new();
-    gtk_widget_set_name(GTK_WIDGET(new_chat_event_box), "chat_button");
-    gtk_event_box_set_above_child(GTK_EVENT_BOX(new_chat_event_box), TRUE);
-    gtk_box_pack_start(GTK_BOX(add_new_chat_box), new_chat_event_box, FALSE, FALSE, 0);
-
-    GtkWidget *new_chat_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-    gtk_widget_set_name(GTK_WIDGET(new_chat_box), "chat_small_box");
-    gtk_widget_set_size_request(GTK_WIDGET(new_chat_box), 300, 70);
-    gtk_container_add(GTK_CONTAINER(new_chat_event_box), new_chat_box);
-
-    GtkWidget *new_chat_name = gtk_label_new("New chat");
-    gtk_widget_set_name(GTK_WIDGET(new_chat_name), "add_new_chat_box");
-    gtk_box_pack_start(GTK_BOX(new_chat_box), new_chat_name, FALSE, FALSE, 0);
-
-    g_signal_connect(G_OBJECT(new_chat_event_box), "button_press_event", G_CALLBACK(add_new_chat), NULL);
-
     GtkWidget *search_users = gtk_entry_new();
     gtk_widget_set_name(GTK_WIDGET(search_users), "search_users");
     gtk_entry_set_max_length(GTK_ENTRY(search_users), 30);
@@ -109,7 +93,7 @@ void show_add_new_chat(GtkWidget *widget) {
     gtk_widget_set_valign(GTK_WIDGET(new_chat_box_label), GTK_ALIGN_CENTER);
     gtk_box_pack_start(GTK_BOX(new_chat_box), new_chat_box_label, FALSE, FALSE, 0);
 
-    g_signal_connect(G_OBJECT(new_chat_event_box), "button_press_event", G_CALLBACK(create_new_chat), NULL);
+    g_signal_connect(G_OBJECT(new_chat_event_box), "button_press_event", G_CALLBACK(add_new_chat), NULL);
 
     gtk_widget_show_all(GTK_WIDGET(add_new_chat_event_box));
 }
