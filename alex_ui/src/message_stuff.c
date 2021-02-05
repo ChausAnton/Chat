@@ -18,12 +18,32 @@ void display_message(char *message_text) {
     gtk_widget_set_name(GTK_WIDGET(message_body), "messages_body");
     gtk_box_pack_start(GTK_BOX(main_data.main_box.messanges_area_for_scroll), message_body, FALSE, FALSE, 0);
 
+    GtkWidget *message_body_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
+    //gtk_widget_set_name(GTK_WIDGET(message_body), "messages_body");
+    gtk_box_pack_end(GTK_BOX(message_body), message_body_box, FALSE, FALSE, 0);
+
     GtkWidget *message = gtk_label_new(message_text);
     gtk_widget_set_name(GTK_WIDGET(message), "message");
     gtk_label_set_line_wrap(GTK_LABEL(message), TRUE);
     gtk_label_set_line_wrap_mode(GTK_LABEL(message), PANGO_WRAP_WORD_CHAR);
     gtk_label_set_max_width_chars(GTK_LABEL(message), 50);
-    gtk_box_pack_end(GTK_BOX(message_body), message, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(message_body_box), message, FALSE, FALSE, 0);
+
+    ///Time
+    time_t rawtime;
+    struct tm * timeinfo;
+    time ( &rawtime );
+    timeinfo = localtime ( &rawtime );
+    char *time_message = strdup(int_to_str(timeinfo->tm_hour));
+    time_message = mx_strjoin(time_message, ":");
+    time_message = mx_strjoin(time_message, int_to_str(timeinfo->tm_min));
+
+    GtkWidget *message_time = gtk_label_new(time_message);
+    gtk_widget_set_name(GTK_WIDGET(message_time), "message_time");
+    gtk_label_set_line_wrap(GTK_LABEL(message_time), TRUE);
+    gtk_label_set_line_wrap_mode(GTK_LABEL(message_time), PANGO_WRAP_WORD_CHAR);
+    gtk_label_set_max_width_chars(GTK_LABEL(message_time), 50);
+    gtk_box_pack_start(GTK_BOX(message_body_box), message_time, FALSE, FALSE, 0);
 
     pthread_t display_thread = NULL;
     pthread_create(&display_thread, NULL, scrolling_msg, NULL);
@@ -41,8 +61,10 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
 
         gtk_text_buffer_get_bounds (buffer, &start, &end);
         text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
+        text = mx_strtrim(text);
         if(strlen(text) == 0) return;
         //printf("messsage: %s\n", text);
+        
         display_message(text);
         
         g_free (text);

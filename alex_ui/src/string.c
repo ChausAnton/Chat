@@ -82,3 +82,51 @@ char *int_to_str(int num) {
    snprintf(result, length + 1, "%d", num);
    return result;
 }
+
+bool mx_isspace(char c) {
+    if (c == ' ' || c == '\n' || c == '\t') {
+        return true;
+    }
+    else if (c == '\v' || c == '\f' || c == '\r') {
+        return true;
+    }
+
+    return false;
+}
+
+char *mx_strncpy(char *dst, const char *src, int len) {
+    int i = 0;
+    while (src[i] != '\0') {
+        if (i == len) {
+            return (char *) dst;
+        }
+        dst[i] = src[i];
+        i++;
+    }
+    return (char *) dst;
+}
+
+char *mx_strndup(const char *s1, size_t n) {
+    size_t lenght = strlen(s1);
+    if(n < lenght) lenght = n;
+    char *DupStr = mx_strnew(lenght);
+    if(DupStr == NULL) {
+        return NULL;
+    }
+    return mx_strncpy(DupStr, s1, lenght);
+}
+
+char *mx_strtrim(const char *str) {
+    if (str == NULL) {
+        return NULL;
+    }
+
+    while(mx_isspace(*str)) str++;
+
+    int i = strlen(str);
+    while(mx_isspace(str[i - 1])) {
+        i--;
+    }
+
+    return mx_strndup(str, i);
+}

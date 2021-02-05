@@ -8,16 +8,17 @@ void load_chat_list() {
     main_data.main_box.chat_bar_for_scroll = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_name(GTK_WIDGET(main_data.main_box.chat_bar_for_scroll), "chat_bar_for_scroll");
     gtk_container_add(GTK_CONTAINER(main_data.main_box.chat_bar_scroll), main_data.main_box.chat_bar_for_scroll);
+    int current = -1;
     for(int i = 0; i < user_data.amount_of_chat; i++) {
-        GtkWidget *chat_button = gtk_event_box_new();
-        gtk_widget_set_name(GTK_WIDGET(chat_button), "chat_button");
-        gtk_event_box_set_above_child(GTK_EVENT_BOX(chat_button), TRUE);
-        gtk_box_pack_start(GTK_BOX(main_data.main_box.chat_bar_for_scroll), chat_button, FALSE, FALSE, 0);
+        user_data.chat_array[i].chat_button = gtk_event_box_new();
+        gtk_widget_set_name(GTK_WIDGET(user_data.chat_array[i].chat_button), "chat_button");
+        gtk_event_box_set_above_child(GTK_EVENT_BOX(user_data.chat_array[i].chat_button), TRUE);
+        gtk_box_pack_start(GTK_BOX(main_data.main_box.chat_bar_for_scroll), user_data.chat_array[i].chat_button, FALSE, FALSE, 0);
 
         GtkWidget *chat_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
         gtk_widget_set_name(GTK_WIDGET(chat_box), "chat_small_box");
         gtk_widget_set_size_request(GTK_WIDGET(chat_box), 300, 70);
-        gtk_container_add(GTK_CONTAINER(chat_button), chat_box);
+        gtk_container_add(GTK_CONTAINER(user_data.chat_array[i].chat_button), chat_box);
 
         GtkWidget *left_chat_avatar = gtk_drawing_area_new();
         gtk_widget_set_size_request(GTK_WIDGET(left_chat_avatar), 40, 40);
@@ -39,9 +40,9 @@ void load_chat_list() {
         gtk_box_pack_start(GTK_BOX(chat_box), chat_id, FALSE, FALSE, 0);
         gtk_widget_set_name(GTK_WIDGET(chat_id), "hidden");
 
-        g_signal_connect(G_OBJECT(chat_button), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
-        g_signal_connect(G_OBJECT(chat_button), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
+        g_signal_connect(G_OBJECT(user_data.chat_array[i].chat_button), "enter-notify-event", G_CALLBACK(event_enter_notify_search), NULL);
+        g_signal_connect(G_OBJECT(user_data.chat_array[i].chat_button), "leave-notify-event", G_CALLBACK(event_leave_notify_search), NULL);
         
-        g_signal_connect(G_OBJECT(chat_button), "button_press_event", G_CALLBACK(chat_click), NULL);
+        g_signal_connect(G_OBJECT(user_data.chat_array[i].chat_button), "button_press_event", G_CALLBACK(chat_click), (gpointer)&current);        
     }
 }

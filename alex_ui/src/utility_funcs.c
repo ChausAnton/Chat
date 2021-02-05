@@ -6,12 +6,10 @@ void event_enter_notify(GtkWidget *widget) {
 }
 
 void event_leave_notify(GtkWidget *widget) {
-
     gtk_widget_unset_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT);
 }
 
 void unpress_event_box(GtkWidget *widget, GdkEventButton *event, gpointer *p) {
-
     if (widget) {}
     if(event->type == GDK_BUTTON_PRESS && event->button == 1){
         gtk_widget_unset_state_flags(GTK_WIDGET((GtkWidget *)p), GTK_STATE_FLAG_ACTIVE);
@@ -19,22 +17,29 @@ void unpress_event_box(GtkWidget *widget, GdkEventButton *event, gpointer *p) {
     }
 }
 
-void chat_click(GtkWidget *widget) {
+static void unset_active_chats() {
+    for(int i = 0; i < user_data.amount_of_chat; i++){
+        gtk_widget_unset_state_flags(GTK_WIDGET(user_data.chat_array[i].chat_button), GTK_STATE_FLAG_ACTIVE);
+    }
+}
 
+void chat_click(GtkWidget *widget) {
     GList *parent = gtk_container_get_children(GTK_CONTAINER(widget));
     GList *children = gtk_container_get_children(GTK_CONTAINER(parent->data));
     children = children->next->next;
     int chat_id = atoi((char*)gtk_label_get_text(GTK_LABEL(children->data)));
+
+    unset_active_chats();
+    gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
+
     printf("Chat_id: %d\n", chat_id);
     main_data.main_box.search_chat_id = chat_id;
     g_list_free(g_steal_pointer(&children));
     g_list_free(g_steal_pointer(&parent));
-    gtk_widget_show(main_data.main_box.all_main_box);
-    main_screen();
+    load_right_chat_box();
 }
 
 void event_enter_notify_search(GtkWidget *widget) {
-    
     if(gtk_widget_get_state_flags(GTK_WIDGET(widget)) & GTK_STATE_FLAG_ACTIVE) {
         return;
     } else {
@@ -43,7 +48,6 @@ void event_enter_notify_search(GtkWidget *widget) {
 }
 
 void event_leave_notify_search(GtkWidget *widget) {
-
     if(gtk_widget_get_state_flags(GTK_WIDGET(widget)) & GTK_STATE_FLAG_ACTIVE) {
         return;
     } else {
