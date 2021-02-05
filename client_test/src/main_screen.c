@@ -35,7 +35,7 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
         text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
 
         if(strlen(text) == 0) return;
-
+      
         printf("messsage: %s\n", text);
         display_message(text);
         
@@ -233,7 +233,7 @@ void send_messege_file(GtkWidget *widget, GdkEventButton *event, gpointer *messs
 
         GtkWidget *message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
         gtk_widget_set_name(GTK_WIDGET(message_body), "messages_body");
-        gtk_box_pack_start(GTK_BOX(messanges_area_for_scroll), message_body, FALSE, FALSE, 0);
+        gtk_box_pack_start(GTK_BOX(left_box), message_body, FALSE, FALSE, 0);
 
         GtkWidget *message_body_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
         gtk_box_pack_end(GTK_BOX(message_body), message_body_box, FALSE, TRUE, 0);
@@ -474,6 +474,7 @@ void main_screen(GtkWidget *widget, GdkEventButton *event, gpointer **activity_b
 
     g_signal_connect(G_OBJECT(exit_button_clickable), "button_press_event", G_CALLBACK(gtk_main_quit), NULL);
     //////////
+
 
 //////Messanges area
     GtkWidget *messanges_area = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);

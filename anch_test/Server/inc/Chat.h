@@ -2,7 +2,7 @@
 #ifndef chat
 #define chat
 
-#define SERVERPORT 8339
+#define SERVERPORT 8005
 
 #include <stdio.h>
 #include <unistd.h>
@@ -36,6 +36,16 @@
 ///////
 char *mx_autentification(int sock);
 void *connection_handler(void *new_sock);
+void file_work(int sock_from, int sock_to);
+
+unsigned char * base64_encode(const unsigned char *src, size_t len,
+			      size_t *out_len);
+
+
+unsigned char * base64_decode(const unsigned char *src, size_t len,
+			      size_t *out_len);
+
+char *mx_itoa(int number);
 
 ////
 char *mx_strnew(const int size);
@@ -45,6 +55,7 @@ char *mx_strjoin(char const *s1, char const *s2);
 char* int_to_str(int num);
 void mx_registration(int sock);
 char *clear_client_message(char *str);
+char **mx_strsplit(char const *s, char c);
 
 /**Database**/
 sqlite3* db;

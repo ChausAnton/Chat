@@ -1,25 +1,45 @@
 #include "Chat.h"
 
-void file_work(int sock_from, int sock_to) {
-	write(sock_to , "@image" , strlen("@image"));
-	char image_name[20];
-	recv(sock_from , image_name , 20 , 0);
-	write(sock_to , image_name , strlen(image_name));
-	printf("Reading Picture\n");
-    char p_array[1000];
 
-	printf("Reading Picture Size\n");
+void message_send(char *message, int sock_to) {
+	time_t t;
+    time(&t);
 
-	recv(sock_from , p_array , 1000 , 0);
-	send(sock_to , p_array, strlen(p_array), 0);//size
-	int b64_size = atoi(p_array);
-						
-	unsigned char b64[b64_size];
-	for(int i = 0; i < b64_size; i++)
-		b64[i] = '\0';
-	recv(sock_from , b64 , b64_size , 0);
-	send(sock_to , b64, b64_size, 0);
-	printf("Reading Picture End\n");
+	write(sock_to , message , strlen(message));
+
+	//db_add_msg(int chat_id, int user_id, char* date, char* text)
+}
+
+void message_synchronization(char *message, int sock_from) {
+	send(sock_from, message, strlen(message), 0);//send @synchronization
+
+	int server_last_id = 0;
+	//get last id on server
+
+	//get last id no client
+	recv(sock_from, message, 1000, 0);
+	int user_last_id = atoi(message);
+	if (server_last_id > user_last_id) {
+		char **messages;
+		//get all message user last id to server last id
+		int size = 0;
+		int i = 0;
+
+		while (messages[i] != NULL)
+			size++;
+		send(sock_from, mx_itoa(size), strlen(mx_itoa(size)), 0);
+		usleep(20);
+
+		for(int j = 0; messages[j] != NULL; i++) {
+			send(sock_from, messages[j], strlen(messages[j]), 0);
+			usleep(10);
+		}
+		send(sock_from, "@end_synchronization", strlen("@end_synchronization"), 0);
+	}
+	else
+		send(sock_from, mx_itoa(-1), strlen(mx_itoa(-1)), 0);
+	
+
 }
 
 
@@ -69,13 +89,15 @@ void *connection_handler(void *new_sock) {
 			write(sock_from , "exit" , strlen("exit"));
 			break;
 		}
-
-		if (strcmp(client_message, "@image") == 0) {
+		else if (strcmp(client_message, "@file") == 0) {
 			file_work(sock_from, sock_to);
-			continue;
 		}
-
-		write(sock_to , client_message , strlen(client_message));
+		else if (strcmp(client_message, "@synchronization") == 0) {
+			message_synchronization(client_message, sock_from);
+		}
+		else {
+			message_send(client_message, sock_to);
+		}
 
 		client_message = clear_client_message(client_message);
 	}

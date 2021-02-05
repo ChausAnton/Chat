@@ -125,13 +125,13 @@
     border-radius: 13.5px;
 }
 
+
 #clip_box {
     background-image: url("../images/clip_button.png");
     background-size: 100%;
     background-repeat: no-repeat;
     background-position: center;
 }
-
 
 #send_button_clickable {
     margin: 20px 20px 20px 20px;
