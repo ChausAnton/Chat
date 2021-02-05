@@ -21,10 +21,8 @@ void file_work(int sock_from, int sock_to) {
 	send(sock_to , p_array, strlen(p_array), 0);//size
 	int b64_size = atoi(p_array);
 
-	//unsigned char *b64 = (unsigned char *) malloc(sizeof(unsigned char) * b64_size);
 	unsigned char *b64 = NULL;
-	/*for(int i = 0; i < b64_size; i++)
-		b64[i] = '\0';*/
+
 
 	int nb = 0;
 	char buf[50001];
@@ -40,20 +38,25 @@ void file_work(int sock_from, int sock_to) {
 	    }
 	}
 
-
-	send(sock_to , b64, b64_size, 0);
-
-    unsigned char *b64_fin;
+	unsigned char *b64_fin;
 	if(strlen((char *)b64) < b64_size) {
 		b64_fin = (unsigned char *)mx_strjoin(mx_strsplit(p_array, '@')[1], (char *)b64);
 	}
 	else
 		b64_fin = (unsigned char *)b64;
 
+	send(sock_to , b64, b64_size, 0);
+
+
 	size_t b64_dec_len = b64_size * 3 / 4;
 	unsigned char *b64_dec = base64_decode(b64_fin, b64_size, &b64_dec_len);
 	fwrite(b64_dec, b64_dec_len, 1, file);
 	fclose(file);
+	
+	free(file_name);
+	free(extension);
+	free(b64);
+	free(b64_dec);
 
 	printf("Reading file End\n");
 }

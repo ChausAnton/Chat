@@ -15,12 +15,6 @@ void read_file(int sock) {
 
 	recv(sock , p_array , 1000 , 0);//size
 	int b64_size = atoi(p_array);
-    /*unsigned char *b64 = (unsigned char *) malloc(sizeof(unsigned char) * b64_size);
-
-	for(int i = 0; i < b64_size; i++)
-		b64[i] = '\0';
-		
-	recv(sock , b64 , b64_size , 0);*/
 
     unsigned char *b64 = NULL;
     int nb = 0;
@@ -48,6 +42,10 @@ void read_file(int sock) {
 	unsigned char *b64_dec = base64_decode(b64_fin, b64_size, &b64_dec_len);
 	fwrite(b64_dec, b64_dec_len, 1, file);
 	fclose(file);
+
+	free(b64_fin);
+	free(b64_dec);
+
 	printf("Reading file End\n");
 }
 
@@ -63,21 +61,29 @@ void file_sending(int sock) {
 	picture = fopen(message, "rb");
 	fseek(picture, 0, SEEK_END);
 	int size = ftell(picture);
+
+	if (size > 5000000) {
+		printf("too large file\n");
+		return;
+	}
+
 	fseek(picture, 0, SEEK_SET);
-	unsigned char buffer[size];
+	unsigned char *buffer = (unsigned char *) malloc(sizeof(unsigned char) * size);
 	fread(buffer, size, 1, picture);
 
 	size_t b64_len = 0;
 	unsigned char  *send_buffer = base64_encode(buffer, size, &b64_len);
 
-	//char *send_size = mx_strjoin(mx_itoa(b64_len), "@");
 	char *send_size = mx_itoa(b64_len);
 	send(sock , send_size, strlen(send_size), 0);
-	usleep(50000);	
+	usleep(50000);
+
 	send(sock , send_buffer, b64_len, 0);
     send(sock , "", 0, 0);
-	printf("size %zu\n", b64_len);
 	usleep(50000);
+
+	free(send_buffer);
+	free(buffer);
 
 	printf("file send end\n");
 	fclose(picture);
