@@ -33,6 +33,7 @@ void load_chat_list() {
         gtk_box_pack_start(GTK_BOX(chat_box), photo_chat, FALSE, FALSE, 0);
 
         GtkWidget* name_chat = gtk_label_new(user_data.chat_array[i].chat_name);
+        gtk_label_set_selectable(GTK_LABEL(name_chat), TRUE);
         gtk_widget_set_name(GTK_WIDGET(name_chat), "chat_name");
         gtk_box_pack_start(GTK_BOX(chat_box), name_chat, FALSE, FALSE, 0);
 

@@ -140,6 +140,22 @@
             border-bottom: 1px solid whitesmoke;
             border-radius: 0px;
         }
+        #save_small_box {
+            background: rgb(47, 120, 117);
+            border-radius: 15px;
+            margin: 20px 5px 10px 5px;
+        }
+        #save_event_box:hover > #save_small_box {
+            background: linear-gradient(61.94deg, rgba(104, 52, 135, 0.8) 15.84%, rgba(67, 63, 238, 0.8) 111.81%);
+            transition: 50ms ease-in-out;
+        }
+        #save_box_label {
+            background: none;
+            font: 18px PTSansPro-Demi;
+            color: whitesmoke;
+            margin-left: 140px;
+        }
+        
 
     #user_name_label {
         font: 18px PTSansPro-Demi;
@@ -304,7 +320,7 @@
             background-position: center;
             padding: 10px;
             margin-left: 10px;
-        }
+        }    
         #add_user:hover {
             background: linear-gradient(219.61deg, #683487 0%, #433FEE 111.4%);
         }

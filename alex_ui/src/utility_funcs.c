@@ -92,7 +92,6 @@ void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *dat
             write(1, "Chat renamed!\n", 14);
             break;
         case 2:
-            //write(1, "User added!\n", 12);
             show_add_new_user(widget);
             break;
         case 3:

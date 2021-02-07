@@ -23,6 +23,7 @@ void display_message(char *message_text) {
 
     GtkWidget *message = gtk_label_new(message_text);
     gtk_widget_set_name(GTK_WIDGET(message), "message");
+    gtk_label_set_selectable(GTK_LABEL(message), TRUE);
     gtk_label_set_line_wrap(GTK_LABEL(message), TRUE);
     gtk_label_set_line_wrap_mode(GTK_LABEL(message), PANGO_WRAP_WORD_CHAR);
     gtk_label_set_max_width_chars(GTK_LABEL(message), 50);
@@ -128,6 +129,7 @@ void send_message_file(GtkWidget *widget, GdkEventButton *event, gpointer *messs
             
             if(strlen(text) != 0){
                 GtkWidget *message = gtk_label_new(text);
+                gtk_label_set_selectable(GTK_LABEL(message), TRUE);
                 gtk_widget_set_name(GTK_WIDGET(message), "message_with_file");
                 gtk_widget_set_halign(GTK_WIDGET(message), GTK_ALIGN_START);
                 gtk_label_set_line_wrap(GTK_LABEL(message), TRUE);

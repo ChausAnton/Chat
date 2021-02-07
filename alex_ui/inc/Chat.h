@@ -79,7 +79,10 @@ typedef struct s_main_box {
     GtkWidget *chat_bar_for_scroll;
     GtkWidget *chat_bar_scroll;
     GtkWidget *add_new_chat_event_box;
+    GtkWidget *user_settings_event_box;
     GtkWidget *chat_settings_event_box;
+    GtkWidget *up_box;
+    GtkWidget *user_name_label;
     int search_chat_id;
 }   t_main_box;
 
@@ -100,6 +103,9 @@ void start_screen();
 void register_screen();
 void main_screen();
 
+/* main_screen_up_box.c */
+void main_screen_up_box();
+ 
 /* message_stuff.c */
 void *scrolling_msg();
 void display_message(char *message_text);
@@ -119,6 +125,7 @@ void sign_up();
 void logout(GtkWidget *widget, GdkEventButton *event);
 void event_enter_notify_search(GtkWidget *widget);
 void event_leave_notify_search(GtkWidget *widget);
+void show_search_result(GtkWidget *widget, GdkEventButton *event, gpointer *user_input);
 
 void show_search_result(GtkWidget *widget, GdkEventButton *event, gpointer *user_input);
 
@@ -132,6 +139,7 @@ void show_chat_settings(GtkWidget *widget);
 
 /* user_settings.c */
 void show_user_settings(GtkWidget *widget);
+void save_user_changes(GtkWidget *widget, GdkEventButton *event, gpointer *data);
 
 /* add_new_chat.c */
 void show_add_new_chat(GtkWidget *widget);
@@ -157,11 +165,11 @@ void load_chat_list();
 /* load_chat_box.c */
 void load_right_chat_box();
 
-/* chat_info.c */
-void show_chat_info(GtkWidget *widget);
-
 /* add_user.c */
 void show_add_new_user(GtkWidget *widget);
 void add_new_user();
+
+/* chat_info.c */
+void show_chat_info(GtkWidget *widget);
 
 #endif
