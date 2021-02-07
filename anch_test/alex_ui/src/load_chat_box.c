@@ -24,7 +24,7 @@ void load_right_chat_box() {
 
             GtkWidget *top_chat_avatar = gtk_drawing_area_new();
             gtk_widget_set_size_request(GTK_WIDGET(top_chat_avatar), 40, 40);
-            char *chat_photo_path = strdup(user_data.chat_array[main_data.main_box.search_chat_id].image_path);
+            char *chat_photo_path = strdup(user_data.chat_array[main_data.main_box.search_chat_index].image_path);
             g_signal_connect(G_OBJECT(top_chat_avatar), "draw", G_CALLBACK(draw_chat_avatar), chat_photo_path);
 
             GtkWidget* top_chat_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
@@ -38,7 +38,7 @@ void load_right_chat_box() {
             gtk_widget_set_name(GTK_WIDGET(chat_name_box), "top_chat_name_box");
             gtk_box_pack_start(GTK_BOX(top_area), chat_name_box, FALSE, FALSE, 0);
 
-            GtkWidget* top_chat_name = gtk_label_new(user_data.chat_array[main_data.main_box.search_chat_id].chat_name);
+            GtkWidget* top_chat_name = gtk_label_new(user_data.chat_array[main_data.main_box.search_chat_index].chat_name);
             gtk_widget_set_name(GTK_WIDGET(top_chat_name), "top_chat_name");
             gtk_container_add(GTK_CONTAINER(chat_name_box), top_chat_name);
 

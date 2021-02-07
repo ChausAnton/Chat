@@ -47,24 +47,46 @@ void search_user(int sock, char *user_name) {
 	char *user_name2 = clear_client_message(NULL);
 	recv(sock, user_name2, 1000, 0);
 	send(sock, "@GET", strlen("@GET"), 0);
+	mx_printerr("IIIIIIIIIIIIII\n");
 	message = db_get_user_name(user_name2, db);
+	mx_printerr("*************\n");
 	send(sock, message, strlen(message), 0);
 	recv(sock, message, 1000, 0);
 	message = clear_client_message(message);
 	int user_id = db_get_user_id(user_name2, db);
 	send(sock, mx_itoa(user_id), strlen(mx_itoa(user_id)), 0);
 	recv(sock, message, 1000, 0);
+	mx_printerr("{{{{{{{{{{{{\n");
 	message = clear_client_message(message);
 }
 
-/*void new_chat(char user_name) {
+void new_chat(int sock, char *user_name) {
+	char *message = clear_client_message(NULL);
 
-	db_add_chat(2, NULL);
+	recv(sock, message, 1000, 0);
+	send(sock, "@GET", strlen("@GET"), 0);
+	int size = atoi(message);
 
+	db_add_chat(size, "New Chat");
 	int last_chat = db_get_last_chat_id();
-	db_add_member(last_chat, user_id);
+
+	message = clear_client_message(message);
+
+	char **users_id = (char **) malloc(sizeof(char *) * size);
+	for (int i = 1; i < size; i++) {
+		recv(sock, message, 1000, 0);
+		send(sock, "@GET", strlen("@GET"), 0);
+		users_id[i] = strdup(message);
+		db_add_member(last_chat, atoi(message));
+		message = clear_client_message(message);
+	}
+
 	db_add_member(last_chat, db_get_user_id(user_name, db));
-}*/
+
+	send(sock, mx_itoa(last_chat), strlen(mx_itoa(last_chat)), 0);
+	recv(sock, message, 1000, 0);
+	message = clear_client_message(message);
+}
 
 
 void *connection_handler(void *new_sock) {
@@ -100,7 +122,17 @@ void *connection_handler(void *new_sock) {
 		recv(sock_from , client_message , 2000 , 0);
 		send(sock_from, "@GET", strlen("@GET"), 0);
 		if(strcmp(client_message, "@search") == 0) {
+			mx_printerr("user_d@@@@@@@@@@@@@\n");
 			search_user(sock_from, user_name);
+			mx_printerr("!!!!!!!!!!!!!!\n");
+
+		}
+		client_message = clear_client_message(client_message);
+
+		recv(sock_from , client_message , 2000 , 0);
+		send(sock_from, "@GET", strlen("@GET"), 0);
+		if(strcmp(client_message, "@new_chat") == 0) {
+			new_chat(sock_from, user_name);
 		}
 		client_message = clear_client_message(client_message);
 

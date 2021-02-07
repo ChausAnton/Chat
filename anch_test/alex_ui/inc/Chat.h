@@ -35,7 +35,7 @@ int sock;
 //10.11.7.8 ansh
 //10.11.7.7 anch
 #define SERVERADDR "10.11.7.7"
-#define SERVERPORT 8811
+#define SERVERPORT 8300
 pthread_t sniffer_thread;
 
 void mx_printerr(const char *s);
@@ -85,6 +85,7 @@ typedef struct s_main_box {
     GtkWidget *chat_settings_event_box;
     GtkWidget *add_chats_scrollable_box;
     int search_chat_id;
+    int search_chat_index;
 }   t_main_box;
 
 typedef struct s_main_data {
