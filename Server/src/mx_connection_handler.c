@@ -1,45 +1,25 @@
 #include "Chat.h"
 
+void file_work(int sock_from, int sock_to) {
+	write(sock_to , "@image" , strlen("@image"));
+	char image_name[20];
+	recv(sock_from , image_name , 20 , 0);
+	write(sock_to , image_name , strlen(image_name));
+	printf("Reading Picture\n");
+    char p_array[1000];
 
-void message_send(char *message, int sock_to) {
-	time_t t;
-    time(&t);
+	printf("Reading Picture Size\n");
 
-	write(sock_to , message , strlen(message));
-
-	//db_add_msg(int chat_id, int user_id, char* date, char* text)
-}
-
-void message_synchronization(char *message, int sock_from) {
-	send(sock_from, message, strlen(message), 0);//send @synchronization
-
-	int server_last_id = 0;
-	//get last id on server
-
-	//get last id no client
-	recv(sock_from, message, 1000, 0);
-	int user_last_id = atoi(message);
-	if (server_last_id > user_last_id) {
-		char **messages;
-		//get all message user last id to server last id
-		int size = 0;
-		int i = 0;
-
-		while (messages[i] != NULL)
-			size++;
-		send(sock_from, mx_itoa(size), strlen(mx_itoa(size)), 0);
-		usleep(20);
-
-		for(int j = 0; messages[j] != NULL; i++) {
-			send(sock_from, messages[j], strlen(messages[j]), 0);
-			usleep(10);
-		}
-		send(sock_from, "@end_synchronization", strlen("@end_synchronization"), 0);
-	}
-	else
-		send(sock_from, mx_itoa(-1), strlen(mx_itoa(-1)), 0);
-	
-
+	recv(sock_from , p_array , 1000 , 0);
+	send(sock_to , p_array, strlen(p_array), 0);//size
+	int b64_size = atoi(p_array);
+						
+	unsigned char b64[b64_size];
+	for(int i = 0; i < b64_size; i++)
+		b64[i] = '\0';
+	recv(sock_from , b64 , b64_size , 0);
+	send(sock_to , b64, b64_size, 0);
+	printf("Reading Picture End\n");
 }
 
 
@@ -49,38 +29,18 @@ void *connection_handler(void *new_sock) {
 	int sock_to;
 	char *message;
 	char *client_message = clear_client_message(NULL);
+
+	mx_registration(sock_from);
+	
 	char *user_name = NULL;
-
-	while(1) {
-		recv(sock_from , client_message , 2000 , 0);
-		send(sock_from, "@GET", strlen("@GET"), 0);
-
-		if(strcmp(client_message, "@sign_up") == 0) {
-			user_name = mx_registration(sock_from);
-		}
-		if (strcmp(client_message, "@sign_in") == 0) {
-			user_name = mx_autentification(sock_from);
-		}
-
-		client_message = clear_client_message(client_message);
-
-		if (user_name != NULL){ break; }
-
+	while(user_name == NULL) {
+		user_name = mx_autentification(sock_from);
 	}
 
-	mx_printerr("user_data_synchronization start\n");
-	user_data_synchronization(sock_from, user_name);
-	mx_printerr("user_data_synchronization end\n");
-
-	mx_printerr("reg fin\n");
-	//db_del_user_from_online(user_name, db);
-	mx_printerr("Client disconnected");
-	free(user_name);
-	db_del_user_from_online(user_name, db);
-	fflush(stdout);
-	close(sock_from);
-	return 0;
-
+	message = mx_strjoin("Hi, ", user_name);
+	message = mx_strjoin(message, ", Who's you want to write ?\n");
+	write(sock_from , message , strlen(message));
+	free(message);
 
 	if((read_size = recv(sock_from , client_message , 2000 , 0)) > 0) {
 		if ((sock_to = db_get_online_user_socket(client_message, db)) != -1) {
@@ -109,15 +69,13 @@ void *connection_handler(void *new_sock) {
 			write(sock_from , "exit" , strlen("exit"));
 			break;
 		}
-		else if (strcmp(client_message, "@file") == 0) {
+
+		if (strcmp(client_message, "@image") == 0) {
 			file_work(sock_from, sock_to);
+			continue;
 		}
-		else if (strcmp(client_message, "@synchronization") == 0) {
-			message_synchronization(client_message, sock_from);
-		}
-		else {
-			message_send(client_message, sock_to);
-		}
+
+		write(sock_to , client_message , strlen(client_message));
 
 		client_message = clear_client_message(client_message);
 	}

@@ -10,14 +10,14 @@ void show_chat_settings(GtkWidget *widget) {
 
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
     
-    main_data.main_box.chat_settings_event_box = gtk_event_box_new();
-    gtk_widget_set_name(GTK_WIDGET(main_data.main_box.chat_settings_event_box), "chat_settings_event_box");
-    gtk_widget_set_size_request(GTK_WIDGET(main_data.main_box.chat_settings_event_box), 1400, 900);
-    g_signal_connect(G_OBJECT(main_data.main_box.chat_settings_event_box), "button_press_event", G_CALLBACK(unpress_event_box), widget);
-    gtk_fixed_put(GTK_FIXED(main_data.activity_block), main_data.main_box.chat_settings_event_box, 0, 0);
+    GtkWidget *chat_settings_event_box = gtk_event_box_new();
+    gtk_widget_set_name(GTK_WIDGET(chat_settings_event_box), "chat_settings_event_box");
+    gtk_widget_set_size_request(GTK_WIDGET(chat_settings_event_box), 1400, 900);
+    g_signal_connect(G_OBJECT(chat_settings_event_box), "button_press_event", G_CALLBACK(unpress_event_box), widget);
+    gtk_fixed_put(GTK_FIXED(main_data.activity_block), chat_settings_event_box, 0, 0);
 
     GtkWidget *position_chat_settings = gtk_fixed_new();
-    gtk_container_add(GTK_CONTAINER(main_data.main_box.chat_settings_event_box), position_chat_settings);
+    gtk_container_add(GTK_CONTAINER(chat_settings_event_box), position_chat_settings);
 
     GtkWidget *clickable_chat_settings = gtk_event_box_new();
     gtk_widget_set_halign(GTK_WIDGET(clickable_chat_settings), GTK_ALIGN_END);
@@ -60,7 +60,6 @@ void show_chat_settings(GtkWidget *widget) {
     gtk_box_pack_start(GTK_BOX(rename_chat_box), rename_chat, FALSE, FALSE, 0);
 
     g_signal_connect(G_OBJECT(rename_chat_clickable), "button_press_event", G_CALLBACK(chat_settings_click), (gpointer) &number1);
-
     // Add user
     GtkWidget *add_user_clickable = gtk_event_box_new();
     gtk_widget_set_name(GTK_WIDGET(add_user_clickable), "add_user");
@@ -136,7 +135,6 @@ void show_chat_settings(GtkWidget *widget) {
     // Change chat image
     GtkWidget *change_chat_image_clickable = gtk_event_box_new();
     gtk_widget_set_name(GTK_WIDGET(change_chat_image_clickable), "change_chat_image");
-    gtk_widget_set_size_request(GTK_WIDGET(change_chat_image_clickable), 30, 30);
     gtk_box_pack_start(GTK_BOX(scrollable_box), change_chat_image_clickable, FALSE, FALSE, 0);
 
     g_signal_connect(G_OBJECT(change_chat_image_clickable), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
@@ -158,5 +156,5 @@ void show_chat_settings(GtkWidget *widget) {
 
     g_signal_connect(G_OBJECT(change_chat_image_clickable), "button_press_event", G_CALLBACK(chat_settings_click), (gpointer) &number5);
 
-    gtk_widget_show_all(GTK_WIDGET(main_data.main_box.chat_settings_event_box));
+    gtk_widget_show_all(GTK_WIDGET(chat_settings_event_box));
 }
