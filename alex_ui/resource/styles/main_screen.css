@@ -359,6 +359,38 @@
             padding: 10px;
             margin-left: 10px;
         }
+        #delete_chat_event_box {
+            background: rgba(0, 0, 0, 0.4);
+        }
+        #delete_chat_func_box {
+            background: rgb(47, 120, 117);
+            border-radius: 15px;
+        }
+            #delete_chat_label {
+                font: 18px PTSansPro-Demi;
+                color: whitesmoke;
+                margin: 20px 10px 0 10px;
+            }
+            #delete_chat_box_for_buttons {
+                margin-top: 20px;
+            }
+            #delete_chat_yes_button {
+                min-width: 70px;
+                margin-left: 40px;
+                background: whitesmoke;
+                font: 18px PTSansPro-Demi;
+                border-radius: 15px;
+                color: black;
+            }
+            #delete_chat_no_button {
+                min-width: 70px;
+                background: linear-gradient(231.16deg, #683487 5.87%, #433FEE 156.27%);;
+                font: 18px PTSansPro-Demi;
+                margin-left: 70px;
+                border-radius: 15px;
+                color: whitesmoke;
+            }      
+
         #change_chat_image {
             border-radius: 0 0 15px 15px;
             padding: 10px;

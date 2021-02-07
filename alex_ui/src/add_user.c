@@ -127,7 +127,6 @@ void show_add_new_user(GtkWidget *widget) {
 void add_new_user() {
     
     int usr_amnt = user_data.chat_array[main_data.main_box.search_chat_id].count_users; // amount of users in current chat
-
     for(int i = 0; i < 100; i++){
         if(new_chat_users_id[i] != -1) {
             usr_amnt += 1;
