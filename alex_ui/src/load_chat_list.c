@@ -32,10 +32,13 @@ void load_chat_list() {
         gtk_widget_set_size_request(GTK_WIDGET(photo_chat), 50, 30);
         gtk_box_pack_start(GTK_BOX(chat_box), photo_chat, FALSE, FALSE, 0);
 
-        GtkWidget* name_chat = gtk_label_new(user_data.chat_array[i].chat_name);
-        gtk_label_set_selectable(GTK_LABEL(name_chat), TRUE);
-        gtk_widget_set_name(GTK_WIDGET(name_chat), "chat_name");
-        gtk_box_pack_start(GTK_BOX(chat_box), name_chat, FALSE, FALSE, 0);
+        user_data.chat_array[i].chat_label_name = gtk_label_new(user_data.chat_array[i].chat_name);
+        gtk_label_set_line_wrap(GTK_LABEL(user_data.chat_array[i].chat_label_name), TRUE);
+        gtk_label_set_line_wrap_mode(GTK_LABEL(user_data.chat_array[i].chat_label_name), PANGO_WRAP_WORD_CHAR);
+        gtk_label_set_max_width_chars(GTK_LABEL(user_data.chat_array[i].chat_label_name), 18);
+        gtk_label_set_selectable(GTK_LABEL(user_data.chat_array[i].chat_label_name), TRUE);
+        gtk_widget_set_name(GTK_WIDGET(user_data.chat_array[i].chat_label_name), "chat_name");
+        gtk_box_pack_start(GTK_BOX(chat_box), user_data.chat_array[i].chat_label_name, FALSE, FALSE, 0);
 
         GtkWidget *chat_id = gtk_label_new(int_to_str(user_data.chat_array[i].chat_id));
         gtk_box_pack_start(GTK_BOX(chat_box), chat_id, FALSE, FALSE, 0);

@@ -38,10 +38,10 @@ void load_right_chat_box() {
             gtk_widget_set_name(GTK_WIDGET(chat_name_box), "top_chat_name_box");
             gtk_box_pack_start(GTK_BOX(top_area), chat_name_box, FALSE, FALSE, 0);
 
-            GtkWidget* top_chat_name = gtk_label_new(user_data.chat_array[main_data.main_box.search_chat_id].chat_name);
-            gtk_label_set_selectable(GTK_LABEL(top_chat_name), TRUE);
-            gtk_widget_set_name(GTK_WIDGET(top_chat_name), "top_chat_name");
-            gtk_container_add(GTK_CONTAINER(chat_name_box), top_chat_name);
+            main_data.main_box.chat_box_name_label = gtk_label_new(user_data.chat_array[main_data.main_box.search_chat_id].chat_name);
+            gtk_label_set_selectable(GTK_LABEL(main_data.main_box.chat_box_name_label), TRUE);
+            gtk_widget_set_name(GTK_WIDGET(main_data.main_box.chat_box_name_label), "top_chat_name");
+            gtk_container_add(GTK_CONTAINER(chat_name_box), main_data.main_box.chat_box_name_label);
 
             // Chat settings
             GtkWidget *chat_setting_button = gtk_event_box_new();
