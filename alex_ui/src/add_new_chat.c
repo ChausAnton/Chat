@@ -89,12 +89,10 @@ void show_add_new_chat(GtkWidget *widget) {
         gtk_box_pack_start(GTK_BOX(search_chat_box), add_new_chat_photo, FALSE, FALSE, 0);
 
         GtkWidget* user_name_in_search = gtk_label_new("Shrek))0)");
-        gtk_label_set_selectable(GTK_LABEL(user_name_in_search), TRUE);
         gtk_widget_set_name(GTK_WIDGET(user_name_in_search), "user_name_in_search");
         gtk_box_pack_start(GTK_BOX(search_chat_box), user_name_in_search, FALSE, FALSE, 0);
 
         GtkWidget *chat_id = gtk_label_new(int_to_str(user_data.chat_array[i].chat_id));
-        gtk_label_set_selectable(GTK_LABEL(chat_id), TRUE);
         gtk_box_pack_start(GTK_BOX(search_chat_box), chat_id, FALSE, FALSE, 0);
         gtk_widget_set_name(GTK_WIDGET(chat_id), "hidden");
 
@@ -171,7 +169,7 @@ void add_new_chat() {
     //user_data.chat_array[user_data.amount_of_chat-1].count_users = amount(users_id);
     //user_data.chat_array[user_data.amount_of_chat-1].chat_id = last(chat_id in db);
     user_data.chat_array[index_new].chat_id = index_new;
-    user_data.chat_array[index_new].image_path = strdup("resource/images/stickers/051-happy-5.png");
+    user_data.chat_array[index_new].image_path = strdup("resource/images/stickers/047-hello.png");
 
     user_data.chat_array[index_new].chat_button = gtk_event_box_new();
     gtk_widget_set_name(GTK_WIDGET(user_data.chat_array[index_new].chat_button), "chat_button");
@@ -196,12 +194,10 @@ void add_new_chat() {
     gtk_box_pack_start(GTK_BOX(chat_box), photo_chat, FALSE, FALSE, 0);
 
     GtkWidget* name_chat = gtk_label_new(user_data.chat_array[index_new].chat_name);
-    gtk_label_set_selectable(GTK_LABEL(name_chat), TRUE);
     gtk_widget_set_name(GTK_WIDGET(name_chat), "chat_name");
     gtk_box_pack_start(GTK_BOX(chat_box), name_chat, FALSE, FALSE, 0);
 
     GtkWidget *chat_id = gtk_label_new(int_to_str(user_data.chat_array[index_new].chat_id));
-    gtk_label_set_selectable(GTK_LABEL(chat_id), TRUE);
     gtk_box_pack_start(GTK_BOX(chat_box), chat_id, FALSE, FALSE, 0);
     gtk_widget_set_name(GTK_WIDGET(chat_id), "hidden");
 

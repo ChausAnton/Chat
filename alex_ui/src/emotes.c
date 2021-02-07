@@ -97,7 +97,7 @@ void show_emoji_box(GtkWidget *widget) {
 
               GtkWidget *sticker_photo = gtk_drawing_area_new();
               gtk_widget_set_size_request(GTK_WIDGET(sticker_photo), 55, 55);
-              char *path_sticker_photo = strdup("resource/images/stickers/sticker_");
+              char *path_sticker_photo = strdup("resource/images/stickers/");
               path_sticker_photo =  mx_strjoin(path_sticker_photo, int_to_str(sticker_num));
               path_sticker_photo =  mx_strjoin(path_sticker_photo, ".png");
 
