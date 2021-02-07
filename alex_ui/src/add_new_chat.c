@@ -36,8 +36,6 @@ void show_add_new_chat(GtkWidget *widget) {
     gtk_entry_set_placeholder_text (GTK_ENTRY(search_users), "Search");
     gtk_box_pack_start(GTK_BOX(horizontal_box), search_users, TRUE, TRUE, 0);
 
-    //printf("search_input:%s\n", search_input);
-
     // Search button
     GtkWidget *search_users_button = gtk_event_box_new();
     gtk_widget_set_name(GTK_WIDGET(search_users_button), "search_users_button");

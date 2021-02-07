@@ -25,12 +25,35 @@ void show_add_new_user(GtkWidget *widget) {
     gtk_widget_set_name(GTK_WIDGET(add_new_chat_box), "add_new_chat_box");
     gtk_container_add(GTK_CONTAINER(clickable_add_new_chat), add_new_chat_box);
 
+    GtkWidget *horizontal_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    gtk_widget_set_name(GTK_WIDGET(horizontal_box), "horizontal_box");
+    gtk_widget_set_size_request(GTK_WIDGET(horizontal_box), 400, 20);
+    gtk_box_pack_start(GTK_BOX(add_new_chat_box), horizontal_box, FALSE, FALSE, 0);
+
     GtkWidget *search_users = gtk_entry_new();
     gtk_widget_set_name(GTK_WIDGET(search_users), "search_users");
     gtk_entry_set_max_length(GTK_ENTRY(search_users), 30);
     gtk_entry_set_placeholder_text (GTK_ENTRY(search_users), "Search");
-    gtk_box_pack_start(GTK_BOX(add_new_chat_box), search_users, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(horizontal_box), search_users, TRUE, TRUE, 0);
 
+    // Search button
+    GtkWidget *search_users_button = gtk_event_box_new();
+    gtk_widget_set_name(GTK_WIDGET(search_users_button), "search_users_button");
+    gtk_widget_set_size_request(GTK_WIDGET(search_users_button), 40, 40);
+    gtk_widget_set_halign(GTK_WIDGET(search_users_button), GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(GTK_WIDGET(clickable_add_new_chat), GTK_ALIGN_CENTER);
+    gtk_box_pack_start(GTK_BOX(horizontal_box), search_users_button, FALSE, FALSE, 0);
+
+    g_signal_connect(G_OBJECT(search_users_button), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
+    g_signal_connect(G_OBJECT(search_users_button), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
+
+    g_signal_connect(G_OBJECT(search_users_button), "button_press_event", G_CALLBACK(show_search_result), search_users);
+
+    GtkWidget *search_users_button_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_widget_set_name(GTK_WIDGET(search_users_button_box), "search_users_button_box");
+    gtk_container_add(GTK_CONTAINER(search_users_button), search_users_button_box);
+
+    // Scroll
     GtkWidget *scrollable = gtk_scrolled_window_new(NULL, NULL);
     gtk_widget_set_size_request(GTK_WIDGET(scrollable), 400, 520);
     gtk_box_pack_start(GTK_BOX(add_new_chat_box), scrollable, FALSE, FALSE, 0);
