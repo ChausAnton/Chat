@@ -19,6 +19,7 @@ void unpress_event_box(GtkWidget *widget, GdkEventButton *event, gpointer *p) {
 
 static void unset_active_chats() {
     for(int i = 0; i < user_data.amount_of_chat; i++){
+        if(user_data.chat_array[i].chat_id == -1) continue;
         gtk_widget_unset_state_flags(GTK_WIDGET(user_data.chat_array[i].chat_button), GTK_STATE_FLAG_ACTIVE);
     }
 }
@@ -54,6 +55,7 @@ void event_leave_notify_search(GtkWidget *widget) {
         gtk_widget_unset_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT);
     }
 }
+
 void search_user_click(GtkWidget *widget) {
 
     GList *parent = gtk_container_get_children(GTK_CONTAINER(widget));
@@ -97,7 +99,7 @@ void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *dat
             write(1, "User deleted!\n", 14);
             break;
         case 4:
-            write(1, "Chat deleted!\n", 14);
+            show_delete_chat(widget);
             break;
         case 5:
             write(1, "Chat image changed!\n", 20);

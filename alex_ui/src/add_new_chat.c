@@ -98,6 +98,7 @@ void show_add_new_chat(GtkWidget *widget) {
 
         g_signal_connect(G_OBJECT(search_chat_button), "enter-notify-event", G_CALLBACK(event_enter_notify_search), NULL);
         g_signal_connect(G_OBJECT(search_chat_button), "leave-notify-event", G_CALLBACK(event_leave_notify_search), NULL);
+        
         g_signal_connect(G_OBJECT(search_chat_button), "button_press_event", G_CALLBACK(search_user_click), NULL);
     }
     
@@ -154,7 +155,8 @@ void add_new_chat() {
             user_data.chat_array[index_new].count_users += 1;
         }
     }
-    user_data.chat_array[index_new].users_id = malloc(sizeof(int)*user_data.chat_array[index_new].count_users);
+
+    user_data.chat_array[index_new].users_id = malloc(sizeof(int) * user_data.chat_array[index_new].count_users);
     int tmp_index = 0;
     for(int i = 0; i < 100; i++){
         if(new_chat_users_id[i] != -1) {
@@ -203,14 +205,15 @@ void add_new_chat() {
 
     g_signal_connect(G_OBJECT(user_data.chat_array[index_new].chat_button), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
     g_signal_connect(G_OBJECT(user_data.chat_array[index_new].chat_button), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
+
     g_signal_connect(G_OBJECT(user_data.chat_array[index_new].chat_button), "button_press_event", G_CALLBACK(chat_click), NULL);
     
     //pthread_t display_thread = NULL;
     //pthread_create(&display_thread, NULL, scrolling_chats, NULL);
 
-    for(int i =0; i < 100; i++) new_chat_users_id[i] = -1;
+    for(int i = 0; i < 100; i++) new_chat_users_id[i] = -1;
 
-    gtk_widget_destroy(main_data.main_box.add_new_chat_event_box);//Delete window
+    gtk_widget_destroy(main_data.main_box.add_new_chat_event_box); //Delete window
 
     gtk_widget_show_all(main_data.main_box.chat_bar);
 
