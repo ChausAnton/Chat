@@ -57,6 +57,7 @@ typedef struct s_chat_list {
     int* users_id;
     char* image_path;
     GtkWidget *chat_button;
+    GtkWidget *chat_label_name;
 }   t_chat_list;
 
 typedef struct s_user {
@@ -80,10 +81,13 @@ typedef struct s_main_box {
     GtkWidget *chat_bar_scroll;
     GtkWidget *add_new_chat_event_box;
     GtkWidget *delete_chat_event_box;
+    GtkWidget *rename_chat_event_box;
     GtkWidget *user_settings_event_box;
     GtkWidget *chat_settings_event_box;
     GtkWidget *up_box;
     GtkWidget *user_name_label;
+    GtkWidget *chat_info_name_label;
+    GtkWidget *chat_box_name_label;
     int search_chat_id;
 }   t_main_box;
 
@@ -169,6 +173,10 @@ void load_right_chat_box();
 /* add_user.c */
 void show_add_new_user(GtkWidget *widget);
 void add_new_user();
+
+/* rename_chat.c */
+void rename_chat(GtkWidget *widget);
+void save_rename_chat_changes(GtkWidget *widget, GdkEventButton *event, gpointer *data);
 
 /* chat_info.c */
 void show_chat_info(GtkWidget *widget);

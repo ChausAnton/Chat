@@ -90,7 +90,7 @@ void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *dat
     int number = *((int*)data);
     switch(number) {
         case 1:
-            write(1, "Chat renamed!\n", 14);
+            rename_chat(widget);
             break;
         case 2:
             show_add_new_user(widget);
