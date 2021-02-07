@@ -91,7 +91,7 @@ void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *dat
             write(1, "Chat renamed!\n", 14);
             break;
         case 2:
-            write(1, "User added!\n", 12);
+            show_add_new_user(widget);
             break;
         case 3:
             write(1, "User deleted!\n", 14);
@@ -205,4 +205,11 @@ void logout(GtkWidget *widget, GdkEventButton *event) {
 
         gtk_widget_show_all(GTK_WIDGET(logout_event_box));
     }
+}
+
+void show_search_result(GtkWidget *widget, GdkEventButton *event, gpointer *user_input) {
+
+    if(widget&&event){}
+    char *search_input = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget *)user_input)));
+    printf("search_input:%s\n", search_input);
 }

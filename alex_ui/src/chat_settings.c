@@ -10,14 +10,14 @@ void show_chat_settings(GtkWidget *widget) {
 
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
     
-    GtkWidget *chat_settings_event_box = gtk_event_box_new();
-    gtk_widget_set_name(GTK_WIDGET(chat_settings_event_box), "chat_settings_event_box");
-    gtk_widget_set_size_request(GTK_WIDGET(chat_settings_event_box), 1400, 900);
-    g_signal_connect(G_OBJECT(chat_settings_event_box), "button_press_event", G_CALLBACK(unpress_event_box), widget);
-    gtk_fixed_put(GTK_FIXED(main_data.activity_block), chat_settings_event_box, 0, 0);
+    main_data.main_box.chat_settings_event_box = gtk_event_box_new();
+    gtk_widget_set_name(GTK_WIDGET(main_data.main_box.chat_settings_event_box), "chat_settings_event_box");
+    gtk_widget_set_size_request(GTK_WIDGET(main_data.main_box.chat_settings_event_box), 1400, 900);
+    g_signal_connect(G_OBJECT(main_data.main_box.chat_settings_event_box), "button_press_event", G_CALLBACK(unpress_event_box), widget);
+    gtk_fixed_put(GTK_FIXED(main_data.activity_block), main_data.main_box.chat_settings_event_box, 0, 0);
 
     GtkWidget *position_chat_settings = gtk_fixed_new();
-    gtk_container_add(GTK_CONTAINER(chat_settings_event_box), position_chat_settings);
+    gtk_container_add(GTK_CONTAINER(main_data.main_box.chat_settings_event_box), position_chat_settings);
 
     GtkWidget *clickable_chat_settings = gtk_event_box_new();
     gtk_widget_set_halign(GTK_WIDGET(clickable_chat_settings), GTK_ALIGN_END);
@@ -156,5 +156,5 @@ void show_chat_settings(GtkWidget *widget) {
 
     g_signal_connect(G_OBJECT(change_chat_image_clickable), "button_press_event", G_CALLBACK(chat_settings_click), (gpointer) &number5);
 
-    gtk_widget_show_all(GTK_WIDGET(chat_settings_event_box));
+    gtk_widget_show_all(GTK_WIDGET(main_data.main_box.chat_settings_event_box));
 }
