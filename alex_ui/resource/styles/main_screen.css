@@ -37,14 +37,33 @@
             border-radius: 15px;
             padding-bottom: 10px;
         }
+        #horizontal_box {
+            margin: 10px;
+            padding: 0;
+        }
             #search_users {
                 font: 18px PTSansPro-Demi ;
                 background: rgb(32, 75, 73);
                 border: 0px solid black;
                 border-bottom: 1px solid whitesmoke;
-                margin: 10px;
+                margin: 10px 15px 10px 5px;
                 border-radius: 0px;
                 color: whitesmoke;
+            }
+            #search_users_button {
+                background: #2F7875;
+                border-radius: 10px;
+                margin: 100px;
+            }
+            #search_users_button:hover {
+                background: linear-gradient(219.61deg, #683487 0%, #433FEE 111.4%);
+            }
+            #search_users_button_box {
+                background-image: url("../images/loupe_icon.png");
+                background-size: 100%;
+                background-repeat: no-repeat;
+                background-position: center;
+                margin: 5px;
             }
 
             #add_chats_scrollable_box {
@@ -278,8 +297,7 @@
     }
 
     #scrollable_box {
-        font-family: PTSansPro-Demi;
-        font-size: 18px;
+        font: 18px PTSansPro-Demi;
         letter-spacing: initial;
         color: whitesmoke;
     }
@@ -314,6 +332,11 @@
             padding: 10px;
             margin-left: 10px;
         }
+            #add_user_box_label {
+                font: 18px PTSansPro-Demi;
+                color: whitesmoke;
+                padding-left: 150px;
+            }
         #delete_user:hover {
             background: linear-gradient(219.61deg, #683487 0%, #433FEE 111.4%);
         }

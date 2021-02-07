@@ -2,12 +2,6 @@
 #ifndef CHAT_H
 #define CHAT_H
 
-//ipconfig getifaddr en0 for get ip
-//10.11.7.8 ansh
-//10.11.7.7 anch
-#define SERVERADDR "10.11.7.7"
-#define SERVERPORT 8696
-
 #define WINDOW_SIZE_Y 900
 #define WINDOW_SIZE_X 1400
 
@@ -36,6 +30,15 @@
 // Database
 #include <sqlite3.h>
 
+int sock;
+//ipconfig getifaddr en0 for get ip
+//10.11.7.8 ansh
+//10.11.7.7 anch
+#define SERVERADDR "10.11.7.7"
+#define SERVERPORT 8881
+pthread_t sniffer_thread;
+
+void mx_printerr(const char *s);
 int new_chat_users_id[100];
 
 enum chat_settings_message {RENAME_CHAT = 1, ADD_USER, DELETE_USER, DELETE_CHAT, CHANGE_CHAT_IMAGE};
@@ -79,6 +82,7 @@ typedef struct s_main_box {
     GtkWidget *chat_bar_for_scroll;
     GtkWidget *chat_bar_scroll;
     GtkWidget *add_new_chat_event_box;
+    GtkWidget *chat_settings_event_box;
     GtkWidget *user_settings_event_box;
     GtkWidget *up_box;
     GtkWidget *user_name_label;
@@ -117,12 +121,15 @@ void event_leave_notify(GtkWidget *widget);
 void unpress_event_box(GtkWidget *widget, GdkEventButton *event, gpointer *p);
 void chat_click(GtkWidget *widget);
 void search_user_click(GtkWidget *widget);
+void add_user_click(GtkWidget *widget);
 void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *data);
 void sign_in();
 void sign_up();
 void logout(GtkWidget *widget, GdkEventButton *event);
 void event_enter_notify_search(GtkWidget *widget);
 void event_leave_notify_search(GtkWidget *widget);
+
+void show_search_result(GtkWidget *widget, GdkEventButton *event, gpointer *user_input);
 
 /* emotes.c */
 void *scrolling_sticker();
@@ -162,5 +169,13 @@ void load_right_chat_box();
 
 /* chat_info.c */
 void show_chat_info(GtkWidget *widget);
+
+/* add_user.c */
+void show_add_new_user(GtkWidget *widget);
+void add_new_user();
+
+char *clear_client_message(char *client_message);
+char *mx_itoa(int number);
+char *clear_client_message(char *client_message);
 
 #endif
