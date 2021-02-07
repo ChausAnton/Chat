@@ -138,9 +138,6 @@ void sign_in() {
         load_data_for_user();
         main_screen();
     }
-    else {
-        ///reload screan
-    }
     free(s_message);
 }
 
@@ -181,9 +178,6 @@ void sign_up() {
 
         load_data_for_user();
         main_screen();
-    }
-    else {
-        ///reload screan
     }
     free(s_message);
 }

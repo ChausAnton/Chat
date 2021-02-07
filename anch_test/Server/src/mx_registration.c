@@ -8,7 +8,7 @@ char *mx_registration(int sock) {
 
                 client_message = clear_client_message(client_message);
                 if((read_size = recv(sock , client_message , 2000 , 0)) > 0) {
-                    send(sock, "@GET@@@@", strlen("@GET@@@@"), 0);
+                    send(sock, "@GET", strlen("@GET"), 0);
                     char *user_name = strdup(client_message);
                     client_message = clear_client_message(client_message);
 
@@ -18,7 +18,7 @@ char *mx_registration(int sock) {
                                 char *pass2;
 
                                 if((read_size = recv(sock , client_message , 2000 , 0)) > 0) {
-                                    send(sock, "@GET####", strlen("@GET####"), 0);
+                                    send(sock, "@GET", strlen("@GET"), 0);
                                     pass1 = strdup(client_message);
                                     client_message = clear_client_message(client_message);
                                 }

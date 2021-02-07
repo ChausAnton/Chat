@@ -1,5 +1,7 @@
 #include "Chat.h"
 
+
+
 void db_add_user(char *login, char *password) {
     char* statement = strdup("insert into users (login, password, name) values ('");
     statement = mx_strjoin(statement, login);
@@ -123,6 +125,34 @@ int db_get_count_user(sqlite3* db) {
     sqlite3_finalize(result);
     free(statement);
     return count;
+}
+
+char* db_get_user_name(char *login, sqlite3* db) {
+    char *user_name = NULL;
+    sqlite3_stmt *result;
+    char* statement = "select name from users where login='";
+    statement = mx_strjoin(statement, login);
+    statement = mx_strjoin(statement, "'");
+ 
+    int rc = sqlite3_prepare_v2(db, statement, -1, &result, 0);    
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "Failed to fetch data: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+    } 
+
+    rc = sqlite3_step(result);
+
+    if (rc == SQLITE_ROW) {
+        user_name = strdup((char*)sqlite3_column_text(result, 0));
+    }
+
+    sqlite3_finalize(result);
+    free(statement);
+
+    if(strlen(user_name) == 0){
+        user_name = strdup(login);
+    }
+    return user_name;
 }
 
 /*void get_user_id_and_login()  {

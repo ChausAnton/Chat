@@ -8,7 +8,7 @@ char *mx_autentification(int sock) {
 	char *client_message = clear_client_message(NULL);
 
 	if ((read_size = recv(sock , client_message , 2000 , 0)) > 0 ) {
-		send(sock, "@GET!!!!!", strlen("@GET!!!!!"), 0);
+		send(sock, "@GET", strlen("@GET"), 0);
 		
 		user_name = strdup(client_message);
 		client_message = clear_client_message(client_message);

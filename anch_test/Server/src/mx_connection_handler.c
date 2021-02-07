@@ -53,7 +53,7 @@ void *connection_handler(void *new_sock) {
 
 	while(1) {
 		recv(sock_from , client_message , 2000 , 0);
-		send(sock_from, "@GET$$$$", strlen("@GET$$$$"), 0);
+		send(sock_from, "@GET", strlen("@GET"), 0);
 
 		if(strcmp(client_message, "@sign_up") == 0) {
 			user_name = mx_registration(sock_from);
@@ -67,6 +67,10 @@ void *connection_handler(void *new_sock) {
 		if (user_name != NULL){ break; }
 
 	}
+
+	mx_printerr("user_data_synchronization start\n");
+	user_data_synchronization(sock_from, user_name);
+	mx_printerr("user_data_synchronization end\n");
 
 	mx_printerr("reg fin\n");
 	//db_del_user_from_online(user_name, db);
