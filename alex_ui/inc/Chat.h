@@ -80,9 +80,6 @@ typedef struct s_main_box {
     GtkWidget *chat_bar_scroll;
     GtkWidget *add_new_chat_event_box;
     GtkWidget *chat_settings_event_box;
-    GtkWidget *user_settings_event_box;
-    GtkWidget *up_box;
-    GtkWidget *user_name_label;
     int search_chat_id;
 }   t_main_box;
 
@@ -115,12 +112,15 @@ void event_leave_notify(GtkWidget *widget);
 void unpress_event_box(GtkWidget *widget, GdkEventButton *event, gpointer *p);
 void chat_click(GtkWidget *widget);
 void search_user_click(GtkWidget *widget);
+void add_user_click(GtkWidget *widget);
 void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *data);
 void sign_in();
 void sign_up();
 void logout(GtkWidget *widget, GdkEventButton *event);
 void event_enter_notify_search(GtkWidget *widget);
 void event_leave_notify_search(GtkWidget *widget);
+
+void show_search_result(GtkWidget *widget, GdkEventButton *event, gpointer *user_input);
 
 /* emotes.c */
 void *scrolling_sticker();
