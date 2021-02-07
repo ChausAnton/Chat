@@ -48,7 +48,7 @@ int db_get_last_chat_id() {
 char* db_get_chat_name(int chat_id, sqlite3* db) {
     char *chat_name = NULL;
     sqlite3_stmt *result;
-    char* statement = "select chat_name from chats where chat_id=";
+    char* statement = strdup("select chat_name from chats where chat_id=");
     statement = mx_strjoin(statement, int_to_str(chat_id));
     statement = mx_strjoin(statement, "");
  

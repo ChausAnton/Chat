@@ -60,7 +60,7 @@ void db_set_user_name(char *login, char *new_name) {
 char *db_get_user_password(char *login, sqlite3* db){
     char *password = NULL;
     sqlite3_stmt *result;
-    char* statement = "select password from users where login='";
+    char* statement = strdup("select id from users where login='");
     statement = mx_strjoin(statement, login);
     statement = mx_strjoin(statement, "'");
 	
@@ -84,7 +84,7 @@ char *db_get_user_password(char *login, sqlite3* db){
 int db_get_user_id(char *login, sqlite3* db) {
     int user_id = -1;
     sqlite3_stmt *result;
-    char* statement = "select id from users where login='";
+    char* statement = strdup("select id from users where login='");
     statement = mx_strjoin(statement, login);
     statement = mx_strjoin(statement, "'");
 
@@ -133,8 +133,9 @@ char* db_get_user_name(char *login, sqlite3* db) {
     char* statement = strdup("select name from users where login='");
     statement = mx_strjoin(statement, login);
     statement = mx_strjoin(statement, "'");
-    
-    mx_printerr("Bruh1\n");
+    mx_printerr(statement);
+
+    mx_printerr("\nBruh1\n");
  
     int rc = sqlite3_prepare_v2(db, statement, -1, &result, 0);    
 

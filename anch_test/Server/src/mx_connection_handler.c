@@ -140,9 +140,9 @@ void *connection_handler(void *new_sock) {
 
 	mx_printerr("reg fin\n");
 	//db_del_user_from_online(user_name, db);
+	db_del_user_from_online(user_name, db);
 	mx_printerr("Client disconnected");
 	free(user_name);
-	db_del_user_from_online(user_name, db);
 	fflush(stdout);
 	close(sock_from);
 	return 0;

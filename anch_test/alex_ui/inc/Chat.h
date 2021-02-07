@@ -35,7 +35,7 @@ int sock;
 //10.11.7.8 ansh
 //10.11.7.7 anch
 #define SERVERADDR "10.11.7.7"
-#define SERVERPORT 8300
+#define SERVERPORT 8099
 pthread_t sniffer_thread;
 
 void mx_printerr(const char *s);
