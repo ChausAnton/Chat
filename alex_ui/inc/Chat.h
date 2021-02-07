@@ -2,12 +2,6 @@
 #ifndef CHAT_H
 #define CHAT_H
 
-//ipconfig getifaddr en0 for get ip
-//10.11.7.8 ansh
-//10.11.7.7 anch
-#define SERVERADDR "10.11.7.7"
-#define SERVERPORT 8696
-
 #define WINDOW_SIZE_Y 900
 #define WINDOW_SIZE_X 1400
 
@@ -36,6 +30,15 @@
 // Database
 #include <sqlite3.h>
 
+int sock;
+//ipconfig getifaddr en0 for get ip
+//10.11.7.8 ansh
+//10.11.7.7 anch
+#define SERVERADDR "10.11.7.7"
+#define SERVERPORT 8881
+pthread_t sniffer_thread;
+
+void mx_printerr(const char *s);
 int new_chat_users_id[100];
 
 enum chat_settings_message {RENAME_CHAT = 1, ADD_USER, DELETE_USER, DELETE_CHAT, CHANGE_CHAT_IMAGE};
@@ -163,5 +166,9 @@ void show_chat_info(GtkWidget *widget);
 /* add_user.c */
 void show_add_new_user(GtkWidget *widget);
 void add_new_user();
+
+char *clear_client_message(char *client_message);
+char *mx_itoa(int number);
+char *clear_client_message(char *client_message);
 
 #endif

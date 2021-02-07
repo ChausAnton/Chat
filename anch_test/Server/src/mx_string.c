@@ -1,4 +1,8 @@
 #include "Chat.h"
+void mx_printerr(const char *s) {
+     int len = strlen(s);
+     write(2, s, len);
+}
 
 char *mx_strcat(char *restrict s1, const char *restrict s2) {
     int len_1 = mx_strlen(s1);
