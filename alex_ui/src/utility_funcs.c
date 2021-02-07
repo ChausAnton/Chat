@@ -54,7 +54,6 @@ void event_leave_notify_search(GtkWidget *widget) {
         gtk_widget_unset_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT);
     }
 }
-
 void search_user_click(GtkWidget *widget) {
 
     GList *parent = gtk_container_get_children(GTK_CONTAINER(widget));
@@ -92,8 +91,7 @@ void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *dat
             write(1, "Chat renamed!\n", 14);
             break;
         case 2:
-            //write(1, "User added!\n", 12);
-            show_add_new_user(widget);
+            write(1, "User added!\n", 12);
             break;
         case 3:
             write(1, "User deleted!\n", 14);
@@ -110,44 +108,25 @@ void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *dat
 }
 
 void sign_in() {
-    char *s_message = clear_client_message(NULL);
-
-    send(sock, "@sign_in", strlen("@sign_in"), 0);
-    recv(sock, s_message, 2000, 0);
 
     char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[0])));
     printf("login: %s\n", name);
     char *passwrod = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[1])));
     printf("password: %s\n", passwrod);
 
-
-    s_message = clear_client_message(s_message);
-    send(sock, name, strlen(name), 0);
-    recv(sock, s_message, 2000, 0);
-    s_message = clear_client_message(s_message);
-    send(sock, passwrod, strlen(passwrod), 0);
-    recv(sock, s_message, 2000, 0);
-    mx_printerr(s_message);
-
-    if(strcmp(s_message, "@TRUE") == 0) {
-        main_data.main_box.search_chat_id = -1;
-        user_data.login = strdup(name);
-        user_data.password = strdup(passwrod);
-
+    if(TRUE) {
         gtk_entry_set_text(GTK_ENTRY(main_data.login_box.sign_in_data[0]), "");
         gtk_entry_set_text(GTK_ENTRY(main_data.login_box.sign_in_data[1]), "");
 
+        main_data.main_box.search_chat_id = -1;
+        user_data.login = strdup(name);
+        user_data.password = strdup(passwrod);
         load_data_for_user();
         main_screen();
     }
-    free(s_message);
 }
 
 void sign_up() {
-    char *s_message = clear_client_message(NULL);
-
-    send(sock, "@sign_up", strlen("@sign_up"), 0);
-    recv(sock, s_message, 2000, 0);
 
     char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[0])));
     printf("login: %s\n", name);
@@ -156,32 +135,17 @@ void sign_up() {
     char *repeat_passwrod = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[2])));
     printf("repeat password: %s\n", repeat_passwrod);
 
-    s_message = clear_client_message(s_message);
-    send(sock, name, strlen(name), 0);
-    recv(sock, s_message, 2000, 0);
-    s_message = clear_client_message(s_message);
-
-    send(sock, passwrod, strlen(passwrod), 0);
-    recv(sock, s_message, 2000, 0);
-    s_message = clear_client_message(s_message);
-
-    send(sock, repeat_passwrod, strlen(repeat_passwrod), 0);
-    recv(sock, s_message, 2000, 0);
-	mx_printerr(s_message);
-
-    if(strcmp(s_message, "@TRUE") == 0) {
-        main_data.main_box.search_chat_id = -1;
-        user_data.login = strdup(name);
-        user_data.password = strdup(passwrod);
-
+    if(TRUE) {
         gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[0]), "");
         gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[1]), "");
         gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[2]), "");
 
+        main_data.main_box.search_chat_id = -1;
+        user_data.login = strdup(name);
+        user_data.password = strdup(passwrod);
         load_data_for_user();
         main_screen();
     }
-    free(s_message);
 }
 
 void unpress_logout(GtkWidget *widget, GdkEventButton *event, gpointer *p) {
@@ -241,11 +205,4 @@ void logout(GtkWidget *widget, GdkEventButton *event) {
 
         gtk_widget_show_all(GTK_WIDGET(logout_event_box));
     }
-}
-
-void show_search_result(GtkWidget *widget, GdkEventButton *event, gpointer *user_input) {
-
-    if(widget&&event){}
-    char *search_input = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget *)user_input)));
-    printf("search_input:%s\n", search_input);
 }

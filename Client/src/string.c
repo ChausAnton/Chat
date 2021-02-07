@@ -1,18 +1,6 @@
 
 #include "Chat.h"
 
-
-char *clear_client_message(char *client_message) {
-	if(client_message != NULL) {
-		free(client_message);
-	}
-
-	char *message = malloc(2000 * sizeof(char));
-	for(int i = 0; i < 2000; i++)
-		message[i] = '\0';
-	return message;
-}
-
 int mx_get_char_index(const char *str, char c) {
     if (str == NULL) return -2;
     for (int i = 0; i < strlen(str); i++) {

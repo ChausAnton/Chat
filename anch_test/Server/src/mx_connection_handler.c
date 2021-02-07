@@ -49,38 +49,18 @@ void *connection_handler(void *new_sock) {
 	int sock_to;
 	char *message;
 	char *client_message = clear_client_message(NULL);
+
+	mx_registration(sock_from);
+	
 	char *user_name = NULL;
-
-	while(1) {
-		recv(sock_from , client_message , 2000 , 0);
-		send(sock_from, "@GET", strlen("@GET"), 0);
-
-		if(strcmp(client_message, "@sign_up") == 0) {
-			user_name = mx_registration(sock_from);
-		}
-		if (strcmp(client_message, "@sign_in") == 0) {
-			user_name = mx_autentification(sock_from);
-		}
-
-		client_message = clear_client_message(client_message);
-
-		if (user_name != NULL){ break; }
-
+	while(user_name == NULL) {
+		user_name = mx_autentification(sock_from);
 	}
 
-	mx_printerr("user_data_synchronization start\n");
-	user_data_synchronization(sock_from, user_name);
-	mx_printerr("user_data_synchronization end\n");
-
-	mx_printerr("reg fin\n");
-	//db_del_user_from_online(user_name, db);
-	mx_printerr("Client disconnected");
-	free(user_name);
-	db_del_user_from_online(user_name, db);
-	fflush(stdout);
-	close(sock_from);
-	return 0;
-
+	message = mx_strjoin("Hi, ", user_name);
+	message = mx_strjoin(message, ", Who's you want to write ?\n");
+	write(sock_from , message , strlen(message));
+	free(message);
 
 	if((read_size = recv(sock_from , client_message , 2000 , 0)) > 0) {
 		if ((sock_to = db_get_online_user_socket(client_message, db)) != -1) {

@@ -1,8 +1,6 @@
 #include "Chat.h"
 
 static void fill_chat_array(){
-    char *s_message = clear_client_message(NULL);
-
     for(int i = 0; i < user_data.amount_of_chat; i++){
         user_data.chat_array[i].chat_id = i;
         user_data.chat_array[i].chat_name = strdup("Chat N");
@@ -17,25 +15,12 @@ static void fill_chat_array(){
 }
 
 void load_data_for_user() {
-    char *s_message = clear_client_message(NULL);
-
-    recv(sock, s_message, 2000, 0);
-    send(sock, "@GET", strlen("@GET"), 0);
-    user_data.user_id = atoi(s_message);
-    s_message = clear_client_message(s_message);
-
-    recv(sock, s_message, 2000, 0);
-    send(sock, "@GET", strlen("@GET"), 0);
-    user_data.name = strdup(s_message);
-    s_message = clear_client_message(s_message);
-    
+    //user_data.user_id = get_user_id(user_data.login);
+    //user_data.chat_array = (t_chat_list *)malloc(sizeof(t_chat_list) * get_count_of_chats(user_data.login));
+    //fill_chat_array(user_data.login, locale_db, user_data.chat_array);
+    user_data.name = strdup("NoName");
     user_data.image_path = strdup("resource/images/anonymous.png");
-
-    recv(sock, s_message, 2000, 0);
-    send(sock, "@GET", strlen("@GET"), 0);
-    user_data.amount_of_chat = atoi(s_message);
-    s_message = clear_client_message(s_message);
-
+    user_data.amount_of_chat = 20;
     user_data.chat_array = (t_chat_list *)malloc(sizeof(t_chat_list) * 150);
     fill_chat_array();
 }
