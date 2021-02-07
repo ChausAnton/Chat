@@ -79,6 +79,9 @@ typedef struct s_main_box {
     GtkWidget *chat_bar_for_scroll;
     GtkWidget *chat_bar_scroll;
     GtkWidget *add_new_chat_event_box;
+    GtkWidget *user_settings_event_box;
+    GtkWidget *up_box;
+    GtkWidget *user_name_label;
     int search_chat_id;
 }   t_main_box;
 
@@ -99,6 +102,9 @@ void start_screen();
 void register_screen();
 void main_screen();
 
+/* main_screen_up_box.c */
+void main_screen_up_box();
+ 
 /* message_stuff.c */
 void *scrolling_msg();
 void display_message(char *message_text);
@@ -128,6 +134,7 @@ void show_chat_settings(GtkWidget *widget);
 
 /* user_settings.c */
 void show_user_settings(GtkWidget *widget);
+void save_user_changes(GtkWidget *widget, GdkEventButton *event, gpointer *data);
 
 /* add_new_chat.c */
 void show_add_new_chat(GtkWidget *widget);
