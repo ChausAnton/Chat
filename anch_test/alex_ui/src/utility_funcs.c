@@ -54,6 +54,7 @@ void event_leave_notify_search(GtkWidget *widget) {
         gtk_widget_unset_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT);
     }
 }
+
 void search_user_click(GtkWidget *widget) {
 
     GList *parent = gtk_container_get_children(GTK_CONTAINER(widget));
@@ -91,7 +92,8 @@ void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *dat
             write(1, "Chat renamed!\n", 14);
             break;
         case 2:
-            write(1, "User added!\n", 12);
+            //write(1, "User added!\n", 12);
+            show_add_new_user(widget);
             break;
         case 3:
             write(1, "User deleted!\n", 14);
@@ -239,4 +241,66 @@ void logout(GtkWidget *widget, GdkEventButton *event) {
 
         gtk_widget_show_all(GTK_WIDGET(logout_event_box));
     }
+}
+
+
+void show_search_result(GtkWidget *widget, GdkEventButton *event, gpointer *user_input) {
+    char *s_message = clear_client_message(NULL);
+    send(sock, "@search", strlen("@search"), 0);
+    recv(sock, s_message, 2000, 0);
+    s_message = clear_client_message(s_message);
+
+    if(widget&&event){}
+    char *search_input = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget *)user_input)));
+    send(sock, search_input, strlen(search_input), 0);
+    recv(sock, s_message, 2000, 0);
+    s_message = clear_client_message(s_message);
+
+    GtkWidget *search_chat_button = gtk_event_box_new();
+    gtk_widget_set_name(GTK_WIDGET(search_chat_button), "user_button");
+    gtk_event_box_set_above_child(GTK_EVENT_BOX(search_chat_button), TRUE);
+    gtk_box_pack_start(GTK_BOX(main_data.main_box.add_chats_scrollable_box), search_chat_button, FALSE, FALSE, 0);
+
+    GtkWidget *search_chat_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    gtk_widget_set_name(GTK_WIDGET(search_chat_box), "user_small_box");
+    gtk_widget_set_size_request(GTK_WIDGET(search_chat_box), 300, 70);
+    gtk_container_add(GTK_CONTAINER(search_chat_button), search_chat_box);
+    
+    GtkWidget *add_new_chat_avatar = gtk_drawing_area_new();
+    gtk_widget_set_size_request(GTK_WIDGET(add_new_chat_avatar), 80, 80);
+    ////Image path of searching user
+    char *path = strdup("resource/images/sh.jpg");
+
+    g_signal_connect(G_OBJECT(add_new_chat_avatar), "draw", G_CALLBACK(draw_user_avatar), path);
+
+    GtkWidget *add_new_chat_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_widget_set_name(GTK_WIDGET(add_new_chat_photo), "add_new_chat_photo");
+    gtk_container_add(GTK_CONTAINER(add_new_chat_photo), add_new_chat_avatar);
+    gtk_widget_set_size_request(GTK_WIDGET(add_new_chat_photo), 50, 30);
+    gtk_box_pack_start(GTK_BOX(search_chat_box), add_new_chat_photo, FALSE, FALSE, 0);
+
+    ////Name of searching user
+    recv(sock, s_message, 2000, 0);
+    send(sock, "@GET", strlen("@GET"), 0);
+    GtkWidget* user_name_in_search = gtk_label_new(s_message);
+    s_message = clear_client_message(s_message);
+    gtk_widget_set_name(GTK_WIDGET(user_name_in_search), "user_name_in_search");
+    gtk_box_pack_start(GTK_BOX(search_chat_box), user_name_in_search, FALSE, FALSE, 0);
+
+    //////User_id of searching user
+    recv(sock, s_message, 2000, 0);
+    send(sock, "@GET", strlen("@GET"), 0);
+    GtkWidget *user_id = gtk_label_new(s_message);
+    s_message = clear_client_message(s_message);
+    gtk_box_pack_start(GTK_BOX(search_chat_box), user_id, FALSE, FALSE, 0);
+    gtk_widget_set_name(GTK_WIDGET(user_id), "hidden");
+
+    g_signal_connect(G_OBJECT(search_chat_button), "enter-notify-event", G_CALLBACK(event_enter_notify_search), NULL);
+    g_signal_connect(G_OBJECT(search_chat_button), "leave-notify-event", G_CALLBACK(event_leave_notify_search), NULL);
+    
+    g_signal_connect(G_OBJECT(search_chat_button), "button_press_event", G_CALLBACK(search_user_click), NULL);
+
+    gtk_widget_hide(main_data.main_box.add_new_chat_event_box);
+    gtk_widget_show_all(main_data.main_box.add_new_chat_event_box);
+
 }

@@ -42,6 +42,30 @@ void message_synchronization(char *message, int sock_from) {
 
 }
 
+void search_user(int sock, char *user_name) {
+	char *message = clear_client_message(NULL);
+	char *user_name2 = clear_client_message(NULL);
+	recv(sock, user_name2, 1000, 0);
+	send(sock, "@GET", strlen("@GET"), 0);
+	message = db_get_user_name(user_name2, db);
+	send(sock, message, strlen(message), 0);
+	recv(sock, message, 1000, 0);
+	message = clear_client_message(message);
+	int user_id = db_get_user_id(user_name2, db);
+	send(sock, mx_itoa(user_id), strlen(mx_itoa(user_id)), 0);
+	recv(sock, message, 1000, 0);
+	message = clear_client_message(message);
+}
+
+/*void new_chat(char user_name) {
+
+	db_add_chat(2, NULL);
+
+	int last_chat = db_get_last_chat_id();
+	db_add_member(last_chat, user_id);
+	db_add_member(last_chat, db_get_user_id(user_name, db));
+}*/
+
 
 void *connection_handler(void *new_sock) {
 	int sock_from = *(int *)new_sock;
@@ -71,6 +95,16 @@ void *connection_handler(void *new_sock) {
 	mx_printerr("user_data_synchronization start\n");
 	user_data_synchronization(sock_from, user_name);
 	mx_printerr("user_data_synchronization end\n");
+
+	//while(1) {
+		recv(sock_from , client_message , 2000 , 0);
+		send(sock_from, "@GET", strlen("@GET"), 0);
+		if(strcmp(client_message, "@search") == 0) {
+			search_user(sock_from, user_name);
+		}
+		client_message = clear_client_message(client_message);
+
+	//}
 
 	mx_printerr("reg fin\n");
 	//db_del_user_from_online(user_name, db);
