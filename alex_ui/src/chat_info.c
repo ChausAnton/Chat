@@ -36,6 +36,7 @@ void show_chat_info(GtkWidget *widget) {
     gtk_box_pack_start(GTK_BOX(chat_info_box), chat_info_photo, FALSE, FALSE, 0);
 
     GtkWidget *chat_name_label = gtk_label_new(user_data.chat_array[main_data.main_box.search_chat_id].chat_name);
+    gtk_label_set_selectable(GTK_LABEL(chat_name_label), TRUE);
     gtk_widget_set_halign(GTK_WIDGET(chat_name_label), GTK_ALIGN_START);
     gtk_widget_set_name(GTK_WIDGET(chat_name_label), "chat_name_label");
     gtk_box_pack_start(GTK_BOX(chat_info_box), chat_name_label, FALSE, FALSE, 0);
@@ -84,6 +85,7 @@ void show_chat_info(GtkWidget *widget) {
         gtk_box_pack_start(GTK_BOX(search_chat_box), user_name_in_search, FALSE, FALSE, 0);
 
         GtkWidget *chat_id = gtk_label_new(int_to_str(user_data.chat_array[i].chat_id));
+        gtk_label_set_selectable(GTK_LABEL(chat_id), TRUE);
         gtk_box_pack_start(GTK_BOX(search_chat_box), chat_id, FALSE, FALSE, 0);
         gtk_widget_set_name(GTK_WIDGET(chat_id), "hidden");
 
