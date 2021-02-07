@@ -2,7 +2,7 @@
 #ifndef chat
 #define chat
 
-#define SERVERPORT 8005
+#define SERVERPORT 8881
 
 #include <stdio.h>
 #include <unistd.h>
@@ -46,6 +46,7 @@ unsigned char * base64_decode(const unsigned char *src, size_t len,
 			      size_t *out_len);
 
 char *mx_itoa(int number);
+void mx_printerr(const char *s);
 
 ////
 char *mx_strnew(const int size);
@@ -53,7 +54,7 @@ int mx_strlen(const char *s);
 char *mx_strcat(char *restrict s1, const char *restrict s2);
 char *mx_strjoin(char const *s1, char const *s2);
 char* int_to_str(int num);
-void mx_registration(int sock);
+char *mx_registration(int sock);
 char *clear_client_message(char *str);
 char **mx_strsplit(char const *s, char c);
 

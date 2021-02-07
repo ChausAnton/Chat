@@ -39,6 +39,7 @@
     "version": 4,
     "files.associations": {
         "system_error": "c",
-        "__node_handle": "c"
+        "__node_handle": "c",
+        "typeinfo": "c"
     }
 }
