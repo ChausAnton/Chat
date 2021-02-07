@@ -5,7 +5,7 @@
 //10.11.7.8 ansh
 //10.11.7.7 anch
 #define SERVERADDR "10.11.7.7"
-#define SERVERPORT 8339
+#define SERVERPORT 8005
 
 #include <stdio.h>
 #include <unistd.h>
@@ -48,5 +48,13 @@ char *mx_strjoin(char const *s1, char const *s2);
 char **mx_strsplit(char const *s, char c);
 
 int mx_get_char_index(const char *str, char c);
+
+char *clear_client_message(char *client_message);
+
+void file_sending(int sock);
+
+void read_file(int sock);
+
+void mx_printerr(const char *s);
 
 #endif
