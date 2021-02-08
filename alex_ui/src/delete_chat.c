@@ -13,6 +13,19 @@ void delete_chat() {
     gtk_widget_destroy(GTK_WIDGET(user_data.chat_array[main_data.main_box.search_chat_id].chat_button));
     gtk_widget_destroy(GTK_WIDGET(main_data.main_box.delete_chat_event_box));
     gtk_widget_destroy(main_data.main_box.chat_settings_event_box);
+    gtk_widget_destroy(main_data.main_box.right_chat_box);
+
+    main_data.main_box.right_chat_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_widget_set_name(GTK_WIDGET(main_data.main_box.right_chat_box), "chat_box");
+    gtk_widget_set_size_request(GTK_WIDGET(main_data.main_box.right_chat_box), WINDOW_SIZE_X - 310, WINDOW_SIZE_Y);
+    gtk_fixed_put(GTK_FIXED(main_data.main_box.main_fixed), main_data.main_box.right_chat_box, 310, 0);
+
+    GtkWidget *right_mid_box = gtk_label_new("Whom you want to write?");
+    gtk_widget_set_name(GTK_WIDGET(right_mid_box), "right_mid_box");
+    gtk_widget_set_size_request(GTK_WIDGET(right_mid_box), 240, 40);
+    gtk_box_pack_start(GTK_BOX(main_data.main_box.right_chat_box), right_mid_box, TRUE, FALSE, 0);
+
+    gtk_widget_show_all(main_data.main_box.right_chat_box);
 }
 
 void show_delete_chat(GtkWidget *widget) {
