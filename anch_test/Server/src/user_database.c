@@ -3,10 +3,12 @@
 
 
 void db_add_user(char *login, char *password) {
-    char* statement = strdup("insert into users (login, password, name) values ('");
+    char* statement = strdup("insert into users (login, password, name, user_image) values ('");
     statement = mx_strjoin(statement, login);
     statement = mx_strjoin(statement, "', '");
     statement = mx_strjoin(statement, password);
+    statement = mx_strjoin(statement, "', '");
+    statement = mx_strjoin(statement, NULL);
     statement = mx_strjoin(statement, "', '");
     statement = mx_strjoin(statement, NULL);
     statement = mx_strjoin(statement, "'); ");
@@ -62,7 +64,7 @@ char *db_get_user_password(char *login, sqlite3* db){
     sqlite3_stmt *result;
     char* statement = strdup("select password from users where login='");
     statement = mx_strjoin(statement, login);
-    statement = mx_strjoin(statement, "'");
+    statement = mx_strjoin(statement, "';");
 	
     int rc = sqlite3_prepare_v2(db, statement, -1, &result, 0);    
     if (rc != SQLITE_OK) {
@@ -86,7 +88,7 @@ int db_get_user_id(char *login, sqlite3* db) {
     sqlite3_stmt *result;
     char* statement = strdup("select id from users where login='");
     statement = mx_strjoin(statement, login);
-    statement = mx_strjoin(statement, "'");
+    statement = mx_strjoin(statement, "';");
 
     int rc = sqlite3_prepare_v2(db, statement, -1, &result, 0);    
     if (rc != SQLITE_OK) {
@@ -96,8 +98,7 @@ int db_get_user_id(char *login, sqlite3* db) {
 
     rc = sqlite3_step(result);
     if (rc == SQLITE_ROW) {
-        char* tmp = strdup((char*)sqlite3_column_text(result, 0));
-        user_id = atoi(tmp);
+        user_id = sqlite3_column_int(result, 0);
     }
 
     sqlite3_finalize(result);
@@ -109,7 +110,7 @@ int db_get_count_user(sqlite3* db) {
     int count = -1;
     sqlite3_stmt *result;
 
-    char* statement = strdup("select count(*) from users");
+    char* statement = strdup("select count(*) from users;");
 
     int rc = sqlite3_prepare_v2(db, statement, -1, &result, 0);    
     if (rc != SQLITE_OK) {
@@ -132,7 +133,7 @@ char* db_get_user_name(char *login, sqlite3* db) {
     sqlite3_stmt *result;
     char* statement = strdup("select name from users where login='");
     statement = mx_strjoin(statement, login);
-    statement = mx_strjoin(statement, "'");
+    statement = mx_strjoin(statement, "';");
     mx_printerr(statement);
 
     mx_printerr("\nBruh1\n");

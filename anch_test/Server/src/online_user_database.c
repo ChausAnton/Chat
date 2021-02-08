@@ -53,7 +53,7 @@ int db_get_count_online_user(sqlite3* db) {
     int count = -1;
     sqlite3_stmt *result;
 
-    char* statement = strdup("select count(*) from online_users");
+    char* statement = strdup("select count(*) from online_users;");
 
     int rc = sqlite3_prepare_v2(db, statement, -1, &result, 0);    
     if (rc != SQLITE_OK) {
@@ -63,8 +63,7 @@ int db_get_count_online_user(sqlite3* db) {
 
     rc = sqlite3_step(result);
     if (rc == SQLITE_ROW) {
-        char* tmp = strdup((char*)sqlite3_column_text(result, 0));
-        count = atoi(tmp);
+        count = sqlite3_column_int(result, 0);
     }
 
     sqlite3_finalize(result);

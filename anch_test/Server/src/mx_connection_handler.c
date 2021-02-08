@@ -67,8 +67,8 @@ void new_chat(int sock, char *user_name) {
 	send(sock, "@GET", strlen("@GET"), 0);
 	int size = atoi(message);
 
-	db_add_chat(size, "New Chat");
-	int last_chat = db_get_last_chat_id();
+	db_add_chat(size, "New Chat", db);
+	int last_chat = db_get_last_chat_id(db);
 
 	message = clear_client_message(message);
 

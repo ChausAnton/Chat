@@ -31,7 +31,7 @@ void db_del_all_member_for_chat(int chat_id) {
     free(statement);
 }
 
-char** get_all_user_id_for_chat(int chat_id)  {
+char** get_all_user_id_for_chat(int chat_id, sqlite3* db)  {
     char* statement = strdup("select user_id from members where chat_id=");
     statement = mx_strjoin(statement, int_to_str(chat_id));
     statement = mx_strjoin(statement, ";");
@@ -45,13 +45,14 @@ char** get_all_user_id_for_chat(int chat_id)  {
        sqlite3_free(zErrMsg);
        exit(EXIT_FAILURE);
     } 
-    char** result = (char **)malloc(sizeof(char *)*(num_cols*num_rows));
+    char** result = (char **)malloc(sizeof(char *)*(num_cols*num_rows + 1));
     for(int i = 0; i < num_cols*num_rows; i++){
         //if(i%num_cols == 0) printf("%s\n", "");
         //printf("%s   ", result[i]);
         result[i] = strdup(tmp[i+num_cols]);
         //printf("%s   ", result[i]);
     }
+    result[num_cols*num_rows] = NULL;
     //printf("%s\n", "");
     sqlite3_free_table(tmp);
     free(statement);
@@ -72,7 +73,7 @@ char** get_all_chat_id_for_user(int user_id, sqlite3* db)  {
        sqlite3_free(zErrMsg);
        exit(EXIT_FAILURE);
     } 
-    char** result = (char **)malloc(sizeof(char *)*(num_cols*num_rows)+1);
+    char** result = (char **)malloc(sizeof(char *)*(num_cols*num_rows + 1));
     for(int i = 0; i < num_cols*num_rows; i++){
         result[i] = strdup(tmp[i+num_cols]);
     }

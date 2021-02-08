@@ -15,6 +15,7 @@
 #include <memory.h>
 #include <netdb.h>
 #include <netinet/in.h>
+#include <sys/stat.h>
 
 ///server
 #include <sys/socket.h>
@@ -87,23 +88,23 @@ int db_get_online_user_socket(char *login, sqlite3* db);
 int db_get_count_online_user(sqlite3* db);
 
 //Chats table
-void db_add_chat(int count, char* name);
-void db_del_chat(int chat_id);
-int db_get_last_chat_id();
+void db_add_chat(int count, char* name, sqlite3* db);
+void db_del_chat(int chat_id, sqlite3* db);
+int db_get_last_chat_id(sqlite3* db);
 char* db_get_chat_name(int chat_id, sqlite3* db);
 int get_count_users_for_chat(int chat_id, sqlite3* db);
 
 //Messages table
 void db_add_msg(int chat_id, int user_id, char* date, char* text);
 void db_del_all_msg_from_chat(int chat_id);
-int get_count_chat_id_for_user(int user_id, sqlite3* db);
-char** get_all_chat_id_for_user(int user_id, sqlite3* db);
 
 //Members table
 void db_add_member(int chat_id, int user_id);
 void db_del_member(int chat_id, int user_id);
 void db_del_all_member_for_chat(int chat_id);
-char** get_all_user_id_for_chat(int chat_id);
+char** get_all_user_id_for_chat(int chat_id, sqlite3* db);
+char** get_all_chat_id_for_user(int user_id, sqlite3* db); 
+int get_count_chat_id_for_user(int user_id, sqlite3* db);
 
 /**Database**/
 #endif
