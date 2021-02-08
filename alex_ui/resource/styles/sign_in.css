@@ -62,8 +62,14 @@
         font-size: 18px;
     }
     
+    #incorrect_log_or_pswd_label {
+        font: 18px PTSansPro-Demi;
+        color: red;
+        margin-top: 10px;
+    }
+
     #signin_button {
-        margin: 55px 40px 0;
+        margin: 20px 40px 0;
         background: linear-gradient(66.23deg, #683487 28.19%, #433FEE 111.52%);
         border-radius: 5px;
         min-width: 300px;

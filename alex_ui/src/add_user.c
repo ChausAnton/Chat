@@ -130,6 +130,10 @@ void add_new_user() {
     for(int i = 0; i < 100; i++){
         if(new_chat_users_id[i] != -1) {
             usr_amnt += 1;
+            printf("new_chat_users_id[%d]:%d\n", i, new_chat_users_id[i]);
+        }
+       else if (new_chat_users_id[i] == 0) {
+            printf("user is already in chat\n");
         }
     }
     
