@@ -70,7 +70,7 @@ char* db_get_chat_name(int chat_id, sqlite3* db) {
 }
 
 int get_count_users_for_chat(int chat_id, sqlite3* db)  {
-    char* statement = strdup("select member_count from members where chat_id=");
+    char* statement = strdup("select member_count from chats where chat_id=");
     statement = mx_strjoin(statement, int_to_str(chat_id));
     statement = mx_strjoin(statement, ";");
     

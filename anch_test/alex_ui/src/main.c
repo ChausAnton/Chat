@@ -140,7 +140,7 @@ int main(int argc, char *argv[]) {
     start_screen();
      
     gtk_widget_show_all(main_data.window);
-    g_signal_connect(main_data.window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
+    g_signal_connect(main_data.window, "destroy", G_CALLBACK(exit_client), NULL);
     gtk_main();
 
     //pthread_join(sniffer_thread , NULL);

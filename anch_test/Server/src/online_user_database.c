@@ -19,6 +19,7 @@ void db_del_user_from_online(char *login, sqlite3* db){
     statement = mx_strjoin(statement, ";");
 
     db_exec(statement, db);
+
     free(statement);
 }
 

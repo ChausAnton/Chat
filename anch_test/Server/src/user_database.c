@@ -60,7 +60,7 @@ void db_set_user_name(char *login, char *new_name) {
 char *db_get_user_password(char *login, sqlite3* db){
     char *password = NULL;
     sqlite3_stmt *result;
-    char* statement = strdup("select id from users where login='");
+    char* statement = strdup("select password from users where login='");
     statement = mx_strjoin(statement, login);
     statement = mx_strjoin(statement, "'");
 	

@@ -29,6 +29,10 @@ static void fill_chat_array(){
 void load_data_for_user() {
     char *s_message = clear_client_message(NULL);
 
+    send(sock, "@synchronization", strlen("@synchronization"), 0);
+    recv(sock, s_message, 2000, 0);
+    s_message = clear_client_message(s_message);
+
     recv(sock, s_message, 2000, 0);
     send(sock, "@GET", strlen("@GET"), 0);
     user_data.user_id = atoi(s_message);

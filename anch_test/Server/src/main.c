@@ -44,14 +44,14 @@ int main(int argc, char *argv[]) {
 			perror("could not create thread");
 			return 1;
 		}
-		
-		
+
 		//Now join the thread , so that we dont terminate before the thread
 		//pthread_join( sniffer_thread , NULL);
 		puts("Handler assigned");
 		
 	}
 
+	perror("!!!!!!!!!!!!!!!sdfd\n");
 	close(socket_desc);
 	if (client_sock < 0) {
 		perror("accept failed");

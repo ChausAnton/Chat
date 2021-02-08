@@ -173,4 +173,6 @@ char *clear_client_message(char *client_message);
 char *mx_itoa(int number);
 char *clear_client_message(char *client_message);
 
+/* exit.c */ 
+void exit_client() ;
 #endif
