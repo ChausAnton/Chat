@@ -35,11 +35,13 @@ void chat_click(GtkWidget *widget) {
     printf("Chat_id: %d\n", chat_id);
     main_data.main_box.search_chat_id = chat_id;
     for(int i = 0; i < user_data.amount_of_chat; i++){
+        printf("%d  ", user_data.chat_array[i].chat_id );
         if(user_data.chat_array[i].chat_id == chat_id){
             main_data.main_box.search_chat_index = i;
             break;
         }
     }
+    printf("Search_chat_index: %d\n", main_data.main_box.search_chat_index);
     g_list_free(g_steal_pointer(&children));
     g_list_free(g_steal_pointer(&parent));
     load_right_chat_box();

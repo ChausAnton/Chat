@@ -82,6 +82,8 @@ void db_set_user_login(char *login, char *new_login);
 char *db_get_user_password(char *login, sqlite3* db);
 int db_get_user_id(char *login, sqlite3* db);
 int db_get_count_user(sqlite3* db);
+char* db_get_user_login(int user_id, sqlite3* db);
+char* db_get_user_image_path(char *login, sqlite3* db);
 
 //Online User table
 void db_add_user_to_online(char *login, int socket, sqlite3* db);

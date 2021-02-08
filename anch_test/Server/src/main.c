@@ -7,8 +7,8 @@ int main(int argc, char *argv[]) {
 	
 	db_open("database/uchat.db", &db);
 
-	db_del_user("a");
-	db_del_chat(1, db);
+	db_add_user("a", "1");
+	db_add_user("s", "1");
 	//Create socket
 	socket_desc = socket(AF_INET , SOCK_STREAM , 0);
 	if (socket_desc == -1) {

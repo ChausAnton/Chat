@@ -1,4 +1,4 @@
-#include "Chat.h"
+#include "../inc/Chat.h"
 
 void show_add_new_chat(GtkWidget *widget) {
     
@@ -164,7 +164,7 @@ void add_new_chat() {
     send(sock, mx_itoa(user_data.chat_array[user_data.amount_of_chat].count_users), strlen(mx_itoa(user_data.chat_array[user_data.amount_of_chat].count_users)), 0);
     recv(sock, s_message, 1000, 0);
 
-    user_data.chat_array[user_data.amount_of_chat].users_id = malloc(sizeof(int) * user_data.chat_array[user_data.amount_of_chat].count_users);
+    user_data.chat_array[user_data.amount_of_chat].users_list = (t_foreign_user *)malloc(sizeof(t_foreign_user) * user_data.chat_array[user_data.amount_of_chat].count_users);
     int tmp_index = 0;
     for(int i = 0; i < 100; i++){
         if(new_chat_users_id[i] != -1) {
@@ -172,17 +172,37 @@ void add_new_chat() {
             recv(sock, s_message, 1000, 0);
             s_message = clear_client_message(s_message);
 
-            user_data.chat_array[user_data.amount_of_chat].users_id[tmp_index] = new_chat_users_id[i];
+            user_data.chat_array[user_data.amount_of_chat].users_list[tmp_index].user_id = new_chat_users_id[i];
+
+            recv(sock, s_message, 1000, 0);
+            send(sock, "@GET", strlen("@GET"), 0);
+            user_data.chat_array[user_data.amount_of_chat].users_list[tmp_index].login = strdup(s_message);
+            s_message = clear_client_message(s_message);
+
+            recv(sock, s_message, 1000, 0);
+            send(sock, "@GET", strlen("@GET"), 0);
+            user_data.chat_array[user_data.amount_of_chat].users_list[tmp_index].name = strdup(s_message);
+            s_message = clear_client_message(s_message);
+
+            recv(sock, s_message, 1000, 0);
+            send(sock, "@GET", strlen("@GET"), 0);
+            user_data.chat_array[user_data.amount_of_chat].users_list[tmp_index].image_path = strdup(s_message);
+            s_message = clear_client_message(s_message);
             tmp_index++;
         }
     }
-    user_data.chat_array[user_data.amount_of_chat].users_id[tmp_index] = user_data.user_id;
+    user_data.chat_array[user_data.amount_of_chat].users_list[tmp_index].user_id = user_data.user_id;
+    user_data.chat_array[user_data.amount_of_chat].users_list[tmp_index].login = strdup(user_data.login);
+    user_data.chat_array[user_data.amount_of_chat].users_list[tmp_index].image_path = strdup(user_data.image_path);
+    user_data.chat_array[user_data.amount_of_chat].users_list[tmp_index].name = strdup(user_data.name);
 
     //user_data.chat_array[user_data.amount_of_chat-1].count_users = amount(users_id);
     //user_data.chat_array[user_data.amount_of_chat-1].chat_id = last(chat_id in db);
 
     s_message = clear_client_message(s_message);
     recv(sock, s_message, 1000, 0);
+    mx_printerr(s_message);
+    mx_printerr(" asd fsd\n");
     user_data.chat_array[user_data.amount_of_chat].chat_id = atoi(s_message);
     send(sock, "@GET", strlen("@GET"), 0);
     s_message = clear_client_message(s_message);
@@ -226,11 +246,13 @@ void add_new_chat() {
     
     //pthread_t display_thread = NULL;
     //pthread_create(&display_thread, NULL, scrolling_chats, NULL);
-
+    user_data.amount_of_chat++;
     for(int i = 0; i < 100; i++) new_chat_users_id[i] = -1;
 
     gtk_widget_destroy(main_data.main_box.add_new_chat_event_box); //Delete window
 
+    //load_chat_list();
+    
     gtk_widget_show_all(main_data.main_box.chat_bar);
 
     scrolling_chats();

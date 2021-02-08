@@ -53,12 +53,19 @@ typedef struct s_reg_box {
     GtkWidget *sign_up_data[3];
 }   t_reg_box;
 
+typedef struct s_foreign_user {
+    int user_id;
+    char *login;
+    char *name;
+    char *image_path;
+}   t_foreign_user;
+
 typedef struct s_chat_list {
     int chat_id;
     char* chat_name;
     int count_users;
-    int* users_id;
     char* image_path;
+    t_foreign_user *users_list;
     GtkWidget *chat_button;
 }   t_chat_list;
 

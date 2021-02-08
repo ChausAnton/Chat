@@ -62,35 +62,27 @@ void *connection_handler(void *new_sock) {
 			user_name = mx_autentification(sock_from);
 		}
 
-		//if (user_name != NULL){ break;}
-
 		if(strcmp(client_message, "@synchronization") == 0) {
 			mx_printerr("user_data_synchronization start\n");
 			user_data_synchronization(sock_from, user_name);
 			mx_printerr("user_data_synchronization end\n");
 		}
 
-			//recv(sock_from , client_message , 2000 , 0);
-			//send(sock_from, "@GET", strlen("@GET"), 0);
 		if(strcmp(client_message, "@search") == 0) {
 			search_user(sock_from, user_name);
 
 		}
-		//client_message = clear_client_message(client_message);
 
-			//recv(sock_from , client_message , 2000 , 0);
-			//send(sock_from, "@GET", strlen("@GET"), 0);
 		if(strcmp(client_message, "@new_chat") == 0) {
 			new_chat(sock_from, user_name);
 		}
-		//client_message = clear_client_message(client_message);
 
 		if (strcmp(client_message, "@exit_client") == 0) {
-			//db_del_user_from_online(user_name, db);
 			db_del_user_from_online(user_name, db);
 			free(user_name);
 			fflush(stdout);
 			close(sock_from);
+			mx_printerr("Client out\n");
 			return 0;
 		}
 

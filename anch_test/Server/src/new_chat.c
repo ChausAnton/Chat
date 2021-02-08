@@ -19,6 +19,24 @@ void new_chat(int sock, char *user_name) {
 		users_id[i] = strdup(message);
 		db_add_member(last_chat, atoi(message));
 		message = clear_client_message(message);
+
+		char *login = db_get_user_login(atoi(users_id[i]), db);
+		send(sock, login, strlen(login), 0);
+		recv(sock, message, 1000, 0);
+		message = clear_client_message(message);//user login
+
+		message = db_get_user_name(login, db);
+		send(sock, message, strlen(message), 0);
+		recv(sock, message, 1000, 0);
+		message = clear_client_message(message);//user name
+
+		message = db_get_user_image_path(login, db);
+		if (*message == '\0')
+			message = strdup("resource/images/anonymous.png");
+
+		send(sock, message, strlen(message), 0);
+		recv(sock, message, 1000, 0);
+		message = clear_client_message(message);//image path
 	}
 
 	db_add_member(last_chat, db_get_user_id(user_name, db));
