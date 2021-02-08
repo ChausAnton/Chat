@@ -16,12 +16,45 @@ void unpress_event_box(GtkWidget *widget, GdkEventButton *event, gpointer *p) {
         gtk_widget_destroy(widget);
     }
 }
+void unpress_chat_settings(GtkWidget *widget, GdkEventButton *event) {
+    if (widget) {}
+    if(event->type == GDK_BUTTON_PRESS && event->button == 1){
+        //gtk_widget_unset_state_flags(GTK_WIDGET(main_data.main_box.chat_settings_button), GTK_STATE_FLAG_ACTIVE);
+        gtk_widget_destroy(widget);
+        //gtk_widget_destroy(main_data.main_box.chat_settings_event_box);
+    }
+}
 
 static void unset_active_chats() {
     for(int i = 0; i < user_data.amount_of_chat; i++){
         if(user_data.chat_array[i].chat_id == -1) continue;
         gtk_widget_unset_state_flags(GTK_WIDGET(user_data.chat_array[i].chat_button), GTK_STATE_FLAG_ACTIVE);
     }
+}
+
+void change_photo(GtkWidget *widget) {
+    GtkWidget *dialog = gtk_file_chooser_dialog_new("User image", GTK_WINDOW(main_data.window), GTK_FILE_CHOOSER_ACTION_OPEN, "Cancel", GTK_RESPONSE_CANCEL, "Open", GTK_RESPONSE_ACCEPT, NULL);
+    gint run = gtk_dialog_run(GTK_DIALOG(dialog));
+
+    if (run == GTK_RESPONSE_ACCEPT) {
+        GtkFileChooser *chooser = GTK_FILE_CHOOSER(dialog);
+
+        gtk_widget_destroy(user_data.chat_array[main_data.main_box.search_chat_id].chat_settings_photo);
+
+        user_data.chat_array[main_data.main_box.search_chat_id].chat_settings_avatar = gtk_drawing_area_new();
+        gtk_widget_set_size_request(GTK_WIDGET(user_data.chat_array[main_data.main_box.search_chat_id].chat_settings_avatar), 100, 100);
+        user_data.chat_array[main_data.main_box.search_chat_id].temp_source_path = gtk_file_chooser_get_filename(chooser);
+        g_signal_connect(G_OBJECT(user_data.chat_array[main_data.main_box.search_chat_id].chat_settings_avatar), "draw", G_CALLBACK(draw_user_settings_avatar), user_data.chat_array[main_data.main_box.search_chat_id].temp_source_path);
+        
+        user_data.chat_array[main_data.main_box.search_chat_id].chat_settings_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+        gtk_widget_set_name(GTK_WIDGET(user_data.chat_array[main_data.main_box.search_chat_id].chat_settings_photo), "user_settings_photo");
+        gtk_container_add(GTK_CONTAINER(user_data.chat_array[main_data.main_box.search_chat_id].chat_settings_photo), user_data.chat_array[main_data.main_box.search_chat_id].chat_settings_avatar);
+        gtk_container_add(GTK_CONTAINER(user_data.chat_array[main_data.main_box.search_chat_id].chat_settings_photo_event_box), user_data.chat_array[main_data.main_box.search_chat_id].chat_settings_photo);
+    }
+    gtk_widget_destroy(dialog);
+    gtk_widget_hide(main_data.main_box.change_chat_image_event_box);
+    gtk_widget_show_all(main_data.main_box.change_chat_image_event_box);
+    gtk_widget_unset_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT);
 }
 
 void chat_click(GtkWidget *widget) {
@@ -90,7 +123,7 @@ void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *dat
     int number = *((int*)data);
     switch(number) {
         case 1:
-            rename_chat(widget);
+            show_rename_chat(widget);
             break;
         case 2:
             show_add_new_user(widget);
@@ -102,7 +135,7 @@ void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *dat
             show_delete_chat(widget);
             break;
         case 5:
-            write(1, "Chat image changed!\n", 20);
+            show_change_chat_image(widget);
             break;
         default:
             break;

@@ -58,6 +58,19 @@ typedef struct s_chat_list {
     char* image_path;
     GtkWidget *chat_button;
     GtkWidget *chat_label_name;
+    gchar *temp_source_path;
+    //Chat list
+    GtkWidget *chat_list_photo_event_box;
+    GtkWidget *chat_list_photo;
+    GtkWidget *chat_list_avatar;
+    //Chat box
+    GtkWidget *chat_box_photo_event_box;
+    GtkWidget *chat_box_photo;
+    GtkWidget *chat_box_avatar;
+    //Chat settings
+    GtkWidget *chat_settings_photo_event_box;
+    GtkWidget *chat_settings_photo;
+    GtkWidget *chat_settings_avatar;
 }   t_chat_list;
 
 typedef struct s_user {
@@ -82,8 +95,10 @@ typedef struct s_main_box {
     GtkWidget *add_new_chat_event_box;
     GtkWidget *delete_chat_event_box;
     GtkWidget *rename_chat_event_box;
+    GtkWidget *change_chat_image_event_box;
     GtkWidget *user_settings_event_box;
     GtkWidget *chat_settings_event_box;
+    GtkWidget *chat_settings_button;
     GtkWidget *up_box;
     GtkWidget *user_name_label;
     GtkWidget *chat_info_name_label;
@@ -121,6 +136,8 @@ void send_message_file(GtkWidget *widget, GdkEventButton *event, gpointer *messs
 void event_enter_notify(GtkWidget *widget);
 void event_leave_notify(GtkWidget *widget);
 void unpress_event_box(GtkWidget *widget, GdkEventButton *event, gpointer *p);
+void unpress_chat_settings(GtkWidget *widget, GdkEventButton *event);
+void change_photo(GtkWidget *widget);
 void chat_click(GtkWidget *widget);
 void search_user_click(GtkWidget *widget);
 void add_user_click(GtkWidget *widget);
@@ -184,10 +201,14 @@ void show_chat_info(GtkWidget *widget);
     void delete_user();
 
     /* rename_chat.c */
-    void rename_chat(GtkWidget *widget);
+    void show_rename_chat(GtkWidget *widget);
     void save_rename_chat_changes(GtkWidget *widget, GdkEventButton *event, gpointer *data);
 
     /* delete_chat.c */
     void show_delete_chat(GtkWidget *widget);
+
+    /* change_chat_image.c */
+    void show_change_chat_image(GtkWidget *widget);
+    void save_change_chat_image_changes(GtkWidget *widget);
 
 #endif

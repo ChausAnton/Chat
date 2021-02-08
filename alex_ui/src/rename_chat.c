@@ -1,12 +1,12 @@
 #include "Chat.h"
 
-void rename_chat(GtkWidget *widget) {
+void show_rename_chat(GtkWidget *widget) {
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
-
+    
     main_data.main_box.rename_chat_event_box = gtk_event_box_new();
     gtk_widget_set_name(GTK_WIDGET(main_data.main_box.rename_chat_event_box), "user_settings_event_box");
     gtk_widget_set_size_request(GTK_WIDGET(main_data.main_box.rename_chat_event_box), 1400, 900);
-    g_signal_connect(G_OBJECT(main_data.main_box.rename_chat_event_box), "button_press_event", G_CALLBACK(unpress_event_box), widget);
+    g_signal_connect(G_OBJECT(main_data.main_box.rename_chat_event_box), "button_press_event", G_CALLBACK(unpress_chat_settings), NULL);
     gtk_fixed_put(GTK_FIXED(main_data.activity_block), main_data.main_box.rename_chat_event_box, 0, 0);
 
     GtkWidget *position_user_settings = gtk_fixed_new();
@@ -46,6 +46,8 @@ void rename_chat(GtkWidget *widget) {
     GtkWidget *user_nickname = gtk_entry_new_with_buffer(nickname);
     gtk_widget_set_name(GTK_WIDGET(user_nickname), "user_nickname");
     gtk_entry_set_max_length(GTK_ENTRY(user_nickname), 20);
+    gtk_widget_set_halign(GTK_WIDGET(user_nickname), GTK_ALIGN_START);
+    gtk_widget_set_valign(GTK_WIDGET(user_nickname), GTK_ALIGN_CENTER);
     /*char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY(sign_in_data[0])));
     printf("login: %s\n", name);*/
     gtk_entry_set_placeholder_text (GTK_ENTRY(user_nickname), "Lol");
@@ -82,5 +84,8 @@ void save_rename_chat_changes(GtkWidget *widget, GdkEventButton *event, gpointer
     user_data.chat_array[main_data.main_box.search_chat_id].chat_name = strdup((char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY(parent->next->data))));
     gtk_label_set_text(GTK_LABEL(user_data.chat_array[main_data.main_box.search_chat_id].chat_label_name), user_data.chat_array[main_data.main_box.search_chat_id].chat_name);
     gtk_label_set_text(GTK_LABEL(main_data.main_box.chat_box_name_label), user_data.chat_array[main_data.main_box.search_chat_id].chat_name);
+    
+    gtk_widget_unset_state_flags(GTK_WIDGET(main_data.main_box.chat_settings_button), GTK_STATE_FLAG_ACTIVE);
+    gtk_widget_destroy(main_data.main_box.chat_settings_event_box);
     gtk_widget_destroy(main_data.main_box.rename_chat_event_box);
 }

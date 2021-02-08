@@ -1,13 +1,12 @@
 #include "Chat.h"
 
 void show_add_new_user(GtkWidget *widget) {
-    
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
 
     main_data.main_box.add_new_chat_event_box = gtk_event_box_new();
     gtk_widget_set_name(GTK_WIDGET(main_data.main_box.add_new_chat_event_box), "add_new_chat_event_box");
     gtk_widget_set_size_request(GTK_WIDGET(main_data.main_box.add_new_chat_event_box), 1400, 900);
-    g_signal_connect(G_OBJECT(main_data.main_box.add_new_chat_event_box), "button_press_event", G_CALLBACK(unpress_event_box), widget);
+    g_signal_connect(G_OBJECT(main_data.main_box.add_new_chat_event_box), "button_press_event", G_CALLBACK(unpress_chat_settings), NULL);
     gtk_fixed_put(GTK_FIXED(main_data.activity_block), main_data.main_box.add_new_chat_event_box, 0, 0);
 
     GtkWidget *position_add_new_chat = gtk_fixed_new();

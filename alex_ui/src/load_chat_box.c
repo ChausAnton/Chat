@@ -16,22 +16,21 @@ void load_right_chat_box() {
         gtk_box_pack_start(GTK_BOX(main_data.main_box.right_chat_box), top_area, FALSE, FALSE, 0);
         
             // Chat logo
-            GtkWidget *top_chat_button = gtk_event_box_new();
-            gtk_widget_set_name(GTK_WIDGET(top_chat_button), "top_chat_button");
-            gtk_box_pack_start(GTK_BOX(top_area), top_chat_button, FALSE, FALSE, 0);
+            user_data.chat_array[main_data.main_box.search_chat_id].chat_box_photo_event_box = gtk_event_box_new();
+            gtk_widget_set_name(GTK_WIDGET(user_data.chat_array[main_data.main_box.search_chat_id].chat_box_photo_event_box), "user_data.chat_array[main_data.main_box.search_chat_id].chat_box_photo_event_box");
+            gtk_box_pack_start(GTK_BOX(top_area), user_data.chat_array[main_data.main_box.search_chat_id].chat_box_photo_event_box, FALSE, FALSE, 0);
 
-            g_signal_connect(G_OBJECT(top_chat_button), "button_press_event", G_CALLBACK(show_chat_info), NULL);
+            g_signal_connect(G_OBJECT(user_data.chat_array[main_data.main_box.search_chat_id].chat_box_photo_event_box), "button_press_event", G_CALLBACK(show_chat_info), NULL);
 
-            GtkWidget *top_chat_avatar = gtk_drawing_area_new();
-            gtk_widget_set_size_request(GTK_WIDGET(top_chat_avatar), 40, 40);
+            user_data.chat_array[main_data.main_box.search_chat_id].chat_box_avatar = gtk_drawing_area_new();
+            gtk_widget_set_size_request(GTK_WIDGET(user_data.chat_array[main_data.main_box.search_chat_id].chat_box_avatar), 40, 40);
             char *chat_photo_path = strdup(user_data.chat_array[main_data.main_box.search_chat_id].image_path);
-            g_signal_connect(G_OBJECT(top_chat_avatar), "draw", G_CALLBACK(draw_chat_avatar), chat_photo_path);
+            g_signal_connect(G_OBJECT(user_data.chat_array[main_data.main_box.search_chat_id].chat_box_avatar), "draw", G_CALLBACK(draw_chat_avatar), chat_photo_path);
 
-            GtkWidget* top_chat_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-            gtk_widget_set_name(GTK_WIDGET(top_chat_photo), "top_chat_photo");
-            gtk_container_add(GTK_CONTAINER(top_chat_photo), top_chat_avatar);
-            gtk_container_add(GTK_CONTAINER(top_chat_button), top_chat_photo);
-            //gtk_box_pack_start(GTK_BOX(top_chat_button), top_chat_photo, FALSE, FALSE, 0);
+            user_data.chat_array[main_data.main_box.search_chat_id].chat_box_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+            gtk_widget_set_name(GTK_WIDGET(user_data.chat_array[main_data.main_box.search_chat_id].chat_box_photo), "top_chat_photo");
+            gtk_container_add(GTK_CONTAINER(user_data.chat_array[main_data.main_box.search_chat_id].chat_box_photo), user_data.chat_array[main_data.main_box.search_chat_id].chat_box_avatar);
+            gtk_container_add(GTK_CONTAINER(user_data.chat_array[main_data.main_box.search_chat_id].chat_box_photo_event_box), user_data.chat_array[main_data.main_box.search_chat_id].chat_box_photo);
 
             // Chat name
             GtkWidget* chat_name_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
@@ -44,20 +43,20 @@ void load_right_chat_box() {
             gtk_container_add(GTK_CONTAINER(chat_name_box), main_data.main_box.chat_box_name_label);
 
             // Chat settings
-            GtkWidget *chat_setting_button = gtk_event_box_new();
-            gtk_box_pack_end(GTK_BOX(top_area), chat_setting_button, FALSE, FALSE, 0);
-            gtk_widget_set_name(GTK_WIDGET(chat_setting_button), "chat_setting_button");
-            gtk_event_box_set_above_child(GTK_EVENT_BOX(chat_setting_button), TRUE);
+            main_data.main_box.chat_settings_button = gtk_event_box_new();
+            gtk_box_pack_end(GTK_BOX(top_area), main_data.main_box.chat_settings_button, FALSE, FALSE, 0);
+            gtk_widget_set_name(GTK_WIDGET(main_data.main_box.chat_settings_button), "chat_settings_button");
+            gtk_event_box_set_above_child(GTK_EVENT_BOX(main_data.main_box.chat_settings_button), TRUE);
 
-            g_signal_connect(G_OBJECT(chat_setting_button), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
-            g_signal_connect(G_OBJECT(chat_setting_button), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
+            g_signal_connect(G_OBJECT(main_data.main_box.chat_settings_button), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
+            g_signal_connect(G_OBJECT(main_data.main_box.chat_settings_button), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
 
-            g_signal_connect(G_OBJECT(chat_setting_button), "button_press_event", G_CALLBACK(show_chat_settings), NULL);
+            g_signal_connect(G_OBJECT(main_data.main_box.chat_settings_button), "button_press_event", G_CALLBACK(show_chat_settings), NULL);
 
-            GtkWidget *chat_setting_button_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-            gtk_widget_set_name(GTK_WIDGET(chat_setting_button_box), "chat_setting_button_box");
-            gtk_widget_set_size_request(GTK_WIDGET(chat_setting_button_box), 18, 18);
-            gtk_container_add(GTK_CONTAINER(chat_setting_button), chat_setting_button_box);
+            GtkWidget *chat_settings_button_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+            gtk_widget_set_name(GTK_WIDGET(chat_settings_button_box), "chat_settings_button_box");
+            gtk_widget_set_size_request(GTK_WIDGET(chat_settings_button_box), 18, 18);
+            gtk_container_add(GTK_CONTAINER(main_data.main_box.chat_settings_button), chat_settings_button_box);
 
             // Chat's messages area
             GtkWidget *messages_area = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);

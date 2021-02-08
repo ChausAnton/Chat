@@ -9,7 +9,6 @@ void delete_chat() {
     }
 
     user_data.amount_of_chat--;
-
     gtk_widget_destroy(GTK_WIDGET(user_data.chat_array[main_data.main_box.search_chat_id].chat_button));
     gtk_widget_destroy(GTK_WIDGET(main_data.main_box.delete_chat_event_box));
     gtk_widget_destroy(main_data.main_box.chat_settings_event_box);

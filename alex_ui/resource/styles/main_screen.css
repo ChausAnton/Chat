@@ -273,19 +273,19 @@
         color: rgb(255, 255, 255);
     }
 
-    #chat_setting_button {
+    #chat_settings_button {
         background-image: url("../images/triple_dot_icon.png");
         background-size: 100%;
         background-repeat: no-repeat;
         background-position: center;
     }
-    #chat_setting_button:hover {
+    #chat_settings_button:hover {
         background-image: url("../images/tripledot_icon_active.png");
         background-size: 100%;
         background-repeat: no-repeat;
         background-position: center;
     }
-    #chat_setting_button:active {
+    #chat_settings_button:active {
         background-image: url("../images/tripledot_icon_active.png");
         background-size: 100%;
         background-repeat: no-repeat;
@@ -414,6 +414,14 @@
             padding: 10px;
             margin-left: 10px;
         }
+            #user_nickname_in_change_image {
+                font: 18px PTSansPro-Demi;
+                background: rgb(32, 75, 73);
+                color: whitesmoke;
+                margin: -73px -15px 60px 140px;
+                border: 0px solid black;
+                border-radius: 0px;
+            }
 /****************************************/
 
 /****************************************/

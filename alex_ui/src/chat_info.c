@@ -1,7 +1,6 @@
 #include "Chat.h"
 
 void show_chat_info(GtkWidget *widget) {
-
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
 
     GtkWidget *chat_info_event_box = gtk_event_box_new();
