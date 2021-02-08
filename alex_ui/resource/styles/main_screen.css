@@ -222,7 +222,7 @@
         }
 /****************************************/
 
-/* 0_0 */
+/* When no chat selected */
 #right_mid_box {
     margin-left: 440px;
     margin-right: 440px;
@@ -320,7 +320,8 @@
             background-position: center;
             padding: 10px;
             margin-left: 10px;
-        }    
+        }
+
         #add_user:hover {
             background: linear-gradient(219.61deg, #683487 0%, #433FEE 111.4%);
         }
@@ -337,6 +338,7 @@
                 color: whitesmoke;
                 padding-left: 150px;
             }
+
         #delete_user:hover {
             background: linear-gradient(219.61deg, #683487 0%, #433FEE 111.4%);
         }
@@ -348,6 +350,12 @@
             padding: 10px;
             margin-left: 10px;
         }
+            #delete_user_box_label {
+                font: 18px PTSansPro-Demi;
+                color: whitesmoke;
+                padding-left: 150px;
+            }
+            
         #delete_chat:hover {
             background: linear-gradient(219.61deg, #683487 0%, #433FEE 111.4%);
         }

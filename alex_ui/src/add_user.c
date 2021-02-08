@@ -135,7 +135,6 @@ void add_new_user() {
     
     user_data.chat_array[main_data.main_box.search_chat_id].count_users = usr_amnt;
     load_right_chat_box();
-    printf("curr chat id: %d\n", main_data.main_box.search_chat_id);
     printf("usr_amnt: %d\n", usr_amnt);
 
     for(int i = 0; i < 100; i++) new_chat_users_id[i] = -1;

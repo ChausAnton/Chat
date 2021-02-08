@@ -32,7 +32,7 @@ void main_screen() {
         // Chat list
         load_chat_list();
 
-    for(int i =0; i < 100; i++){
+    for(int i = 0; i < 100; i++){
         new_chat_users_id[i] = -1;
     }
 

@@ -170,18 +170,24 @@ void load_chat_list();
 /* load_chat_box.c */
 void load_right_chat_box();
 
-/* add_user.c */
-void show_add_new_user(GtkWidget *widget);
-void add_new_user();
-
-/* rename_chat.c */
-void rename_chat(GtkWidget *widget);
-void save_rename_chat_changes(GtkWidget *widget, GdkEventButton *event, gpointer *data);
-
 /* chat_info.c */
 void show_chat_info(GtkWidget *widget);
 
-/* delete_chat.c */
-void show_delete_chat(GtkWidget *widget);
+/* Chat settings */
+
+    /* add_user.c */
+    void show_add_new_user(GtkWidget *widget);
+    void add_new_user();
+
+    /* delete_user.c */
+    void show_delete_user(GtkWidget *widget);
+    void delete_user();
+
+    /* rename_chat.c */
+    void rename_chat(GtkWidget *widget);
+    void save_rename_chat_changes(GtkWidget *widget, GdkEventButton *event, gpointer *data);
+
+    /* delete_chat.c */
+    void show_delete_chat(GtkWidget *widget);
 
 #endif
