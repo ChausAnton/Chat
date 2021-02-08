@@ -43,7 +43,6 @@ void db_create() {
    
    db_exec(sql, db);
 
-   mx_printerr("Burh10\n");
    free(sql);
 }
 

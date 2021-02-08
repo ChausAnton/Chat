@@ -12,12 +12,10 @@ char *mx_autentification(int sock) {
 		
 		user_name = strdup(client_message);
 		client_message = clear_client_message(client_message);
-   		mx_printerr("Bruh5\n");
 		
 		if((read_size = recv(sock , client_message , 2000 , 0)) > 0  && 
 		(password = db_get_user_password(user_name, db)) != NULL) {
 			if(strcmp(password, client_message) == 0) {
-    			mx_printerr("Bruh7\n");
 
 				db_add_user_to_online(user_name, sock, db);
 				client_message = clear_client_message(client_message);

@@ -47,16 +47,13 @@ void search_user(int sock, char *user_name) {
 	char *user_name2 = clear_client_message(NULL);
 	recv(sock, user_name2, 1000, 0);
 	send(sock, "@GET", strlen("@GET"), 0);
-	mx_printerr("IIIIIIIIIIIIII\n");
 	message = db_get_user_name(user_name2, db);
-	mx_printerr("*************\n");
 	send(sock, message, strlen(message), 0);
 	recv(sock, message, 1000, 0);
 	message = clear_client_message(message);
 	int user_id = db_get_user_id(user_name2, db);
 	send(sock, mx_itoa(user_id), strlen(mx_itoa(user_id)), 0);
 	recv(sock, message, 1000, 0);
-	mx_printerr("{{{{{{{{{{{{\n");
 	message = clear_client_message(message);
 }
 
@@ -119,9 +116,7 @@ void *connection_handler(void *new_sock) {
 			//recv(sock_from , client_message , 2000 , 0);
 			//send(sock_from, "@GET", strlen("@GET"), 0);
 		if(strcmp(client_message, "@search") == 0) {
-			mx_printerr("user_d@@@@@@@@@@@@@\n");
 			search_user(sock_from, user_name);
-			mx_printerr("!!!!!!!!!!!!!!\n");
 
 		}
 		//client_message = clear_client_message(client_message);
@@ -134,10 +129,8 @@ void *connection_handler(void *new_sock) {
 		//client_message = clear_client_message(client_message);
 
 		if (strcmp(client_message, "@exit_client") == 0) {
-			mx_printerr("reg fin\n");
 			//db_del_user_from_online(user_name, db);
 			db_del_user_from_online(user_name, db);
-			mx_printerr("Client disconnected");
 			free(user_name);
 			fflush(stdout);
 			close(sock_from);

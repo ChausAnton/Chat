@@ -134,13 +134,10 @@ char* db_get_user_name(char *login, sqlite3* db) {
     char* statement = strdup("select name from users where login='");
     statement = mx_strjoin(statement, login);
     statement = mx_strjoin(statement, "';");
-    mx_printerr(statement);
 
-    mx_printerr("\nBruh1\n");
  
     int rc = sqlite3_prepare_v2(db, statement, -1, &result, 0);    
 
-    mx_printerr("Bruh2\n");
 
     if (rc != SQLITE_OK) {
         fprintf(stderr, "Failed to fetch data: %s\n", sqlite3_errmsg(db));
@@ -149,7 +146,6 @@ char* db_get_user_name(char *login, sqlite3* db) {
 
     rc = sqlite3_step(result);
 
-    mx_printerr("Bruh3\n");
 
     if (rc == SQLITE_ROW) {
         user_name = strdup((char*)sqlite3_column_text(result, 0));
@@ -158,14 +154,12 @@ char* db_get_user_name(char *login, sqlite3* db) {
     sqlite3_finalize(result);
     free(statement);
 
-    mx_printerr("Bruh4\n");
     if(db_get_user_id(login, db) == -1){
         return NULL;
     } 
     else if (strlen(user_name) == 0) {
         return strdup(login);
     }
-    mx_printerr("Bruh5\n");
     return user_name;
 }
 
