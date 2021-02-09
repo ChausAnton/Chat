@@ -4,7 +4,7 @@ void main_screen_up_box() {
     main_data.main_box.up_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_widget_set_name(GTK_WIDGET(main_data.main_box.up_box), "up_box");
     gtk_box_pack_start(GTK_BOX(main_data.main_box.chat_bar), main_data.main_box.up_box, FALSE, FALSE, 0);
-
+    
         // User photo
         user_data.user_photo_event_box = gtk_event_box_new();
         gtk_widget_set_name(GTK_WIDGET(user_data.user_photo_event_box), "user_photo_event_box");
@@ -12,16 +12,15 @@ void main_screen_up_box() {
 
         user_data.user_avatar = gtk_drawing_area_new();
         gtk_widget_set_size_request(GTK_WIDGET(user_data.user_avatar), 80, 80);
-        char *path = strdup(user_data.image_path);
-        g_signal_connect(G_OBJECT(user_data.user_avatar), "draw", G_CALLBACK(draw_user_avatar), path);
-
+        g_signal_connect(G_OBJECT(user_data.user_avatar), "draw", G_CALLBACK(draw_user_avatar), user_data.image_path);
+        
         user_data.user_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
         gtk_widget_set_name(GTK_WIDGET(user_data.user_photo), "user_photo");
         gtk_container_add(GTK_CONTAINER(user_data.user_photo), user_data.user_avatar);
         gtk_container_add(GTK_CONTAINER(user_data.user_photo_event_box), user_data.user_photo);
 
         g_signal_connect(G_OBJECT(user_data.user_photo_event_box), "button_press_event", G_CALLBACK(show_user_settings), NULL);
-
+        
         // User name
         main_data.main_box.user_name_label = gtk_label_new(user_data.name);
         gtk_label_set_selectable(GTK_LABEL(main_data.main_box.user_name_label), TRUE);
@@ -31,7 +30,7 @@ void main_screen_up_box() {
         gtk_widget_set_halign(GTK_WIDGET(main_data.main_box.user_name_label), GTK_ALIGN_START);
         gtk_widget_set_name(GTK_WIDGET(main_data.main_box.user_name_label), "user_name_label");
         gtk_box_pack_start(GTK_BOX(main_data.main_box.up_box), main_data.main_box.user_name_label, FALSE, FALSE, 0);
-
+        
         // Change theme button
         GtkWidget *change_theme_button = gtk_event_box_new();
         gtk_widget_set_name(GTK_WIDGET(change_theme_button), "change_theme_button");

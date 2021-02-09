@@ -137,7 +137,7 @@ void show_emoji_box(GtkWidget *widget) {
     int sticker_num = 1;
     GtkWidget *single_emoji;
     
-    for(int i = 2; i <= 11; i++) {
+    for(int i = 2; i <= 20; i++) {
           for(int j = 1; j <= 3; j++) {
             single_emoji = gtk_event_box_new();  
             gtk_widget_set_name(GTK_WIDGET(single_emoji), "emoji");
@@ -157,11 +157,11 @@ void show_emoji_box(GtkWidget *widget) {
 
             g_signal_connect(G_OBJECT(single_emoji), "button_press_event", G_CALLBACK(emoji_click), (void *)path_sticker_photo);
             //g_signal_connect(G_OBJECT(single_emoji), "button_press_event", G_CALLBACK(obtained_emoji_click), (void *)path_sticker_photo);
-
+            
             sticker_num++;
-            if(sticker_num > 20) break;
+            if(sticker_num > 50) break;
           }
-          if(sticker_num > 20) break;
+          if(sticker_num > 50) break;
     }
     gtk_container_add(GTK_CONTAINER(scrollable_emoji), emoji_grid);
 

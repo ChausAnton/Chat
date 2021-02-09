@@ -21,6 +21,10 @@ int main(int argc, char *argv[]) {
     main_data.styles = gtk_css_provider_new();
     //gtk_style_context_add_provider_for_screen(gdk_screen_get_default(), GTK_STYLE_PROVIDER(main_data.styles), GTK_STYLE_PROVIDER_PRIORITY_USER);
 
+    main_data.main_box.css = "resource/styles/main_screen.css";
+    main_data.login_box.css = "resource/styles/sign_in.css";
+    main_data.reg_box.css = "resource/styles/sign_up.css";
+
     start_screen();
      
     gtk_widget_show_all(main_data.window);

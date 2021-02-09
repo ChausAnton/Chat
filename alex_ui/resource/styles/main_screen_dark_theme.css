@@ -36,7 +36,54 @@
         #change_theme_box {
             background: #131313;
             border-radius: 15px;
-            padding-bottom: 10px;
+        }
+        #change_theme_up_box {
+            background: rgb(32, 75, 73);
+            border-radius: 15px;
+        }
+            #default_theme_box {
+                background-color: #2F7875;
+                border-radius: 100%;
+                min-width: 100px;
+                min-height: 100px;
+                margin: 10px 10px 10px 10px;
+            }
+            #dark_theme_box {
+                background-color: black;
+                border-radius: 100%;
+                min-width: 100px;
+                min-height: 100px;
+                margin: 10px 10px 10px 10px;
+            }
+            #default_theme_event_box{
+                border-radius: 15px;
+                margin-left: 5px;
+                margin-right: 5px;
+            }
+            #default_theme_event_box:hover{
+                background: linear-gradient(219.61deg, rgba(199, 155, 0, 1) 0%, rgba(195, 59, 0, 1) 111.4%);
+                margin: 5px;
+            }
+            #dark_theme_event_box {
+                border-radius: 15px;
+                margin-left: 5px;
+                margin-right: 5px;
+            }
+            #dark_theme_event_box:hover {
+                background: linear-gradient(219.61deg, rgba(199, 155, 0, 1) 0%, rgba(195, 59, 0, 1) 111.4%);
+                margin: 5px;
+            }
+        #change_theme_down_box {
+            background: #131313;
+            border-radius: 15px;
+        }
+        #change_theme_label {
+            background: none;
+            font: 18px PTSansPro-Demi;
+            color: whitesmoke;
+            margin-top: 10px;
+           
+            margin-left: 40px;
         }
     #add_new_chat_button {
         background-image: url("../images/add_new_chat_icon.png");

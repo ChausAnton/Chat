@@ -88,12 +88,11 @@ void save_user_changes(GtkWidget *widget, GdkEventButton *event, gpointer *data)
     user_data.name = strdup((char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY(parent->next->data))));
     gtk_label_set_text(GTK_LABEL(main_data.main_box.user_name_label), user_data.name);
 
-    user_data.image_path = user_data.temp_image_path;
-
+    if(user_data.temp_image_path != NULL) user_data.image_path = user_data.temp_image_path;
     gtk_widget_destroy(user_data.user_settings_photo);
     gtk_widget_destroy(main_data.main_box.chat_bar_scroll);
     gtk_widget_destroy(main_data.main_box.up_box);
-
+    
     user_data.user_settings_avatar = gtk_drawing_area_new();
     gtk_widget_set_size_request(GTK_WIDGET(user_data.user_settings_avatar), 40, 40);
     g_signal_connect(G_OBJECT(user_data.user_settings_avatar), "draw", G_CALLBACK(draw_user_settings_avatar), user_data.image_path);
