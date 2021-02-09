@@ -20,6 +20,7 @@ void load_data_for_user() {
     //fill_chat_array(user_data.login, locale_db, user_data.chat_array);
     user_data.image_path = strdup("resource/images/anonymous.png");
     user_data.amount_of_chat = 20;
+    user_data.total_chats = user_data.amount_of_chat;
     user_data.name = strdup(user_data.login);
     user_data.chat_array = (t_chat_list *)malloc(sizeof(t_chat_list) * 150);
     fill_chat_array();

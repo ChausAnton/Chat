@@ -92,7 +92,10 @@ void chat_click(GtkWidget *widget) {
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
 
     printf("Chat_id: %d\n", chat_id);
-    main_data.main_box.search_chat_id = chat_id;
+    for (int i = 0; i < user_data.amount_of_chat; ++i) {
+        if (user_data.chat_array[i].chat_id == chat_id)
+        main_data.main_box.search_chat_id = i;
+    }
     g_list_free(g_steal_pointer(&children));
     g_list_free(g_steal_pointer(&parent));
     load_right_chat_box();

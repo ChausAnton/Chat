@@ -83,6 +83,7 @@ typedef struct s_user {
     
     t_chat_list *chat_array;
     int amount_of_chat;
+    int total_chats; // For generation new chat_id
 
     char *image_path;
     char *temp_image_path;
@@ -118,7 +119,6 @@ typedef struct s_main_box {
 
     GtkWidget *delete_chat_event_box;
     GtkWidget *edit_chat_event_box;
-    GtkWidget *change_chat_image_event_box;
     
     GtkWidget *user_name_label;
     GtkWidget *chat_info_name_label;
@@ -234,9 +234,5 @@ void show_chat_info(GtkWidget *widget);
 
     /* delete_chat.c */
     void show_delete_chat(GtkWidget *widget);
-
-    /* change_chat_image.c */
-    void show_change_chat_image(GtkWidget *widget);
-    void save_change_chat_image_changes(GtkWidget *widget);
 
 #endif
