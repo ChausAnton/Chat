@@ -357,6 +357,20 @@
                 color: whitesmoke;
                 padding-left: 150px;
             }
+            #added_same_user_label {
+                font: 18px PTSansPro-Demi;
+                color: whitesmoke;
+                margin: 30px 20px 20px 20px;
+            }
+            #ok_button {
+                min-width: 70px;
+                background: linear-gradient(231.16deg, #683487 5.87%, #433FEE 156.27%);;
+                font: 18px PTSansPro-Demi;
+                margin-left: 120px;
+                margin-bottom: 10px;
+                border-radius: 15px;
+                color: whitesmoke;
+            }
 
         #delete_user:hover {
             background: linear-gradient(219.61deg, #683487 0%, #433FEE 111.4%);
