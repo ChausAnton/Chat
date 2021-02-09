@@ -131,9 +131,6 @@ void add_new_user() {
             usr_amnt += 1;
             printf("new_chat_users_id[%d]:%d\n", i, new_chat_users_id[i]);
         }
-       else if (new_chat_users_id[i] == 0) {
-            printf("user is already in chat\n");
-        }
     }
     
     user_data.chat_array[main_data.main_box.search_chat_id].count_users = usr_amnt;
@@ -146,4 +143,6 @@ void add_new_user() {
     gtk_widget_destroy(main_data.main_box.chat_settings_event_box);
 
     gtk_widget_show_all(main_data.main_box.chat_bar);
+
+    added_same_user_to_chat();
 }

@@ -175,6 +175,7 @@ void empty_log();
 void empty_reg_log();
 void incorrect_log_or_pswd();
 void log_is_used();
+void added_same_user_to_chat();
 
 /* emotes.c */
 void *scrolling_sticker();

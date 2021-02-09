@@ -330,3 +330,45 @@ void log_is_used() {
 
     gtk_widget_show_all(main_data.reg_box.reg_error_box);
 }
+
+void added_same_user_to_chat() {
+
+    GtkWidget *added_same_user_event_box = gtk_event_box_new();
+    gtk_widget_set_name(GTK_WIDGET(added_same_user_event_box), "logout_event_box");
+    gtk_widget_set_size_request(GTK_WIDGET(added_same_user_event_box), 1400, 900);
+    g_signal_connect(G_OBJECT(added_same_user_event_box), "button_press_event", G_CALLBACK(gtk_widget_show), NULL);
+    gtk_fixed_put(GTK_FIXED(main_data.activity_block), added_same_user_event_box, 0, 0);
+
+    GtkWidget *position_added_same_user = gtk_fixed_new();
+    gtk_container_add(GTK_CONTAINER(added_same_user_event_box), position_added_same_user);
+
+    GtkWidget *clickable_added_same_user = gtk_event_box_new();
+    gtk_widget_set_halign(GTK_WIDGET(clickable_added_same_user), GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(GTK_WIDGET(clickable_added_same_user), GTK_ALIGN_CENTER);
+    gtk_widget_set_size_request(GTK_WIDGET(clickable_added_same_user), 300, 130);
+    gtk_fixed_put(GTK_FIXED(position_added_same_user), clickable_added_same_user, 580, 300);
+    g_signal_connect(G_OBJECT(clickable_added_same_user), "button_press_event", G_CALLBACK(gtk_widget_show), NULL);
+
+    GtkWidget *added_same_user_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
+    gtk_widget_set_name(GTK_WIDGET(added_same_user_box), "logout_box");
+    gtk_container_add(GTK_CONTAINER(clickable_added_same_user), added_same_user_box);
+
+    GtkWidget *added_same_user_label = gtk_label_new("The user is currently in this chat");
+    gtk_widget_set_name(GTK_WIDGET(added_same_user_label), "added_same_user_label");
+    gtk_box_pack_start(GTK_BOX(added_same_user_box), added_same_user_label, FALSE, FALSE, 0);
+
+    GtkWidget *added_same_user_box_for_buttons = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 1);
+    gtk_widget_set_name(GTK_WIDGET(added_same_user_box_for_buttons), "added_same_user_box_for_buttons");
+    gtk_box_pack_start(GTK_BOX(added_same_user_box), added_same_user_box_for_buttons, FALSE, FALSE, 10);
+
+    GtkWidget *ok_button = gtk_button_new_with_label ("Ok");
+    gtk_widget_set_name(GTK_WIDGET(ok_button), "ok_button");
+    gtk_widget_set_halign(GTK_WIDGET(clickable_added_same_user), GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(GTK_WIDGET(clickable_added_same_user), GTK_ALIGN_CENTER);
+    gtk_button_set_relief(GTK_BUTTON(ok_button), GTK_RELIEF_NONE);
+    gtk_box_pack_start(GTK_BOX(added_same_user_box_for_buttons), ok_button, FALSE, FALSE, 0);
+
+    g_signal_connect(G_OBJECT(ok_button), "button_press_event", G_CALLBACK(unpress_logout), added_same_user_event_box);
+
+    gtk_widget_show_all(GTK_WIDGET(added_same_user_event_box));
+}
