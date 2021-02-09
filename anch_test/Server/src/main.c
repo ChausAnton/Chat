@@ -7,6 +7,8 @@ int main(int argc, char *argv[]) {
 	
 	db_open("database/uchat.db", &db);
 
+	db_add_user("a", "1");
+	db_add_user("s", "1");
 	//Create socket
 	socket_desc = socket(AF_INET , SOCK_STREAM , 0);
 	if (socket_desc == -1) {
@@ -44,14 +46,14 @@ int main(int argc, char *argv[]) {
 			perror("could not create thread");
 			return 1;
 		}
-		
-		
+
 		//Now join the thread , so that we dont terminate before the thread
 		//pthread_join( sniffer_thread , NULL);
 		puts("Handler assigned");
 		
 	}
 
+	perror("!!!!!!!!!!!!!!!sdfd\n");
 	close(socket_desc);
 	if (client_sock < 0) {
 		perror("accept failed");

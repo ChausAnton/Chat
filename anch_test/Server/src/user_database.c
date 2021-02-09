@@ -1,10 +1,14 @@
 #include "Chat.h"
 
+
+
 void db_add_user(char *login, char *password) {
-    char* statement = strdup("insert into users (login, password, name) values ('");
+    char* statement = strdup("insert into users (login, password, name, user_image) values ('");
     statement = mx_strjoin(statement, login);
     statement = mx_strjoin(statement, "', '");
     statement = mx_strjoin(statement, password);
+    statement = mx_strjoin(statement, "', '");
+    statement = mx_strjoin(statement, NULL);
     statement = mx_strjoin(statement, "', '");
     statement = mx_strjoin(statement, NULL);
     statement = mx_strjoin(statement, "'); ");
@@ -58,9 +62,9 @@ void db_set_user_name(char *login, char *new_name) {
 char *db_get_user_password(char *login, sqlite3* db){
     char *password = NULL;
     sqlite3_stmt *result;
-    char* statement = "select password from users where login='";
+    char* statement = strdup("select password from users where login='");
     statement = mx_strjoin(statement, login);
-    statement = mx_strjoin(statement, "'");
+    statement = mx_strjoin(statement, "';");
 	
     int rc = sqlite3_prepare_v2(db, statement, -1, &result, 0);    
     if (rc != SQLITE_OK) {
@@ -82,9 +86,9 @@ char *db_get_user_password(char *login, sqlite3* db){
 int db_get_user_id(char *login, sqlite3* db) {
     int user_id = -1;
     sqlite3_stmt *result;
-    char* statement = "select id from users where login='";
+    char* statement = strdup("select id from users where login='");
     statement = mx_strjoin(statement, login);
-    statement = mx_strjoin(statement, "'");
+    statement = mx_strjoin(statement, "';");
 
     int rc = sqlite3_prepare_v2(db, statement, -1, &result, 0);    
     if (rc != SQLITE_OK) {
@@ -94,8 +98,7 @@ int db_get_user_id(char *login, sqlite3* db) {
 
     rc = sqlite3_step(result);
     if (rc == SQLITE_ROW) {
-        char* tmp = strdup((char*)sqlite3_column_text(result, 0));
-        user_id = atoi(tmp);
+        user_id = sqlite3_column_int(result, 0);
     }
 
     sqlite3_finalize(result);
@@ -107,7 +110,7 @@ int db_get_count_user(sqlite3* db) {
     int count = -1;
     sqlite3_stmt *result;
 
-    char* statement = strdup("select count(*) from users");
+    char* statement = strdup("select count(*) from users;");
 
     int rc = sqlite3_prepare_v2(db, statement, -1, &result, 0);    
     if (rc != SQLITE_OK) {
@@ -123,6 +126,91 @@ int db_get_count_user(sqlite3* db) {
     sqlite3_finalize(result);
     free(statement);
     return count;
+}
+
+char* db_get_user_name(char *login, sqlite3* db) {
+    char *user_name = strdup("\0");
+    sqlite3_stmt *result;
+    char* statement = strdup("select name from users where login='");
+    statement = mx_strjoin(statement, login);
+    statement = mx_strjoin(statement, "';");
+
+ 
+    int rc = sqlite3_prepare_v2(db, statement, -1, &result, 0);    
+
+
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "Failed to fetch data: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+    } 
+
+    rc = sqlite3_step(result);
+
+
+    if (rc == SQLITE_ROW) {
+        user_name = strdup((char*)sqlite3_column_text(result, 0));
+    }
+
+    sqlite3_finalize(result);
+    free(statement);
+
+    if(db_get_user_id(login, db) == -1){
+        return NULL;
+    } 
+    else if (strlen(user_name) == 0) {
+        return strdup(login);
+    }
+    return user_name;
+}
+
+char* db_get_user_image_path(char *login, sqlite3* db) {
+    char *image_path = NULL;
+    sqlite3_stmt *result;
+    char* statement = strdup("select user_image from users where login='");
+    statement = mx_strjoin(statement, login);
+    statement = mx_strjoin(statement, "';");
+ 
+    int rc = sqlite3_prepare_v2(db, statement, -1, &result, 0);    
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "Failed to fetch data: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+    } 
+
+    rc = sqlite3_step(result);
+
+    if (rc == SQLITE_ROW) {
+        image_path = strdup((char*)sqlite3_column_text(result, 0));
+    }
+
+    sqlite3_finalize(result);
+    free(statement);
+
+    return image_path;
+}
+
+char* db_get_user_login(int user_id, sqlite3* db) {
+    char *user_login = NULL;
+    sqlite3_stmt *result;
+    char* statement = strdup("select login from users where id=");
+    statement = mx_strjoin(statement, int_to_str(user_id));
+    statement = mx_strjoin(statement, ";");
+ 
+    int rc = sqlite3_prepare_v2(db, statement, -1, &result, 0);    
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "Failed to fetch data: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+    } 
+
+    rc = sqlite3_step(result);
+
+    if (rc == SQLITE_ROW) {
+        user_login = strdup((char*)sqlite3_column_text(result, 0));
+    }
+
+    sqlite3_finalize(result);
+    free(statement);
+
+    return user_login;
 }
 
 /*void get_user_id_and_login()  {

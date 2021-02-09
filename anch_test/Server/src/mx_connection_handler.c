@@ -49,18 +49,46 @@ void *connection_handler(void *new_sock) {
 	int sock_to;
 	char *message;
 	char *client_message = clear_client_message(NULL);
-
-	mx_registration(sock_from);
-	
 	char *user_name = NULL;
-	while(user_name == NULL) {
-		user_name = mx_autentification(sock_from);
+
+	while(1) {
+		recv(sock_from , client_message , 2000 , 0);
+		send(sock_from, "@GET", strlen("@GET"), 0);
+
+		if(strcmp(client_message, "@sign_up") == 0) {
+			user_name = mx_registration(sock_from);
+		}
+		if (strcmp(client_message, "@sign_in") == 0) {
+			user_name = mx_autentification(sock_from);
+		}
+
+		if(strcmp(client_message, "@synchronization") == 0) {
+			mx_printerr("user_data_synchronization start\n");
+			user_data_synchronization(sock_from, user_name);
+			mx_printerr("user_data_synchronization end\n");
+		}
+
+		if(strcmp(client_message, "@search") == 0) {
+			search_user(sock_from, user_name);
+
+		}
+
+		if(strcmp(client_message, "@new_chat") == 0) {
+			new_chat(sock_from, user_name);
+		}
+
+		if (strcmp(client_message, "@exit_client") == 0) {
+			db_del_user_from_online(user_name, db);
+			free(user_name);
+			fflush(stdout);
+			close(sock_from);
+			mx_printerr("Client out\n");
+			return 0;
+		}
+
+		client_message = clear_client_message(client_message);
 	}
 
-	message = mx_strjoin("Hi, ", user_name);
-	message = mx_strjoin(message, ", Who's you want to write ?\n");
-	write(sock_from , message , strlen(message));
-	free(message);
 
 	if((read_size = recv(sock_from , client_message , 2000 , 0)) > 0) {
 		if ((sock_to = db_get_online_user_socket(client_message, db)) != -1) {

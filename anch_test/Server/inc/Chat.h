@@ -2,7 +2,7 @@
 #ifndef chat
 #define chat
 
-#define SERVERPORT 8005
+#define SERVERPORT 8099
 
 #include <stdio.h>
 #include <unistd.h>
@@ -15,6 +15,7 @@
 #include <memory.h>
 #include <netdb.h>
 #include <netinet/in.h>
+#include <sys/stat.h>
 
 ///server
 #include <sys/socket.h>
@@ -46,6 +47,10 @@ unsigned char * base64_decode(const unsigned char *src, size_t len,
 			      size_t *out_len);
 
 char *mx_itoa(int number);
+void mx_printerr(const char *s);
+void user_data_synchronization(int sock, char *user_name);
+void new_chat(int sock, char *user_name);
+void search_user(int sock, char *user_name);
 
 ////
 char *mx_strnew(const int size);
@@ -53,7 +58,7 @@ int mx_strlen(const char *s);
 char *mx_strcat(char *restrict s1, const char *restrict s2);
 char *mx_strjoin(char const *s1, char const *s2);
 char* int_to_str(int num);
-void mx_registration(int sock);
+char *mx_registration(int sock);
 char *clear_client_message(char *str);
 char **mx_strsplit(char const *s, char c);
 
@@ -64,6 +69,10 @@ void db_exec(char* statement, sqlite3* db);
 void db_close(sqlite3* db);
 void db_create();
 
+
+char* db_get_user_name(char *login, sqlite3* db);
+int db_get_count_user(sqlite3* db);
+
 //User table
 void db_add_user(char *login, char *password);
 void db_del_user(char *login);
@@ -73,6 +82,8 @@ void db_set_user_login(char *login, char *new_login);
 char *db_get_user_password(char *login, sqlite3* db);
 int db_get_user_id(char *login, sqlite3* db);
 int db_get_count_user(sqlite3* db);
+char* db_get_user_login(int user_id, sqlite3* db);
+char* db_get_user_image_path(char *login, sqlite3* db);
 
 //Online User table
 void db_add_user_to_online(char *login, int socket, sqlite3* db);
@@ -81,9 +92,11 @@ int db_get_online_user_socket(char *login, sqlite3* db);
 int db_get_count_online_user(sqlite3* db);
 
 //Chats table
-void db_add_chat(int count, char* name);
-void db_del_chat(int chat_id);
-int db_get_last_chat_id();
+void db_add_chat(int count, char* name, sqlite3* db);
+void db_del_chat(int chat_id, sqlite3* db);
+int db_get_last_chat_id(sqlite3* db);
+char* db_get_chat_name(int chat_id, sqlite3* db);
+int get_count_users_for_chat(int chat_id, sqlite3* db);
 
 //Messages table
 void db_add_msg(int chat_id, int user_id, char* date, char* text);
@@ -93,7 +106,9 @@ void db_del_all_msg_from_chat(int chat_id);
 void db_add_member(int chat_id, int user_id);
 void db_del_member(int chat_id, int user_id);
 void db_del_all_member_for_chat(int chat_id);
-char** get_all_user_id_for_chat(int chat_id);
+char** get_all_user_id_for_chat(int chat_id, sqlite3* db);
+char** get_all_chat_id_for_user(int user_id, sqlite3* db); 
+int get_count_chat_id_for_user(int user_id, sqlite3* db);
 
 /**Database**/
 #endif
