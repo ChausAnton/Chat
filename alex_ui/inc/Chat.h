@@ -41,12 +41,14 @@ int new_chat_users_id[100];
 enum chat_settings_message {EDIT_CHAT = 1, ADD_USER, DELETE_USER, DELETE_CHAT};
 
 typedef struct s_login_box {
+    const gchar *css;
     GtkWidget *all_login_box;
     GtkWidget *sign_in_data[2];
     GtkWidget *log_error_box;
 }   t_login_box;
 
 typedef struct s_reg_box {
+    const gchar *css;
     GtkWidget *all_reg_box;
     GtkWidget *sign_up_data[3];
     GtkWidget *reg_error_box;
@@ -99,6 +101,7 @@ typedef struct s_user {
 }   t_user;
 
 typedef struct s_main_box {
+    const gchar *css;
     GtkWidget *all_main_box;
     GtkWidget *main_fixed;
     GtkWidget *chat_bar;
@@ -159,6 +162,8 @@ void unpress_event_box(GtkWidget *widget, GdkEventButton *event, gpointer *p);
 void unpress_chat_settings(GtkWidget *widget, GdkEventButton *event);
 void change_chat_photo(GtkWidget *widget);
 void change_user_photo(GtkWidget *widget);
+void change_theme_to_default(GtkWidget *widget);
+void change_theme_to_dark(GtkWidget *widget);
 void chat_click(GtkWidget *widget);
 void search_user_click(GtkWidget *widget);
 void add_user_click(GtkWidget *widget);
@@ -175,6 +180,7 @@ void empty_log();
 void empty_reg_log();
 void incorrect_log_or_pswd();
 void log_is_used();
+void passwords_doesnt_match();
 void added_same_user_to_chat();
 
 /* emotes.c */

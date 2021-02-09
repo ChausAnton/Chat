@@ -1,0 +1,88 @@
+#activity {
+    background-image: url("../images/black-abstract-geometric-wallpaper.jpg");
+    background-size: 115%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#login_box {
+    background: rgba(19, 19, 19, 0.7);
+    min-width: 380px;
+    min-height: 900px;
+    border-radius: 8px;
+}
+
+    #logo_box {
+        background: rgba(68, 68, 68, 1);
+        min-width: 300px;
+        min-height: 160px;
+        margin: 174px 40px 10px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+    #chat_logo {
+        background-image:url("../images/Chat_name_white.png");
+        margin: -10px 20px 45px;
+        margin-left: 35px;
+    }
+
+    #login_label{
+        font: 18px PTSansPro-Demi;
+        color: whitesmoke;
+        margin-top: 45px;
+        margin-right: 280px;
+    }
+    #login {
+        margin: 10px 40px;
+        min-width: 300px;
+        min-height: 40px;
+        font: 18px PTSansPro-Demi;
+        background: rgba(68, 68, 68, 1);
+        border-radius: 15px;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    #password_label {
+        font: 18px PTSansPro-Demi;
+        color: whitesmoke;
+        margin-top: 4px;
+        margin-right: 245px;
+    }
+    #password {
+        margin: 10px 40px;
+        min-width: 300px;
+        min-height: 40px;
+        font: 18px PTSansPro-Demi;
+        background: rgba(68, 68, 68, 1);
+        border-radius: 15px;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+    
+    #incorrect_log_or_pswd_label {
+        font: 18px PTSansPro-Demi;
+        color: red;
+        margin-top: 10px;
+    }
+
+    #signin_button {
+        margin: 20px 40px 0;
+        background: linear-gradient(268.98deg, #C79B00 0%, #C43B00 100%);
+        border-radius: 5px;
+        min-width: 300px;
+        min-height: 40px;
+        font: 18px PTSansPro-Demi;
+        letter-spacing: initial;
+        color: whitesmoke;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+    #signup_button {
+        margin: 17px 40px;
+        background: rgba(68, 68, 68, 1);
+        border-radius: 5px;
+        min-width: 300px;
+        min-height: 40px;
+        font: 18px PTSansPro-Demi;
+        letter-spacing: initial;
+        color: whitesmoke;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }

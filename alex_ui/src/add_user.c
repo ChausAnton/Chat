@@ -144,5 +144,5 @@ void add_new_user() {
 
     gtk_widget_show_all(main_data.main_box.chat_bar);
 
-    added_same_user_to_chat();
+    //added_same_user_to_chat();
 }

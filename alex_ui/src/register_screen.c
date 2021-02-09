@@ -9,7 +9,7 @@ void register_screen() {
     gtk_container_add(GTK_CONTAINER(main_data.activity), main_data.activity_block);
 
     //main_data.reg_box.styles = gtk_css_provider_new();
-    gtk_css_provider_load_from_path(main_data.styles, "resource/styles/sign_up.css", NULL);
+    gtk_css_provider_load_from_path(main_data.styles, main_data.reg_box.css, NULL);
     gtk_style_context_add_provider_for_screen(gdk_screen_get_default(), GTK_STYLE_PROVIDER(main_data.styles), GTK_STYLE_PROVIDER_PRIORITY_USER);
 
     main_data.reg_box.all_reg_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
