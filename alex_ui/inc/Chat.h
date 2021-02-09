@@ -106,14 +106,20 @@ typedef struct s_main_box {
     GtkWidget *messanges_area_for_scroll;
     GtkWidget *chat_bar_for_scroll;
     GtkWidget *chat_bar_scroll;
+
+    GtkWidget *up_box;
+
+    GtkWidget *change_theme_event_box;
     GtkWidget *add_new_chat_event_box;
+    GtkWidget *user_settings_event_box;
+
+    GtkWidget *chat_settings_event_box;
+    GtkWidget *chat_settings_button;
+
     GtkWidget *delete_chat_event_box;
     GtkWidget *edit_chat_event_box;
     GtkWidget *change_chat_image_event_box;
-    GtkWidget *user_settings_event_box;
-    GtkWidget *chat_settings_event_box;
-    GtkWidget *chat_settings_button;
-    GtkWidget *up_box;
+    
     GtkWidget *user_name_label;
     GtkWidget *chat_info_name_label;
     GtkWidget *chat_box_name_label;
@@ -181,6 +187,9 @@ void show_chat_settings(GtkWidget *widget);
 /* user_settings.c */
 void show_user_settings(GtkWidget *widget);
 void save_user_changes(GtkWidget *widget, GdkEventButton *event, gpointer *data);
+
+/* change_theme.c */
+void show_change_theme(GtkWidget *widget); 
 
 /* add_new_chat.c */
 void show_add_new_chat(GtkWidget *widget);

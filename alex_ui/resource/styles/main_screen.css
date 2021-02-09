@@ -16,7 +16,26 @@
     min-height: 116px;
     border-radius: 15px;
     margin: 5px 5px 8px;
-}
+}   #change_theme_button {
+        background-image: url("../images/paint-palette_icon.png");
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    #change_theme_button:hover {
+        background-image: url("../images/paint-palette_icon_active.png");
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+        #change_theme_event_box {
+            background: rgba(0, 0, 0, 0.4);
+        } 
+        #change_theme_box {
+            background: rgb(32, 75, 73);
+            border-radius: 15px;
+            padding-bottom: 10px;
+        }
     #add_new_chat_button {
         background-image: url("../images/add_new_chat_icon.png");
         background-size: 100%;
@@ -105,7 +124,7 @@
             #new_chat_small_box {
                 background: rgb(47, 120, 117);
                 border-radius: 15px;
-                margin: 20px 5px 10px 5px;
+                margin: 20px 5px 0px 5px;
             }
             #new_chat_event_box:hover > #new_chat_small_box {
                 background: linear-gradient(61.94deg, rgba(104, 52, 135, 0.8) 15.84%, rgba(67, 63, 238, 0.8) 111.81%);

@@ -32,6 +32,23 @@ void main_screen_up_box() {
         gtk_widget_set_name(GTK_WIDGET(main_data.main_box.user_name_label), "user_name_label");
         gtk_box_pack_start(GTK_BOX(main_data.main_box.up_box), main_data.main_box.user_name_label, FALSE, FALSE, 0);
 
+        // Change theme button
+        GtkWidget *change_theme_button = gtk_event_box_new();
+        gtk_widget_set_name(GTK_WIDGET(change_theme_button), "change_theme_button");
+        gtk_widget_set_halign(GTK_WIDGET(change_theme_button), GTK_ALIGN_CENTER);
+        gtk_widget_set_valign(GTK_WIDGET(change_theme_button), GTK_ALIGN_CENTER);
+        gtk_fixed_put(GTK_FIXED(main_data.main_box.main_fixed), change_theme_button, 220, 10);
+
+        g_signal_connect(G_OBJECT(change_theme_button), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
+        g_signal_connect(G_OBJECT(change_theme_button), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
+
+        g_signal_connect(G_OBJECT(change_theme_button), "button_press_event", G_CALLBACK(show_change_theme), NULL);
+
+        GtkWidget *change_theme_button_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+        gtk_widget_set_name(GTK_WIDGET(change_theme_button_box), "change_theme_button_box");
+        gtk_widget_set_size_request(GTK_WIDGET(change_theme_button_box), 20, 20);
+        gtk_container_add(GTK_CONTAINER(change_theme_button), change_theme_button_box);
+
         // Add new chat button
         GtkWidget *add_new_chat_button = gtk_event_box_new();
         gtk_widget_set_name(GTK_WIDGET(add_new_chat_button), "add_new_chat_button");
