@@ -153,7 +153,9 @@ void main_screen_up_box();
 void *scrolling_msg();
 void display_message(char *message_text);
 void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage);
+void display_obtained_message(char *obtained_message_text);
 void send_message_file(GtkWidget *widget, GdkEventButton *event, gpointer *messsage);
+void obtained_message_file(GtkWidget *widget, GdkEventButton *event, gpointer *messsage);
 
 /* utility_funcs.c */
 void event_enter_notify(GtkWidget *widget);
