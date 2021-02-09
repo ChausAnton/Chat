@@ -109,7 +109,8 @@ void load_right_chat_box() {
             gtk_container_add(GTK_CONTAINER(scrolled_message), msg_enter);
 
             g_signal_connect(G_OBJECT(clip_event_box), "button_press_event", G_CALLBACK(send_message_file), msg_enter);
-        
+            //g_signal_connect(G_OBJECT(clip_event_box), "button_press_event", G_CALLBACK(obtained_message_file), msg_enter);
+
             // Emotes
             GtkWidget *smile_button_clickable = gtk_event_box_new();
             gtk_widget_set_name(GTK_WIDGET(smile_button_clickable), "smile_button_clickable");

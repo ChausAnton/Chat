@@ -4,7 +4,7 @@ void main_screen() {
   
     gtk_widget_destroy(GTK_WIDGET(main_data.activity_block));
     
-    gtk_css_provider_load_from_path(main_data.styles, "resource/styles/main_screen.css", NULL);
+    gtk_css_provider_load_from_path(main_data.styles, "resource/styles/main_screen_dark_theme.css", NULL);
     gtk_style_context_add_provider_for_screen(gdk_screen_get_default(), GTK_STYLE_PROVIDER(main_data.styles), GTK_STYLE_PROVIDER_PRIORITY_USER);
 
     main_data.activity_block = gtk_fixed_new();
