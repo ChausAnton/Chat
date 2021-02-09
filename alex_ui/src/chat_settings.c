@@ -2,11 +2,11 @@
 
 void show_chat_settings(GtkWidget *widget) {
     
-    static int number1 = RENAME_CHAT;
+    static int number1 = EDIT_CHAT;
     static int number2 = ADD_USER;
     static int number3 = DELETE_USER;
     static int number4 = DELETE_CHAT;
-    static int number5 = CHANGE_CHAT_IMAGE;
+    //static int number5 = CHANGE_CHAT_IMAGE;
 
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
     
@@ -30,36 +30,36 @@ void show_chat_settings(GtkWidget *widget) {
     gtk_container_add(GTK_CONTAINER(clickable_chat_settings), chat_settings_box);
 
     GtkWidget *scrollable = gtk_scrolled_window_new(NULL, NULL);
-    gtk_widget_set_size_request(GTK_WIDGET(scrollable), 230, 190);
+    gtk_widget_set_size_request(GTK_WIDGET(scrollable), 230, 152);
     gtk_box_pack_start(GTK_BOX(chat_settings_box), scrollable, FALSE, FALSE, 0);
 
     GtkWidget *scrollable_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_name(GTK_WIDGET(scrollable_box), "scrollable_box");
     gtk_container_add(GTK_CONTAINER(scrollable), scrollable_box);
 
-    // Rename chat
-    GtkWidget *rename_chat_clickable = gtk_event_box_new();
-    gtk_widget_set_name(GTK_WIDGET(rename_chat_clickable), "rename_chat");
-    gtk_box_pack_start(GTK_BOX(scrollable_box), rename_chat_clickable, FALSE, FALSE, 0);
+    // Edit chat
+    GtkWidget *edit_chat_clickable = gtk_event_box_new();
+    gtk_widget_set_name(GTK_WIDGET(edit_chat_clickable), "edit_chat");
+    gtk_box_pack_start(GTK_BOX(scrollable_box), edit_chat_clickable, FALSE, FALSE, 0);
     
-    g_signal_connect(G_OBJECT(rename_chat_clickable), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
-    g_signal_connect(G_OBJECT(rename_chat_clickable), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
+    g_signal_connect(G_OBJECT(edit_chat_clickable), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
+    g_signal_connect(G_OBJECT(edit_chat_clickable), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
 
-    GtkWidget *rename_chat_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-    gtk_widget_set_name(GTK_WIDGET(rename_chat_box), "rename_chat_box");
-    gtk_container_add(GTK_CONTAINER(rename_chat_clickable), rename_chat_box);
+    GtkWidget *edit_chat_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    gtk_widget_set_name(GTK_WIDGET(edit_chat_box), "edit_chat_box");
+    gtk_container_add(GTK_CONTAINER(edit_chat_clickable), edit_chat_box);
 
-    GtkWidget *rename_chat_icon = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    gtk_widget_set_name(GTK_WIDGET(rename_chat_icon), "rename_chat_icon");
-    gtk_widget_set_size_request(GTK_WIDGET(rename_chat_icon), 25, 25);
-    gtk_box_pack_start(GTK_BOX(rename_chat_box), rename_chat_icon, FALSE, FALSE, 0);
+    GtkWidget *edit_chat_icon = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_widget_set_name(GTK_WIDGET(edit_chat_icon), "edit_chat_icon");
+    gtk_widget_set_size_request(GTK_WIDGET(edit_chat_icon), 25, 25);
+    gtk_box_pack_start(GTK_BOX(edit_chat_box), edit_chat_icon, FALSE, FALSE, 0);
 
-    GtkWidget *rename_chat = gtk_label_new("Rename chat");
-    gtk_widget_set_name(GTK_WIDGET(rename_chat), "chat_settings_labels");
-    gtk_widget_set_halign(GTK_WIDGET(rename_chat), GTK_ALIGN_START);
-    gtk_box_pack_start(GTK_BOX(rename_chat_box), rename_chat, FALSE, FALSE, 0);
+    GtkWidget *edit_chat = gtk_label_new("Edit chat");
+    gtk_widget_set_name(GTK_WIDGET(edit_chat), "chat_settings_labels");
+    gtk_widget_set_halign(GTK_WIDGET(edit_chat), GTK_ALIGN_START);
+    gtk_box_pack_start(GTK_BOX(edit_chat_box), edit_chat, FALSE, FALSE, 0);
 
-    g_signal_connect(G_OBJECT(rename_chat_clickable), "button_press_event", G_CALLBACK(chat_settings_click), (gpointer) &number1);
+    g_signal_connect(G_OBJECT(edit_chat_clickable), "button_press_event", G_CALLBACK(chat_settings_click), (gpointer) &number1);
 
     // Add user
     GtkWidget *add_user_clickable = gtk_event_box_new();
@@ -134,7 +134,7 @@ void show_chat_settings(GtkWidget *widget) {
     g_signal_connect(G_OBJECT(delete_chat_clickable), "button_press_event", G_CALLBACK(chat_settings_click), (gpointer) &number4);
   
     // Change chat image
-    GtkWidget *change_chat_image_clickable = gtk_event_box_new();
+    /*GtkWidget *change_chat_image_clickable = gtk_event_box_new();
     gtk_widget_set_name(GTK_WIDGET(change_chat_image_clickable), "change_chat_image");
     gtk_widget_set_size_request(GTK_WIDGET(change_chat_image_clickable), 30, 30);
     gtk_box_pack_start(GTK_BOX(scrollable_box), change_chat_image_clickable, FALSE, FALSE, 0);
@@ -156,7 +156,7 @@ void show_chat_settings(GtkWidget *widget) {
     gtk_widget_set_halign(GTK_WIDGET(change_chat_image), GTK_ALIGN_START);
     gtk_box_pack_start(GTK_BOX(change_chat_image_box), change_chat_image, FALSE, FALSE, 0);
 
-    g_signal_connect(G_OBJECT(change_chat_image_clickable), "button_press_event", G_CALLBACK(chat_settings_click), (gpointer) &number5);
+    g_signal_connect(G_OBJECT(change_chat_image_clickable), "button_press_event", G_CALLBACK(chat_settings_click), (gpointer) &number5);*/
 
     gtk_widget_show_all(GTK_WIDGET(main_data.main_box.chat_settings_event_box));
 }

@@ -58,6 +58,10 @@ void register_screen() {
     gtk_widget_set_size_request(GTK_WIDGET(main_data.reg_box.log_is_used_box), 380, 30);
     gtk_box_pack_start(GTK_BOX(main_data.reg_box.all_reg_box), main_data.reg_box.log_is_used_box, FALSE, FALSE, 0);
 
+    GtkWidget *login_is_used_label = gtk_label_new("");
+    gtk_widget_set_name(GTK_WIDGET(login_is_used_label), "login_is_used_label");
+    gtk_box_pack_start(GTK_BOX(main_data.reg_box.log_is_used_box), login_is_used_label, FALSE, FALSE, 0);
+
     GtkWidget *signup_button = gtk_button_new_with_label("Sign Up");
     gtk_widget_set_name(GTK_WIDGET(signup_button), "signup_button");
     gtk_button_set_relief(GTK_BUTTON(signup_button), GTK_RELIEF_NONE);

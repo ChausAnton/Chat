@@ -32,7 +32,7 @@ static void unset_active_chats() {
     }
 }
 
-void change_photo(GtkWidget *widget) {
+void change_chat_photo(GtkWidget *widget) {
     GtkWidget *dialog = gtk_file_chooser_dialog_new("User image", GTK_WINDOW(main_data.window), GTK_FILE_CHOOSER_ACTION_OPEN, "Cancel", GTK_RESPONSE_CANCEL, "Open", GTK_RESPONSE_ACCEPT, NULL);
     gint run = gtk_dialog_run(GTK_DIALOG(dialog));
 
@@ -52,8 +52,33 @@ void change_photo(GtkWidget *widget) {
         gtk_container_add(GTK_CONTAINER(user_data.chat_array[main_data.main_box.search_chat_id].chat_settings_photo_event_box), user_data.chat_array[main_data.main_box.search_chat_id].chat_settings_photo);
     }
     gtk_widget_destroy(dialog);
-    gtk_widget_hide(main_data.main_box.change_chat_image_event_box);
-    gtk_widget_show_all(main_data.main_box.change_chat_image_event_box);
+    gtk_widget_hide(main_data.main_box.edit_chat_event_box);
+    gtk_widget_show_all(main_data.main_box.edit_chat_event_box);
+    gtk_widget_unset_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT);
+}
+
+void change_user_photo(GtkWidget *widget) {
+    GtkWidget *dialog = gtk_file_chooser_dialog_new("User image", GTK_WINDOW(main_data.window), GTK_FILE_CHOOSER_ACTION_OPEN, "Cancel", GTK_RESPONSE_CANCEL, "Open", GTK_RESPONSE_ACCEPT, NULL);
+    gint run = gtk_dialog_run(GTK_DIALOG(dialog));
+
+    if (run == GTK_RESPONSE_ACCEPT) {
+        GtkFileChooser *chooser = GTK_FILE_CHOOSER(dialog);
+
+        gtk_widget_destroy(user_data.user_settings_photo);
+
+        user_data.user_settings_avatar = gtk_drawing_area_new();
+        gtk_widget_set_size_request(GTK_WIDGET(user_data.user_settings_avatar), 100, 100);
+        user_data.temp_image_path = gtk_file_chooser_get_filename(chooser);
+        g_signal_connect(G_OBJECT(user_data.user_settings_avatar), "draw", G_CALLBACK(draw_user_settings_avatar), user_data.temp_image_path);
+        
+        user_data.user_settings_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+        gtk_widget_set_name(GTK_WIDGET(user_data.user_settings_photo), "user_settings_photo");
+        gtk_container_add(GTK_CONTAINER(user_data.user_settings_photo), user_data.user_settings_avatar);
+        gtk_container_add(GTK_CONTAINER(user_data.user_settings_photo_event_box), user_data.user_settings_photo);
+    }
+    gtk_widget_destroy(dialog);
+    gtk_widget_hide(main_data.main_box.user_settings_event_box);
+    gtk_widget_show_all(main_data.main_box.user_settings_event_box);
     gtk_widget_unset_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT);
 }
 
@@ -125,7 +150,7 @@ void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *dat
     int number = *((int*)data);
     switch(number) {
         case 1:
-            show_rename_chat(widget);
+            show_edit_chat(widget);
             break;
         case 2:
             show_add_new_user(widget);
@@ -135,9 +160,6 @@ void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *dat
             break;
         case 4:
             show_delete_chat(widget);
-            break;
-        case 5:
-            show_change_chat_image(widget);
             break;
         default:
             break;
@@ -267,18 +289,18 @@ void show_search_result(GtkWidget *widget, GdkEventButton *event, gpointer *user
 
 void incorrect_log_or_pswd() {
 
-    GtkWidget *incorrect_log_or_pswd_label = gtk_label_new("Incorrect login or password");
-    gtk_widget_set_name(GTK_WIDGET(incorrect_log_or_pswd_label), "incorrect_log_or_pswd_label");
-    gtk_box_pack_start(GTK_BOX(main_data.login_box.log_or_pswd_err_box), incorrect_log_or_pswd_label, FALSE, FALSE, 0);
+    GList *children = gtk_container_get_children(GTK_CONTAINER(main_data.login_box.log_or_pswd_err_box));
+    
+    gtk_label_set_text(GTK_LABEL(children->data), strdup("Incorrect login or password"));
 
     gtk_widget_show_all(main_data.login_box.log_or_pswd_err_box);
 }
 
 void log_is_used() {
 
-    GtkWidget *login_is_used_label = gtk_label_new("Login is used");
-    gtk_widget_set_name(GTK_WIDGET(login_is_used_label), "login_is_used_label");
-    gtk_box_pack_start(GTK_BOX(main_data.reg_box.log_is_used_box), login_is_used_label, FALSE, FALSE, 0);
+    GList *children = gtk_container_get_children(GTK_CONTAINER(main_data.reg_box.log_is_used_box));
+    
+    gtk_label_set_text(GTK_LABEL(children->data), strdup("Login is used"));
 
     gtk_widget_show_all(main_data.reg_box.log_is_used_box);
 }

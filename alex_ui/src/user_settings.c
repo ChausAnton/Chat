@@ -31,24 +31,30 @@ void show_user_settings(GtkWidget *widget) {
     gtk_widget_set_name(GTK_WIDGET(scrollable_box), "scrollable_box");
     gtk_container_add(GTK_CONTAINER(scrollable), scrollable_box);
 
-    GtkWidget *user_settings_avatar = gtk_drawing_area_new();
-    gtk_widget_set_size_request(GTK_WIDGET(user_settings_avatar), 100, 100);
+    //User settings photo
+    user_data.user_settings_photo_event_box = gtk_event_box_new();
+    gtk_widget_set_name(GTK_WIDGET(user_data.user_settings_photo_event_box), "user_settings_photo_event_box");
+    gtk_box_pack_start(GTK_BOX(scrollable_box), user_data.user_settings_photo_event_box, FALSE, FALSE, 0);
+
+    user_data.user_settings_avatar = gtk_drawing_area_new();
+    gtk_widget_set_size_request(GTK_WIDGET(user_data.user_settings_avatar), 100, 100);
     char *path = strdup(user_data.image_path);
-    g_signal_connect(G_OBJECT(user_settings_avatar), "draw", G_CALLBACK(draw_user_settings_avatar), path);
+    g_signal_connect(G_OBJECT(user_data.user_settings_avatar), "draw", G_CALLBACK(draw_user_settings_avatar), path);
 
-    GtkWidget *user_settings_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    gtk_widget_set_name(GTK_WIDGET(user_settings_photo), "user_settings_photo");
-    gtk_container_add(GTK_CONTAINER(user_settings_photo), user_settings_avatar);
-    gtk_box_pack_start(GTK_BOX(scrollable_box), user_settings_photo, FALSE, FALSE, 0);
+    user_data.user_settings_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_widget_set_name(GTK_WIDGET(user_data.user_settings_photo), "user_settings_photo");
+    gtk_container_add(GTK_CONTAINER(user_data.user_settings_photo), user_data.user_settings_avatar);
+    gtk_container_add(GTK_CONTAINER(user_data.user_settings_photo_event_box), user_data.user_settings_photo);
 
+    g_signal_connect(G_OBJECT(user_data.user_settings_photo_event_box), "button_press_event", G_CALLBACK(change_user_photo), scrollable_box);
+
+    //Nickname
     GtkEntryBuffer *nickname = gtk_entry_buffer_new(user_data.name, -1);
 
     GtkWidget *user_nickname = gtk_entry_new_with_buffer(nickname);
     gtk_widget_set_name(GTK_WIDGET(user_nickname), "user_nickname");
     gtk_entry_set_max_length(GTK_ENTRY(user_nickname), 20);
-    /*char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY(sign_in_data[0])));
-    printf("login: %s\n", name);*/
-    gtk_entry_set_placeholder_text (GTK_ENTRY(user_nickname), "Lol");
+    gtk_entry_set_placeholder_text (GTK_ENTRY(user_nickname), "Nickname");
     gtk_box_pack_start(GTK_BOX(scrollable_box), user_nickname, FALSE, FALSE, 0);
 
     //Save button
@@ -81,5 +87,28 @@ void save_user_changes(GtkWidget *widget, GdkEventButton *event, gpointer *data)
     GList *parent = gtk_container_get_children(GTK_CONTAINER((GtkWidget *)data));
     user_data.name = strdup((char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY(parent->next->data))));
     gtk_label_set_text(GTK_LABEL(main_data.main_box.user_name_label), user_data.name);
+
+    user_data.image_path = user_data.temp_image_path;
+
+    gtk_widget_destroy(user_data.user_settings_photo);
+    gtk_widget_destroy(main_data.main_box.chat_bar_scroll);
+    gtk_widget_destroy(main_data.main_box.up_box);
+
+    user_data.user_settings_avatar = gtk_drawing_area_new();
+    gtk_widget_set_size_request(GTK_WIDGET(user_data.user_settings_avatar), 40, 40);
+    g_signal_connect(G_OBJECT(user_data.user_settings_avatar), "draw", G_CALLBACK(draw_user_settings_avatar), user_data.image_path);
+    
+    user_data.user_settings_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_widget_set_name(GTK_WIDGET(user_data.user_settings_photo), "top_chat_photo");
+    gtk_container_add(GTK_CONTAINER(user_data.user_settings_photo), user_data.user_settings_avatar);
+    gtk_container_add(GTK_CONTAINER(user_data.user_settings_photo_event_box), user_data.user_settings_photo);
+
+    main_screen_up_box();
+    load_chat_list();
+
+    gtk_widget_hide(main_data.main_box.up_box);
+    gtk_widget_show_all(main_data.main_box.up_box);
+    gtk_widget_hide(main_data.main_box.chat_bar_scroll);
+    gtk_widget_show_all(main_data.main_box.chat_bar_scroll);
     gtk_widget_destroy(main_data.main_box.user_settings_event_box);
 }

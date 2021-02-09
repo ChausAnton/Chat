@@ -38,7 +38,7 @@
 
 int new_chat_users_id[100];
 
-enum chat_settings_message {RENAME_CHAT = 1, ADD_USER, DELETE_USER, DELETE_CHAT, CHANGE_CHAT_IMAGE};
+enum chat_settings_message {EDIT_CHAT = 1, ADD_USER, DELETE_USER, DELETE_CHAT};
 
 typedef struct s_login_box {
     GtkWidget *all_login_box;
@@ -80,9 +80,21 @@ typedef struct s_user {
     char *login;
     char *password;
     char *name;
-    char *image_path;
+    
     t_chat_list *chat_array;
     int amount_of_chat;
+
+    char *image_path;
+    char *temp_image_path;
+
+    GtkWidget *user_settings_photo_event_box;
+    GtkWidget *user_settings_photo;
+    GtkWidget *user_settings_avatar;
+
+    GtkWidget *user_photo_event_box;
+    GtkWidget *user_photo;
+    GtkWidget *user_avatar;
+
 }   t_user;
 
 typedef struct s_main_box {
@@ -96,7 +108,7 @@ typedef struct s_main_box {
     GtkWidget *chat_bar_scroll;
     GtkWidget *add_new_chat_event_box;
     GtkWidget *delete_chat_event_box;
-    GtkWidget *rename_chat_event_box;
+    GtkWidget *edit_chat_event_box;
     GtkWidget *change_chat_image_event_box;
     GtkWidget *user_settings_event_box;
     GtkWidget *chat_settings_event_box;
@@ -139,7 +151,8 @@ void event_enter_notify(GtkWidget *widget);
 void event_leave_notify(GtkWidget *widget);
 void unpress_event_box(GtkWidget *widget, GdkEventButton *event, gpointer *p);
 void unpress_chat_settings(GtkWidget *widget, GdkEventButton *event);
-void change_photo(GtkWidget *widget);
+void change_chat_photo(GtkWidget *widget);
+void change_user_photo(GtkWidget *widget);
 void chat_click(GtkWidget *widget);
 void search_user_click(GtkWidget *widget);
 void add_user_click(GtkWidget *widget);
@@ -204,9 +217,9 @@ void show_chat_info(GtkWidget *widget);
     void show_delete_user(GtkWidget *widget);
     void delete_user();
 
-    /* rename_chat.c */
-    void show_rename_chat(GtkWidget *widget);
-    void save_rename_chat_changes(GtkWidget *widget, GdkEventButton *event, gpointer *data);
+    /* edit_chat.c */
+    void show_edit_chat(GtkWidget *widget);
+    void save_edit_chat_changes(GtkWidget *widget, GdkEventButton *event, gpointer *data);
 
     /* delete_chat.c */
     void show_delete_chat(GtkWidget *widget);

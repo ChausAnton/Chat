@@ -215,7 +215,7 @@
             background: linear-gradient(119.22deg, rgba(104, 52, 135, 0.8) 22.83%, rgba(67, 63, 238, 0.8) 119.04%);
             margin-left: 5px;
             margin-right: 5px;
-            transition: 50ms ease-in-out;
+            /*transition: 50ms ease-in-out;*/
         }
         #chat_button:active > #chat_small_box {
             background: linear-gradient(119.22deg, rgba(104, 52, 135, 0.8) 22.83%, rgba(67, 63, 238, 0.8) 119.04%);
@@ -306,14 +306,14 @@
             padding: 10px;
         }
 
-        #rename_chat {
+        #edit_chat {
             border-radius: 15px 5px 0 0;
             padding: 10px;
         }
-        #rename_chat:hover {
+        #edit_chat:hover {
             background: linear-gradient(219.61deg, #683487 0%, #433FEE 111.4%);
         }
-        #rename_chat_icon {
+        #edit_chat_icon {
             background-image: url("../images/edit-button.png");
             background-size: 100%;
             background-repeat: no-repeat;
@@ -355,7 +355,10 @@
                 color: whitesmoke;
                 padding-left: 150px;
             }
-            
+        #delete_chat {
+            border-radius: 0 0 15px 15px;
+            padding: 10px;
+        }
         #delete_chat:hover {
             background: linear-gradient(219.61deg, #683487 0%, #433FEE 111.4%);
         }

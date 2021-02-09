@@ -6,27 +6,21 @@ void main_screen_up_box() {
     gtk_box_pack_start(GTK_BOX(main_data.main_box.chat_bar), main_data.main_box.up_box, FALSE, FALSE, 0);
 
         // User photo
-        GtkWidget *user_settings_button = gtk_event_box_new();
-        gtk_widget_set_name(GTK_WIDGET(user_settings_button), "user_settings_button");
-        gtk_box_pack_start(GTK_BOX(main_data.main_box.up_box), user_settings_button, FALSE, FALSE, 0);
+        user_data.user_photo_event_box = gtk_event_box_new();
+        gtk_widget_set_name(GTK_WIDGET(user_data.user_photo_event_box), "user_photo_event_box");
+        gtk_box_pack_start(GTK_BOX(main_data.main_box.up_box), user_data.user_photo_event_box, FALSE, FALSE, 0);
 
-        g_signal_connect(G_OBJECT(user_settings_button), "button_press_event", G_CALLBACK(show_user_settings), NULL);
+        user_data.user_avatar = gtk_drawing_area_new();
+        gtk_widget_set_size_request(GTK_WIDGET(user_data.user_avatar), 80, 80);
+        char *path = strdup(user_data.image_path);
+        g_signal_connect(G_OBJECT(user_data.user_avatar), "draw", G_CALLBACK(draw_user_avatar), path);
 
-        GtkWidget *user_settings_button_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-        gtk_widget_set_name(GTK_WIDGET(user_settings_button_box), "user_settings_button_box");
-        gtk_container_add(GTK_CONTAINER(user_settings_button), user_settings_button_box);
+        user_data.user_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+        gtk_widget_set_name(GTK_WIDGET(user_data.user_photo), "user_photo");
+        gtk_container_add(GTK_CONTAINER(user_data.user_photo), user_data.user_avatar);
+        gtk_container_add(GTK_CONTAINER(user_data.user_photo_event_box), user_data.user_photo);
 
-        GtkWidget *user_avatar = gtk_drawing_area_new();
-        gtk_widget_set_size_request(GTK_WIDGET(user_avatar), 80, 80);
-    
-        char *path = strdup("resource/images/anonymous.png");
-    
-        g_signal_connect(G_OBJECT(user_avatar), "draw", G_CALLBACK(draw_user_avatar), path);
-
-        GtkWidget *user_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-        gtk_widget_set_name(GTK_WIDGET(user_photo), "user_photo");
-        gtk_container_add(GTK_CONTAINER(user_photo), user_avatar);
-        gtk_box_pack_start(GTK_BOX(user_settings_button_box), user_photo, FALSE, FALSE, 0);
+        g_signal_connect(G_OBJECT(user_data.user_photo_event_box), "button_press_event", G_CALLBACK(show_user_settings), NULL);
 
         // User name
         main_data.main_box.user_name_label = gtk_label_new(user_data.name);
