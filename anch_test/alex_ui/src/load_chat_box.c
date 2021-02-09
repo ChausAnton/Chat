@@ -1,4 +1,57 @@
-#include "Chat.h"
+#include "../inc/Chat.h"
+
+void load_messages_for_chat(int index, char *msg){
+
+        /////Split
+        char **str = mx_strsplit(msg, '#');
+        for(int h = 0; str[h] != NULL; h++) {
+            mx_printerr(str[h]);
+            mx_printerr("\n");
+        }
+        mx_printerr("Bruh3\n");
+        int j = 0;
+        mx_printerr(mx_itoa(index));
+        mx_printerr("Bruh4\n");
+        user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].global_msg_id = atoi(str[j]); //Global msg in in selected chat
+        j++;
+        user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].msg_id_in_chat = atoi(str[j]); //Msg id in selected chat
+        j++;
+        user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].chat_id = atoi(str[j]);//Chat id where msg
+        j++;
+        user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].user_id = atoi(str[j]);//User send id
+        j++;
+        user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].date = strdup(str[j]); //Date of message
+        j++;
+        user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].text = strdup(str[j]);//Text of message
+        j++;
+
+        mx_printerr("Bruh5s\n");
+        
+        GtkWidget *message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+        gtk_widget_set_name(GTK_WIDGET(message_body), "messages_body");
+        gtk_box_pack_start(GTK_BOX(main_data.main_box.messanges_area_for_scroll), message_body, FALSE, FALSE, 0);
+
+        mx_printerr("Bruh6s\n");
+        
+        GtkWidget *message_body_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
+        gtk_box_pack_end(GTK_BOX(message_body), message_body_box, FALSE, FALSE, 0);
+
+        mx_printerr("Bruh7s\n");
+        GtkWidget *message = gtk_label_new(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].text);
+        gtk_widget_set_name(GTK_WIDGET(message), "message");
+        gtk_label_set_line_wrap(GTK_LABEL(message), TRUE);
+        gtk_label_set_line_wrap_mode(GTK_LABEL(message), PANGO_WRAP_WORD_CHAR);
+        gtk_label_set_max_width_chars(GTK_LABEL(message), 50);
+        gtk_box_pack_start(GTK_BOX(message_body_box), message, FALSE, FALSE, 0);
+        mx_printerr("Bruh8s\n");
+        ///Time
+        GtkWidget *message_time = gtk_label_new(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].date);
+        gtk_widget_set_name(GTK_WIDGET(message_time), "message_time");
+        gtk_widget_set_halign(GTK_WIDGET(message_time), GTK_ALIGN_END);
+        gtk_box_pack_start(GTK_BOX(message_body_box), message_time, FALSE, FALSE, 0);
+
+        mx_printerr("Bruh9s\n");
+}
 
 void load_right_chat_box() {
     gtk_widget_destroy(main_data.main_box.right_chat_box);
@@ -71,6 +124,7 @@ void load_right_chat_box() {
 
             main_data.main_box.messanges_area_for_scroll = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
             gtk_container_add(GTK_CONTAINER( main_data.main_box.messages_area_scroll),  main_data.main_box.messanges_area_for_scroll);
+
 
         // Bottom area
         GtkWidget *bottom_area = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);

@@ -1,6 +1,9 @@
 #include "../inc/Chat.h"
 
 static void fill_chat_array(){
+
+    user_data.chat_array[main_data.main_box.search_chat_index].count_msg = 0;
+
     char *s_message = clear_client_message(NULL);
 
     for(int i = 0; i < user_data.amount_of_chat; i++){

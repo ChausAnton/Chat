@@ -8,7 +8,17 @@ int main(int argc, char *argv[]) {
 	db_open("database/uchat.db", &db);
 
 	db_add_user("a", "1");
-	db_add_user("s", "1");
+ db_add_user("s", "1");
+
+ db_add_chat(2, "Lol", db);
+
+ db_add_member(db_get_last_chat_id(db), 1);
+ db_add_member(db_get_last_chat_id(db), 2);
+
+ db_add_msg(db_get_count_msg_for_chat(1, db)+1, 1, 1, "Bruh", "Bruh1");
+ db_add_msg(db_get_count_msg_for_chat(1, db)+1, 1, 2, "Bruh", "Bruh2");
+ db_add_msg(db_get_count_msg_for_chat(1, db)+1, 1, 1, "Bruh", "Bruh3");
+ db_add_msg(db_get_count_msg_for_chat(1, db)+1, 1, 2, "Bruh", "Bruh4");
 	//Create socket
 	socket_desc = socket(AF_INET , SOCK_STREAM , 0);
 	if (socket_desc == -1) {

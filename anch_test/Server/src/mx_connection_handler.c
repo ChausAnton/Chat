@@ -1,5 +1,7 @@
 #include "Chat.h"
 
+int chat_id_g;
+
 
 void message_send(char *message, int sock_to) {
 	time_t t;
@@ -43,6 +45,25 @@ void message_synchronization(char *message, int sock_from) {
 }
 
 
+char **chat_chose(int sock, int *chat_id) {
+	char *message = clear_client_message(NULL);
+	recv(sock, message, 1000, 0);
+	send(sock, "@GET", strlen("@GET"), 0);
+	*chat_id = atoi(message);
+	message = clear_client_message(message);
+
+	char **chat_chose_users_id = get_all_user_id_for_chat(*chat_id, db);
+	return chat_chose_users_id;
+	mx_printerr(mx_itoa(*chat_id));
+}
+
+/*void send_message(int sock) {
+	char *message = clear_client_message(NULL);
+	send(sock, "@GET", strlen("@GET"), 0);
+	recv(sock, message, 1000, 0);
+}*/
+
+
 void *connection_handler(void *new_sock) {
 	int sock_from = *(int *)new_sock;
 	int read_size;
@@ -84,6 +105,17 @@ void *connection_handler(void *new_sock) {
 			close(sock_from);
 			mx_printerr("Client out\n");
 			return 0;
+		}
+		//if (strcmp(client_message, "@message_send") == 0) {
+		//	send_message(sock_from);
+		//}
+		
+		if(strcmp(client_message, "@chat_chose") == 0) {
+			char **chat_chose_users_id = chat_chose(sock_from, &chat_id_g);
+		}
+		if (strcmp(client_message, "@message_read") == 0) {
+			usleep(10);
+			read_message(sock_from, chat_id_g);
 		}
 
 		client_message = clear_client_message(client_message);
