@@ -63,7 +63,7 @@ void load_right_chat_box() {
             gtk_widget_set_name(GTK_WIDGET(messages_area), "messages_area");
             gtk_box_pack_start(GTK_BOX(main_data.main_box.right_chat_box), messages_area, FALSE, FALSE, 0);
             //gtk_fixed_put(GTK_FIXED(main_fixed), messanges_area, 310, 73);
-                
+
             main_data.main_box.messages_area_scroll = gtk_scrolled_window_new(NULL, NULL);
             gtk_scrolled_window_set_kinetic_scrolling(GTK_SCROLLED_WINDOW( main_data.main_box.messages_area_scroll), TRUE);
             gtk_widget_set_size_request(GTK_WIDGET( main_data.main_box.messages_area_scroll), 200, 760);

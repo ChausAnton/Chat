@@ -169,19 +169,23 @@ void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *dat
 void sign_in() {
 
     char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[0])));
+    name = mx_strtrim(name);
     printf("login: %s\n", name);
-    char *passwrod = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[1])));
-    printf("password: %s\n", passwrod);
-
+    char *password = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[1])));
+    printf("password: %s\n", password);
+    
     if(TRUE) {
 
         if(strcmp(name, "error") == 0) {
             incorrect_log_or_pswd();
         }
+        else if(strlen(name) == 0) {
+            empty_log();
+        }
         else {
             main_data.main_box.search_chat_id = -1;
             user_data.login = strdup(name);
-            user_data.password = strdup(passwrod);
+            user_data.password = strdup(password);
 
             gtk_entry_set_text(GTK_ENTRY(main_data.login_box.sign_in_data[0]), "");
             gtk_entry_set_text(GTK_ENTRY(main_data.login_box.sign_in_data[1]), "");
@@ -195,6 +199,7 @@ void sign_in() {
 void sign_up() {
 
     char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[0])));
+    name = mx_strtrim(name);
     printf("login: %s\n", name);
     char *passwrod = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[1])));
     printf("password: %s\n", passwrod);
@@ -205,6 +210,9 @@ void sign_up() {
 
         if(strcmp(name, "error") == 0) {
             log_is_used();
+        }
+        else if(strlen(name) == 0) {
+            empty_reg_log();
         }
         else {
             main_data.main_box.search_chat_id = -1;
@@ -287,20 +295,38 @@ void show_search_result(GtkWidget *widget, GdkEventButton *event, gpointer *user
     printf("search_input:%s\n", search_input);
 }
 
+void empty_log() {
+
+    GList *children = gtk_container_get_children(GTK_CONTAINER(main_data.login_box.log_error_box));
+    
+    gtk_label_set_text(GTK_LABEL(children->data), strdup("Login is empty"));
+
+    gtk_widget_show_all(main_data.login_box.log_error_box);
+}
+
 void incorrect_log_or_pswd() {
 
-    GList *children = gtk_container_get_children(GTK_CONTAINER(main_data.login_box.log_or_pswd_err_box));
+    GList *children = gtk_container_get_children(GTK_CONTAINER(main_data.login_box.log_error_box));
     
     gtk_label_set_text(GTK_LABEL(children->data), strdup("Incorrect login or password"));
 
-    gtk_widget_show_all(main_data.login_box.log_or_pswd_err_box);
+    gtk_widget_show_all(main_data.login_box.log_error_box);
+}
+
+void empty_reg_log() {
+
+    GList *children = gtk_container_get_children(GTK_CONTAINER(main_data.reg_box.reg_error_box));
+    
+    gtk_label_set_text(GTK_LABEL(children->data), strdup("Login is empty"));
+
+    gtk_widget_show_all(main_data.reg_box.reg_error_box);
 }
 
 void log_is_used() {
 
-    GList *children = gtk_container_get_children(GTK_CONTAINER(main_data.reg_box.log_is_used_box));
+    GList *children = gtk_container_get_children(GTK_CONTAINER(main_data.reg_box.reg_error_box));
     
     gtk_label_set_text(GTK_LABEL(children->data), strdup("Login is used"));
 
-    gtk_widget_show_all(main_data.reg_box.log_is_used_box);
+    gtk_widget_show_all(main_data.reg_box.reg_error_box);
 }

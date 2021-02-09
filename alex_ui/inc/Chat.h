@@ -43,13 +43,13 @@ enum chat_settings_message {EDIT_CHAT = 1, ADD_USER, DELETE_USER, DELETE_CHAT};
 typedef struct s_login_box {
     GtkWidget *all_login_box;
     GtkWidget *sign_in_data[2];
-    GtkWidget *log_or_pswd_err_box;
+    GtkWidget *log_error_box;
 }   t_login_box;
 
 typedef struct s_reg_box {
     GtkWidget *all_reg_box;
     GtkWidget *sign_up_data[3];
-    GtkWidget *log_is_used_box;
+    GtkWidget *reg_error_box;
 }   t_reg_box;
 
 typedef struct s_chat_list {
@@ -165,6 +165,8 @@ void event_leave_notify_search(GtkWidget *widget);
 void show_search_result(GtkWidget *widget, GdkEventButton *event, gpointer *user_input);
 void unpress_logout(GtkWidget *widget, GdkEventButton *event, gpointer *p);
 void show_search_result(GtkWidget *widget, GdkEventButton *event, gpointer *user_input);
+void empty_log();
+void empty_reg_log();
 void incorrect_log_or_pswd();
 void log_is_used();
 

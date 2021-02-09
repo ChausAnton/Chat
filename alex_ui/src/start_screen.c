@@ -43,13 +43,13 @@ void start_screen() {
     gtk_entry_set_max_length(GTK_ENTRY(main_data.login_box.sign_in_data[1]), 28);
     gtk_box_pack_start(GTK_BOX(main_data.login_box.all_login_box), main_data.login_box.sign_in_data[1], FALSE, FALSE, 0);
 
-    main_data.login_box.log_or_pswd_err_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    gtk_widget_set_size_request(GTK_WIDGET(main_data.login_box.log_or_pswd_err_box), 380, 30);
-    gtk_box_pack_start(GTK_BOX(main_data.login_box.all_login_box), main_data.login_box.log_or_pswd_err_box, FALSE, FALSE, 0);
+    main_data.login_box.log_error_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_widget_set_size_request(GTK_WIDGET(main_data.login_box.log_error_box), 380, 30);
+    gtk_box_pack_start(GTK_BOX(main_data.login_box.all_login_box), main_data.login_box.log_error_box, FALSE, FALSE, 0);
 
     GtkWidget *incorrect_log_or_pswd_label = gtk_label_new("");
     gtk_widget_set_name(GTK_WIDGET(incorrect_log_or_pswd_label), "incorrect_log_or_pswd_label");
-    gtk_box_pack_start(GTK_BOX(main_data.login_box.log_or_pswd_err_box), incorrect_log_or_pswd_label, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(main_data.login_box.log_error_box), incorrect_log_or_pswd_label, FALSE, FALSE, 0);
 
     GtkWidget *signin_button = gtk_button_new_with_label ("Sign in");
     gtk_widget_set_name(GTK_WIDGET(signin_button), "signin_button");
