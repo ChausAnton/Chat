@@ -36,9 +36,7 @@ int sock;
 //10.11.7.7 anch
 #define SERVERADDR "10.11.7.7"
 #define SERVERPORT 8097
-pthread_t sniffer_thread;
 int new_chat_users_id[100];
-
 void *reader();
 void mx_printerr(const char *s);
 char **mx_strsplit(char const *s, char c);
@@ -184,6 +182,7 @@ void load_chat_list();
 /* load_chat_box.c */
 void load_right_chat_box();
 void load_messages_for_chat(int index, char *msg);
+void display_loaded_messages();
 
 /* chat_info.c */
 void show_chat_info(GtkWidget *widget);

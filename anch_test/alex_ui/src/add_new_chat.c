@@ -144,7 +144,8 @@ static void scrolling_chats() {
 }
 
 void add_new_chat() { 
-    
+    user_data.chat_array[user_data.amount_of_chat].msg_list = NULL;
+
     char *s_message = clear_client_message(NULL);
     send(sock, "@new_chat", strlen("@new_chat"), 0);
     recv(sock, s_message, 1000, 0);
@@ -161,6 +162,7 @@ void add_new_chat() {
         }
     }
 
+    user_data.chat_array[user_data.amount_of_chat].count_msg = 0;
     send(sock, mx_itoa(user_data.chat_array[user_data.amount_of_chat].count_users), strlen(mx_itoa(user_data.chat_array[user_data.amount_of_chat].count_users)), 0);
     recv(sock, s_message, 1000, 0);
 
@@ -201,8 +203,6 @@ void add_new_chat() {
 
     s_message = clear_client_message(s_message);
     recv(sock, s_message, 1000, 0);
-    mx_printerr(s_message);
-    mx_printerr(" asd fsd\n");
     user_data.chat_array[user_data.amount_of_chat].chat_id = atoi(s_message);
     send(sock, "@GET", strlen("@GET"), 0);
     s_message = clear_client_message(s_message);

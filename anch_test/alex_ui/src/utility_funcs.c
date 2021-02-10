@@ -46,7 +46,6 @@ void chat_click(GtkWidget *widget) {
     
     main_data.main_box.search_chat_id = chat_id;
     for(int i = 0; i < user_data.amount_of_chat; i++){
-        printf("%d  ", user_data.chat_array[i].chat_id );
         if(user_data.chat_array[i].chat_id == chat_id){
             main_data.main_box.search_chat_index = i;
             break;

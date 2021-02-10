@@ -30,8 +30,6 @@ void show_chat_info(GtkWidget *widget) {
     char *path = strdup(user_data.chat_array[main_data.main_box.search_chat_index].image_path);
     g_signal_connect(G_OBJECT(chat_info_avatar), "draw", G_CALLBACK(draw_user_settings_avatar), path); 
     
-    mx_printerr("Bruh1\n"); 
-
     GtkWidget *chat_info_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_name(GTK_WIDGET(chat_info_photo), "chat_info_photo");
     gtk_container_add(GTK_CONTAINER(chat_info_photo), chat_info_avatar);
@@ -41,8 +39,6 @@ void show_chat_info(GtkWidget *widget) {
     gtk_widget_set_halign(GTK_WIDGET(chat_name_label), GTK_ALIGN_START);
     gtk_widget_set_name(GTK_WIDGET(chat_name_label), "chat_name_label");
     gtk_box_pack_start(GTK_BOX(chat_info_box), chat_name_label, FALSE, FALSE, 0);
-
-    mx_printerr("Bruh2\n");
 
     char *usr_amnt = mx_strjoin(int_to_str(user_data.chat_array[main_data.main_box.search_chat_index].count_users), " users");
 
@@ -80,8 +76,6 @@ void show_chat_info(GtkWidget *widget) {
         gtk_container_add(GTK_CONTAINER(chat_info_photo), chat_info_avatar);
         gtk_widget_set_size_request(GTK_WIDGET(chat_info_photo), 50, 30);
         gtk_box_pack_start(GTK_BOX(search_chat_box), chat_info_photo, FALSE, FALSE, 0);
-
-        mx_printerr("Bruh3\n");
 
         GtkWidget* user_name_in_search = gtk_label_new(user_data.chat_array[main_data.main_box.search_chat_index].users_list[i].name);
         gtk_widget_set_name(GTK_WIDGET(user_name_in_search), "user_name_in_search");

@@ -62,8 +62,15 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
         text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
         text = mx_strtrim(text);
         if(strlen(text) == 0) return;
-        //printf("messsage: %s\n", text);
+
+        char *s_message = clear_client_message(NULL);
+        send(sock, "@message_send", strlen("@message_send"), 0);
+        recv(sock, s_message, 1000, 0);
+        s_message = clear_client_message(s_message);
         
+        send(sock, text, strlen(text), 0);
+        recv(sock, s_message, 1000, 0);
+        s_message = clear_client_message(s_message);
         display_message(text);
         
         g_free (text);

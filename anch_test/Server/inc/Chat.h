@@ -23,7 +23,7 @@
 #include <arpa/inet.h>
 #include <sys/types.h>
 #include <time.h>
-
+#include <assert.h>
 
 ////////gtk
 #include <gtk/gtk.h>
@@ -52,7 +52,8 @@ void user_data_synchronization(int sock, char *user_name);
 void new_chat(int sock, char *user_name);
 void search_user(int sock, char *user_name);
 void read_message(int sock, int chat_id);
-
+char **chat_chose(int sock, int *chat_id);
+void send_message(int sock, int chat_id, char *user_name);
 ////
 char *mx_strnew(const int size);
 int mx_strlen(const char *s);
