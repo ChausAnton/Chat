@@ -33,7 +33,7 @@ void show_user_settings(GtkWidget *widget) {
 
     //User settings photo
     user_data.user_settings_photo_event_box = gtk_event_box_new();
-    gtk_widget_set_name(GTK_WIDGET(user_data.user_settings_photo_event_box), "user_settings_photo_event_box");
+    //gtk_widget_set_name(GTK_WIDGET(user_data.user_settings_photo_event_box), "user_settings_photo_event_box");
     gtk_box_pack_start(GTK_BOX(scrollable_box), user_data.user_settings_photo_event_box, FALSE, FALSE, 0);
 
     user_data.user_settings_avatar = gtk_drawing_area_new();
@@ -98,7 +98,7 @@ void save_user_changes(GtkWidget *widget, GdkEventButton *event, gpointer *data)
     g_signal_connect(G_OBJECT(user_data.user_settings_avatar), "draw", G_CALLBACK(draw_user_settings_avatar), user_data.image_path);
     
     user_data.user_settings_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    gtk_widget_set_name(GTK_WIDGET(user_data.user_settings_photo), "top_chat_photo");
+    //gtk_widget_set_name(GTK_WIDGET(user_data.user_settings_photo), "top_chat_photo");
     gtk_container_add(GTK_CONTAINER(user_data.user_settings_photo), user_data.user_settings_avatar);
     gtk_container_add(GTK_CONTAINER(user_data.user_settings_photo_event_box), user_data.user_settings_photo);
 

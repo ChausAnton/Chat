@@ -14,7 +14,7 @@ void show_add_new_chat(GtkWidget *widget) {
     gtk_container_add(GTK_CONTAINER(main_data.main_box.add_new_chat_event_box), position_add_new_chat);
 
     GtkWidget *clickable_add_new_chat = gtk_event_box_new();
-    gtk_widget_set_name(GTK_WIDGET(clickable_add_new_chat), "clickable_add_new_chat");
+    //gtk_widget_set_name(GTK_WIDGET(clickable_add_new_chat), "clickable_add_new_chat");
     gtk_widget_set_halign(GTK_WIDGET(clickable_add_new_chat), GTK_ALIGN_END);
     gtk_widget_set_valign(GTK_WIDGET(clickable_add_new_chat), GTK_ALIGN_END);
     g_signal_connect(G_OBJECT(clickable_add_new_chat), "button_press_event", G_CALLBACK(gtk_widget_show), NULL);
@@ -170,7 +170,7 @@ void add_new_chat() {
     //user_data.chat_array[user_data.amount_of_chat-1].count_users = amount(users_id);
     //user_data.chat_array[user_data.amount_of_chat-1].chat_id = last(chat_id in db);
     user_data.chat_array[index_new].chat_id = user_data.total_chats;
-    user_data.chat_array[index_new].image_path = strdup("resource/images/stickers/051-happy-5.png");
+    user_data.chat_array[index_new].image_path = strdup("resource/images/stickers/sticker_25.png");
 
     user_data.chat_array[index_new].chat_button = gtk_event_box_new();
     gtk_widget_set_name(GTK_WIDGET(user_data.chat_array[index_new].chat_button), "chat_button");

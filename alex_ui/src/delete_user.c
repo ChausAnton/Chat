@@ -13,7 +13,7 @@ void show_delete_user(GtkWidget *widget) {
     gtk_container_add(GTK_CONTAINER(main_data.main_box.add_new_chat_event_box), position_add_new_chat);
 
     GtkWidget *clickable_add_new_chat = gtk_event_box_new();
-    gtk_widget_set_name(GTK_WIDGET(clickable_add_new_chat), "clickable_add_new_chat");
+    //gtk_widget_set_name(GTK_WIDGET(clickable_add_new_chat), "clickable_add_new_chat");
     gtk_widget_set_halign(GTK_WIDGET(clickable_add_new_chat), GTK_ALIGN_END);
     gtk_widget_set_valign(GTK_WIDGET(clickable_add_new_chat), GTK_ALIGN_END);
     g_signal_connect(G_OBJECT(clickable_add_new_chat), "button_press_event", G_CALLBACK(gtk_widget_show), NULL);
@@ -137,7 +137,7 @@ void delete_user() {
     
     user_data.chat_array[main_data.main_box.search_chat_id].count_users = usr_amnt;
     load_right_chat_box();
-    printf("usr_amnt: %d\n", usr_amnt);
+    //printf("usr_amnt: %d\n", usr_amnt);
 
     for(int i = 0; i < 100; i++) new_chat_users_id[i] = -1;
 

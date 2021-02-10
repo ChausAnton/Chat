@@ -33,7 +33,7 @@ void show_edit_chat(GtkWidget *widget) {
 
     //Chat photo
     user_data.chat_array[main_data.main_box.search_chat_id].chat_settings_photo_event_box = gtk_event_box_new();
-    gtk_widget_set_name(GTK_WIDGET(user_data.chat_array[main_data.main_box.search_chat_id].chat_settings_photo_event_box), "user_settings_photo_event_box");
+    //gtk_widget_set_name(GTK_WIDGET(user_data.chat_array[main_data.main_box.search_chat_id].chat_settings_photo_event_box), "user_settings_photo_event_box");
     gtk_box_pack_start(GTK_BOX(scrollable_box), user_data.chat_array[main_data.main_box.search_chat_id].chat_settings_photo_event_box, FALSE, FALSE, 0);
 
     user_data.chat_array[main_data.main_box.search_chat_id].chat_settings_avatar = gtk_drawing_area_new();
@@ -103,7 +103,7 @@ void save_edit_chat_changes(GtkWidget *widget, GdkEventButton *event, gpointer *
     g_signal_connect(G_OBJECT(user_data.chat_array[main_data.main_box.search_chat_id].chat_box_avatar), "draw", G_CALLBACK(draw_chat_avatar), user_data.chat_array[main_data.main_box.search_chat_id].image_path);
     
     user_data.chat_array[main_data.main_box.search_chat_id].chat_box_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    gtk_widget_set_name(GTK_WIDGET(user_data.chat_array[main_data.main_box.search_chat_id].chat_box_photo), "top_chat_photo");
+    //gtk_widget_set_name(GTK_WIDGET(user_data.chat_array[main_data.main_box.search_chat_id].chat_box_photo), "top_chat_photo");
     gtk_container_add(GTK_CONTAINER(user_data.chat_array[main_data.main_box.search_chat_id].chat_box_photo), user_data.chat_array[main_data.main_box.search_chat_id].chat_box_avatar);
     gtk_container_add(GTK_CONTAINER(user_data.chat_array[main_data.main_box.search_chat_id].chat_box_photo_event_box), user_data.chat_array[main_data.main_box.search_chat_id].chat_box_photo);
 
