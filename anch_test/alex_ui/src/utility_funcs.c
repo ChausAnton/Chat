@@ -56,12 +56,7 @@ void chat_click(GtkWidget *widget) {
     g_list_free(g_steal_pointer(&parent));
 
     load_right_chat_box();
-    
-    pthread_t sniffer_thread = NULL;
-	if( pthread_create( &sniffer_thread , NULL ,  reader , NULL) < 0) {
-		perror("could not create thread");
-		return;
-	}
+    thread_info = strdup("start");
 }
 
 void event_enter_notify_search(GtkWidget *widget) {

@@ -21,23 +21,22 @@ void sign_in_thread(int sock_to) {
 void *reader() {
 	int sock_to;
 	sock_work(&sock_to);
+    while(thread_info == NULL) {};
+    display_loaded_messages();
     sign_in_thread(sock_to);
 
-    display_loaded_messages();
 
 	while(1) {
-        mx_printerr("!!!!!!!!!!\n");
+        
         char *s_message = clear_client_message(NULL);
         send(sock_to, "@message_read", strlen("@message_read"), 0);
         recv(sock_to, s_message, 2000, 0);
         s_message = clear_client_message(s_message);
-        mx_printerr("@@@@@@@@@@@@@@@@@@\n");
 
         recv(sock_to, s_message, 2000, 0);
         send(sock_to, "@GET", strlen("@GET"), 0);
         int s_count = atoi(s_message);
         s_message = clear_client_message(s_message);
-        mx_printerr("***************\n");
 
         int count = user_data.chat_array[main_data.main_box.search_chat_index].count_msg;
         mx_printerr("\nbadum: ");

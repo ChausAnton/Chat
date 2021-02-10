@@ -1,6 +1,7 @@
 #include "Chat.h"
 
 void read_message(int sock, int chat_id) {
+
 	char *message = clear_client_message(NULL);
 
 	int count = db_get_count_msg_for_chat(chat_id, db);

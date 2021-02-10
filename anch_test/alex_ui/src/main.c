@@ -71,6 +71,13 @@ void sock_work(int *sock_new) {
 int main(int argc, char *argv[]) {
     sock_work(&sock);
 
+	thread_info = NULL;
+	pthread_t sniffer_thread = NULL;
+	if( pthread_create( &sniffer_thread , NULL ,  reader , NULL) < 0) {
+		perror("could not create thread");
+		return 1;
+	}
+
     gtk_init(&argc, &argv);
 
     main_data.window = gtk_window_new(GTK_WINDOW_TOPLEVEL);

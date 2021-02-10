@@ -37,6 +37,7 @@ int sock;
 #define SERVERADDR "10.11.7.7"
 #define SERVERPORT 8097
 int new_chat_users_id[100];
+char *thread_info;
 void *reader();
 void mx_printerr(const char *s);
 char **mx_strsplit(char const *s, char c);
