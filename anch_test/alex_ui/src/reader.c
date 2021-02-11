@@ -29,12 +29,37 @@ void main_reader(int sock_to) {
 
         int user_num = user_data.chat_array[main_data.main_box.search_chat_index].count_msg;
         send(sock_to, mx_itoa(user_num), strlen(mx_itoa(user_num)),0);
-
         recv(sock_to, s_message, 1000, 0);
         int server_num = atoi(s_message);
+        s_message = clear_client_message(s_message);
 
-        mx_printerr(mx_itoa(server_num));
-        mx_printerr("\n");
+
+         if(user_num != server_num) {
+            user_data.chat_array[main_data.main_box.search_chat_index].count_msg = server_num;
+        }
+
+        int messages_num = server_num - user_num;
+	    if (messages_num < 0) {
+		    messages_num = messages_num * -1;
+	    }
+
+        if(user_data.chat_array[main_data.main_box.search_chat_index].msg_list == NULL){
+            user_data.chat_array[main_data.main_box.search_chat_index].msg_list = (t_message *)malloc(sizeof(t_message) * 30000);
+        }
+
+        for(int i = 0; i < messages_num; i++) {
+            send(sock_to, "@message_size", strlen("@message_size"), 0);
+            recv(sock_to, s_message, 1000, 0);
+            int message_size = atoi(s_message);
+            s_message = clear_client_message(s_message);
+
+            char *message_user = (char *) malloc(sizeof(char) * message_size);
+            send(sock_to, "@message_user", strlen("@message_user"), 0);
+            recv(sock_to, message_user, message_size, 0);
+
+            mx_printerr(message_user);
+	        mx_printerr("\n");
+        }
 }
 
 void *reader() {

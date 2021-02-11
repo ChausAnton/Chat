@@ -13,12 +13,28 @@ void read_message(int sock) {
 	message = clear_client_message(message);
 
 	int server_num = db_get_count_msg_for_chat(chat_id, db);
-	send(sock, "4", strlen("4"), 0);
-
+	send(sock, mx_itoa(server_num), strlen(mx_itoa(server_num)), 0);
 	message = clear_client_message(message);
 
-	mx_printerr(mx_itoa(server_num));
-	mx_printerr("\n");
+	int messages_num = user_num - server_num;
+	if (messages_num < 0) {
+		messages_num = messages_num * -1;
+	}
+	char **messages = get_msg_for_chat_from_the_num(user_num, chat_id, db);//from to 
+	for(int i = 0; i < messages_num; i++) {
+		int size = strlen(messages[i]);
+
+		recv(sock, message, 1000, 0);
+		send(sock, mx_itoa(size), strlen(mx_itoa(size)), 0);
+		message = clear_client_message(message);
+
+		recv(sock, message, 1000, 0);
+		send(sock, messages[i], strlen(messages[i]), 0);
+		message = clear_client_message(message);
+
+		mx_printerr(messages[i]);
+	    mx_printerr("\n");
+	}
 }
 
 
@@ -52,7 +68,7 @@ void send_message(int sock, int chat_id, char *user_name) {
     mx_printerr(date);
 	int msg_id_in_chat = db_get_count_msg_for_chat(chat_id, db);
 
-	db_add_msg(msg_id_in_chat, chat_id, user_id, date, text);
+	db_add_msg(msg_id_in_chat + 1, chat_id, user_id, date, text);
 	free(text);
 	free(message);
 }
