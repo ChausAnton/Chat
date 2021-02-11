@@ -78,6 +78,10 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
+	//mx_printerr("socket to: ");
+   // mx_printerr(mx_itoa(sock));
+    //mx_printerr("\n");
+
     gtk_init(&argc, &argv);
 
     main_data.window = gtk_window_new(GTK_WINDOW_TOPLEVEL);

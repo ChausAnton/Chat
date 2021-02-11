@@ -56,7 +56,9 @@ void chat_click(GtkWidget *widget) {
     g_list_free(g_steal_pointer(&parent));
 
     load_right_chat_box();
-    thread_info = strdup("start");
+    if(thread_info != NULL) 
+        display_loaded_messages();
+    thread_info = strdup(mx_itoa(chat_id));
 }
 
 void event_enter_notify_search(GtkWidget *widget) {

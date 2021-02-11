@@ -10,6 +10,8 @@ void *connection_handler(void *new_sock) {
 	char *client_message = clear_client_message(NULL);
 	char *user_name = NULL;
 
+	mx_printerr(mx_itoa(sock_from));
+	mx_printerr("\n");
 	while(1) {
 		recv(sock_from , client_message , 2000 , 0);
 		send(sock_from, "@GET", strlen("@GET"), 0);
@@ -45,7 +47,7 @@ void *connection_handler(void *new_sock) {
 			char **chat_chose_users_id = chat_chose(sock_from, &chat_id_g);
 		}
 		if (strcmp(client_message, "@message_read") == 0) {
-			read_message(sock_from, chat_id_g);
+			read_message(sock_from);
 		}
 
 		if (strcmp(client_message, "@exit_client") == 0) {

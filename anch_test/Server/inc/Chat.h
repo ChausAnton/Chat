@@ -2,7 +2,7 @@
 #ifndef chat
 #define chat
 
-#define SERVERPORT 8097
+#define SERVERPORT 8096
 
 #include <stdio.h>
 #include <unistd.h>
@@ -51,7 +51,7 @@ void mx_printerr(const char *s);
 void user_data_synchronization(int sock, char *user_name);
 void new_chat(int sock, char *user_name);
 void search_user(int sock, char *user_name);
-void read_message(int sock, int chat_id);
+void read_message(int sock);
 char **chat_chose(int sock, int *chat_id);
 void send_message(int sock, int chat_id, char *user_name);
 ////
