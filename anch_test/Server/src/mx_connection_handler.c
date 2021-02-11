@@ -40,12 +40,9 @@ void *connection_handler(void *new_sock) {
 			new_chat(sock_from, user_name);
 		}
 		if (strcmp(client_message, "@message_send") == 0) {
-			send_message(sock_from, chat_id_g, user_name);
+			send_message(sock_from, user_name);
 		}
-		
-		if(strcmp(client_message, "@chat_chose") == 0) {
-			char **chat_chose_users_id = chat_chose(sock_from, &chat_id_g);
-		}
+	
 		if (strcmp(client_message, "@message_read") == 0) {
 			read_message(sock_from);
 		}

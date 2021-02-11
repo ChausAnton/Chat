@@ -4,7 +4,7 @@
 int main(int argc, char *argv[]) {
     int socket_desc , client_sock , c , *new_sock;
 	struct sockaddr_in server , client;
-	
+	server_access = true;
 	db_open("database/uchat.db", &db);
 
 	db_add_user("a", "1");
