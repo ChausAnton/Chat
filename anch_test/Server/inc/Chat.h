@@ -2,7 +2,7 @@
 #ifndef chat
 #define chat
 
-#define SERVERPORT 8096
+#define SERVERPORT 8095
 
 #include <stdio.h>
 #include <unistd.h>

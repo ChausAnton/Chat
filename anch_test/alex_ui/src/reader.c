@@ -53,12 +53,22 @@ void main_reader(int sock_to) {
             int message_size = atoi(s_message);
             s_message = clear_client_message(s_message);
 
-            char *message_user = (char *) malloc(sizeof(char) * message_size);
+            char *message_user = (char *) malloc(sizeof(char) * message_size + 1);
+            message_user[message_size] = '\0';
             send(sock_to, "@message_user", strlen("@message_user"), 0);
             recv(sock_to, message_user, message_size, 0);
 
+            load_messages_for_chat(user_num + i, message_user);
+
             mx_printerr(message_user);
 	        mx_printerr("\n");
+            free(message_user);
+
+            if(i == messages_num - 1){
+                gtk_widget_hide(main_data.main_box.right_chat_box);
+                gtk_widget_show_all(main_data.main_box.right_chat_box);
+            }
+
         }
 }
 
