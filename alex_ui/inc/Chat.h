@@ -54,6 +54,11 @@ typedef struct s_reg_box {
     GtkWidget *reg_error_box;
 }   t_reg_box;
 
+typedef struct s_reload_box {
+    const gchar *css;
+    GtkWidget *all_reload_box;
+}   t_reload_box;
+
 typedef struct s_chat_list {
     int chat_id;
     char* chat_name;
@@ -139,6 +144,7 @@ typedef struct s_main_data {
     GtkCssProvider *styles;
     t_login_box login_box;
     t_reg_box reg_box;
+    t_reload_box reload_box;
     t_main_box main_box;
 }   t_main_data;
 
@@ -231,6 +237,9 @@ void load_right_chat_box();
 
 /* chat_info.c */
 void show_chat_info(GtkWidget *widget);
+
+/* reload_screen.c */
+void reload_screen();
 
 /* Chat settings */
 

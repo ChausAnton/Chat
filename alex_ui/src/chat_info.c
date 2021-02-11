@@ -13,7 +13,7 @@ void show_chat_info(GtkWidget *widget) {
     gtk_container_add(GTK_CONTAINER(chat_info_event_box), position_chat_info);
 
     GtkWidget *clickable_chat_info = gtk_event_box_new();
-    gtk_widget_set_name(GTK_WIDGET(clickable_chat_info), "clickable_chat_info");
+    //gtk_widget_set_name(GTK_WIDGET(clickable_chat_info), "clickable_chat_info");
     gtk_widget_set_halign(GTK_WIDGET(clickable_chat_info), GTK_ALIGN_END);
     gtk_widget_set_valign(GTK_WIDGET(clickable_chat_info), GTK_ALIGN_END);
     g_signal_connect(G_OBJECT(clickable_chat_info), "button_press_event", G_CALLBACK(gtk_widget_show), NULL);

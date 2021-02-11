@@ -19,7 +19,7 @@ void delete_chat() {
     gtk_widget_destroy(main_data.main_box.chat_bar_scroll);
 
     main_data.main_box.right_chat_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    gtk_widget_set_name(GTK_WIDGET(main_data.main_box.right_chat_box), "chat_box");
+    //gtk_widget_set_name(GTK_WIDGET(main_data.main_box.right_chat_box), "chat_box");
     gtk_widget_set_size_request(GTK_WIDGET(main_data.main_box.right_chat_box), WINDOW_SIZE_X - 310, WINDOW_SIZE_Y);
     gtk_fixed_put(GTK_FIXED(main_data.main_box.main_fixed), main_data.main_box.right_chat_box, 310, 0);
 

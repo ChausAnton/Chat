@@ -111,7 +111,7 @@ void obtained_emoji_click(GtkWidget *widget, GdkEventButton *event, gpointer *st
 void show_emoji_box(GtkWidget *widget) {
 
     GtkWidget *emoji_event_box = gtk_event_box_new();
-    gtk_widget_set_name(GTK_WIDGET(emoji_event_box), "emoji_event_box");
+    //gtk_widget_set_name(GTK_WIDGET(emoji_event_box), "emoji_event_box");
     gtk_widget_set_size_request(GTK_WIDGET(emoji_event_box), 1400, 900);
     g_signal_connect(G_OBJECT(emoji_event_box), "button_press_event", G_CALLBACK(unpress_event_box), widget);
     gtk_fixed_put(GTK_FIXED(main_data.activity_block), emoji_event_box, 0, 0);
@@ -143,7 +143,7 @@ void show_emoji_box(GtkWidget *widget) {
     for(int i = 2; i <= 20; i++) {
           for(int j = 1; j <= 3; j++) {
             single_emoji = gtk_event_box_new();  
-            gtk_widget_set_name(GTK_WIDGET(single_emoji), "emoji");
+            //gtk_widget_set_name(GTK_WIDGET(single_emoji), "emoji");
             gtk_grid_attach(GTK_GRID(emoji_grid), single_emoji, j, i, 1, 1);
 
             GtkWidget *sticker_photo = gtk_drawing_area_new();

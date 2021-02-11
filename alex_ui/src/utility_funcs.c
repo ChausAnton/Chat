@@ -147,7 +147,7 @@ void search_user_click(GtkWidget *widget) {
     GList *children = gtk_container_get_children(GTK_CONTAINER(parent->data));
     children = children->next->next;
     int user_id = atoi((char *)gtk_label_get_text(GTK_LABEL(children->data)));
-    printf("Search_user_id: %d\n", user_id);
+    //printf("Search_user_id: %d\n", user_id);
 
     g_list_free(g_steal_pointer(&children));
     g_list_free(g_steal_pointer(&parent));
@@ -210,10 +210,10 @@ void sign_in() {
 
     char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[0])));
     name = mx_strtrim(name);
-    printf("login: %s\n", name);
+    //printf("login: %s\n", name);
     char *password = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[1])));
     password = mx_strtrim(password);
-    printf("password: %s\n", password);
+    //printf("password: %s\n", password);
     
     if(TRUE) {
 
@@ -241,13 +241,13 @@ void sign_up() {
 
     char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[0])));
     name = mx_strtrim(name);
-    printf("login: %s\n", name);
+    //printf("login: %s\n", name);
     char *password = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[1])));
     password = mx_strtrim(password);
-    printf("password: %s\n", password);
+    //printf("password: %s\n", password);
     char *repeat_password = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[2])));
     repeat_password = mx_strtrim(repeat_password);
-    printf("repeat password: %s\n", repeat_password);
+    //printf("repeat password: %s\n", repeat_password);
 
     if(TRUE) {
 
@@ -302,7 +302,7 @@ void logout(GtkWidget *widget, GdkEventButton *event) {
         gtk_widget_set_halign(GTK_WIDGET(clickable_logout), GTK_ALIGN_CENTER);
         gtk_widget_set_valign(GTK_WIDGET(clickable_logout), GTK_ALIGN_CENTER);
         gtk_widget_set_size_request(GTK_WIDGET(clickable_logout), 300, 130);
-        gtk_fixed_put(GTK_FIXED(position_logout), clickable_logout, 580, 300);
+        gtk_fixed_put(GTK_FIXED(position_logout), clickable_logout, 550, 385);
         g_signal_connect(G_OBJECT(clickable_logout), "button_press_event", G_CALLBACK(gtk_widget_show), NULL);
 
         GtkWidget *logout_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
@@ -411,7 +411,7 @@ void added_same_user_to_chat() {
     gtk_box_pack_start(GTK_BOX(added_same_user_box), added_same_user_label, FALSE, FALSE, 0);
 
     GtkWidget *added_same_user_box_for_buttons = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 1);
-    gtk_widget_set_name(GTK_WIDGET(added_same_user_box_for_buttons), "added_same_user_box_for_buttons");
+    //gtk_widget_set_name(GTK_WIDGET(added_same_user_box_for_buttons), "added_same_user_box_for_buttons");
     gtk_box_pack_start(GTK_BOX(added_same_user_box), added_same_user_box_for_buttons, FALSE, FALSE, 10);
 
     GtkWidget *ok_button = gtk_button_new_with_label ("Ok");

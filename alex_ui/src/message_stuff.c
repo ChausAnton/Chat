@@ -296,7 +296,7 @@ void obtained_message_file(GtkWidget *widget, GdkEventButton *event, gpointer *m
             
             if(strlen(text) != 0){
                 GtkWidget *obtained_message = gtk_label_new(text);
-                gtk_widget_set_name(GTK_WIDGET(obtained_message), "obtained_message_with_file");
+                //gtk_widget_set_name(GTK_WIDGET(obtained_message), "obtained_message_with_file");
                 gtk_widget_set_halign(GTK_WIDGET(obtained_message), GTK_ALIGN_START);
                 gtk_widget_set_valign(GTK_WIDGET(obtained_message), GTK_ALIGN_START);
                 gtk_label_set_selectable(GTK_LABEL(obtained_message), TRUE);

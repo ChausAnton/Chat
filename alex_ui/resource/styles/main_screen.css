@@ -671,7 +671,8 @@
         color: whitesmoke;
         font: 14px PTSansPro-Demi;
     }
-/**********LOGOUT**********/
+    
+/* Logout */
 #logout_event_box {
     background: rgba(0, 0, 0, 0.4);
 }
