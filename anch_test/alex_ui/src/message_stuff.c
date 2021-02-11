@@ -54,7 +54,7 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
 
     if (widget) {}
     if(event->type == GDK_BUTTON_PRESS && event->button == 1){
-
+        barashka = false;
         GtkTextIter start, end;
         gchar *text;
         GtkTextBuffer *buffer = gtk_text_view_get_buffer((GtkTextView *)messsage);
@@ -64,7 +64,7 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
         text = mx_strtrim(text);
         if(strlen(text) == 0) return;
 
-        int msg_index = user_data.chat_array[main_data.main_box.search_chat_index].count_msg;
+        int msg_index = user_data.chat_array[main_data.main_box.search_chat_index].count_msg - 1;
 
         user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].msg_id_in_chat = msg_index+1; //Msg id in selected chat
         user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].chat_id = main_data.main_box.search_chat_id;//Chat id where msg
@@ -84,7 +84,7 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
         user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].date = strdup(time_message); //Date of message
         user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].text = strdup(text);//Text of message
 
-        //user_data.chat_array[main_data.main_box.search_chat_index].count_msg++;
+        user_data.chat_array[main_data.main_box.search_chat_index].count_msg++;
 
         mx_printerr("Behind serever send\n");
 
@@ -104,6 +104,7 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
 
         g_free (text);
         gtk_text_view_set_buffer ((GtkTextView *)messsage, NULL);
+        barashka = true;
     }
 }
 

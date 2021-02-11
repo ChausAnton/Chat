@@ -71,6 +71,7 @@ void load_messages_for_chat(int index, char *msg){
 }
 
 void load_right_chat_box() {
+    barashka = true;
     gtk_widget_destroy(main_data.main_box.right_chat_box);
     
     // Chat box

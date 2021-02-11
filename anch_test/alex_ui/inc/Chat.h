@@ -42,7 +42,7 @@ void *reader();
 void mx_printerr(const char *s);
 char **mx_strsplit(char const *s, char c);
 void sock_work(int *sock_new);
-
+bool barashka;
 enum chat_settings_message {RENAME_CHAT = 1, ADD_USER, DELETE_USER, DELETE_CHAT, CHANGE_CHAT_IMAGE};
 
 typedef struct s_login_box {
