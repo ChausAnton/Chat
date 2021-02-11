@@ -289,7 +289,7 @@ void logout(GtkWidget *widget, GdkEventButton *event) {
         gtk_widget_set_halign(GTK_WIDGET(clickable_logout), GTK_ALIGN_CENTER);
         gtk_widget_set_valign(GTK_WIDGET(clickable_logout), GTK_ALIGN_CENTER);
         gtk_widget_set_size_request(GTK_WIDGET(clickable_logout), 300, 130);
-        gtk_fixed_put(GTK_FIXED(position_logout), clickable_logout, 580, 300);
+        gtk_fixed_put(GTK_FIXED(position_logout), clickable_logout, 550, 385);
         g_signal_connect(G_OBJECT(clickable_logout), "button_press_event", G_CALLBACK(gtk_widget_show), NULL);
 
         GtkWidget *logout_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);

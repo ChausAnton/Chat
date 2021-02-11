@@ -24,6 +24,7 @@ int main(int argc, char *argv[]) {
     main_data.main_box.css = "resource/styles/main_screen.css";
     main_data.login_box.css = "resource/styles/sign_in.css";
     main_data.reg_box.css = "resource/styles/sign_up.css";
+    main_data.reload_box.css = "resource/styles/reload_screen.css";
 
     start_screen();
      
