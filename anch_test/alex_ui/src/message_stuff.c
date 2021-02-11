@@ -64,7 +64,7 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
         text = mx_strtrim(text);
         if(strlen(text) == 0) return;
 
-        int msg_index = user_data.chat_array[main_data.main_box.search_chat_index].count_msg - 1;
+        int msg_index = user_data.chat_array[main_data.main_box.search_chat_index].count_msg;
 
         user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].msg_id_in_chat = msg_index+1; //Msg id in selected chat
         user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].chat_id = main_data.main_box.search_chat_id;//Chat id where msg
@@ -89,6 +89,12 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
         mx_printerr("Behind serever send\n");
 
         char *s_message = clear_client_message(NULL);
+
+        send(sock, thread_info, strlen(thread_info), 0);
+        recv(sock, s_message, 1000, 0);
+        s_message = clear_client_message(s_message);
+
+
         send(sock, "@message_send", strlen("@message_send"), 0);
         recv(sock, s_message, 1000, 0);
         s_message = clear_client_message(s_message);
@@ -101,10 +107,10 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
         display_message(text);
 
         mx_printerr("After serever send\n");
+        barashka = true;
 
         g_free (text);
         gtk_text_view_set_buffer ((GtkTextView *)messsage, NULL);
-        barashka = true;
     }
 }
 

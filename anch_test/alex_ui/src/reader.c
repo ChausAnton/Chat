@@ -1,4 +1,5 @@
 #include "../inc/Chat.h"
+char *check;
 
 void sign_in_thread(int sock_to) {
     char *s_message = clear_client_message(NULL);
@@ -18,14 +19,14 @@ void sign_in_thread(int sock_to) {
 }
 
 void main_reader(int sock_to) {
-        while(barashka == false) {};
+    if(barashka == true) {
         
         char *s_message = clear_client_message(NULL);
         send(sock_to, "@message_read", strlen("@message_read"), 0);
         recv(sock_to, s_message, 1000, 0);
         s_message = clear_client_message(s_message);
 
-        send(sock_to, thread_info, strlen(thread_info), 0);
+        send(sock_to, check, strlen(check), 0);
         recv(sock_to, s_message, 1000, 0);
         s_message = clear_client_message(s_message);
 
@@ -71,6 +72,7 @@ void main_reader(int sock_to) {
             }
 
         }
+    }
 }
 
 void *reader() {
@@ -81,8 +83,9 @@ void *reader() {
     sign_in_thread(sock_to);
 
     while(1) {
+        check = strdup(thread_info);
         main_reader(sock_to);
     }
 
-    
+    return 0;
 }
