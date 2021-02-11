@@ -23,6 +23,8 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <time.h>
+#include <assert.h>
 
 // Gtk
 #include <gtk/gtk.h>
@@ -34,13 +36,12 @@ int sock;
 //ipconfig getifaddr en0 for get ip
 //10.11.7.8 ansh
 //10.11.7.7 anch
-#define SERVERADDR "10.11.7.7"
+#define SERVERADDR "10.11.7.8"
 #define SERVERPORT 8095
 int new_chat_users_id[100];
 char *thread_info;
 void *reader();
 void mx_printerr(const char *s);
-char **mx_strsplit(char const *s, char c);
 void sock_work(int *sock_new);
 bool barashka;
 enum chat_settings_message {RENAME_CHAT = 1, ADD_USER, DELETE_USER, DELETE_CHAT, CHANGE_CHAT_IMAGE};
@@ -173,6 +174,8 @@ gboolean draw_sticker_photo(GtkWidget *widget, cairo_t *cr, char* path);
 char *mx_strjoin(const char *s1, const char *s2);
 char *int_to_str(int num);
 char *mx_strtrim(const char *str);
+bool mx_isdigit(int c);
+char **mx_strsplit(char const *s, char c);
 
 /* load_data.c */
 void load_data_for_user();

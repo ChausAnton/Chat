@@ -18,6 +18,7 @@ void search_user(int sock, char *user_name) {
 	server_access = false;
 	int user_id = db_get_user_id(user_name2, db);
 	server_access = true;
+
 	send(sock, mx_itoa(user_id), strlen(mx_itoa(user_id)), 0);
 	recv(sock, message, 1000, 0);
 	message = clear_client_message(message);

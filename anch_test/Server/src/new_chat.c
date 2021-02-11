@@ -12,7 +12,7 @@ void new_chat(int sock, char *user_name) {
 	db_add_chat(size, "New Chat", db);
 	int last_chat = db_get_last_chat_id(db);
 	server_access = true;
-	
+
 	message = clear_client_message(message);
 
 	char **users_id = (char **) malloc(sizeof(char *) * size);
@@ -31,6 +31,7 @@ void new_chat(int sock, char *user_name) {
 		server_access = false;
 		char *login = db_get_user_login(atoi(users_id[i]), db);
 		server_access = true;
+
 		send(sock, login, strlen(login), 0);
 		recv(sock, message, 1000, 0);
 		message = clear_client_message(message);//user login
@@ -39,6 +40,7 @@ void new_chat(int sock, char *user_name) {
 		server_access = false;
 		message = db_get_user_name(login, db);
 		server_access = true;
+
 		send(sock, message, strlen(message), 0);
 		recv(sock, message, 1000, 0);
 		message = clear_client_message(message);//user name
@@ -47,6 +49,7 @@ void new_chat(int sock, char *user_name) {
 		server_access = false;
 		message = db_get_user_image_path(login, db);
 		server_access = true;
+
 		if (*message == '\0')
 			message = strdup("resource/images/anonymous.png");
 
