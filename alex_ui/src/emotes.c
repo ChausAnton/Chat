@@ -15,7 +15,7 @@ void emoji_click(GtkWidget *widget, GdkEventButton *event, gpointer *sticker_pat
     if(event->type == GDK_BUTTON_PRESS && event->button == 1){
         GtkWidget *message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
         gtk_widget_set_name(GTK_WIDGET(message_body), "send_emoji");
-        gtk_box_pack_start(GTK_BOX(main_data.main_box.messanges_area_for_scroll), message_body, FALSE, FALSE, 0);
+        gtk_box_pack_start(GTK_BOX(main_data.main_box.messages_area_for_scroll), message_body, FALSE, FALSE, 0);
 
         GtkWidget *message_body_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
         gtk_box_pack_end(GTK_BOX(message_body), message_body_box, FALSE, FALSE, 0);
@@ -35,6 +35,9 @@ void emoji_click(GtkWidget *widget, GdkEventButton *event, gpointer *sticker_pat
 
         gtk_box_pack_start(GTK_BOX(message_body_box), message_file, FALSE, FALSE, 0);
         
+        char* sticker_num = mx_strsplit(mx_strsplit((char *)sticker_path, '_')[1], '.')[0];
+        printf("Sticker num: %s\n", sticker_num);
+
         time_t rawtime;
             struct tm * timeinfo;
             time ( &rawtime );
@@ -63,7 +66,7 @@ void obtained_emoji_click(GtkWidget *widget, GdkEventButton *event, gpointer *st
     if(event->type == GDK_BUTTON_PRESS && event->button == 1){
         GtkWidget *obtained_message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
         gtk_widget_set_name(GTK_WIDGET(obtained_message_body), "obtained_emoji");
-        gtk_box_pack_start(GTK_BOX(main_data.main_box.messanges_area_for_scroll), obtained_message_body, FALSE, FALSE, 0);
+        gtk_box_pack_start(GTK_BOX(main_data.main_box.messages_area_for_scroll), obtained_message_body, FALSE, FALSE, 0);
 
         GtkWidget *obtained_message_body_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
         gtk_box_pack_start(GTK_BOX(obtained_message_body), obtained_message_body_box, FALSE, FALSE, 0);

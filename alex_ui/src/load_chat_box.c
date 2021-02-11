@@ -59,18 +59,26 @@ void load_right_chat_box() {
             gtk_container_add(GTK_CONTAINER(main_data.main_box.chat_settings_button), chat_settings_button_box);
 
         // Chat's messages area
-        GtkWidget *messages_area = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-        //gtk_widget_set_name(GTK_WIDGET(messages_area), "messages_area");
-        gtk_box_pack_start(GTK_BOX(main_data.main_box.right_chat_box), messages_area, FALSE, FALSE, 0);
-        //gtk_fixed_put(GTK_FIXED(main_fixed), messanges_area, 310, 73);
+        GtkWidget *chatting_area_event_box = gtk_event_box_new();
+        gtk_widget_set_events(GTK_WIDGET(chatting_area_event_box), GDK_SCROLL_MASK);
+        gtk_widget_set_size_request(GTK_WIDGET(chatting_area_event_box), 200, 200);
+        gtk_widget_set_name(GTK_WIDGET(chatting_area_event_box), "messages_area");
+        gtk_box_pack_start(GTK_BOX(main_data.main_box.right_chat_box), chatting_area_event_box, FALSE, FALSE, 0);
 
+        GtkWidget *chatting_area = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+        gtk_widget_set_name(GTK_WIDGET(chatting_area), "messages_area");
+        gtk_container_add(GTK_CONTAINER(chatting_area_event_box), chatting_area);
+  
             main_data.main_box.messages_area_scroll = gtk_scrolled_window_new(NULL, NULL);
-            gtk_scrolled_window_set_kinetic_scrolling(GTK_SCROLLED_WINDOW( main_data.main_box.messages_area_scroll), TRUE);
-            gtk_widget_set_size_request(GTK_WIDGET( main_data.main_box.messages_area_scroll), 200, 760);
-            gtk_box_pack_start(GTK_BOX(messages_area),  main_data.main_box.messages_area_scroll, TRUE, TRUE, 0);   
+            gtk_widget_set_size_request(GTK_WIDGET(main_data.main_box.messages_area_scroll), WINDOW_SIZE_X - 310, 780);
+            gtk_box_pack_start(GTK_BOX(chatting_area),  main_data.main_box.messages_area_scroll, FALSE, FALSE, 0);
 
-            main_data.main_box.messanges_area_for_scroll = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
-            gtk_container_add(GTK_CONTAINER( main_data.main_box.messages_area_scroll),  main_data.main_box.messanges_area_for_scroll);
+            main_data.main_box.vadj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.messages_area_scroll)); 
+
+            g_signal_connect(main_data.main_box.messages_area_scroll, "scroll_event", G_CALLBACK(scroll_handler), NULL);
+            
+            main_data.main_box.messages_area_for_scroll = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+            gtk_container_add(GTK_CONTAINER(main_data.main_box.messages_area_scroll),  main_data.main_box.messages_area_for_scroll);
 
         // Bottom area
         GtkWidget *bottom_area = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);

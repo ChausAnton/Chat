@@ -28,7 +28,7 @@ void display_message(char *message_text) {
     
     GtkWidget *message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
     gtk_widget_set_name(GTK_WIDGET(message_body), "message_body");
-    gtk_box_pack_start(GTK_BOX(main_data.main_box.messanges_area_for_scroll), message_body, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(main_data.main_box.messages_area_for_scroll), message_body, FALSE, FALSE, 0);
 
     GtkWidget *message_body_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
     gtk_box_pack_end(GTK_BOX(message_body), message_body_box, FALSE, FALSE, 0);
@@ -57,8 +57,8 @@ void display_message(char *message_text) {
     gtk_widget_set_halign(GTK_WIDGET(message_time), GTK_ALIGN_END);
     gtk_box_pack_start(GTK_BOX(message_body_box), message_time, FALSE, FALSE, 0);
 
-    pthread_t display_thread = NULL;
-    pthread_create(&display_thread, NULL, scrolling_msg, NULL);
+    /*pthread_t display_thread = NULL;
+    pthread_create(&display_thread, NULL, scrolling_msg, NULL);*/
 
     gtk_widget_show_all(main_data.main_box.right_chat_box);
 }
@@ -67,7 +67,7 @@ void display_obtained_message(char *obtained_message_text) {
 
     GtkWidget *obtained_message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
     gtk_widget_set_name(GTK_WIDGET(obtained_message_body), "obtained_message_body");
-    gtk_box_pack_start(GTK_BOX(main_data.main_box.messanges_area_for_scroll), obtained_message_body, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(main_data.main_box.messages_area_for_scroll), obtained_message_body, FALSE, FALSE, 0);
 
     GtkWidget *obtained_message_body_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
     gtk_box_pack_start(GTK_BOX(obtained_message_body), obtained_message_body_box, FALSE, FALSE, 0);
@@ -108,8 +108,8 @@ void display_obtained_message(char *obtained_message_text) {
     gtk_widget_set_halign(GTK_WIDGET(obtained_message_time), GTK_ALIGN_START);
     gtk_box_pack_start(GTK_BOX(obtained_message_body_box), obtained_message_time, FALSE, FALSE, 0);
 
-    pthread_t display_thread = NULL;
-    pthread_create(&display_thread, NULL, scrolling_msg, NULL);
+    /*pthread_t display_thread = NULL;
+    pthread_create(&display_thread, NULL, scrolling_msg, NULL);*/
 
     gtk_widget_show_all(main_data.main_box.right_chat_box);
 }
@@ -128,7 +128,10 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
         if(strlen(text) == 0) return;
         
         display_message(text);
-        //display_obtained_message(text);
+        display_obtained_message(text);
+
+        pthread_t display_thread = NULL;
+        pthread_create(&display_thread, NULL, scrolling_msg, NULL);
 
         g_free (text);
         gtk_text_view_set_buffer ((GtkTextView *)messsage, NULL);
@@ -154,7 +157,7 @@ void send_message_file(GtkWidget *widget, GdkEventButton *event, gpointer *messs
 
         GtkWidget *message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
         gtk_widget_set_name(GTK_WIDGET(message_body), "message_body");
-        gtk_box_pack_start(GTK_BOX(main_data.main_box.messanges_area_for_scroll), message_body, FALSE, FALSE, 0);
+        gtk_box_pack_start(GTK_BOX(main_data.main_box.messages_area_for_scroll), message_body, FALSE, FALSE, 0);
 
         GtkWidget *message_body_box_with_time = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
         gtk_box_pack_end(GTK_BOX(message_body), message_body_box_with_time, FALSE, TRUE, 0);
@@ -247,7 +250,7 @@ void obtained_message_file(GtkWidget *widget, GdkEventButton *event, gpointer *m
 
         GtkWidget *obtained_message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
         gtk_widget_set_name(GTK_WIDGET(obtained_message_body), "obtained_message_body");
-        gtk_box_pack_start(GTK_BOX(main_data.main_box.messanges_area_for_scroll), obtained_message_body, FALSE, FALSE, 0);
+        gtk_box_pack_start(GTK_BOX(main_data.main_box.messages_area_for_scroll), obtained_message_body, FALSE, FALSE, 0);
 
         GtkWidget *obtained_message_body_box_with_time = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
         gtk_box_pack_start(GTK_BOX(obtained_message_body), obtained_message_body_box_with_time, FALSE, TRUE, 0);
