@@ -144,7 +144,9 @@ static void scrolling_chats() {
 }
 
 void add_new_chat() { 
-    user_data.chat_array[user_data.amount_of_chat].msg_list = NULL;
+    //user_data.chat_array[user_data.amount_of_chat].msg_list = NULL;
+    user_data.chat_array[user_data.amount_of_chat].msg_list = (t_message *)malloc(sizeof(t_message) * 30000);
+    user_data.chat_array[user_data.amount_of_chat].count_msg = 0;
 
     char *s_message = clear_client_message(NULL);
     send(sock, "@new_chat", strlen("@new_chat"), 0);
