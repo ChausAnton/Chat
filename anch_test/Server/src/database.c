@@ -38,8 +38,8 @@ void db_create() {
    sql = mx_strjoin(sql, "CREATE TABLE IF NOT EXISTS `users` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT not null, `login` varchar(30) UNIQUE not null, `password` varchar(30) not null, `name` varchar(50) null, `user_image` varchar(1000) NULL);");
    sql = mx_strjoin(sql, "CREATE TABLE IF NOT EXISTS `chats` ( `chat_id` INTEGER PRIMARY KEY AUTOINCREMENT , `member_count` INT(5) NOT NULL DEFAULT 2, `chat_name` varchar(30) NULL, `chat_image` varchar(1000) NULL);");
    sql = mx_strjoin(sql, "CREATE TABLE IF NOT EXISTS `members` ( `member_id` INTEGER PRIMARY KEY AUTOINCREMENT, `chat_id` INTEGER NOT NULL, `user_id` INTEGER NOT NULL);");
-   sql = mx_strjoin(sql, "CREATE TABLE IF NOT EXISTS `messages` ( `msg_id` INTEGER PRIMARY KEY AUTOINCREMENT, `chat_id` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, `msg_date` TEXT NOT NULL , `content` TEXT NOT NULL);");
-   sql = mx_strjoin(sql, "CREATE TABLE IF NOT EXISTS `online_users` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT, `online_user_id` INTEGER UNIQUE NOT NULL, `socket` INTEGER UNIQUE NOT NULL);");
+   sql = mx_strjoin(sql, "CREATE TABLE IF NOT EXISTS `messages` ( `msg_id` INTEGER PRIMARY KEY AUTOINCREMENT, `msg_id_in_chat` INTEGER not null, `chat_id` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, `msg_date` TEXT NOT NULL , `content` TEXT NOT NULL);");
+   sql = mx_strjoin(sql, "CREATE TABLE IF NOT EXISTS `online_users` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT, `online_user_id` INTEGER NOT NULL, `socket` INTEGER UNIQUE NOT NULL);");
    
    db_exec(sql, db);
 

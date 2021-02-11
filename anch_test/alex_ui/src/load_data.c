@@ -4,6 +4,9 @@ static void fill_chat_array(){
     char *s_message = clear_client_message(NULL);
 
     for(int i = 0; i < user_data.amount_of_chat; i++){
+        user_data.chat_array[i].msg_list = NULL;
+        user_data.chat_array[i].count_msg = 0;
+
 	    recv(sock, s_message, 1000, 0);
         send(sock, "@GET", strlen("@GET"), 0);
         user_data.chat_array[i].chat_id = atoi(s_message);

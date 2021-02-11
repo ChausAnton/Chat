@@ -44,12 +44,25 @@ void emoji_click(GtkWidget *widget, GdkEventButton *event, gpointer *sticker_pat
             if(timeinfo->tm_min < 10){
                 time_message = mx_strjoin(time_message, "0");
             }
-            time_message = mx_strjoin(time_message, int_to_str(timeinfo->tm_min));
+        time_message = mx_strjoin(time_message, int_to_str(timeinfo->tm_min));
 
-            GtkWidget *message_time = gtk_label_new(time_message);
-            gtk_widget_set_name(GTK_WIDGET(message_time), "message_time_sticker");
-            gtk_widget_set_halign(GTK_WIDGET(message_time), GTK_ALIGN_END);
-            gtk_box_pack_start(GTK_BOX(message_body_box), message_time, FALSE, FALSE, 0);
+        GtkWidget *message_time = gtk_label_new(time_message);
+        gtk_widget_set_name(GTK_WIDGET(message_time), "message_time_sticker");
+        gtk_widget_set_halign(GTK_WIDGET(message_time), GTK_ALIGN_END);
+        gtk_box_pack_start(GTK_BOX(message_body_box), message_time, FALSE, FALSE, 0);
+
+        ///Add to db
+        char* path_for_db = strdup("~");
+        path_for_db = mx_strjoin(path_for_db, (char *)sticker_path);
+
+        char *s_message = clear_client_message(NULL);
+        send(sock, "@message_send", strlen("@message_send"), 0);
+        recv(sock, s_message, 1000, 0);
+        s_message = clear_client_message(s_message);
+        
+        send(sock, path_for_db, strlen(path_for_db), 0);
+        recv(sock, s_message, 1000, 0);
+        s_message = clear_client_message(s_message);
         
         pthread_t display_thread = NULL;
         pthread_create(&display_thread, NULL, scrolling_sticker, NULL);

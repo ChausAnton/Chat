@@ -29,13 +29,23 @@ void chat_click(GtkWidget *widget) {
     children = children->next->next;
     int chat_id = atoi((char*)gtk_label_get_text(GTK_LABEL(children->data)));
 
+    char *s_message = clear_client_message(NULL);
+    send(sock, "@chat_chose", strlen("@chat_chose"), 0);
+    recv(sock, s_message, 1000, 0);
+    s_message = clear_client_message(s_message);
+
     unset_active_chats();
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
 
     printf("Chat_id: %d\n", chat_id);
+
+    s_message = clear_client_message(NULL);
+    send(sock, mx_itoa(chat_id), strlen(mx_itoa(chat_id)), 0);
+    recv(sock, s_message, 1000, 0);
+    s_message = clear_client_message(s_message);
+    
     main_data.main_box.search_chat_id = chat_id;
     for(int i = 0; i < user_data.amount_of_chat; i++){
-        printf("%d  ", user_data.chat_array[i].chat_id );
         if(user_data.chat_array[i].chat_id == chat_id){
             main_data.main_box.search_chat_index = i;
             break;
@@ -44,7 +54,11 @@ void chat_click(GtkWidget *widget) {
     printf("Search_chat_index: %d\n", main_data.main_box.search_chat_index);
     g_list_free(g_steal_pointer(&children));
     g_list_free(g_steal_pointer(&parent));
+
     load_right_chat_box();
+    if(thread_info != NULL) 
+        display_loaded_messages();
+    thread_info = strdup(mx_itoa(chat_id));
 }
 
 void event_enter_notify_search(GtkWidget *widget) {

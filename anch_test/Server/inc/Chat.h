@@ -2,7 +2,7 @@
 #ifndef chat
 #define chat
 
-#define SERVERPORT 8099
+#define SERVERPORT 8095
 
 #include <stdio.h>
 #include <unistd.h>
@@ -23,7 +23,7 @@
 #include <arpa/inet.h>
 #include <sys/types.h>
 #include <time.h>
-
+#include <assert.h>
 
 ////////gtk
 #include <gtk/gtk.h>
@@ -51,7 +51,9 @@ void mx_printerr(const char *s);
 void user_data_synchronization(int sock, char *user_name);
 void new_chat(int sock, char *user_name);
 void search_user(int sock, char *user_name);
-
+void read_message(int sock);
+char **chat_chose(int sock, int *chat_id);
+void send_message(int sock, int chat_id, char *user_name);
 ////
 char *mx_strnew(const int size);
 int mx_strlen(const char *s);
@@ -85,11 +87,13 @@ int db_get_count_user(sqlite3* db);
 char* db_get_user_login(int user_id, sqlite3* db);
 char* db_get_user_image_path(char *login, sqlite3* db);
 
+
 //Online User table
 void db_add_user_to_online(char *login, int socket, sqlite3* db);
 void db_del_user_from_online(char *login, sqlite3* db);
 int db_get_online_user_socket(char *login, sqlite3* db);
 int db_get_count_online_user(sqlite3* db);
+
 
 //Chats table
 void db_add_chat(int count, char* name, sqlite3* db);
@@ -99,9 +103,13 @@ char* db_get_chat_name(int chat_id, sqlite3* db);
 int get_count_users_for_chat(int chat_id, sqlite3* db);
 
 //Messages table
-void db_add_msg(int chat_id, int user_id, char* date, char* text);
+void db_add_msg(int msg_id_in_chat, int chat_id, int user_id, char* date, char* text);
 void db_del_all_msg_from_chat(int chat_id);
-
+int db_get_count_msg_for_chat(int chat_id, sqlite3* db);
+char** get_all_msg_for_chat(int chat_id, sqlite3* db);
+char* get_msg_by_global_id(int msg_id, sqlite3* db) ;
+char* get_msg_by_msg_id_and_chat_id(int msg_id_in_chat, int chat_id, sqlite3* db);
+char** get_msg_for_chat_from_the_num(int msg_id_in_chat, int chat_id, sqlite3* db);
 //Members table
 void db_add_member(int chat_id, int user_id);
 void db_del_member(int chat_id, int user_id);

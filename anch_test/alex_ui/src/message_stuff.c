@@ -54,6 +54,7 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
 
     if (widget) {}
     if(event->type == GDK_BUTTON_PRESS && event->button == 1){
+        barashka = false;
         GtkTextIter start, end;
         gchar *text;
         GtkTextBuffer *buffer = gtk_text_view_get_buffer((GtkTextView *)messsage);
@@ -62,12 +63,48 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
         text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
         text = mx_strtrim(text);
         if(strlen(text) == 0) return;
-        //printf("messsage: %s\n", text);
+
+        int msg_index = user_data.chat_array[main_data.main_box.search_chat_index].count_msg;
+
+        user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].msg_id_in_chat = msg_index+1; //Msg id in selected chat
+        user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].chat_id = main_data.main_box.search_chat_id;//Chat id where msg
+        user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].user_id = user_data.user_id;//User send id
         
+        time_t rawtime;
+        struct tm * timeinfo;
+        time ( &rawtime );
+        timeinfo = localtime ( &rawtime );
+        char *time_message = strdup(int_to_str(timeinfo->tm_hour));
+        time_message = mx_strjoin(time_message, ":");
+        if(timeinfo->tm_min < 10){
+            time_message = mx_strjoin(time_message, "0");
+        }
+
+        time_message = mx_strjoin(time_message, int_to_str(timeinfo->tm_min));
+        user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].date = strdup(time_message); //Date of message
+        user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].text = strdup(text);//Text of message
+
+        user_data.chat_array[main_data.main_box.search_chat_index].count_msg++;
+
+        mx_printerr("Behind serever send\n");
+
+        char *s_message = clear_client_message(NULL);
+        send(sock, "@message_send", strlen("@message_send"), 0);
+        recv(sock, s_message, 1000, 0);
+        s_message = clear_client_message(s_message);
+
+        mx_printerr("Into serever send\n");
+        
+        send(sock, text, strlen(text), 0);
+        recv(sock, s_message, 1000, 0);
+        s_message = clear_client_message(s_message);
         display_message(text);
-        
+
+        mx_printerr("After serever send\n");
+
         g_free (text);
         gtk_text_view_set_buffer ((GtkTextView *)messsage, NULL);
+        barashka = true;
     }
 }
 

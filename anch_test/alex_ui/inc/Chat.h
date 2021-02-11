@@ -23,6 +23,8 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <time.h>
+#include <assert.h>
 
 // Gtk
 #include <gtk/gtk.h>
@@ -34,13 +36,14 @@ int sock;
 //ipconfig getifaddr en0 for get ip
 //10.11.7.8 ansh
 //10.11.7.7 anch
-#define SERVERADDR "10.11.7.7"
-#define SERVERPORT 8099
-pthread_t sniffer_thread;
-
-void mx_printerr(const char *s);
+#define SERVERADDR "10.11.7.8"
+#define SERVERPORT 8095
 int new_chat_users_id[100];
-
+char *thread_info;
+void *reader();
+void mx_printerr(const char *s);
+void sock_work(int *sock_new);
+bool barashka;
 enum chat_settings_message {RENAME_CHAT = 1, ADD_USER, DELETE_USER, DELETE_CHAT, CHANGE_CHAT_IMAGE};
 
 typedef struct s_login_box {
@@ -60,12 +63,24 @@ typedef struct s_foreign_user {
     char *image_path;
 }   t_foreign_user;
 
+typedef struct s_message {
+    int global_msg_id;
+    int msg_id_in_chat;
+    int user_id;
+    int chat_id;
+    char *text;
+    char *date;
+    char *image_path;
+}   t_message;
+
 typedef struct s_chat_list {
     int chat_id;
     char* chat_name;
     int count_users;
     char* image_path;
     t_foreign_user *users_list;
+    int count_msg;
+    t_message *msg_list;
     GtkWidget *chat_button;
 }   t_chat_list;
 
@@ -159,6 +174,8 @@ gboolean draw_sticker_photo(GtkWidget *widget, cairo_t *cr, char* path);
 char *mx_strjoin(const char *s1, const char *s2);
 char *int_to_str(int num);
 char *mx_strtrim(const char *str);
+bool mx_isdigit(int c);
+char **mx_strsplit(char const *s, char c);
 
 /* load_data.c */
 void load_data_for_user();
@@ -168,6 +185,8 @@ void load_chat_list();
 
 /* load_chat_box.c */
 void load_right_chat_box();
+void load_messages_for_chat(int index, char *msg);
+void display_loaded_messages();
 
 /* chat_info.c */
 void show_chat_info(GtkWidget *widget);

@@ -1,4 +1,4 @@
-#include "Chat.h"
+#include "../inc/Chat.h"
 
 void removeChar(char *str, char garbage) {
 
@@ -39,48 +39,13 @@ void message_synchronization(char *message, int sock) {
 }
 
 
-
-
-void *reader(void *new_sock) {
-	int sock = *(int *)new_sock;
-	char *server_reply = NULL;
-	server_reply = clear_client_message(server_reply);
-	for(int i = 0; i < 2000; i++)
-			server_reply[i] = '\0';
-
-	while(1) {
-		if( recv(sock , server_reply , 2000 , 0) < 0) {
-			break;
-		}
-
-		if(strcmp(server_reply, "exit") == 0) {
-			close(sock);
-			break;
-		}
-		else if(strcmp(server_reply, "@synchronization") == 0) {
-			message_synchronization(server_reply, sock);
-		}
-		else if (strcmp(server_reply, "@file") == 0) {
-			//read_file(sock);
-			server_reply = clear_client_message(server_reply);
-			continue;
-		}
-		
-		printf("%s\n", server_reply);
-		
-		server_reply = clear_client_message(server_reply);
-	}
-	return 0;
-}
-
-
-void sock_work() {
+void sock_work(int *sock_new) {
 	struct sockaddr_in server;
 	struct hostent *serv;
 	
 	//Create socket
-	sock = socket(AF_INET , SOCK_STREAM , 0);
-	if (sock == -1)
+	*sock_new = socket(AF_INET , SOCK_STREAM , 0);
+	if (*sock_new == -1)
 	{
 		printf("Could not create socket");
 	}
@@ -92,32 +57,31 @@ void sock_work() {
 	memcpy(&server.sin_addr.s_addr, serv->h_addr_list[0],  serv->h_length);
 	server.sin_port = htons(SERVERPORT);
 	//Connect to remote server
-	if (connect(sock , (struct sockaddr *)&server , sizeof(server)) < 0)
+	if (connect(*sock_new , (struct sockaddr *)&server , sizeof(server)) < 0)
 	{
 		perror("connect failed. Error");
 		return;
 	}	
 	puts("Connected\n");
-	
-	//keep communicating with server
-	
-	int *new_sock = malloc(1);
-	*new_sock = sock;
-	/*if( pthread_create( &sniffer_thread , NULL ,  reader , (void*) new_sock) < 0) {
-		perror("could not create thread");
-		return;
-	}*/
-
-	//while(sniffer_thread) {}
-
-	//pthread_join(sniffer_thread , NULL);
-	//close(sock);
 	return;
 }
 
 
+
 int main(int argc, char *argv[]) {
-    sock_work();
+    sock_work(&sock);
+
+	thread_info = NULL;
+	pthread_t sniffer_thread = NULL;
+	if( pthread_create( &sniffer_thread , NULL ,  reader , NULL) < 0) {
+		perror("could not create thread");
+		return 1;
+	}
+
+	//mx_printerr("socket to: ");
+   // mx_printerr(mx_itoa(sock));
+    //mx_printerr("\n");
+
     gtk_init(&argc, &argv);
 
     main_data.window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
