@@ -193,6 +193,19 @@ void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *dat
     }
 }
 
+void scroll_handler(GtkWidget *widget, GdkEvent *event) {
+    if(widget&&event){}
+    gtk_adjustment_set_step_increment(main_data.main_box.vadj, 69.0);
+    if ( event->type == GDK_SCROLL ) {
+        if ( event->scroll.direction == GDK_SCROLL_DOWN ) {          
+            gtk_adjustment_set_value(main_data.main_box.vadj, gtk_adjustment_get_value(main_data.main_box.vadj) + gtk_adjustment_get_step_increment(main_data.main_box.vadj));
+        }
+        if ( event->scroll.direction == GDK_SCROLL_UP ) {
+            gtk_adjustment_set_value(main_data.main_box.vadj, gtk_adjustment_get_value(main_data.main_box.vadj) - gtk_adjustment_get_step_increment(main_data.main_box.vadj));
+        }
+    }
+}
+
 void sign_in() {
 
     char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[0])));

@@ -1,7 +1,6 @@
 .scrollbar, scrollbar {
     opacity: 0;
 }
-
 #activity {
     background-image: url("../images/listochki_main_screen.jpg");
     background-size: 120%;
@@ -577,10 +576,10 @@
     }
 
     #obtained_emoji {
-        margin: 4px 8px;
+        margin: 4px 6px;
     }
     #send_emoji {
-        margin: 4px 8px;
+        margin: 4px 6px;
     }
 
     #important_box {
@@ -605,10 +604,10 @@
 /* Message itself */
 #message_body {
     margin-right: 0px;
-}
+}   
     #message {
         padding: 10px 10px 10px 10px;
-        background: linear-gradient(231.16deg, #683487 5.87%, #433FEE 156.27%);;
+        background: linear-gradient(231.16deg, #683487 5.87%, #433FEE 156.27%);
         border-radius: 15px 15px 5px 15px;
         margin: 4px 8px 0 0;
         color: whitesmoke;

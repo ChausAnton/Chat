@@ -106,8 +106,11 @@ typedef struct s_main_box {
     GtkWidget *main_fixed;
     GtkWidget *chat_bar;
     GtkWidget *right_chat_box;
+
+    GtkAdjustment *vadj;
+
     GtkWidget *messages_area_scroll;
-    GtkWidget *messanges_area_for_scroll;
+    GtkWidget *messages_area_for_scroll;
     GtkWidget *chat_bar_for_scroll;
     GtkWidget *chat_bar_scroll;
 
@@ -170,6 +173,7 @@ void chat_click(GtkWidget *widget);
 void search_user_click(GtkWidget *widget);
 void add_user_click(GtkWidget *widget);
 void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *data);
+void scroll_handler(GtkWidget *widget, GdkEvent *event);
 void sign_in();
 void sign_up();
 void logout(GtkWidget *widget, GdkEventButton *event);
@@ -214,6 +218,7 @@ gboolean draw_sticker_photo(GtkWidget *widget, cairo_t *cr, char* path);
 char *mx_strjoin(const char *s1, const char *s2);
 char *int_to_str(int num);
 char *mx_strtrim(const char *str);
+char **mx_strsplit(char const *s, char c);
 
 /* load_data.c */
 void load_data_for_user();
