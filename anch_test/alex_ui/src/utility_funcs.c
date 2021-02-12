@@ -25,12 +25,12 @@ static void unset_active_chats() {
 
 void chat_click(GtkWidget *widget) {
     barashka = false;
-     
+
     GList *parent = gtk_container_get_children(GTK_CONTAINER(widget));
     GList *children = gtk_container_get_children(GTK_CONTAINER(parent->data));
     children = children->next->next;
     int chat_id = atoi((char*)gtk_label_get_text(GTK_LABEL(children->data)));
-
+  
     unset_active_chats();
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
 
@@ -51,7 +51,7 @@ void chat_click(GtkWidget *widget) {
     if(thread_info != NULL) 
         display_loaded_messages();
     thread_info = strdup(mx_itoa(chat_id));
-
+  
     barashka = true; 
 }
 

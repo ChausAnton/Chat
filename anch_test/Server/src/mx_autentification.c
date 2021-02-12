@@ -19,6 +19,7 @@ char *mx_autentification(int sock) {
 
 				if(db_get_online_user_socket(user_name, db) == -1)
 					db_add_user_to_online(user_name, sock, db);
+
 				client_message = clear_client_message(client_message);
 				send(sock, "@TRUE", strlen("@TRUE"), 0);
 				return user_name;

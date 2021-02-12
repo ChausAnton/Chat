@@ -9,6 +9,7 @@ void read_message(int sock) {
 	mx_printerr("char id: ");
 	mx_printerr(message);
 	mx_printerr("\n");
+
 	message = clear_client_message(message);
 
 	recv(sock, message, 1000, 0);
@@ -28,7 +29,6 @@ void read_message(int sock) {
 	server_access = false;
 	char **messages = get_msg_for_chat_from_the_num(user_num, chat_id, db);//from to 
 	server_access = true;
-
 	for(int i = 0; i < messages_num; i++) {
 		int size = strlen(messages[i]);
 
@@ -79,6 +79,7 @@ void send_message(int sock, char *user_name) {
 	server_access = false;
 	db_add_msg(msg_id_in_chat + 1, chat_id, user_id, date, text);
 	server_access = true;
+
 	free(text);
 	free(message);
 }

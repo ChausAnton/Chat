@@ -120,7 +120,6 @@ void sign_in() {
     char *passwrod = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[1])));
     printf("password: %s\n", passwrod);
 
-
     s_message = clear_client_message(s_message);
     send(sock, name, strlen(name), 0);
     recv(sock, s_message, 2000, 0);
