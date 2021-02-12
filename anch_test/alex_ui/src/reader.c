@@ -75,21 +75,58 @@ void main_reader(int sock_to) {
     }
 }
 
+void read_new_chats(int sock_to) {
+    if(barashka == true) {
+    char *s_message = clear_client_message(NULL);
+
+    send(sock_to, "@new_chat_from_server", strlen("@new_chat_from_server"), 0);
+    recv(sock_to, s_message, 1000, 0);
+    s_message = clear_client_message(s_message);
+
+    send(sock_to, mx_itoa(user_data.user_id), strlen(mx_itoa(user_data.user_id)), 0);
+    recv(sock_to, s_message, 1000, 0);
+    s_message = clear_client_message(s_message);
+
+    send(sock_to, mx_itoa(user_data.amount_of_chat), strlen(mx_itoa(user_data.amount_of_chat)), 0);
+    recv(sock_to, s_message, 1000, 0);
+    s_message = clear_client_message(s_message);
+
+    send(sock_to, "@server_chats_num", strlen("@server_chats_num"), 0);
+    recv(sock_to, s_message, 1000, 0);
+    int server_chats_num = atoi(s_message);
+    s_message = clear_client_message(s_message);
+
+    int new_chats_num = server_chats_num - user_data.amount_of_chat;
+    for(int i = 0; i < new_chats_num; i++) {
+        send(sock_to, "@chat_id", strlen("@chat_id"), 0);
+        recv(sock_to, s_message, 1000, 0);
+         mx_printerr("!!!!!!!!!\n");
+
+        add_new_chat_from_server(atoi(s_message), sock_to);
+    mx_printerr("&&&&&&&&&&&&\n");
+
+        s_message = clear_client_message(s_message);
+    }
+    }
+}
+
 void *reader() {
 	int sock_to;
 	sock_work(&sock_to);
-    while(thread_info == NULL) {};
+    int exit_code = 1;
+    while(thread_info == NULL && exit_thread != true) {};     
+    if(exit_thread == true) pthread_exit(&exit_code);
     display_loaded_messages();
 
     while(1) {
         main_reader(sock_to);
         //new_get_chat(sock_to);
+        read_new_chats(sock_to);
         if(exit_thread == true) {
             char *s_message = clear_client_message(NULL);
             send(sock_to, "@exit_thread", strlen("@exit_thread"), 0);
             recv(sock_to, s_message, 1000, 0);
             free(s_message);
-            int exit_code = 1;
             pthread_exit(&exit_code);
         }
     }

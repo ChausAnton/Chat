@@ -143,7 +143,104 @@ static void scrolling_chats() {
     }
 }
 
+
+void add_new_chat_from_server(int chat_id_num, int sock_to) { 
+    user_data.chat_array[user_data.amount_of_chat].count_msg = 0;
+
+    char *s_message = clear_client_message(NULL);
+    send(sock_to, "@chat_name", strlen("@chat_name"), 0);
+    recv(sock_to, s_message, 1000, 0);
+    user_data.chat_array[user_data.amount_of_chat].chat_name = strdup(s_message);//Вернусть с базы данных имя этого чата
+    s_message = clear_client_message(s_message);
+
+    send(sock_to, "@count_users", strlen("@count_users"), 0);
+    recv(sock_to, s_message, 1000, 0);
+    user_data.chat_array[user_data.amount_of_chat].count_users = atoi(s_message);//Вернуть с базы даных количество юзеров
+    s_message = clear_client_message(s_message);
+    user_data.chat_array[user_data.amount_of_chat].users_list = (t_foreign_user *)malloc(sizeof(t_foreign_user) * user_data.chat_array[user_data.amount_of_chat].count_users);
+    for(int i = 0; i < user_data.chat_array[user_data.amount_of_chat].count_users; i++){
+            send(sock_to, "@user_id", strlen("@user_id"), 0);
+            recv(sock_to, s_message, 1000, 0);
+            user_data.chat_array[user_data.amount_of_chat].users_list[i].user_id = atoi(s_message);
+            s_message = clear_client_message(s_message);
+    mx_printerr("@@@@@@@@@@@@@@@\n");
+
+            send(sock_to, "@login", strlen("@login"), 0);
+            recv(sock_to, s_message, 1000, 0);
+            user_data.chat_array[user_data.amount_of_chat].users_list[i].login = strdup(s_message);
+            s_message = clear_client_message(s_message);
+    mx_printerr("^^^^^^^^^^^^^^^^^^^\n");
+
+            send(sock_to, "@name", strlen("@name"), 0);
+            recv(sock_to, s_message, 1000, 0);
+            user_data.chat_array[user_data.amount_of_chat].users_list[i].name = strdup(s_message);
+            mx_printerr("name : ");
+            mx_printerr(s_message);
+             mx_printerr("\n");
+            s_message = clear_client_message(s_message);
+
+            send(sock_to, "@image_path", strlen("@image_path"), 0);
+             mx_printerr("(((((((())))))))))))\n");
+
+            recv(sock_to, s_message, 1000, 0);
+    mx_printerr("**************\n");
+
+            user_data.chat_array[user_data.amount_of_chat].users_list[i].image_path = strdup(s_message);
+            s_message = clear_client_message(s_message);
+    } ///Эту всю информацию о юзерах которые есть в чате ты должен получать с базы данных
+   
+    user_data.chat_array[user_data.amount_of_chat].chat_id = chat_id_num;
+
+    //Пока не трогать сильно
+    user_data.chat_array[user_data.amount_of_chat].image_path = strdup("resource/images/stickers/047-hello.png");
+
+    //Остальное не трогать
+    user_data.chat_array[user_data.amount_of_chat].chat_button = gtk_event_box_new();
+    gtk_widget_set_name(GTK_WIDGET(user_data.chat_array[user_data.amount_of_chat].chat_button), "chat_button");
+    gtk_event_box_set_above_child(GTK_EVENT_BOX(user_data.chat_array[user_data.amount_of_chat].chat_button), TRUE);
+    gtk_box_pack_start(GTK_BOX(main_data.main_box.chat_bar_for_scroll), user_data.chat_array[user_data.amount_of_chat].chat_button, FALSE, FALSE, 0);
+
+    GtkWidget *chat_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    gtk_widget_set_name(GTK_WIDGET(chat_box), "chat_small_box");
+    gtk_widget_set_size_request(GTK_WIDGET(chat_box), 300, 70);
+    gtk_container_add(GTK_CONTAINER(user_data.chat_array[user_data.amount_of_chat].chat_button), chat_box);
+    
+    GtkWidget *left_chat_avatar = gtk_drawing_area_new();
+    gtk_widget_set_size_request(GTK_WIDGET(left_chat_avatar), 40, 40);
+    char *path = strdup(user_data.chat_array[user_data.amount_of_chat].image_path);
+
+    g_signal_connect(G_OBJECT(left_chat_avatar), "draw", G_CALLBACK(draw_chat_avatar), path);
+
+    GtkWidget* photo_chat = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_widget_set_name(GTK_WIDGET(photo_chat), "left_chat_photo_box");
+    gtk_container_add(GTK_CONTAINER(photo_chat), left_chat_avatar);
+    gtk_widget_set_size_request(GTK_WIDGET(photo_chat), 50, 30);
+    gtk_box_pack_start(GTK_BOX(chat_box), photo_chat, FALSE, FALSE, 0);
+
+    GtkWidget* name_chat = gtk_label_new(user_data.chat_array[user_data.amount_of_chat].chat_name);
+    gtk_widget_set_name(GTK_WIDGET(name_chat), "chat_name");
+    gtk_box_pack_start(GTK_BOX(chat_box), name_chat, FALSE, FALSE, 0);
+
+    GtkWidget *chat_id = gtk_label_new(int_to_str(user_data.chat_array[user_data.amount_of_chat].chat_id));
+    gtk_box_pack_start(GTK_BOX(chat_box), chat_id, FALSE, FALSE, 0);
+    gtk_widget_set_name(GTK_WIDGET(chat_id), "hidden");
+
+    g_signal_connect(G_OBJECT(user_data.chat_array[user_data.amount_of_chat].chat_button), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
+    g_signal_connect(G_OBJECT(user_data.chat_array[user_data.amount_of_chat].chat_button), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
+
+    g_signal_connect(G_OBJECT(user_data.chat_array[user_data.amount_of_chat].chat_button), "button_press_event", G_CALLBACK(chat_click), NULL);
+    
+    user_data.amount_of_chat++;
+
+    gtk_widget_destroy(main_data.main_box.add_new_chat_event_box);
+    
+    gtk_widget_show_all(main_data.main_box.chat_bar);
+
+    scrolling_chats();
+}
+
 void add_new_chat() { 
+    barashka = false;
     //user_data.chat_array[user_data.amount_of_chat].msg_list = NULL;
     user_data.chat_array[user_data.amount_of_chat].msg_list = (t_message *)malloc(sizeof(t_message) * 30000);
     user_data.chat_array[user_data.amount_of_chat].count_msg = 0;
@@ -258,4 +355,5 @@ void add_new_chat() {
     gtk_widget_show_all(main_data.main_box.chat_bar);
 
     scrolling_chats();
+    barashka = true;
 }

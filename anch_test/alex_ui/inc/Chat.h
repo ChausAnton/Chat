@@ -37,7 +37,7 @@ int sock;
 //10.11.7.8 ansh
 //10.11.7.7 anch
 #define SERVERADDR "10.11.7.7"
-#define SERVERPORT 8095
+#define SERVERPORT 8094
 int new_chat_users_id[100];
 char *thread_info;
 void *reader();
@@ -184,6 +184,7 @@ void load_data_for_user();
 
 /* load_chat_list.c */
 void load_chat_list(); 
+void add_new_chat_from_server(int chat_id, int sock_to);
 
 /* load_chat_box.c */
 void load_right_chat_box();
