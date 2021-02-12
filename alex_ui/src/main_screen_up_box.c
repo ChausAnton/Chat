@@ -33,7 +33,7 @@ void main_screen_up_box() {
         
         // Change theme button
         GtkWidget *change_theme_button = gtk_event_box_new();
-        //gtk_widget_set_name(GTK_WIDGET(change_theme_button), "change_theme_button");
+        gtk_widget_set_name(GTK_WIDGET(change_theme_button), "change_theme_button");
         gtk_widget_set_halign(GTK_WIDGET(change_theme_button), GTK_ALIGN_CENTER);
         gtk_widget_set_valign(GTK_WIDGET(change_theme_button), GTK_ALIGN_CENTER);
         gtk_fixed_put(GTK_FIXED(main_data.main_box.main_fixed), change_theme_button, 220, 10);

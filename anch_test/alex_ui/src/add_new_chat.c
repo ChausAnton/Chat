@@ -1,7 +1,7 @@
 #include "../inc/Chat.h"
 
 void show_add_new_chat(GtkWidget *widget) {
-    
+    main_data.main_box.is_first_search_destroy = 0;
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
 
     main_data.main_box.add_new_chat_event_box = gtk_event_box_new();
