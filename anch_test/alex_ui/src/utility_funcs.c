@@ -122,6 +122,22 @@ void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *dat
             break;
     }
 }
+void log_empty() {
+
+    GList *children = gtk_container_get_children(GTK_CONTAINER(main_data.login_box.log_error_box));
+    
+    gtk_label_set_text(GTK_LABEL(children->data), strdup("Login or password is empty"));
+
+    gtk_widget_show_all(main_data.login_box.log_error_box);
+}
+
+void log_incorrect() {
+    GList *children = gtk_container_get_children(GTK_CONTAINER(main_data.login_box.log_error_box));
+    
+    gtk_label_set_text(GTK_LABEL(children->data), strdup("Incorrect login or password"));
+
+    gtk_widget_show_all(main_data.login_box.log_error_box);
+}
 
 void sign_in() {
     char *s_message = clear_client_message(NULL);
@@ -131,28 +147,41 @@ void sign_in() {
 
     char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[0])));
     printf("login: %s\n", name);
-    char *passwrod = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[1])));
-    printf("password: %s\n", passwrod);
+    char *password = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[1])));
+    printf("password: %s\n", password);
 
+    if(strlen(name) == 0 || strlen(password) == 0) {
+        log_empty();
+        s_message = clear_client_message(s_message);
+        send(sock, "Empty", strlen("Empty"), 0);
+        recv(sock, s_message, 2000, 0);
+    }
+    else {
+        s_message = clear_client_message(s_message);
+        send(sock, "Nice", strlen("Nice"), 0);
+        recv(sock, s_message, 2000, 0);
+ 
+        s_message = clear_client_message(s_message);
+        send(sock, name, strlen(name), 0);
+        recv(sock, s_message, 2000, 0);
 
-    s_message = clear_client_message(s_message);
-    send(sock, name, strlen(name), 0);
-    recv(sock, s_message, 2000, 0);
-    s_message = clear_client_message(s_message);
-    send(sock, passwrod, strlen(passwrod), 0);
-    recv(sock, s_message, 2000, 0);
-    mx_printerr(s_message);
+        s_message = clear_client_message(s_message);
+        send(sock, password, strlen(password), 0);
+        recv(sock, s_message, 2000, 0);
 
-    if(strcmp(s_message, "@TRUE") == 0) {
-        main_data.main_box.search_chat_id = -1;
-        user_data.login = strdup(name);
-        user_data.password = strdup(passwrod);
+        if(strcmp(s_message, "@TRUE") == 0) {
+            main_data.main_box.search_chat_id = -1;
+            user_data.login = strdup(name);
+            user_data.password = strdup(password);
 
-        gtk_entry_set_text(GTK_ENTRY(main_data.login_box.sign_in_data[0]), "");
-        gtk_entry_set_text(GTK_ENTRY(main_data.login_box.sign_in_data[1]), "");
+            gtk_entry_set_text(GTK_ENTRY(main_data.login_box.sign_in_data[0]), "");
+            gtk_entry_set_text(GTK_ENTRY(main_data.login_box.sign_in_data[1]), "");
 
-        load_data_for_user();
-        main_screen();
+            load_data_for_user();
+            main_screen();
+        } else {
+            log_incorrect();
+        }
     }
     free(s_message);
 }
@@ -165,28 +194,28 @@ void sign_up() {
 
     char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[0])));
     printf("login: %s\n", name);
-    char *passwrod = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[1])));
-    printf("password: %s\n", passwrod);
-    char *repeat_passwrod = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[2])));
-    printf("repeat password: %s\n", repeat_passwrod);
+    char *password = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[1])));
+    printf("password: %s\n", password);
+    char *repeat_password = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[2])));
+    printf("repeat password: %s\n", repeat_password);
 
     s_message = clear_client_message(s_message);
     send(sock, name, strlen(name), 0);
     recv(sock, s_message, 2000, 0);
     s_message = clear_client_message(s_message);
 
-    send(sock, passwrod, strlen(passwrod), 0);
+    send(sock, password, strlen(password), 0);
     recv(sock, s_message, 2000, 0);
     s_message = clear_client_message(s_message);
 
-    send(sock, repeat_passwrod, strlen(repeat_passwrod), 0);
+    send(sock, repeat_password, strlen(repeat_password), 0);
     recv(sock, s_message, 2000, 0);
 	mx_printerr(s_message);
 
     if(strcmp(s_message, "@TRUE") == 0) {
         main_data.main_box.search_chat_id = -1;
         user_data.login = strdup(name);
-        user_data.password = strdup(passwrod);
+        user_data.password = strdup(password);
 
         gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[0]), "");
         gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[1]), "");
@@ -256,7 +285,6 @@ void logout(GtkWidget *widget, GdkEventButton *event) {
         gtk_widget_show_all(GTK_WIDGET(logout_event_box));
     }
 }
-
 
 void show_search_result(GtkWidget *widget, GdkEventButton *event, gpointer *user_input) {
     if(widget&&event){}

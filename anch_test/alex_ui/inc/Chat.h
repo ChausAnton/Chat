@@ -40,7 +40,7 @@ int sock;
 
 // 10.11.6.7 -> alex
 
-#define SERVERADDR "10.11.6.7"
+#define SERVERADDR "10.11.6.8"
 #define SERVERPORT 8095
 int new_chat_users_id[100];
 char *thread_info;
@@ -51,13 +51,17 @@ bool barashka;
 enum chat_settings_message {RENAME_CHAT = 1, ADD_USER, DELETE_USER, DELETE_CHAT, CHANGE_CHAT_IMAGE};
 
 typedef struct s_login_box {
+    const gchar *css;
     GtkWidget *all_login_box;
     GtkWidget *sign_in_data[2];
+    GtkWidget *log_error_box;
 }   t_login_box;
 
 typedef struct s_reg_box {
+    const gchar *css;
     GtkWidget *all_reg_box;
     GtkWidget *sign_up_data[3];
+    GtkWidget *reg_error_box;
 }   t_reg_box;
 
 typedef struct s_foreign_user {
