@@ -2,37 +2,30 @@
 
 char *mx_autentification(int sock) {
 	char *user_name;
-	char *password;
+	char *password = NULL;
 	int read_size;
-	char *message;
+	//char *message;
 	char *client_message = clear_client_message(NULL);
 
-
-	message = strdup("Pleas enter your username: ");
-	write(sock , message , strlen(message));
-	free(message);
 	if ((read_size = recv(sock , client_message , 2000 , 0)) > 0 ) {
+		send(sock, "@GET", strlen("@GET"), 0);
+		
 		user_name = strdup(client_message);
 		client_message = clear_client_message(client_message);
-
-		message = strdup("Pleas enter your password: ");
-		write(sock , message , strlen(message));
-		free(message);
 		
 		if((read_size = recv(sock , client_message , 2000 , 0)) > 0  && 
 		(password = db_get_user_password(user_name, db)) != NULL) {
 			if(strcmp(password, client_message) == 0) {
-				db_add_user_to_online(user_name, sock, db);
+
+				if(db_get_online_user_socket(user_name, db) == -1)
+					db_add_user_to_online(user_name, sock, db);
+
 				client_message = clear_client_message(client_message);
+				send(sock, "@TRUE", strlen("@TRUE"), 0);
 				return user_name;
 			}
 		}
-
-		message = strdup("Oops, something wrong with your login or password\nTry again!!!!");
-		write(sock , message , strlen(message));
-		free(message);
-		fflush(stdout);
-		
 	}
+	send(sock, "@RETRY", strlen("@RETRY"), 0);
 	return NULL;
 }
