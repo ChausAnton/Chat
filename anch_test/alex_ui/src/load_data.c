@@ -21,7 +21,7 @@ static void fill_chat_array(){
         user_data.chat_array[i].count_users = atoi(s_message);
         s_message = clear_client_message(s_message);
 
-        user_data.chat_array[i].image_path = strdup("resource/images/stickers/");//later 
+        user_data.chat_array[i].image_path = strdup("resource/images/stickers/sticker_");//later 
         user_data.chat_array[i].image_path =  mx_strjoin(user_data.chat_array[i].image_path, int_to_str(i+1));
         user_data.chat_array[i].image_path =  mx_strjoin(user_data.chat_array[i].image_path, ".png");
 

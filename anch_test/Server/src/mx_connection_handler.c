@@ -56,7 +56,7 @@ void *connection_handler(void *new_sock) {
 			fflush(stdout);
 			close(sock_from);
 			mx_printerr("Client out\n");
-			return 0;
+			//return 0;
 		}
 		if (strcmp(client_message, "@exit_thread") == 0) {
 			fflush(stdout);
