@@ -2,6 +2,9 @@
 
 int chat_id_g;
 
+
+
+
 void *connection_handler(void *new_sock) {
 	int sock_from = *(int *)new_sock;
 	int read_size;
@@ -61,6 +64,10 @@ void *connection_handler(void *new_sock) {
 			mx_printerr("Client thread\n");
 			return 0;
 		}
+		if (strcmp(client_message, "@new_chat_from_server") == 0) {
+			new_chat_from_server(sock_from);
+		}
+		
 
 		client_message = clear_client_message(client_message);
 	}
