@@ -49,7 +49,6 @@ void chat_click(GtkWidget *widget) {
     load_right_chat_box();
     display_loaded_messages();
     thread_info = strdup(mx_itoa(chat_id));
-    
     barashka = true; 
 }
 

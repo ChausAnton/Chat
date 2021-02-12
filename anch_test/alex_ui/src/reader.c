@@ -40,7 +40,6 @@ void main_reader(int sock_to) {
             int server_num = atoi(s_message);
             s_message = clear_client_message(s_message);
 
-
             int messages_num = 0;
             if(user_num < server_num) {
                 user_data.chat_array[j].count_msg = server_num;
@@ -62,28 +61,7 @@ void main_reader(int sock_to) {
                 send(sock_to, "@message_user", strlen("@message_user"), 0);
                 recv(sock_to, message_user, message_size, 0);
 
-                mx_printerr("&&&&&&&&&&&&&&\n");
-                mx_printerr("chat_id: ");
-                mx_printerr(mx_itoa(check));
-                mx_printerr("\n");
-
-                mx_printerr("user_num: ");
-                mx_printerr(mx_itoa(user_num + i));
-                mx_printerr("\n");
-
                 load_messages_for_chat(check, user_num + i, message_user);
-                mx_printerr("!!!!!!!!!!!\n");
-                //display_new_loaded_messages(check, user_num + i);
-                mx_printerr("*************\n");
-                if(check == 2) {
-                    mx_printerr("chat_id: ");
-                    mx_printerr(mx_itoa(check));
-                    mx_printerr("\n");
-
-                    mx_printerr("user_num: ");
-                    mx_printerr(mx_itoa(user_num));
-                    mx_printerr("\n");
-                }
 
                 free(message_user);
 
@@ -102,13 +80,20 @@ void *reader() {
 	sock_work(&sock_to);
     while(thread_info == NULL) {};
     display_loaded_messages();
-    //sign_in_thread(sock_to);
 
     while(1) {
-        //check = strdup(thread_info);
-        //user_num = user_data.chat_array[main_data.main_box.search_chat_index].count_msg;
         main_reader(sock_to);
+        //new_get_chat(sock_to);
+        if(exit_thread == true) {
+            char *s_message = clear_client_message(NULL);
+            send(sock_to, "@exit_thread", strlen("@exit_thread"), 0);
+            recv(sock_to, s_message, 1000, 0);
+            free(s_message);
+            int exit_code = 1;
+            pthread_exit(&exit_code);
+        }
     }
+
 
     return 0;
 }
