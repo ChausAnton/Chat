@@ -17,6 +17,7 @@
 #include <netdb.h>
 #include <math.h>
 #include <netinet/in.h>
+#include <sys/stat.h>
 
 // Server
 #include <sys/socket.h>
@@ -133,7 +134,7 @@ void main_screen();
 void *scrolling_msg();
 void display_message(char *message_text);
 void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage);
-void send_message_file(GtkWidget *widget, GdkEventButton *event, gpointer *messsage);
+void send_message_file(GtkWidget *widget);
 
 /* utility_funcs.c */
 void event_enter_notify(GtkWidget *widget);
