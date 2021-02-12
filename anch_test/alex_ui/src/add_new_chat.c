@@ -162,13 +162,11 @@ void add_new_chat_from_server(int chat_id_num, int sock_to) {
             recv(sock_to, s_message, 1000, 0);
             user_data.chat_array[user_data.amount_of_chat].users_list[i].user_id = atoi(s_message);
             s_message = clear_client_message(s_message);
-    mx_printerr("@@@@@@@@@@@@@@@\n");
 
             send(sock_to, "@login", strlen("@login"), 0);
             recv(sock_to, s_message, 1000, 0);
             user_data.chat_array[user_data.amount_of_chat].users_list[i].login = strdup(s_message);
             s_message = clear_client_message(s_message);
-    mx_printerr("^^^^^^^^^^^^^^^^^^^\n");
 
             send(sock_to, "@name", strlen("@name"), 0);
             recv(sock_to, s_message, 1000, 0);
@@ -179,10 +177,7 @@ void add_new_chat_from_server(int chat_id_num, int sock_to) {
             s_message = clear_client_message(s_message);
 
             send(sock_to, "@image_path", strlen("@image_path"), 0);
-             mx_printerr("(((((((())))))))))))\n");
-
             recv(sock_to, s_message, 1000, 0);
-    mx_printerr("**************\n");
 
             user_data.chat_array[user_data.amount_of_chat].users_list[i].image_path = strdup(s_message);
             s_message = clear_client_message(s_message);
@@ -230,8 +225,6 @@ void add_new_chat_from_server(int chat_id_num, int sock_to) {
     g_signal_connect(G_OBJECT(user_data.chat_array[user_data.amount_of_chat].chat_button), "button_press_event", G_CALLBACK(chat_click), NULL);
     
     user_data.amount_of_chat++;
-
-    gtk_widget_destroy(main_data.main_box.add_new_chat_event_box);
     
     gtk_widget_show_all(main_data.main_box.chat_bar);
 
