@@ -20,7 +20,6 @@ void sign_in_thread(int sock_to) {
 
 void main_reader(int sock_to) {
     if(barashka == true) {
-        
         char *s_message = clear_client_message(NULL);
         send(sock_to, "@message_read", strlen("@message_read"), 0);
         recv(sock_to, s_message, 1000, 0);
@@ -50,6 +49,7 @@ void main_reader(int sock_to) {
         }
 
         for(int i = 0; i < messages_num; i++) {
+
             send(sock_to, "@message_size", strlen("@message_size"), 0);
             recv(sock_to, s_message, 1000, 0);
             int message_size = atoi(s_message);
@@ -67,6 +67,7 @@ void main_reader(int sock_to) {
             free(message_user);
 
             if(i == messages_num - 1){
+                while(main_data.main_box.right_chat_box == NULL) {};
                 gtk_widget_hide(main_data.main_box.right_chat_box);
                 gtk_widget_show_all(main_data.main_box.right_chat_box);
             }
@@ -80,7 +81,7 @@ void *reader() {
 	sock_work(&sock_to);
     while(thread_info == NULL) {};
     display_loaded_messages();
-    sign_in_thread(sock_to);
+    //sign_in_thread(sock_to);
 
     while(1) {
         check = strdup(thread_info);

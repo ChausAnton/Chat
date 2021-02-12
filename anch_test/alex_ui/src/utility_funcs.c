@@ -25,7 +25,6 @@ static void unset_active_chats() {
 
 void chat_click(GtkWidget *widget) {
     barashka = false;
-
     GList *parent = gtk_container_get_children(GTK_CONTAINER(widget));
     GList *children = gtk_container_get_children(GTK_CONTAINER(parent->data));
     children = children->next->next;
