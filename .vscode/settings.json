@@ -54,6 +54,7 @@
         "vector": "c",
         "__bit_reference": "c",
         "algorithm": "c",
-        "chrono": "c"
+        "chrono": "c",
+        "__locale": "c"
     }
 }

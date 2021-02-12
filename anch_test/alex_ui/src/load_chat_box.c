@@ -14,6 +14,7 @@ int is_sticker(char *txt){
     }
 }
 
+
 /*tatic void scrolling_messages() {
     mx_printerr("Bruuuuuuuuuh\n");
     while (gtk_events_pending()) {
@@ -25,6 +26,7 @@ int is_sticker(char *txt){
     }
 }*/
 
+
 void display_new_loaded_messages(int chat_id, int index) {
     chat_id++;
     mx_printerr("Bruh1\n");
@@ -33,7 +35,9 @@ void display_new_loaded_messages(int chat_id, int index) {
         int sticker_id = is_sticker(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].text);
     mx_printerr("Bruh2\n");
         if(sticker_id != -1){
+
             char *sticker_path = strdup("resource/images/stickers/sticker_");
+          
             sticker_path = mx_strjoin(sticker_path, mx_itoa(sticker_id));
             sticker_path = mx_strjoin(sticker_path, ".png");
 

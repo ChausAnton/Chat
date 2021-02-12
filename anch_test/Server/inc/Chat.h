@@ -2,7 +2,7 @@
 #ifndef chat
 #define chat
 
-#define SERVERPORT 8095
+#define SERVERPORT 8094
 
 #include <stdio.h>
 #include <unistd.h>
@@ -53,6 +53,7 @@ void new_chat(int sock, char *user_name);
 void search_user(int sock, char *user_name);
 void read_message(int sock);
 void send_message(int sock, char *user_name);
+void new_chat_from_server(int sock);
 ////
 char *mx_strnew(const int size);
 int mx_strlen(const char *s);
@@ -92,6 +93,7 @@ void db_add_user_to_online(char *login, int socket, sqlite3* db);
 void db_del_user_from_online(char *login, sqlite3* db);
 int db_get_online_user_socket(char *login, sqlite3* db);
 int db_get_count_online_user(sqlite3* db);
+void db_del_all_users_from_online(char *login, sqlite3* db);
 
 
 //Chats table

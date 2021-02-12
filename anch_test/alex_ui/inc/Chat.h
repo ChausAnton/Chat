@@ -37,14 +37,16 @@ int sock;
 //ipconfig getifaddr en0 for get ip
 //10.11.7.8 ansh
 //10.11.7.7 anch
-#define SERVERADDR "10.11.7.8"
-#define SERVERPORT 8095
+#define SERVERADDR "10.11.7.7"
+#define SERVERPORT 8094
 int new_chat_users_id[100];
 char *thread_info;
 void *reader();
 void mx_printerr(const char *s);
 void sock_work(int *sock_new);
 bool barashka;
+bool exit_thread;
+pthread_t sniffer_thread;
 enum chat_settings_message {RENAME_CHAT = 1, ADD_USER, DELETE_USER, DELETE_CHAT, CHANGE_CHAT_IMAGE};
 
 typedef struct s_login_box {
@@ -185,6 +187,7 @@ void load_data_for_user();
 
 /* load_chat_list.c */
 void load_chat_list(); 
+void add_new_chat_from_server(int chat_id, int sock_to);
 
 /* load_chat_box.c */
 void load_right_chat_box();

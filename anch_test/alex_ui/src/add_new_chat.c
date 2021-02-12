@@ -143,43 +143,52 @@ static void scrolling_chats() {
     }
 }
 
-/*void add_new_chat_from_server() { 
+void add_new_chat_from_server(int chat_id_num, int sock_to) { 
     user_data.chat_array[user_data.amount_of_chat].count_msg = 0;
 
-    //user_data.chat_array[user_data.amount_of_chat].chat_name = strdup("New Chat");Вернусть с базы данных имя этого чата
-    //user_data.chat_array[user_data.amount_of_chat].count_users = 1;Вернуть с базы даных количество юзеров
-    
-    //send(sock, mx_itoa(user_data.chat_array[user_data.amount_of_chat].count_users), strlen(mx_itoa(user_data.chat_array[user_data.amount_of_chat].count_users)), 0);
-    //recv(sock, s_message, 1000, 0); 0 понимания что ты тут отсылаешь и получаешь
+    char *s_message = clear_client_message(NULL);
+    send(sock_to, "@chat_name", strlen("@chat_name"), 0);
+    recv(sock_to, s_message, 1000, 0);
+    user_data.chat_array[user_data.amount_of_chat].chat_name = strdup(s_message);//Вернусть с базы данных имя этого чата
+    s_message = clear_client_message(s_message);
 
+    send(sock_to, "@count_users", strlen("@count_users"), 0);
+    recv(sock_to, s_message, 1000, 0);
+    user_data.chat_array[user_data.amount_of_chat].count_users = atoi(s_message);//Вернуть с базы даных количество юзеров
+    s_message = clear_client_message(s_message);
     user_data.chat_array[user_data.amount_of_chat].users_list = (t_foreign_user *)malloc(sizeof(t_foreign_user) * user_data.chat_array[user_data.amount_of_chat].count_users);
     for(int i = 0; i < user_data.chat_array[user_data.amount_of_chat].count_users; i++){
-            recv(sock, s_message, 1000, 0);
-            send(sock, "@GET", strlen("@GET"), 0);
-            user_data.chat_array[user_data.amount_of_chat].users_list[i].user_id = strdup(s_message);
+            send(sock_to, "@user_id", strlen("@user_id"), 0);
+            recv(sock_to, s_message, 1000, 0);
+            user_data.chat_array[user_data.amount_of_chat].users_list[i].user_id = atoi(s_message);
+            s_message = clear_client_message(s_message);
+    mx_printerr("@@@@@@@@@@@@@@@\n");
 
-            recv(sock, s_message, 1000, 0);
-            send(sock, "@GET", strlen("@GET"), 0);
+            send(sock_to, "@login", strlen("@login"), 0);
+            recv(sock_to, s_message, 1000, 0);
             user_data.chat_array[user_data.amount_of_chat].users_list[i].login = strdup(s_message);
             s_message = clear_client_message(s_message);
+    mx_printerr("^^^^^^^^^^^^^^^^^^^\n");
 
-            recv(sock, s_message, 1000, 0);
-            send(sock, "@GET", strlen("@GET"), 0);
+            send(sock_to, "@name", strlen("@name"), 0);
+            recv(sock_to, s_message, 1000, 0);
             user_data.chat_array[user_data.amount_of_chat].users_list[i].name = strdup(s_message);
+            mx_printerr("name : ");
+            mx_printerr(s_message);
+             mx_printerr("\n");
             s_message = clear_client_message(s_message);
 
-            recv(sock, s_message, 1000, 0);
-            send(sock, "@GET", strlen("@GET"), 0);
+            send(sock_to, "@image_path", strlen("@image_path"), 0);
+             mx_printerr("(((((((())))))))))))\n");
+
+            recv(sock_to, s_message, 1000, 0);
+    mx_printerr("**************\n");
+
             user_data.chat_array[user_data.amount_of_chat].users_list[i].image_path = strdup(s_message);
             s_message = clear_client_message(s_message);
-        }
     } ///Эту всю информацию о юзерах которые есть в чате ты должен получать с базы данных
-
-    s_message = clear_client_message(s_message);///Чат айди тоже присылать
-    recv(sock, s_message, 1000, 0);
-    user_data.chat_array[user_data.amount_of_chat].chat_id = atoi(s_message);
-    send(sock, "@GET", strlen("@GET"), 0);
-    s_message = clear_client_message(s_message);
+   
+    user_data.chat_array[user_data.amount_of_chat].chat_id = chat_id_num;
 
     //Пока не трогать сильно
     user_data.chat_array[user_data.amount_of_chat].image_path = strdup("resource/images/stickers/047-hello.png");
@@ -227,9 +236,10 @@ static void scrolling_chats() {
     gtk_widget_show_all(main_data.main_box.chat_bar);
 
     scrolling_chats();
-}*/
+}
 
 void add_new_chat() { 
+    barashka = false;
     //user_data.chat_array[user_data.amount_of_chat].msg_list = NULL;
     user_data.chat_array[user_data.amount_of_chat].msg_list = (t_message *)malloc(sizeof(t_message) * 30000);
     user_data.chat_array[user_data.amount_of_chat].count_msg = 0;
@@ -344,4 +354,5 @@ void add_new_chat() {
     gtk_widget_show_all(main_data.main_box.chat_bar);
 
     scrolling_chats();
+    barashka = true;
 }

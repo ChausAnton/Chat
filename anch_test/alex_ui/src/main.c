@@ -72,16 +72,15 @@ int main(int argc, char *argv[]) {
     sock_work(&sock);
 
 	thread_info = NULL;
-	pthread_t sniffer_thread = NULL;
+	sniffer_thread = NULL;
 	if( pthread_create( &sniffer_thread , NULL ,  reader , NULL) < 0) {
 		perror("could not create thread");
 		return 1;
 	}
-
+	exit_thread = false;
 	//mx_printerr("socket to: ");
    // mx_printerr(mx_itoa(sock));
     //mx_printerr("\n");
-
     gtk_init(&argc, &argv);
 
     main_data.window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
