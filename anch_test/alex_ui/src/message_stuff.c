@@ -90,11 +90,11 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
 
         char *s_message = clear_client_message(NULL);
 
-        send(sock, thread_info, strlen(thread_info), 0);
+        send(sock, "@message_send", strlen("@message_send"), 0);
         recv(sock, s_message, 1000, 0);
         s_message = clear_client_message(s_message);
 
-        send(sock, "@message_send", strlen("@message_send"), 0);
+        send(sock, thread_info, strlen(thread_info), 0);
         recv(sock, s_message, 1000, 0);
         s_message = clear_client_message(s_message);
 
