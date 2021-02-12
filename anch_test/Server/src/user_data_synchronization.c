@@ -3,8 +3,8 @@
 void chat_synchronization(int sock, char *user_name, char *chat_id) {
 	char *message = clear_client_message(NULL);
 
+	send(sock, "@size", strlen("@size"), 0);
 	recv(sock, message, 1000, 0);
-	send(sock, "@GET", strlen("@GET"), 0);
 	int size = atoi(message);
 	message = clear_client_message(message);
 

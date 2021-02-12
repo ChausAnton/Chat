@@ -22,12 +22,12 @@ static void fill_chat_array(){
         user_data.chat_array[i].count_users = atoi(s_message);
         s_message = clear_client_message(s_message);
 
-        user_data.chat_array[i].image_path = strdup("resource/images/stickers/");//later 
+        user_data.chat_array[i].image_path = strdup("resource/images/stickers/sticker_");//later 
         user_data.chat_array[i].image_path =  mx_strjoin(user_data.chat_array[i].image_path, int_to_str(i+1));
         user_data.chat_array[i].image_path =  mx_strjoin(user_data.chat_array[i].image_path, ".png");
 
-        send(sock, mx_itoa(user_data.chat_array[i].count_users), strlen(mx_itoa(user_data.chat_array[i].count_users)), 0);
         recv(sock, s_message, 1000, 0);
+        send(sock, mx_itoa(user_data.chat_array[i].count_users), strlen(mx_itoa(user_data.chat_array[i].count_users)), 0);
         s_message = clear_client_message(s_message);
 
         user_data.chat_array[i].users_list = (t_foreign_user *)malloc(sizeof(t_foreign_user) * user_data.chat_array[i].count_users);

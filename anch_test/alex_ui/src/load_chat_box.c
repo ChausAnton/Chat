@@ -7,20 +7,93 @@ int is_sticker(char *txt){
             if(!mx_isdigit(txt[i])) return -1;
         }
         num = mx_strjoin(num, &txt[1]);
-        if(atoi(num) < 50) return atoi(num);
+        if(atoi(num) < 11) return atoi(num);
         else  return -1;
     } else {
         return -1;
     }
 }
 
+/*tatic void scrolling_messages() {
+    mx_printerr("Bruuuuuuuuuh\n");
+    while (gtk_events_pending()) {
+        gtk_main_iteration();
+        GtkAdjustment *adj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.messages_area_scroll));
+        gtk_adjustment_set_value(adj, gtk_adjustment_get_upper(adj) - gtk_adjustment_get_page_size(adj));
+        gtk_scrolled_window_set_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.messages_area_scroll), adj);
+        gtk_main_iteration();
+    }
+}*/
+
+void display_new_loaded_messages(int chat_id, int index) {
+    chat_id++;
+    mx_printerr("Bruh1\n");
+    mx_printerr(int_to_str(index));
+    mx_printerr("\n");
+        int sticker_id = is_sticker(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].text);
+    mx_printerr("Bruh2\n");
+        if(sticker_id != -1){
+            char *sticker_path = strdup("resource/images/stickers/sticker_");
+            sticker_path = mx_strjoin(sticker_path, mx_itoa(sticker_id));
+            sticker_path = mx_strjoin(sticker_path, ".png");
+
+            GtkWidget *message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+            gtk_widget_set_name(GTK_WIDGET(message_body), "message_body");
+            gtk_box_pack_start(GTK_BOX(main_data.main_box.messanges_area_for_scroll), message_body, FALSE, FALSE, 0);
+
+            GtkWidget *message_body_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
+            gtk_box_pack_end(GTK_BOX(message_body), message_body_box, FALSE, FALSE, 0);
+
+            GtkWidget *message_file = gtk_image_new();
+            GdkPixbuf *message_file_pixbuf = gdk_pixbuf_new_from_file((gchar *)sticker_path, NULL);
+            
+            gint width = gdk_pixbuf_get_width(message_file_pixbuf);
+            gint height = gdk_pixbuf_get_height(message_file_pixbuf);
+
+            if (width > 52 || height > 52) {
+                gtk_image_set_from_pixbuf(GTK_IMAGE(message_file), gdk_pixbuf_new_from_file_at_scale((gchar *)sticker_path, 52, 52, TRUE, NULL));
+            } else {
+                gtk_image_set_from_pixbuf(GTK_IMAGE(message_file), message_file_pixbuf);
+            }
+            g_object_unref(G_OBJECT(message_file_pixbuf));
+
+            gtk_box_pack_start(GTK_BOX(message_body_box), message_file, FALSE, FALSE, 0);
+
+            GtkWidget *message_time = gtk_label_new(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].date);
+            gtk_widget_set_name(GTK_WIDGET(message_time), "message_time_sticker");
+            gtk_widget_set_halign(GTK_WIDGET(message_time), GTK_ALIGN_END);
+            gtk_box_pack_start(GTK_BOX(message_body_box), message_time, FALSE, FALSE, 0);
+        } else {
+            GtkWidget *message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+            gtk_widget_set_name(GTK_WIDGET(message_body), "messages_body");
+            gtk_box_pack_start(GTK_BOX(main_data.main_box.messanges_area_for_scroll), message_body, FALSE, FALSE, 0);
+
+            GtkWidget *message_body_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
+            gtk_box_pack_end(GTK_BOX(message_body), message_body_box, FALSE, FALSE, 0);
+        
+            GtkWidget *message = gtk_label_new(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].text);
+            gtk_widget_set_name(GTK_WIDGET(message), "message");
+            gtk_label_set_line_wrap(GTK_LABEL(message), TRUE);
+            gtk_label_set_line_wrap_mode(GTK_LABEL(message), PANGO_WRAP_WORD_CHAR);
+            gtk_label_set_max_width_chars(GTK_LABEL(message), 50);
+            gtk_box_pack_start(GTK_BOX(message_body_box), message, FALSE, FALSE, 0);
+
+            ///Time
+            GtkWidget *message_time = gtk_label_new(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].date);
+            gtk_widget_set_name(GTK_WIDGET(message_time), "message_time");
+            gtk_widget_set_halign(GTK_WIDGET(message_time), GTK_ALIGN_END);
+            gtk_box_pack_start(GTK_BOX(message_body_box), message_time, FALSE, FALSE, 0);
+        }
+        mx_printerr("Bruh3s\n");
+
+    gtk_widget_show_all(main_data.activity_block);
+}
+
 void display_loaded_messages() {
-    //mx_printerr(mx_itoa(user_data.chat_array[main_data.main_box.search_chat_index].count_msg));
-    //mx_printerr("  :MsgCount\n");
     for(int i = 0;  i < user_data.chat_array[main_data.main_box.search_chat_index].count_msg; i++){
         int sticker_id = is_sticker(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[i].text);
         if(sticker_id != -1){
-            char *sticker_path = strdup("resource/images/stickers/");
+            char *sticker_path = strdup("resource/images/stickers/sticker_");
             sticker_path = mx_strjoin(sticker_path, mx_itoa(sticker_id));
             sticker_path = mx_strjoin(sticker_path, ".png");
 
@@ -72,27 +145,38 @@ void display_loaded_messages() {
             gtk_box_pack_start(GTK_BOX(message_body_box), message_time, FALSE, FALSE, 0);
         }
     }
+
     gtk_widget_show_all(main_data.activity_block);
 }
 
-void load_messages_for_chat(int index, char *msg){
+void load_messages_for_chat(int chat_id, int index, char *msg){  
+    int chat_index = -1;
+    for(int i = 0; i < user_data.amount_of_chat; i++){
+        if(user_data.chat_array[i].chat_id == chat_id) {
+            chat_index = i;
+            break;
+        }
+    }
+    mx_printerr("Chat Index on Load:   ");
+    mx_printerr(int_to_str(chat_index));
+    mx_printerr("\n");
     /////Split
     char **str = mx_strsplit(msg, '#');
     int j = 0;
-    user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].global_msg_id = atoi(str[j]); //Global msg in in selected chat
+    user_data.chat_array[chat_index].msg_list[index].global_msg_id = atoi(str[j]); //Global msg in in selected chat
     j++;
-    user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].msg_id_in_chat = atoi(str[j]); //Msg id in selected chat
+    user_data.chat_array[chat_index].msg_list[index].msg_id_in_chat = atoi(str[j]); //Msg id in selected chat
     j++;
-    user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].chat_id = atoi(str[j]);//Chat id where msg
+    user_data.chat_array[chat_index].msg_list[index].chat_id = atoi(str[j]);//Chat id where msg
     j++;
-    user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].user_id = atoi(str[j]);//User send id
+    user_data.chat_array[chat_index].msg_list[index].user_id = atoi(str[j]);//User send id
     j++;
-    user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].date = strdup(str[j]); //Date of message
+    user_data.chat_array[chat_index].msg_list[index].date = strdup(str[j]); //Date of message
     j++;
-    user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].text = strdup(str[j]);//Text of message
+    user_data.chat_array[chat_index].msg_list[index].text = strdup(str[j]);//Text of message
     j++;
-
-    int sticker_id = is_sticker(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].text);
+    if(chat_id == main_data.main_box.search_chat_id) display_new_loaded_messages(chat_id, index);
+    /*int sticker_id = is_sticker(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].text);
     if(sticker_id != -1){
         char *sticker_path = strdup("resource/images/stickers/");
         sticker_path = mx_strjoin(sticker_path, mx_itoa(sticker_id));
@@ -143,7 +227,7 @@ void load_messages_for_chat(int index, char *msg){
         gtk_widget_set_name(GTK_WIDGET(message_time), "message_time");
         gtk_widget_set_halign(GTK_WIDGET(message_time), GTK_ALIGN_END);
         gtk_box_pack_start(GTK_BOX(message_body_box), message_time, FALSE, FALSE, 0);
-    }
+    }()*/
 }
 
 void load_right_chat_box() {
@@ -259,21 +343,21 @@ void load_right_chat_box() {
             g_signal_connect(G_OBJECT(clip_event_box), "button_press_event", G_CALLBACK(send_message_file), msg_enter);
         
             // Emotes
-            GtkWidget *smile_button_clickable = gtk_event_box_new();
-            gtk_widget_set_name(GTK_WIDGET(smile_button_clickable), "smile_button_clickable");
-            gtk_widget_set_halign(GTK_WIDGET(smile_button_clickable), GTK_ALIGN_CENTER);
-            gtk_widget_set_valign(GTK_WIDGET(smile_button_clickable), GTK_ALIGN_CENTER);
-            gtk_box_pack_start(GTK_BOX(bottom_area), smile_button_clickable, FALSE, FALSE, 0);
+            main_data.main_box.smile_button_clickable = gtk_event_box_new();
+            gtk_widget_set_name(GTK_WIDGET(main_data.main_box.smile_button_clickable), "smile_button_clickable");
+            gtk_widget_set_halign(GTK_WIDGET(main_data.main_box.smile_button_clickable), GTK_ALIGN_CENTER);
+            gtk_widget_set_valign(GTK_WIDGET(main_data.main_box.smile_button_clickable), GTK_ALIGN_CENTER);
+            gtk_box_pack_start(GTK_BOX(bottom_area), main_data.main_box.smile_button_clickable, FALSE, FALSE, 0);
 
-            g_signal_connect(G_OBJECT(smile_button_clickable), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
-            g_signal_connect(G_OBJECT(smile_button_clickable), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
+            g_signal_connect(G_OBJECT(main_data.main_box.smile_button_clickable), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
+            g_signal_connect(G_OBJECT(main_data.main_box.smile_button_clickable), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
 
-            g_signal_connect(G_OBJECT(smile_button_clickable), "button_press_event", G_CALLBACK(show_emoji_box), NULL);
+            g_signal_connect(G_OBJECT(main_data.main_box.smile_button_clickable), "button_press_event", G_CALLBACK(show_emoji_box), NULL);
 
             GtkWidget *smile_button = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
             gtk_widget_set_name(GTK_WIDGET(smile_button), "smile_button");
             gtk_widget_set_size_request(GTK_WIDGET(smile_button), 20, 20);
-            gtk_container_add(GTK_CONTAINER(smile_button_clickable), smile_button);
+            gtk_container_add(GTK_CONTAINER(main_data.main_box.smile_button_clickable), smile_button);
 
             // Send message
             GtkWidget *send_button_clickable = gtk_event_box_new();

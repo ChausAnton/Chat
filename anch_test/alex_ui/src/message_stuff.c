@@ -29,7 +29,7 @@ void display_message(char *message_text) {
     gtk_box_pack_start(GTK_BOX(message_body_box), message, FALSE, FALSE, 0);
 
     ///Time
-    time_t rawtime;
+    /*time_t rawtime;
     struct tm * timeinfo;
     time ( &rawtime );
     timeinfo = localtime ( &rawtime );
@@ -38,8 +38,11 @@ void display_message(char *message_text) {
     if(timeinfo->tm_min < 10){
         time_message = mx_strjoin(time_message, "0");
     }
-    time_message = mx_strjoin(time_message, int_to_str(timeinfo->tm_min));
-    GtkWidget *message_time = gtk_label_new(time_message);
+    time_message = mx_strjoin(time_message, int_to_str(timeinfo->tm_min));*/
+    time_t t = time(NULL);
+    struct tm *tm = localtime(&t);
+
+    GtkWidget *message_time = gtk_label_new(asctime(tm));
     gtk_widget_set_name(GTK_WIDGET(message_time), "message_time");
     gtk_widget_set_halign(GTK_WIDGET(message_time), GTK_ALIGN_END);
     gtk_box_pack_start(GTK_BOX(message_body_box), message_time, FALSE, FALSE, 0);
@@ -51,10 +54,9 @@ void display_message(char *message_text) {
 }
 
 void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) {
-
+    barashka = false;
     if (widget) {}
     if(event->type == GDK_BUTTON_PRESS && event->button == 1){
-        barashka = false;
         GtkTextIter start, end;
         gchar *text;
         GtkTextBuffer *buffer = gtk_text_view_get_buffer((GtkTextView *)messsage);
@@ -70,7 +72,7 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
         user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].chat_id = main_data.main_box.search_chat_id;//Chat id where msg
         user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].user_id = user_data.user_id;//User send id
         
-        time_t rawtime;
+        /*time_t rawtime;
         struct tm * timeinfo;
         time ( &rawtime );
         timeinfo = localtime ( &rawtime );
@@ -80,8 +82,11 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
             time_message = mx_strjoin(time_message, "0");
         }
 
-        time_message = mx_strjoin(time_message, int_to_str(timeinfo->tm_min));
-        user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].date = strdup(time_message); //Date of message
+        time_message = mx_strjoin(time_message, int_to_str(timeinfo->tm_min));*/
+        time_t t = time(NULL);
+        struct tm *tm = localtime(&t);
+
+        user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].date = strdup(asctime(tm)); //Date of message
         user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].text = strdup(text);//Text of message
 
         user_data.chat_array[main_data.main_box.search_chat_index].count_msg++;
@@ -122,7 +127,6 @@ void send_message_file(GtkWidget *widget, GdkEventButton *event, gpointer *messs
         GtkFileChooser *chooser = GTK_FILE_CHOOSER(dialog);
 
         gchar *source_path = gtk_file_chooser_get_filename(chooser);
-        //printf("Path: %s\n", source_path);
 
         gchar *filename = source_path;
 
@@ -166,7 +170,6 @@ void send_message_file(GtkWidget *widget, GdkEventButton *event, gpointer *messs
 
             gtk_text_buffer_get_bounds (buffer, &start, &end);
             text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
-            //printf("messsage: %s\n", text);
             
             if(strlen(text) != 0){
                 GtkWidget *message = gtk_label_new(text);
