@@ -6,7 +6,7 @@ void db_open(char* path, sqlite3** db) {
    if (exist != 0) {
       db_create();
    } else {
-      int rc = sqlite3_open_v2(path, &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX, NULL);
+      int rc = sqlite3_open_v2(path, db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX, NULL);
       if (rc) fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(*db));
       else fprintf(stdout, "Database [%s] opened successfully\n", path);
    }

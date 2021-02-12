@@ -10,13 +10,13 @@ void *connection_handler(void *new_sock) {
 	char *client_message = clear_client_message(NULL);
 	char *user_name = NULL;
 
-	mx_printerr(mx_itoa(sock_from));
-	mx_printerr("\n");
+	//mx_printerr(mx_itoa(sock_from));
+	//mx_printerr("\n");
 	while(1) {
 		recv(sock_from , client_message , 2000 , 0);
 		send(sock_from, "@GET", strlen("@GET"), 0);
-		mx_printerr(client_message);
-		mx_printerr("\n\n");
+		//mx_printerr(client_message);
+		//mx_printerr("\n\n");
 
 		if(strcmp(client_message, "@sign_up") == 0) {
 			user_name = mx_registration(sock_from);

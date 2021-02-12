@@ -6,9 +6,9 @@ void read_message(int sock) {
 	recv(sock, message, 1000, 0);
 	send(sock, "@GET", strlen("@GET"), 0);
 	int chat_id = atoi(message);
-	mx_printerr("char id: ");
-	mx_printerr(message);
-	mx_printerr("\n");
+	//mx_printerr("char id: ");
+	//mx_printerr(message);
+	//mx_printerr("\n");
 
 	message = clear_client_message(message);
 
@@ -39,6 +39,10 @@ void read_message(int sock) {
 		recv(sock, message, 1000, 0);
 		send(sock, messages[i], strlen(messages[i]), 0);
 		message = clear_client_message(message);
+
+		mx_printerr("char id: ");
+		mx_printerr(mx_itoa(chat_id));
+		mx_printerr("\n");
 
 		mx_printerr(messages[i]);
 	    mx_printerr("\n");
