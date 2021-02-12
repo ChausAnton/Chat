@@ -20,11 +20,12 @@ void sign_in_thread(int sock_to) {
 }
 
 void main_reader(int sock_to) {
-    for(int i = 0; i < user_data.amount_of_chat; i++) {
-        check = user_data.chat_array[i].chat_id;
-        user_num = user_data.chat_array[i].count_msg;
-        
+    for(int j = 0; j < user_data.amount_of_chat; j++) {
+        check = user_data.chat_array[j].chat_id;
+        user_num = user_data.chat_array[j].count_msg;
+
         if(barashka == true) {
+
             char *s_message = clear_client_message(NULL);
             send(sock_to, "@message_read", strlen("@message_read"), 0);
             recv(sock_to, s_message, 1000, 0);
@@ -42,16 +43,15 @@ void main_reader(int sock_to) {
 
             int messages_num = 0;
             if(user_num < server_num) {
-                user_data.chat_array[main_data.main_box.search_chat_index].count_msg = server_num;
+                user_data.chat_array[j].count_msg = server_num;
                 messages_num = server_num - user_num;
             }
 
-            if(user_data.chat_array[main_data.main_box.search_chat_index].msg_list == NULL){
-                user_data.chat_array[main_data.main_box.search_chat_index].msg_list = (t_message *)malloc(sizeof(t_message) * 30000);
+            if(user_data.chat_array[j].msg_list == NULL){
+                user_data.chat_array[j].msg_list = (t_message *)malloc(sizeof(t_message) * 30000);
             }
 
             for(int i = 0; i < messages_num; i++) {
-
                 send(sock_to, "@message_size", strlen("@message_size"), 0);
                 recv(sock_to, s_message, 1000, 0);
                 int message_size = atoi(s_message);
@@ -62,10 +62,29 @@ void main_reader(int sock_to) {
                 send(sock_to, "@message_user", strlen("@message_user"), 0);
                 recv(sock_to, message_user, message_size, 0);
 
-                load_messages_for_chat(user_num + i, message_user);
-
-                mx_printerr(message_user);
+                mx_printerr("&&&&&&&&&&&&&&\n");
+                mx_printerr("chat_id: ");
+                mx_printerr(mx_itoa(check));
                 mx_printerr("\n");
+
+                mx_printerr("user_num: ");
+                mx_printerr(mx_itoa(user_num + i));
+                mx_printerr("\n");
+
+                load_messages_for_chat(check, user_num + i, message_user);
+                mx_printerr("!!!!!!!!!!!\n");
+                //display_new_loaded_messages(check, user_num + i);
+                mx_printerr("*************\n");
+                if(check == 2) {
+                    mx_printerr("chat_id: ");
+                    mx_printerr(mx_itoa(check));
+                    mx_printerr("\n");
+
+                    mx_printerr("user_num: ");
+                    mx_printerr(mx_itoa(user_num));
+                    mx_printerr("\n");
+                }
+
                 free(message_user);
 
                 if(i == messages_num - 1){
@@ -73,7 +92,6 @@ void main_reader(int sock_to) {
                     gtk_widget_hide(main_data.main_box.right_chat_box);
                     gtk_widget_show_all(main_data.main_box.right_chat_box);
                 }
-
             }
         }
     }

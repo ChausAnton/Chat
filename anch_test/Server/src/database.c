@@ -13,8 +13,9 @@ void db_open(char* path, sqlite3** db) {
 }
 
 static int callback(void *data, int argc, char **argv, char **azColName){
-   if(data)
-   for(int i = 0; i < argc; i++){
+   if(data){}
+   int i;
+   for(i = 0; i < argc; i++){
       printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
    }
    return 0;
