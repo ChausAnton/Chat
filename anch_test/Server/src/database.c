@@ -6,7 +6,7 @@ void db_open(char* path, sqlite3** db) {
    if (exist != 0) {
       db_create();
    } else {
-      int rc = sqlite3_open(path, db);
+      int rc = sqlite3_open_v2(path, &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX, NULL);
       if (rc) fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(*db));
       else fprintf(stdout, "Database [%s] opened successfully\n", path);
    }
@@ -32,7 +32,8 @@ void db_exec(char* statement, sqlite3* db) {
 
 void db_create() {
    int a = mkdir("database", S_IRWXU | S_IRWXG | S_IRWXO);
-   int rc = sqlite3_open("database/uchat.db", &db);
+   //int rc = sqlite3_open("database/uchat.db", &db);
+   int rc = sqlite3_open_v2("database/uchat.db", &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FULLMUTEX, NULL);
    char *sql = NULL;
    sql = mx_strjoin(sql, "PRAGMA encoding = \"UTF-8\";");
    sql = mx_strjoin(sql, "CREATE TABLE IF NOT EXISTS `users` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT not null, `login` varchar(30) UNIQUE not null, `password` varchar(30) not null, `name` varchar(50) null, `user_image` varchar(1000) NULL);");
