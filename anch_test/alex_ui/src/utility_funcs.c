@@ -206,6 +206,15 @@ void unpress_logout(GtkWidget *widget, GdkEventButton *event, gpointer *p) {
     }
 }
 
+void exit_from_online() {
+    thread_info = NULL;
+    char *s_message = clear_client_message(NULL);
+    send(sock, "@exit_from_online", strlen("@exit_from_online"), 0);
+    recv(sock, s_message, 2000, 0);
+    free(s_message);
+    start_screen();
+}
+
 void logout(GtkWidget *widget, GdkEventButton *event) {
 
     if(event->type == GDK_BUTTON_PRESS && event->button == 1){
@@ -250,7 +259,7 @@ void logout(GtkWidget *widget, GdkEventButton *event) {
         gtk_button_set_relief(GTK_BUTTON(no_button), GTK_RELIEF_NONE);
         gtk_box_pack_start(GTK_BOX(logout_box_for_buttons), no_button, FALSE, FALSE, 0);
 
-        g_signal_connect(G_OBJECT(yes_button), "button_press_event", G_CALLBACK(start_screen), NULL);
+        g_signal_connect(G_OBJECT(yes_button), "button_press_event", G_CALLBACK(exit_from_online), NULL);
         g_signal_connect(G_OBJECT(no_button), "button_press_event", G_CALLBACK(unpress_logout), logout_event_box);
 
         gtk_widget_show_all(GTK_WIDGET(logout_event_box));
@@ -294,16 +303,16 @@ void show_search_result(GtkWidget *widget, GdkEventButton *event, gpointer *user
     gtk_box_pack_start(GTK_BOX(search_chat_box), add_new_chat_photo, FALSE, FALSE, 0);
 
     ////Name of searching user
+    send(sock, "@user_name", strlen("@user_name"), 0);
     recv(sock, s_message, 2000, 0);
-    send(sock, "@GET", strlen("@GET"), 0);
     GtkWidget* user_name_in_search = gtk_label_new(s_message);
     s_message = clear_client_message(s_message);
     gtk_widget_set_name(GTK_WIDGET(user_name_in_search), "user_name_in_search");
     gtk_box_pack_start(GTK_BOX(search_chat_box), user_name_in_search, FALSE, FALSE, 0);
 
     //////User_id of searching user
+    send(sock, "@user_id", strlen("@user_id"), 0);
     recv(sock, s_message, 2000, 0);
-    send(sock, "@GET", strlen("@GET"), 0);
     GtkWidget *user_id = gtk_label_new(s_message);
     s_message = clear_client_message(s_message);
     gtk_box_pack_start(GTK_BOX(search_chat_box), user_id, FALSE, FALSE, 0);

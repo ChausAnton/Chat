@@ -111,14 +111,16 @@ void *reader() {
     if(exit_thread == true) pthread_exit(&exit_code);
 
     while(1) {
-        if(atoi(thread_info) > 0) {
-            if(loaded_messages == false) {
-                display_loaded_messages();
-                loaded_messages = true;
+        if (thread_info != NULL) {
+            if(atoi(thread_info) > 0) {
+                if(loaded_messages == false) {
+                    display_loaded_messages();
+                    loaded_messages = true;
+                }
+                main_reader(sock_to);
             }
-            main_reader(sock_to);
+            read_new_chats(sock_to);
         }
-        read_new_chats(sock_to);
         if(exit_thread == true) {
             char *s_message = clear_client_message(NULL);
             send(sock_to, "@exit_thread", strlen("@exit_thread"), 0);
