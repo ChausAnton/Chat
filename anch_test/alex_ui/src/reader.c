@@ -115,7 +115,6 @@ void mx_reconect(int *sock_to) {
         //play_music();
         close(*sock_to);
         *sock_to = socket(AF_INET, SOCK_STREAM, 0);
-        mx_printerr("reconecting..");
         usleep(100000);
     }    
 }
