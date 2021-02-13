@@ -34,8 +34,13 @@ void display_new_loaded_messages(int chat_id, int index) {
     mx_printerr("\n");
         int sticker_id = is_sticker(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].text);
     mx_printerr("Bruh2\n");
+        if(index == 0 || strncmp(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].date, user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index-1].date, 11) != 0){
+            GtkWidget *date_cnahge = gtk_label_new(strndup(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].date, 11));
+            gtk_widget_set_name(GTK_WIDGET(date_cnahge), "date_cnahge");
+            gtk_widget_set_halign (date_cnahge, GTK_ALIGN_CENTER);
+            gtk_box_pack_start(GTK_BOX(main_data.main_box.messanges_area_for_scroll), date_cnahge, FALSE, FALSE, 0);
+        }
         if(sticker_id != -1){
-
             char *sticker_path = strdup("resource/images/stickers/sticker_");
           
             sticker_path = mx_strjoin(sticker_path, mx_itoa(sticker_id));
@@ -63,7 +68,9 @@ void display_new_loaded_messages(int chat_id, int index) {
 
             gtk_box_pack_start(GTK_BOX(message_body_box), message_file, FALSE, FALSE, 0);
 
-            GtkWidget *message_time = gtk_label_new(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].date);
+            char **time_message = mx_strsplit(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].date, ' ');
+
+            GtkWidget *message_time = gtk_label_new(strndup(time_message[3], 5));
             gtk_widget_set_name(GTK_WIDGET(message_time), "message_time_sticker");
             gtk_widget_set_halign(GTK_WIDGET(message_time), GTK_ALIGN_END);
             gtk_box_pack_start(GTK_BOX(message_body_box), message_time, FALSE, FALSE, 0);
@@ -83,7 +90,9 @@ void display_new_loaded_messages(int chat_id, int index) {
             gtk_box_pack_start(GTK_BOX(message_body_box), message, FALSE, FALSE, 0);
 
             ///Time
-            GtkWidget *message_time = gtk_label_new(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].date);
+            char **time_message = mx_strsplit(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].date, ' ');
+
+            GtkWidget *message_time = gtk_label_new(strndup(time_message[3], 5));
             gtk_widget_set_name(GTK_WIDGET(message_time), "message_time");
             gtk_widget_set_halign(GTK_WIDGET(message_time), GTK_ALIGN_END);
             gtk_box_pack_start(GTK_BOX(message_body_box), message_time, FALSE, FALSE, 0);
@@ -96,6 +105,12 @@ void display_new_loaded_messages(int chat_id, int index) {
 void display_loaded_messages() {
     for(int i = 0;  i < user_data.chat_array[main_data.main_box.search_chat_index].count_msg; i++){
         int sticker_id = is_sticker(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[i].text);
+        if(i == 0 || strncmp(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[i].date, user_data.chat_array[main_data.main_box.search_chat_index].msg_list[i-1].date, 11) != 0){
+            GtkWidget *date_cnahge = gtk_label_new(strndup(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[i].date, 11));
+            gtk_widget_set_name(GTK_WIDGET(date_cnahge), "date_cnahge");
+            gtk_widget_set_halign (date_cnahge, GTK_ALIGN_CENTER);
+            gtk_box_pack_start(GTK_BOX(main_data.main_box.messanges_area_for_scroll), date_cnahge, FALSE, FALSE, 0);
+        }
         if(sticker_id != -1){
             char *sticker_path = strdup("resource/images/stickers/sticker_");
             sticker_path = mx_strjoin(sticker_path, mx_itoa(sticker_id));
@@ -123,7 +138,9 @@ void display_loaded_messages() {
 
             gtk_box_pack_start(GTK_BOX(message_body_box), message_file, FALSE, FALSE, 0);
 
-            GtkWidget *message_time = gtk_label_new(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[i].date);
+            char **time_message = mx_strsplit(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[i].date, ' ');
+
+            GtkWidget *message_time = gtk_label_new(strndup(time_message[3], 5));
             gtk_widget_set_name(GTK_WIDGET(message_time), "message_time_sticker");
             gtk_widget_set_halign(GTK_WIDGET(message_time), GTK_ALIGN_END);
             gtk_box_pack_start(GTK_BOX(message_body_box), message_time, FALSE, FALSE, 0);
@@ -143,7 +160,9 @@ void display_loaded_messages() {
             gtk_box_pack_start(GTK_BOX(message_body_box), message, FALSE, FALSE, 0);
 
             ///Time
-            GtkWidget *message_time = gtk_label_new(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[i].date);
+            char **time_message = mx_strsplit(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[i].date, ' ');
+
+            GtkWidget *message_time = gtk_label_new(strndup(time_message[3], 5));
             gtk_widget_set_name(GTK_WIDGET(message_time), "message_time");
             gtk_widget_set_halign(GTK_WIDGET(message_time), GTK_ALIGN_END);
             gtk_box_pack_start(GTK_BOX(message_body_box), message_time, FALSE, FALSE, 0);
@@ -153,7 +172,7 @@ void display_loaded_messages() {
     gtk_widget_show_all(main_data.activity_block);
 }
 
-void load_messages_for_chat(int chat_id, int index, char *msg){  
+void load_messages_for_chat(int chat_id, int index, char *msg, int last){  
     int chat_index = -1;
     for(int i = 0; i < user_data.amount_of_chat; i++){
         if(user_data.chat_array[i].chat_id == chat_id) {
@@ -180,6 +199,10 @@ void load_messages_for_chat(int chat_id, int index, char *msg){
     user_data.chat_array[chat_index].msg_list[index].text = strdup(str[j]);//Text of message
     j++;
     if(chat_id == main_data.main_box.search_chat_id) display_new_loaded_messages(chat_id, index);
+    if(last == 1) {
+        gtk_widget_hide(main_data.main_box.right_chat_box);
+        gtk_widget_show_all(main_data.main_box.right_chat_box);
+    }
     /*int sticker_id = is_sticker(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].text);
     if(sticker_id != -1){
         char *sticker_path = strdup("resource/images/stickers/");

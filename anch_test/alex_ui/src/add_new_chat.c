@@ -63,44 +63,6 @@ void show_add_new_chat(GtkWidget *widget) {
     main_data.main_box.add_chats_scrollable_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_name(GTK_WIDGET( main_data.main_box.add_chats_scrollable_box), "add_chats_scrollable_box");
     gtk_container_add(GTK_CONTAINER(scrollable),  main_data.main_box.add_chats_scrollable_box);
-
-    /*for(int i = 0; i < 15; i++) {
-
-        GtkWidget *search_chat_button = gtk_event_box_new();
-        gtk_widget_set_name(GTK_WIDGET(search_chat_button), "user_button");
-        gtk_event_box_set_above_child(GTK_EVENT_BOX(search_chat_button), TRUE);
-        gtk_box_pack_start(GTK_BOX(add_chats_scrollable_box), search_chat_button, FALSE, FALSE, 0);
-
-        GtkWidget *search_chat_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-        gtk_widget_set_name(GTK_WIDGET(search_chat_box), "user_small_box");
-        gtk_widget_set_size_request(GTK_WIDGET(search_chat_box), 300, 70);
-        gtk_container_add(GTK_CONTAINER(search_chat_button), search_chat_box);
-        
-        GtkWidget *add_new_chat_avatar = gtk_drawing_area_new();
-        gtk_widget_set_size_request(GTK_WIDGET(add_new_chat_avatar), 80, 80);
-        char *path = strdup("resource/images/sh.jpg");
-
-        g_signal_connect(G_OBJECT(add_new_chat_avatar), "draw", G_CALLBACK(draw_user_avatar), path);
-
-        GtkWidget *add_new_chat_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-        gtk_widget_set_name(GTK_WIDGET(add_new_chat_photo), "add_new_chat_photo");
-        gtk_container_add(GTK_CONTAINER(add_new_chat_photo), add_new_chat_avatar);
-        gtk_widget_set_size_request(GTK_WIDGET(add_new_chat_photo), 50, 30);
-        gtk_box_pack_start(GTK_BOX(search_chat_box), add_new_chat_photo, FALSE, FALSE, 0);
-
-        GtkWidget* user_name_in_search = gtk_label_new("Shrek))0)");
-        gtk_widget_set_name(GTK_WIDGET(user_name_in_search), "user_name_in_search");
-        gtk_box_pack_start(GTK_BOX(search_chat_box), user_name_in_search, FALSE, FALSE, 0);
-
-        GtkWidget *chat_id = gtk_label_new(int_to_str(user_data.chat_array[i].chat_id));
-        gtk_box_pack_start(GTK_BOX(search_chat_box), chat_id, FALSE, FALSE, 0);
-        gtk_widget_set_name(GTK_WIDGET(chat_id), "hidden");
-
-        g_signal_connect(G_OBJECT(search_chat_button), "enter-notify-event", G_CALLBACK(event_enter_notify_search), NULL);
-        g_signal_connect(G_OBJECT(search_chat_button), "leave-notify-event", G_CALLBACK(event_leave_notify_search), NULL);
-        
-        g_signal_connect(G_OBJECT(search_chat_button), "button_press_event", G_CALLBACK(search_user_click), NULL);
-    }*/
     
     GtkWidget *new_chat_event_box = gtk_event_box_new();
     gtk_widget_set_name(GTK_WIDGET(new_chat_event_box), "new_chat_event_box");
@@ -128,13 +90,6 @@ void show_add_new_chat(GtkWidget *widget) {
 
 
 static void scrolling_chats() {
-    // usleep(15000);
-    // GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.chat_bar_scroll));
-    // gtk_adjustment_set_value(adjustment, gtk_adjustment_get_upper(adjustment));
-
-    // gtk_widget_hide(main_data.main_box.chat_bar_scroll);
-    // gtk_widget_show(main_data.main_box.chat_bar_scroll);
-    // return NULL;
     while (gtk_events_pending()) {
         gtk_main_iteration();
         GtkAdjustment *adj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.chat_bar_scroll));
@@ -144,6 +99,7 @@ static void scrolling_chats() {
 }
 
 void add_new_chat_from_server(int chat_id_num, int sock_to) { 
+    user_data.chat_array[user_data.amount_of_chat].msg_list = (t_message *)malloc(sizeof(t_message) * 30000);
     user_data.chat_array[user_data.amount_of_chat].count_msg = 0;
 
     char *s_message = clear_client_message(NULL);
@@ -162,13 +118,11 @@ void add_new_chat_from_server(int chat_id_num, int sock_to) {
             recv(sock_to, s_message, 1000, 0);
             user_data.chat_array[user_data.amount_of_chat].users_list[i].user_id = atoi(s_message);
             s_message = clear_client_message(s_message);
-    mx_printerr("@@@@@@@@@@@@@@@\n");
 
             send(sock_to, "@login", strlen("@login"), 0);
             recv(sock_to, s_message, 1000, 0);
             user_data.chat_array[user_data.amount_of_chat].users_list[i].login = strdup(s_message);
             s_message = clear_client_message(s_message);
-    mx_printerr("^^^^^^^^^^^^^^^^^^^\n");
 
             send(sock_to, "@name", strlen("@name"), 0);
             recv(sock_to, s_message, 1000, 0);
@@ -179,10 +133,7 @@ void add_new_chat_from_server(int chat_id_num, int sock_to) {
             s_message = clear_client_message(s_message);
 
             send(sock_to, "@image_path", strlen("@image_path"), 0);
-             mx_printerr("(((((((())))))))))))\n");
-
             recv(sock_to, s_message, 1000, 0);
-    mx_printerr("**************\n");
 
             user_data.chat_array[user_data.amount_of_chat].users_list[i].image_path = strdup(s_message);
             s_message = clear_client_message(s_message);
@@ -230,8 +181,6 @@ void add_new_chat_from_server(int chat_id_num, int sock_to) {
     g_signal_connect(G_OBJECT(user_data.chat_array[user_data.amount_of_chat].chat_button), "button_press_event", G_CALLBACK(chat_click), NULL);
     
     user_data.amount_of_chat++;
-
-    gtk_widget_destroy(main_data.main_box.add_new_chat_event_box);
     
     gtk_widget_show_all(main_data.main_box.chat_bar);
 
@@ -274,18 +223,18 @@ void add_new_chat() {
 
             user_data.chat_array[user_data.amount_of_chat].users_list[tmp_index].user_id = new_chat_users_id[i];
 
+            send(sock, "@login", strlen("@login"), 0);
             recv(sock, s_message, 1000, 0);
-            send(sock, "@GET", strlen("@GET"), 0);
             user_data.chat_array[user_data.amount_of_chat].users_list[tmp_index].login = strdup(s_message);
             s_message = clear_client_message(s_message);
 
+            send(sock, "@name", strlen("@name"), 0);
             recv(sock, s_message, 1000, 0);
-            send(sock, "@GET", strlen("@GET"), 0);
             user_data.chat_array[user_data.amount_of_chat].users_list[tmp_index].name = strdup(s_message);
             s_message = clear_client_message(s_message);
 
+            send(sock, "@image_path", strlen("@image_path"), 0);
             recv(sock, s_message, 1000, 0);
-            send(sock, "@GET", strlen("@GET"), 0);
             user_data.chat_array[user_data.amount_of_chat].users_list[tmp_index].image_path = strdup(s_message);
             s_message = clear_client_message(s_message);
             tmp_index++;
@@ -300,9 +249,9 @@ void add_new_chat() {
     //user_data.chat_array[user_data.amount_of_chat-1].chat_id = last(chat_id in db);
 
     s_message = clear_client_message(s_message);
+    send(sock, "@chat_id", strlen("@chat_id"), 0);
     recv(sock, s_message, 1000, 0);
     user_data.chat_array[user_data.amount_of_chat].chat_id = atoi(s_message);
-    send(sock, "@GET", strlen("@GET"), 0);
     s_message = clear_client_message(s_message);
 
     user_data.chat_array[user_data.amount_of_chat].image_path = strdup("resource/images/stickers/047-hello.png");

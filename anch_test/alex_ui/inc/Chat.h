@@ -37,8 +37,8 @@ int sock;
 //ipconfig getifaddr en0 for get ip
 //10.11.7.8 ansh
 //10.11.7.7 anch
-#define SERVERADDR "10.11.7.7"
-#define SERVERPORT 8094
+#define SERVERADDR "10.11.7.8"
+#define SERVERPORT 8093
 int new_chat_users_id[100];
 char *thread_info;
 void *reader();
@@ -191,7 +191,7 @@ void add_new_chat_from_server(int chat_id, int sock_to);
 
 /* load_chat_box.c */
 void load_right_chat_box();
-void load_messages_for_chat(int chat_id, int index, char *msg);
+void load_messages_for_chat(int chat_id, int index, char *msg, int last);
 void display_loaded_messages();
 void display_new_loaded_messages(int chat_id, int index);
 /* chat_info.c */

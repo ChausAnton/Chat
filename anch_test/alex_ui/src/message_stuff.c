@@ -13,7 +13,15 @@ void *scrolling_msg() {
 }
 
 void display_message(char *message_text) {
-    
+    int count = user_data.chat_array[main_data.main_box.search_chat_index].count_msg;
+    mx_printerr(int_to_str(count));
+    if(count == 1 || strncmp(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[count-1].date, user_data.chat_array[main_data.main_box.search_chat_index].msg_list[count-2].date, 11) != 0){
+        GtkWidget *date_cnahge = gtk_label_new(strndup(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[count-1].date, 11));
+        gtk_widget_set_name(GTK_WIDGET(date_cnahge), "date_cnahge");
+        gtk_widget_set_halign (date_cnahge, GTK_ALIGN_CENTER);
+        gtk_box_pack_start(GTK_BOX(main_data.main_box.messanges_area_for_scroll), date_cnahge, FALSE, FALSE, 0);
+    }
+
     GtkWidget *message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
     gtk_widget_set_name(GTK_WIDGET(message_body), "messages_body");
     gtk_box_pack_start(GTK_BOX(main_data.main_box.messanges_area_for_scroll), message_body, FALSE, FALSE, 0);
@@ -41,8 +49,9 @@ void display_message(char *message_text) {
     time_message = mx_strjoin(time_message, int_to_str(timeinfo->tm_min));*/
     time_t t = time(NULL);
     struct tm *tm = localtime(&t);
+    char **time_message = mx_strsplit(asctime(tm), ' ');
     
-    GtkWidget *message_time = gtk_label_new(asctime(tm));
+    GtkWidget *message_time = gtk_label_new(strndup(time_message[3], 5));
     gtk_widget_set_name(GTK_WIDGET(message_time), "message_time");
     gtk_widget_set_halign(GTK_WIDGET(message_time), GTK_ALIGN_END);
     gtk_box_pack_start(GTK_BOX(message_body_box), message_time, FALSE, FALSE, 0);
@@ -90,6 +99,7 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
         user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].text = strdup(text);//Text of message
 
         user_data.chat_array[main_data.main_box.search_chat_index].count_msg++;
+        display_message(text);
 
         mx_printerr("Behind serever send\n");
 
@@ -108,13 +118,12 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
         send(sock, text, strlen(text), 0);
         recv(sock, s_message, 1000, 0);
         s_message = clear_client_message(s_message);
-        display_message(text);
 
         mx_printerr("After serever send\n");
-        barashka = true;
-
         g_free (text);
         gtk_text_view_set_buffer ((GtkTextView *)messsage, NULL);
+        barashka = true;
+
     }
 }
 

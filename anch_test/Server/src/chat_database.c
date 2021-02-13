@@ -71,6 +71,30 @@ char* db_get_chat_name(int chat_id, sqlite3* db) {
     return chat_name;
 }
 
+char* db_get_chat_image(int chat_id, sqlite3* db) {
+    char *chat_name = NULL;
+    sqlite3_stmt *result;
+    char* statement = strdup("select chat_image from chats where chat_id=");
+    statement = mx_strjoin(statement, int_to_str(chat_id));
+    statement = mx_strjoin(statement, ";");
+ 
+    int rc = sqlite3_prepare_v2(db, statement, -1, &result, 0);    
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "Failed to fetch data: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+    } 
+
+    rc = sqlite3_step(result);
+
+    if (rc == SQLITE_ROW) {
+        chat_name = strdup((char*)sqlite3_column_text(result, 0));
+    }
+
+    sqlite3_finalize(result);
+    free(statement);
+    return chat_name;
+}
+
 int get_count_users_for_chat(int chat_id, sqlite3* db)  {
     char* statement = strdup("select member_count from chats where chat_id=");
     statement = mx_strjoin(statement, int_to_str(chat_id));
