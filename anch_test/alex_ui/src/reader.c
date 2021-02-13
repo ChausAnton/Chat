@@ -106,17 +106,12 @@ void *reader() {
 	int sock_to;
 	sock_work(&sock_to);
     int exit_code = 1;
-    bool loaded_messages = false;
     while(thread_info == NULL && exit_thread != true) {};     
     if(exit_thread == true) pthread_exit(&exit_code);
 
     while(1) {
         if (thread_info != NULL) {
             if(atoi(thread_info) > 0) {
-                if(loaded_messages == false) {
-                    display_loaded_messages();
-                    loaded_messages = true;
-                }
                 main_reader(sock_to);
             }
             read_new_chats(sock_to);
