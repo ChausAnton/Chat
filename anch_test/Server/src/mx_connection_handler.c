@@ -53,7 +53,7 @@ void *connection_handler(void *new_sock) {
 			fflush(stdout);
 			close(sock_from);
 			mx_printerr("Client out\n");
-			return 0;
+			//return 0;
 		}
 
 		client_message = clear_client_message(client_message);

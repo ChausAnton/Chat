@@ -1,0 +1,53 @@
+#activity {
+    /*background-image: url("../images/sh.jpg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;*/
+    background: whitesmoke;
+}
+#reload_screen {
+    background: white;
+}
+#exit_button {
+    background-image: url("../images/logout_active.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#server_lost_label {
+    font: 18px Times;
+    color: black;
+}
+/* Logout */
+#logout_event_box {
+    background: rgba(0, 0, 0, 0.4);
+}
+#logout_box {
+    background: lightgray;
+    border-radius: 15px;
+}
+#logout_label {
+    color: lightslategray;
+    font: 18px Times;
+    margin-top: 20px;
+}
+#logout_box_for_buttons {
+    margin-top: 20px;
+}
+#yes_button {
+    min-width: 70px;
+    margin-left: 20px;
+    background: whitesmoke;
+    font: 18px Times;
+    border-radius: 15px;
+    color: lightsalmon;
+}
+#no_button {
+    min-width: 70px;
+    background: lightsalmon;
+    font: 18px Times;
+    margin-left: 50px;
+    border-radius: 15px;
+    color: whitesmoke;
+}

@@ -1,5 +1,7 @@
 #include "Chat.h"
 
+
+
 void db_add_user(char *login, char *password) {
     char* statement = strdup("insert into users (login, password, name, user_image) values ('");
     statement = mx_strjoin(statement, login);
@@ -47,16 +49,14 @@ void db_set_user_login(char *login, char *new_login) {
 }
 
 void db_set_user_name(char *login, char *new_name) {
-    if(new_name != NULL){
-        char* statement = strdup("update users set name='");
-        statement = mx_strjoin(statement, new_name);
-        statement = mx_strjoin(statement, "' where login='");
-        statement = mx_strjoin(statement, login);
-        statement = mx_strjoin(statement, "';");
+    char* statement = strdup("update users set name='");
+    statement = mx_strjoin(statement, new_name);
+    statement = mx_strjoin(statement, "' where login='");
+    statement = mx_strjoin(statement, login);
+    statement = mx_strjoin(statement, "';");
 
-        db_exec(statement, db);
-        free(statement);
-    }
+    db_exec(statement, db);
+    free(statement);
 }
 
 char *db_get_user_password(char *login, sqlite3* db){
@@ -129,18 +129,11 @@ int db_get_count_user(sqlite3* db) {
 }
 
 char* db_get_user_name(char *login, sqlite3* db) {
-    printf("\nsearched login:%s\nstrlen:%lu\n",login,strlen(login));
-
-    if(db_get_user_id(login, db) == -1){
-        return NULL;
-    } 
-
     char *user_name = strdup("\0");
     sqlite3_stmt *result;
     char* statement = strdup("select name from users where login='");
     statement = mx_strjoin(statement, login);
     statement = mx_strjoin(statement, "';");
-    printf("db_get_user_name 1\n");
 
  
     int rc = sqlite3_prepare_v2(db, statement, -1, &result, 0);    
@@ -150,7 +143,6 @@ char* db_get_user_name(char *login, sqlite3* db) {
         fprintf(stderr, "Failed to fetch data: %s\n", sqlite3_errmsg(db));
         sqlite3_close(db);
     } 
-    printf("db_get_user_name 2\n");
 
     rc = sqlite3_step(result);
 
@@ -158,20 +150,20 @@ char* db_get_user_name(char *login, sqlite3* db) {
     if (rc == SQLITE_ROW) {
         user_name = strdup((char*)sqlite3_column_text(result, 0));
     }
-    printf("db_get_user_name 3\n");
 
     sqlite3_finalize(result);
     free(statement);
-    printf("db_get_user_name 4\n");
 
-    if (strlen(user_name) == 0) {
+    if(db_get_user_id(login, db) == -1){
+        return NULL;
+    } 
+    else if (strlen(user_name) == 0) {
         return strdup(login);
     }
     return user_name;
 }
 
 char* db_get_user_image_path(char *login, sqlite3* db) {
-    
     char *image_path = NULL;
     sqlite3_stmt *result;
     char* statement = strdup("select user_image from users where login='");

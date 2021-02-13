@@ -10,12 +10,12 @@ void *scrolling_sticker() {
 }
 
 void emoji_click(GtkWidget *widget, GdkEventButton *event, gpointer *sticker_path) {
-
+    barashka = false;
     if (widget) {}
     if(event->type == GDK_BUTTON_PRESS && event->button == 1){
         GtkWidget *message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
-        gtk_widget_set_name(GTK_WIDGET(message_body), "message_body");
-        gtk_box_pack_start(GTK_BOX(main_data.main_box.messanges_area_for_scroll), message_body, FALSE, FALSE, 0);
+        gtk_widget_set_name(GTK_WIDGET(message_body), "send_emoji");
+        gtk_box_pack_start(GTK_BOX(main_data.main_box.messages_area_for_scroll), message_body, FALSE, FALSE, 0);
 
         GtkWidget *message_body_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
         gtk_box_pack_end(GTK_BOX(message_body), message_body_box, FALSE, FALSE, 0);
@@ -35,7 +35,7 @@ void emoji_click(GtkWidget *widget, GdkEventButton *event, gpointer *sticker_pat
 
         gtk_box_pack_start(GTK_BOX(message_body_box), message_file, FALSE, FALSE, 0);
         
-        time_t rawtime;
+        /*time_t rawtime;
             struct tm * timeinfo;
             time ( &rawtime );
             timeinfo = localtime ( &rawtime );
@@ -43,26 +43,100 @@ void emoji_click(GtkWidget *widget, GdkEventButton *event, gpointer *sticker_pat
             time_message = mx_strjoin(time_message, ":");
             if(timeinfo->tm_min < 10){
                 time_message = mx_strjoin(time_message, "0");
-            }
-        time_message = mx_strjoin(time_message, int_to_str(timeinfo->tm_min));
+        }
+        time_message = mx_strjoin(time_message, int_to_str(timeinfo->tm_min));*/
+        time_t t = time(NULL);
+        struct tm *tm = localtime(&t);
 
-        GtkWidget *message_time = gtk_label_new(time_message);
+        GtkWidget *message_time = gtk_label_new(asctime(tm));
         gtk_widget_set_name(GTK_WIDGET(message_time), "message_time_sticker");
         gtk_widget_set_halign(GTK_WIDGET(message_time), GTK_ALIGN_END);
         gtk_box_pack_start(GTK_BOX(message_body_box), message_time, FALSE, FALSE, 0);
 
         ///Add to db
+        char* sticker_num = mx_strsplit(mx_strsplit((char *)sticker_path, '_')[1], '.')[0];
         char* path_for_db = strdup("~");
-        path_for_db = mx_strjoin(path_for_db, (char *)sticker_path);
+        path_for_db = mx_strjoin(path_for_db, sticker_num);
+
+        int msg_index = user_data.chat_array[main_data.main_box.search_chat_index].count_msg;
+
+        user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].msg_id_in_chat = msg_index+1; //Msg id in selected chat
+        user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].chat_id = main_data.main_box.search_chat_id;//Chat id where msg
+        user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].user_id = user_data.user_id;//User send id
+        
+        user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].date = strdup(asctime(tm)); //Date of message
+        user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].text = strdup(path_for_db);//Text of message
+
+        user_data.chat_array[main_data.main_box.search_chat_index].count_msg++;
 
         char *s_message = clear_client_message(NULL);
+
         send(sock, "@message_send", strlen("@message_send"), 0);
+        recv(sock, s_message, 1000, 0);
+        s_message = clear_client_message(s_message);
+
+        send(sock, thread_info, strlen(thread_info), 0);
         recv(sock, s_message, 1000, 0);
         s_message = clear_client_message(s_message);
         
         send(sock, path_for_db, strlen(path_for_db), 0);
         recv(sock, s_message, 1000, 0);
         s_message = clear_client_message(s_message);
+
+        free(path_for_db);
+        free(sticker_num);
+        
+        pthread_t display_thread = NULL;
+        pthread_create(&display_thread, NULL, scrolling_sticker, NULL);
+
+        barashka = true;
+    }
+    gtk_widget_destroy(main_data.main_box.emoji_event_box);
+    gtk_widget_unset_state_flags(main_data.main_box.smile_button_clickable, GTK_STATE_FLAG_ACTIVE);
+    gtk_widget_show_all(main_data.main_box.right_chat_box);
+}
+
+void obtained_emoji_click(GtkWidget *widget, GdkEventButton *event, gpointer *sticker_path) {
+
+    if (widget) {}
+    if(event->type == GDK_BUTTON_PRESS && event->button == 1){
+        GtkWidget *obtained_message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+        gtk_widget_set_name(GTK_WIDGET(obtained_message_body), "obtained_emoji");
+        gtk_box_pack_start(GTK_BOX(main_data.main_box.messages_area_for_scroll), obtained_message_body, FALSE, FALSE, 0);
+
+        GtkWidget *obtained_message_body_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
+        gtk_box_pack_start(GTK_BOX(obtained_message_body), obtained_message_body_box, FALSE, FALSE, 0);
+
+        GtkWidget *obtained_message_file = gtk_image_new();
+        GdkPixbuf *obtained_message_file_pixbuf = gdk_pixbuf_new_from_file((gchar *)sticker_path, NULL);
+        
+        gint width = gdk_pixbuf_get_width(obtained_message_file_pixbuf);
+        gint height = gdk_pixbuf_get_height(obtained_message_file_pixbuf);
+
+        if (width > 52 || height > 52) {
+            gtk_image_set_from_pixbuf(GTK_IMAGE(obtained_message_file), gdk_pixbuf_new_from_file_at_scale((gchar *)sticker_path, 52, 52, TRUE, NULL));
+        } else {
+            gtk_image_set_from_pixbuf(GTK_IMAGE(obtained_message_file), obtained_message_file_pixbuf);
+        }
+        g_object_unref(G_OBJECT(obtained_message_file_pixbuf));
+
+        gtk_box_pack_start(GTK_BOX(obtained_message_body_box), obtained_message_file, FALSE, FALSE, 0);
+        
+        time_t rawtime;
+        struct tm * timeinfo;
+        time ( &rawtime );
+        timeinfo = localtime ( &rawtime );
+        char *time_obtained_message = strdup(int_to_str(timeinfo->tm_hour));
+        time_obtained_message = mx_strjoin(time_obtained_message, ":");
+        if(timeinfo->tm_min < 10){
+            time_obtained_message = mx_strjoin(time_obtained_message, "0");
+        }
+        time_obtained_message = mx_strjoin(time_obtained_message, int_to_str(timeinfo->tm_min));
+
+        GtkWidget *obtained_message_time = gtk_label_new(time_obtained_message);
+        gtk_widget_set_name(GTK_WIDGET(obtained_message_time), "obtained_message_time_sticker");
+        gtk_widget_set_halign(GTK_WIDGET(obtained_message_time), GTK_ALIGN_START);
+        gtk_box_pack_start(GTK_BOX(obtained_message_body_box), obtained_message_time, FALSE, FALSE, 0);
         
         pthread_t display_thread = NULL;
         pthread_create(&display_thread, NULL, scrolling_sticker, NULL);
@@ -72,14 +146,14 @@ void emoji_click(GtkWidget *widget, GdkEventButton *event, gpointer *sticker_pat
 
 void show_emoji_box(GtkWidget *widget) {
 
-    GtkWidget *emoji_event_box = gtk_event_box_new();
-    gtk_widget_set_name(GTK_WIDGET(emoji_event_box), "emoji_event_box");
-    gtk_widget_set_size_request(GTK_WIDGET(emoji_event_box), 1400, 900);
-    g_signal_connect(G_OBJECT(emoji_event_box), "button_press_event", G_CALLBACK(unpress_event_box), widget);
-    gtk_fixed_put(GTK_FIXED(main_data.activity_block), emoji_event_box, 0, 0);
+    main_data.main_box.emoji_event_box = gtk_event_box_new();
+    gtk_widget_set_name(GTK_WIDGET(main_data.main_box.emoji_event_box), "emoji_event_box");
+    gtk_widget_set_size_request(GTK_WIDGET(main_data.main_box.emoji_event_box), 1400, 900);
+    g_signal_connect(G_OBJECT(main_data.main_box.emoji_event_box), "button_press_event", G_CALLBACK(unpress_event_box), widget);
+    gtk_fixed_put(GTK_FIXED(main_data.activity_block), main_data.main_box.emoji_event_box, 0, 0);
 
     GtkWidget *position_emoji_box = gtk_fixed_new();
-    gtk_container_add(GTK_CONTAINER(emoji_event_box), position_emoji_box);
+    gtk_container_add(GTK_CONTAINER(main_data.main_box.emoji_event_box), position_emoji_box);
 
     GtkWidget *emoji_event_box_for_click = gtk_event_box_new();
     gtk_widget_set_halign(GTK_WIDGET(emoji_event_box_for_click), GTK_ALIGN_END);
@@ -103,33 +177,33 @@ void show_emoji_box(GtkWidget *widget) {
     GtkWidget *single_emoji;
     
     for(int i = 2; i <= 11; i++) {
-          for(int j = 1; j <= 3; j++) {
-              single_emoji = gtk_event_box_new();  
-              gtk_widget_set_name(GTK_WIDGET(single_emoji), "emoji");
-              gtk_grid_attach(GTK_GRID(emoji_grid), single_emoji, j, i, 1, 1);
+        for(int j = 1; j <= 3; j++) {
+            single_emoji = gtk_event_box_new();  
+            //gtk_widget_set_name(GTK_WIDGET(single_emoji), "emoji");
+            gtk_grid_attach(GTK_GRID(emoji_grid), single_emoji, j, i, 1, 1);
 
-              GtkWidget *sticker_photo = gtk_drawing_area_new();
-              gtk_widget_set_size_request(GTK_WIDGET(sticker_photo), 55, 55);
-              char *path_sticker_photo = strdup("resource/images/stickers/");
-              path_sticker_photo =  mx_strjoin(path_sticker_photo, int_to_str(sticker_num));
-              path_sticker_photo =  mx_strjoin(path_sticker_photo, ".png");
+            GtkWidget *sticker_photo = gtk_drawing_area_new();
+            gtk_widget_set_size_request(GTK_WIDGET(sticker_photo), 55, 55);
+            char *path_sticker_photo = strdup("resource/images/stickers/sticker_");
+            path_sticker_photo =  mx_strjoin(path_sticker_photo, int_to_str(sticker_num));
+            path_sticker_photo =  mx_strjoin(path_sticker_photo, ".png");
 
-              g_signal_connect(G_OBJECT(sticker_photo), "draw", G_CALLBACK(draw_sticker_photo), path_sticker_photo);
-              gtk_container_add(GTK_CONTAINER(single_emoji), sticker_photo);
+            g_signal_connect(G_OBJECT(sticker_photo), "draw", G_CALLBACK(draw_sticker_photo), path_sticker_photo);
+            gtk_container_add(GTK_CONTAINER(single_emoji), sticker_photo);
 
-              g_signal_connect(G_OBJECT(single_emoji), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
-              g_signal_connect(G_OBJECT(single_emoji), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
+            g_signal_connect(G_OBJECT(single_emoji), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
+            g_signal_connect(G_OBJECT(single_emoji), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
 
-              g_signal_connect(G_OBJECT(single_emoji), "button_press_event", G_CALLBACK(emoji_click), (void *)path_sticker_photo);
+            g_signal_connect(G_OBJECT(single_emoji), "button_press_event", G_CALLBACK(emoji_click), (void *)path_sticker_photo);
 
-              sticker_num++;
-              if(sticker_num > 20) break;
-          }
-          if(sticker_num > 20) break;
+            sticker_num++;
+            if(sticker_num > 10) break;
+        }
+        if(sticker_num > 10) break;
     }
     gtk_container_add(GTK_CONTAINER(scrollable_emoji), emoji_grid);
 
-    gtk_widget_show_all(GTK_WIDGET(emoji_event_box));
+    gtk_widget_show_all(GTK_WIDGET(main_data.main_box.emoji_event_box));
 
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
 }

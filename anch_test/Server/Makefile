@@ -1,10 +1,10 @@
-NAME		=	server
+NAME  = server
 
-GTKCFLAGSLIBS	=	`pkg-config --cflags --libs gtk+-3.0`
-GTKCFLAGS		=	`pkg-config --cflags gtk+-3.0`
+GTKCFLAGSLIBS = `pkg-config --cflags --libs gtk+-3.0`
+GTKCFLAGS  = `pkg-config --cflags gtk+-3.0`
 
-ORACLE		=	-std=c11 -Wall -Wextra -Werror -Wpedantic
-CFLAGS		=	$(ORACLE) 
+ORACLE  = -std=c11 -Wall -Wextra -Werror -Wpedantic
+CFLAGS  = $(ORACLE) 
 
 SRC_DIR = src
 
@@ -46,5 +46,5 @@ uninstall: clean
 	@$(RM) $(OBJ_DIR)
 	@$(RM) $(NAME)
 	@@printf "$(NAME)\t \033[31;1muninstalled\033[0m\n"
-	
+ 
 reinstall: uninstall all

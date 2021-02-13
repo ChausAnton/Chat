@@ -1,7 +1,7 @@
 #include "../inc/Chat.h"
 
 void show_add_new_chat(GtkWidget *widget) {
-    main_data.main_box.is_first_search_destroy = 0;
+    
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
 
     main_data.main_box.add_new_chat_event_box = gtk_event_box_new();
@@ -14,7 +14,7 @@ void show_add_new_chat(GtkWidget *widget) {
     gtk_container_add(GTK_CONTAINER(main_data.main_box.add_new_chat_event_box), position_add_new_chat);
 
     GtkWidget *clickable_add_new_chat = gtk_event_box_new();
-    gtk_widget_set_name(GTK_WIDGET(clickable_add_new_chat), "clickable_add_new_chat");
+    //gtk_widget_set_name(GTK_WIDGET(clickable_add_new_chat), "clickable_add_new_chat");
     gtk_widget_set_halign(GTK_WIDGET(clickable_add_new_chat), GTK_ALIGN_END);
     gtk_widget_set_valign(GTK_WIDGET(clickable_add_new_chat), GTK_ALIGN_END);
     g_signal_connect(G_OBJECT(clickable_add_new_chat), "button_press_event", G_CALLBACK(gtk_widget_show), NULL);
@@ -35,8 +35,6 @@ void show_add_new_chat(GtkWidget *widget) {
     gtk_entry_set_max_length(GTK_ENTRY(search_users), 30);
     gtk_entry_set_placeholder_text (GTK_ENTRY(search_users), "Search");
     gtk_box_pack_start(GTK_BOX(horizontal_box), search_users, TRUE, TRUE, 0);
-
-    //printf("search_input:%s\n", search_input);
 
     // Search button
     GtkWidget *search_users_button = gtk_event_box_new();
@@ -64,12 +62,12 @@ void show_add_new_chat(GtkWidget *widget) {
     gtk_widget_set_name(GTK_WIDGET( main_data.main_box.add_chats_scrollable_box), "add_chats_scrollable_box");
     gtk_container_add(GTK_CONTAINER(scrollable),  main_data.main_box.add_chats_scrollable_box);
 
-    /*for(int i = 0; i < 15; i++) {
+    for(int i = 0; i < user_data.amount_of_chat; i++) {
 
         GtkWidget *search_chat_button = gtk_event_box_new();
         gtk_widget_set_name(GTK_WIDGET(search_chat_button), "user_button");
         gtk_event_box_set_above_child(GTK_EVENT_BOX(search_chat_button), TRUE);
-        gtk_box_pack_start(GTK_BOX(add_chats_scrollable_box), search_chat_button, FALSE, FALSE, 0);
+        gtk_box_pack_start(GTK_BOX(main_data.main_box.add_chats_scrollable_box), search_chat_button, FALSE, FALSE, 0);
 
         GtkWidget *search_chat_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
         gtk_widget_set_name(GTK_WIDGET(search_chat_box), "user_small_box");
@@ -89,10 +87,12 @@ void show_add_new_chat(GtkWidget *widget) {
         gtk_box_pack_start(GTK_BOX(search_chat_box), add_new_chat_photo, FALSE, FALSE, 0);
 
         GtkWidget* user_name_in_search = gtk_label_new("Shrek))0)");
+        gtk_label_set_selectable(GTK_LABEL(user_name_in_search), TRUE);
         gtk_widget_set_name(GTK_WIDGET(user_name_in_search), "user_name_in_search");
         gtk_box_pack_start(GTK_BOX(search_chat_box), user_name_in_search, FALSE, FALSE, 0);
 
         GtkWidget *chat_id = gtk_label_new(int_to_str(user_data.chat_array[i].chat_id));
+        gtk_label_set_selectable(GTK_LABEL(chat_id), TRUE);
         gtk_box_pack_start(GTK_BOX(search_chat_box), chat_id, FALSE, FALSE, 0);
         gtk_widget_set_name(GTK_WIDGET(chat_id), "hidden");
 
@@ -100,7 +100,7 @@ void show_add_new_chat(GtkWidget *widget) {
         g_signal_connect(G_OBJECT(search_chat_button), "leave-notify-event", G_CALLBACK(event_leave_notify_search), NULL);
         
         g_signal_connect(G_OBJECT(search_chat_button), "button_press_event", G_CALLBACK(search_user_click), NULL);
-    }*/
+    }
     
     GtkWidget *new_chat_event_box = gtk_event_box_new();
     gtk_widget_set_name(GTK_WIDGET(new_chat_event_box), "new_chat_event_box");
@@ -142,6 +142,92 @@ static void scrolling_chats() {
         gtk_scrolled_window_set_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.chat_bar_scroll), adj);
     }
 }
+
+/*void add_new_chat_from_server() { 
+    user_data.chat_array[user_data.amount_of_chat].count_msg = 0;
+
+    //user_data.chat_array[user_data.amount_of_chat].chat_name = strdup("New Chat");Вернусть с базы данных имя этого чата
+    //user_data.chat_array[user_data.amount_of_chat].count_users = 1;Вернуть с базы даных количество юзеров
+    
+    //send(sock, mx_itoa(user_data.chat_array[user_data.amount_of_chat].count_users), strlen(mx_itoa(user_data.chat_array[user_data.amount_of_chat].count_users)), 0);
+    //recv(sock, s_message, 1000, 0); 0 понимания что ты тут отсылаешь и получаешь
+
+    user_data.chat_array[user_data.amount_of_chat].users_list = (t_foreign_user *)malloc(sizeof(t_foreign_user) * user_data.chat_array[user_data.amount_of_chat].count_users);
+    for(int i = 0; i < user_data.chat_array[user_data.amount_of_chat].count_users; i++){
+            recv(sock, s_message, 1000, 0);
+            send(sock, "@GET", strlen("@GET"), 0);
+            user_data.chat_array[user_data.amount_of_chat].users_list[i].user_id = strdup(s_message);
+
+            recv(sock, s_message, 1000, 0);
+            send(sock, "@GET", strlen("@GET"), 0);
+            user_data.chat_array[user_data.amount_of_chat].users_list[i].login = strdup(s_message);
+            s_message = clear_client_message(s_message);
+
+            recv(sock, s_message, 1000, 0);
+            send(sock, "@GET", strlen("@GET"), 0);
+            user_data.chat_array[user_data.amount_of_chat].users_list[i].name = strdup(s_message);
+            s_message = clear_client_message(s_message);
+
+            recv(sock, s_message, 1000, 0);
+            send(sock, "@GET", strlen("@GET"), 0);
+            user_data.chat_array[user_data.amount_of_chat].users_list[i].image_path = strdup(s_message);
+            s_message = clear_client_message(s_message);
+        }
+    } ///Эту всю информацию о юзерах которые есть в чате ты должен получать с базы данных
+
+    s_message = clear_client_message(s_message);///Чат айди тоже присылать
+    recv(sock, s_message, 1000, 0);
+    user_data.chat_array[user_data.amount_of_chat].chat_id = atoi(s_message);
+    send(sock, "@GET", strlen("@GET"), 0);
+    s_message = clear_client_message(s_message);
+
+    //Пока не трогать сильно
+    user_data.chat_array[user_data.amount_of_chat].image_path = strdup("resource/images/stickers/047-hello.png");
+
+    //Остальное не трогать
+    user_data.chat_array[user_data.amount_of_chat].chat_button = gtk_event_box_new();
+    gtk_widget_set_name(GTK_WIDGET(user_data.chat_array[user_data.amount_of_chat].chat_button), "chat_button");
+    gtk_event_box_set_above_child(GTK_EVENT_BOX(user_data.chat_array[user_data.amount_of_chat].chat_button), TRUE);
+    gtk_box_pack_start(GTK_BOX(main_data.main_box.chat_bar_for_scroll), user_data.chat_array[user_data.amount_of_chat].chat_button, FALSE, FALSE, 0);
+
+    GtkWidget *chat_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    gtk_widget_set_name(GTK_WIDGET(chat_box), "chat_small_box");
+    gtk_widget_set_size_request(GTK_WIDGET(chat_box), 300, 70);
+    gtk_container_add(GTK_CONTAINER(user_data.chat_array[user_data.amount_of_chat].chat_button), chat_box);
+    
+    GtkWidget *left_chat_avatar = gtk_drawing_area_new();
+    gtk_widget_set_size_request(GTK_WIDGET(left_chat_avatar), 40, 40);
+    char *path = strdup(user_data.chat_array[user_data.amount_of_chat].image_path);
+
+    g_signal_connect(G_OBJECT(left_chat_avatar), "draw", G_CALLBACK(draw_chat_avatar), path);
+
+    GtkWidget* photo_chat = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_widget_set_name(GTK_WIDGET(photo_chat), "left_chat_photo_box");
+    gtk_container_add(GTK_CONTAINER(photo_chat), left_chat_avatar);
+    gtk_widget_set_size_request(GTK_WIDGET(photo_chat), 50, 30);
+    gtk_box_pack_start(GTK_BOX(chat_box), photo_chat, FALSE, FALSE, 0);
+
+    GtkWidget* name_chat = gtk_label_new(user_data.chat_array[user_data.amount_of_chat].chat_name);
+    gtk_widget_set_name(GTK_WIDGET(name_chat), "chat_name");
+    gtk_box_pack_start(GTK_BOX(chat_box), name_chat, FALSE, FALSE, 0);
+
+    GtkWidget *chat_id = gtk_label_new(int_to_str(user_data.chat_array[user_data.amount_of_chat].chat_id));
+    gtk_box_pack_start(GTK_BOX(chat_box), chat_id, FALSE, FALSE, 0);
+    gtk_widget_set_name(GTK_WIDGET(chat_id), "hidden");
+
+    g_signal_connect(G_OBJECT(user_data.chat_array[user_data.amount_of_chat].chat_button), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
+    g_signal_connect(G_OBJECT(user_data.chat_array[user_data.amount_of_chat].chat_button), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
+
+    g_signal_connect(G_OBJECT(user_data.chat_array[user_data.amount_of_chat].chat_button), "button_press_event", G_CALLBACK(chat_click), NULL);
+    
+    user_data.amount_of_chat++;
+
+    gtk_widget_destroy(main_data.main_box.add_new_chat_event_box);
+    
+    gtk_widget_show_all(main_data.main_box.chat_bar);
+
+    scrolling_chats();
+}*/
 
 void add_new_chat() { 
     //user_data.chat_array[user_data.amount_of_chat].msg_list = NULL;
