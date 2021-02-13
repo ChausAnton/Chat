@@ -67,7 +67,6 @@ int main(int argc, char *argv[]) {
 		puts("Handler assigned");
 		
 	}
-
 	perror("!!!!!!!!!!!!!!!sdfd\n");
 	close(socket_desc);
 	if (client_sock < 0) {

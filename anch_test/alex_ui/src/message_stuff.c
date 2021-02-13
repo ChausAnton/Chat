@@ -90,6 +90,7 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
         user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].text = strdup(text);//Text of message
 
         user_data.chat_array[main_data.main_box.search_chat_index].count_msg++;
+        display_message(text);
 
         mx_printerr("Behind serever send\n");
 
@@ -108,13 +109,12 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
         send(sock, text, strlen(text), 0);
         recv(sock, s_message, 1000, 0);
         s_message = clear_client_message(s_message);
-        display_message(text);
 
         mx_printerr("After serever send\n");
-        barashka = true;
-
         g_free (text);
         gtk_text_view_set_buffer ((GtkTextView *)messsage, NULL);
+        barashka = true;
+
     }
 }
 

@@ -153,7 +153,7 @@ void display_loaded_messages() {
     gtk_widget_show_all(main_data.activity_block);
 }
 
-void load_messages_for_chat(int chat_id, int index, char *msg){  
+void load_messages_for_chat(int chat_id, int index, char *msg, int last){  
     int chat_index = -1;
     for(int i = 0; i < user_data.amount_of_chat; i++){
         if(user_data.chat_array[i].chat_id == chat_id) {
@@ -180,6 +180,10 @@ void load_messages_for_chat(int chat_id, int index, char *msg){
     user_data.chat_array[chat_index].msg_list[index].text = strdup(str[j]);//Text of message
     j++;
     if(chat_id == main_data.main_box.search_chat_id) display_new_loaded_messages(chat_id, index);
+    if(last == 1) {
+        gtk_widget_hide(main_data.main_box.right_chat_box);
+        gtk_widget_show_all(main_data.main_box.right_chat_box);
+    }
     /*int sticker_id = is_sticker(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].text);
     if(sticker_id != -1){
         char *sticker_path = strdup("resource/images/stickers/");

@@ -191,7 +191,7 @@ void add_new_chat_from_server(int chat_id, int sock_to);
 
 /* load_chat_box.c */
 void load_right_chat_box();
-void load_messages_for_chat(int chat_id, int index, char *msg);
+void load_messages_for_chat(int chat_id, int index, char *msg, int last);
 void display_loaded_messages();
 void display_new_loaded_messages(int chat_id, int index);
 /* chat_info.c */

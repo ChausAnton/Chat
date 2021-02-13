@@ -61,15 +61,9 @@ void main_reader(int sock_to) {
                 send(sock_to, "@message_user", strlen("@message_user"), 0);
                 recv(sock_to, message_user, message_size, 0);
 
-                load_messages_for_chat(check, user_num + i, message_user);
-
+                if(i == messages_num - 1) load_messages_for_chat(check, user_num + i, message_user, 1);
+                else load_messages_for_chat(check, user_num + i, message_user, 0);
                 free(message_user);
-
-                if(i == messages_num - 1){
-                    while(main_data.main_box.right_chat_box == NULL) {};
-                    gtk_widget_hide(main_data.main_box.right_chat_box);
-                    gtk_widget_show_all(main_data.main_box.right_chat_box);
-                }
             }
         }
     }

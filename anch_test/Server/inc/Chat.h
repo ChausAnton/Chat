@@ -34,6 +34,7 @@
 /////
 
 bool server_access;
+bool thread_exit;
 ///////
 char *mx_autentification(int sock);
 void *connection_handler(void *new_sock);
