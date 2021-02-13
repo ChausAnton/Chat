@@ -39,7 +39,7 @@ void file_work(int sock_from, int sock_to) {
 	}
 
 	unsigned char *b64_fin;
-	if(strlen((char *)b64) < (unsigned long)b64_size) {
+	if(strlen((char *)b64) < b64_size) {
 		b64_fin = (unsigned char *)mx_strjoin(mx_strsplit(p_array, '@')[1], (char *)b64);
 	}
 	else
@@ -60,3 +60,5 @@ void file_work(int sock_from, int sock_to) {
 
 	printf("Reading file End\n");
 }
+
+	

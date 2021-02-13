@@ -4,11 +4,12 @@ int chat_id_g;
 
 void *connection_handler(void *new_sock) {
 	int sock_from = *(int *)new_sock;
-	//int read_size;
-	//int sock_to;
-	//char *message;
+	int read_size;
+	int sock_to;
+	char *message;
 	char *client_message = clear_client_message(NULL);
 	char *user_name = NULL;
+	int exit_code = 1;
 
 	//mx_printerr(mx_itoa(sock_from));
 	//mx_printerr("\n");
@@ -46,6 +47,9 @@ void *connection_handler(void *new_sock) {
 		if (strcmp(client_message, "@message_read") == 0) {
 			read_message(sock_from);
 		}
+		if (strcmp(client_message, "@new_chat_from_server") == 0) {
+			new_chat_from_server(sock_from);
+		}
 
 		if (strcmp(client_message, "@exit_client") == 0) {
 			db_del_user_from_online(user_name, db);
@@ -53,9 +57,20 @@ void *connection_handler(void *new_sock) {
 			fflush(stdout);
 			close(sock_from);
 			mx_printerr("Client out\n");
+			pthread_exit(&exit_code);
 			return 0;
 		}
-
+		if (strcmp(client_message, "@exit_thread") == 0) {
+			fflush(stdout);
+			close(sock_from);
+			mx_printerr("Client thread out\n");
+			pthread_exit(&exit_code);
+			return 0;
+		}
+		if(strcmp(client_message, "@exit_from_online") == 0) {
+			db_del_user_from_online(user_name, db);
+		}
+		
 		client_message = clear_client_message(client_message);
 	}
 	
