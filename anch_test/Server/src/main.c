@@ -1,7 +1,7 @@
 #include "Chat.h"
 
 
-int main() {
+int main(int argc, char *argv[]) {
     int socket_desc , client_sock , c , *new_sock;
 	struct sockaddr_in server , client;
 	server_access = true;
@@ -9,7 +9,6 @@ int main() {
 
 	db_add_user("a", "1");
 	db_add_user("s", "1");
-	db_add_user("q", "1");
 
 	db_add_chat(2, "Lol", db);
 
@@ -51,11 +50,12 @@ int main() {
 	puts("Waiting for incoming connections...");
 	c = sizeof(struct sockaddr_in);
 
+	int i = 0;
 	while( (client_sock = accept(socket_desc, (struct sockaddr *)&client, (socklen_t*)&c)) ) {
 		puts("Connection accepted");
 
 		pthread_t sniffer_thread;
-		new_sock = malloc(1);
+		int *new_sock = malloc(1);
 		*new_sock = client_sock;
 		if( pthread_create( &sniffer_thread , NULL ,  connection_handler , (void*) new_sock) < 0) {
 			perror("could not create thread");
@@ -67,7 +67,6 @@ int main() {
 		puts("Handler assigned");
 		
 	}
-
 	perror("!!!!!!!!!!!!!!!sdfd\n");
 	close(socket_desc);
 	if (client_sock < 0) {

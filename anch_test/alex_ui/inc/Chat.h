@@ -21,6 +21,7 @@
 // Server
 #include <sys/socket.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <time.h>
@@ -46,6 +47,8 @@ void *reader();
 void mx_printerr(const char *s);
 void sock_work(int *sock_new);
 bool barashka;
+bool exit_thread;
+pthread_t sniffer_thread;
 enum chat_settings_message {EDIT_CHAT = 1, ADD_USER, DELETE_USER, DELETE_CHAT};
 
 typedef struct s_login_box {
@@ -163,6 +166,7 @@ typedef struct s_main_box {
     GtkWidget *add_chats_scrollable_box;
     GtkWidget *emoji_event_box;
     GtkWidget *smile_button_clickable;
+
     int search_chat_id;
     int search_chat_index;
 
@@ -194,7 +198,7 @@ void *scrolling_msg();
 void display_message(char *message_text);
 void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage);
 void display_obtained_message(char *obtained_message_text);
-void send_message_file(GtkWidget *widget, GdkEventButton *event, gpointer *messsage);
+void send_message_file(GtkWidget *widget);
 void obtained_message_file(GtkWidget *widget, GdkEventButton *event, gpointer *messsage);
 
 /* utility_funcs.c */
@@ -246,6 +250,7 @@ void show_change_theme(GtkWidget *widget);
 /* add_new_chat.c */
 void show_add_new_chat(GtkWidget *widget);
 void add_new_chat();
+void add_new_chat_from_server(int chat_id_num, int sock_to);
 
 /* draw.c */
 gboolean draw_user_avatar(GtkWidget *widget, cairo_t *cr, char* path);
@@ -268,7 +273,7 @@ void load_chat_list();
 
 /* load_chat_box.c */
 void load_right_chat_box();
-void load_messages_for_chat(int chat_id, int index, char *msg);
+void load_messages_for_chat(int chat_id, int index, char *msg, int last);
 void display_loaded_messages();
 void display_new_loaded_messages(int chat_id, int index);
 

@@ -149,7 +149,7 @@ void display_loaded_messages() {
     gtk_widget_show_all(main_data.activity_block);
 }
 
-void load_messages_for_chat(int chat_id, int index, char *msg){  
+void load_messages_for_chat(int chat_id, int index, char *msg, int last){  
     int chat_index = -1;
     for(int i = 0; i < user_data.amount_of_chat; i++){
         if(user_data.chat_array[i].chat_id == chat_id) {
@@ -175,7 +175,11 @@ void load_messages_for_chat(int chat_id, int index, char *msg){
     j++;
     user_data.chat_array[chat_index].msg_list[index].text = strdup(str[j]);//Text of message
     j++;
-    if(chat_id == main_data.main_box.search_chat_index) display_new_loaded_messages(chat_id, index);
+    if(chat_id == main_data.main_box.search_chat_id) display_new_loaded_messages(chat_id, index);
+    if(last == 1) {
+        gtk_widget_hide(main_data.main_box.right_chat_box);
+        gtk_widget_show_all(main_data.main_box.right_chat_box);
+    }
     /*int sticker_id = is_sticker(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].text);
     if(sticker_id != -1){
         char *sticker_path = strdup("resource/images/stickers/");
@@ -352,21 +356,21 @@ void load_right_chat_box() {
             //g_signal_connect(G_OBJECT(clip_event_box), "button_press_event", G_CALLBACK(obtained_message_file), msg_enter);
 
             // Emotes
-            GtkWidget *smile_button_clickable = gtk_event_box_new();
-            gtk_widget_set_name(GTK_WIDGET(smile_button_clickable), "smile_button_clickable");
-            gtk_widget_set_halign(GTK_WIDGET(smile_button_clickable), GTK_ALIGN_CENTER);
-            gtk_widget_set_valign(GTK_WIDGET(smile_button_clickable), GTK_ALIGN_CENTER);
-            gtk_box_pack_start(GTK_BOX(bottom_area), smile_button_clickable, FALSE, FALSE, 0);
+            main_data.main_box.smile_button_clickable = gtk_event_box_new();
+            gtk_widget_set_name(GTK_WIDGET(main_data.main_box.smile_button_clickable), "smile_button_clickable");
+            gtk_widget_set_halign(GTK_WIDGET(main_data.main_box.smile_button_clickable), GTK_ALIGN_CENTER);
+            gtk_widget_set_valign(GTK_WIDGET(main_data.main_box.smile_button_clickable), GTK_ALIGN_CENTER);
+            gtk_box_pack_start(GTK_BOX(bottom_area), main_data.main_box.smile_button_clickable, FALSE, FALSE, 0);
 
-            g_signal_connect(G_OBJECT(smile_button_clickable), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
-            g_signal_connect(G_OBJECT(smile_button_clickable), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
+            g_signal_connect(G_OBJECT(main_data.main_box.smile_button_clickable), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
+            g_signal_connect(G_OBJECT(main_data.main_box.smile_button_clickable), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
 
-            g_signal_connect(G_OBJECT(smile_button_clickable), "button_press_event", G_CALLBACK(show_emoji_box), NULL);
+            g_signal_connect(G_OBJECT(main_data.main_box.smile_button_clickable), "button_press_event", G_CALLBACK(show_emoji_box), NULL);
 
             GtkWidget *smile_button = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
             gtk_widget_set_name(GTK_WIDGET(smile_button), "smile_button");
             gtk_widget_set_size_request(GTK_WIDGET(smile_button), 20, 20);
-            gtk_container_add(GTK_CONTAINER(smile_button_clickable), smile_button);
+            gtk_container_add(GTK_CONTAINER(main_data.main_box.smile_button_clickable), smile_button);
 
             // Send message
             GtkWidget *send_button_clickable = gtk_event_box_new();

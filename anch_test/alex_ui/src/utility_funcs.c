@@ -1,7 +1,6 @@
 #include "Chat.h"
 
 void event_enter_notify(GtkWidget *widget) {
-
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT, TRUE);
 }
 
@@ -118,26 +117,21 @@ void chat_click(GtkWidget *widget) {
 
     printf("Chat_id: %d\n", chat_id);
     
-    main_data.main_box.search_chat_index = chat_id;
+    main_data.main_box.search_chat_id = chat_id;
     for(int i = 0; i < user_data.amount_of_chat; i++){
         if(user_data.chat_array[i].chat_id == chat_id){
             main_data.main_box.search_chat_index = i;
-            //break;
+            break;
         }
     }
     printf("Search_chat_index: %d\n", main_data.main_box.search_chat_index);
     g_list_free(g_steal_pointer(&children));
     g_list_free(g_steal_pointer(&parent));
-            printf("LOOOOOOOOL\n");
 
     load_right_chat_box();
-        printf("LOOOOOOOOL\n");
-
     display_loaded_messages();
-        printf("LOOOOOOOOL\n");
-
     thread_info = strdup(mx_itoa(chat_id));
-    printf("LOOOOOOOOL\n");
+
     barashka = true; 
 }
 
@@ -241,7 +235,7 @@ void sign_in() {
     mx_printerr(s_message);
 
     if(strcmp(s_message, "@TRUE") == 0) {
-        main_data.main_box.search_chat_index = -1;
+        main_data.main_box.search_chat_id = -1;
         user_data.login = strdup(name);
         user_data.password = strdup(passwrod);
 
@@ -303,6 +297,15 @@ void unpress_logout(GtkWidget *widget, GdkEventButton *event, gpointer *p) {
     }
 }
 
+void exit_from_online() {
+    thread_info = NULL;
+    char *s_message = clear_client_message(NULL);
+    send(sock, "@exit_from_online", strlen("@exit_from_online"), 0);
+    recv(sock, s_message, 2000, 0);
+    free(s_message);
+    start_screen();
+}
+
 void logout(GtkWidget *widget, GdkEventButton *event) {
 
     if(event->type == GDK_BUTTON_PRESS && event->button == 1){
@@ -347,7 +350,7 @@ void logout(GtkWidget *widget, GdkEventButton *event) {
         gtk_button_set_relief(GTK_BUTTON(no_button), GTK_RELIEF_NONE);
         gtk_box_pack_start(GTK_BOX(logout_box_for_buttons), no_button, FALSE, FALSE, 0);
 
-        g_signal_connect(G_OBJECT(yes_button), "button_press_event", G_CALLBACK(start_screen), NULL);
+        g_signal_connect(G_OBJECT(yes_button), "button_press_event", G_CALLBACK(exit_from_online), NULL);
         g_signal_connect(G_OBJECT(no_button), "button_press_event", G_CALLBACK(unpress_logout), logout_event_box);
 
         gtk_widget_show_all(GTK_WIDGET(logout_event_box));
@@ -361,26 +364,22 @@ void show_search_result(GtkWidget *widget, GdkEventButton *event, gpointer *user
     recv(sock, s_message, 2000, 0);
     s_message = clear_client_message(s_message);
 
-    printf("1\n");
     if(widget&&event){}
     char *search_input = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget *)user_input)));
     send(sock, search_input, strlen(search_input), 0);
     recv(sock, s_message, 2000, 0);
     s_message = clear_client_message(s_message);
-    printf("2\n");
 
     GtkWidget *search_chat_button = gtk_event_box_new();
     gtk_widget_set_name(GTK_WIDGET(search_chat_button), "user_button");
     gtk_event_box_set_above_child(GTK_EVENT_BOX(search_chat_button), TRUE);
     gtk_box_pack_start(GTK_BOX(main_data.main_box.add_chats_scrollable_box), search_chat_button, FALSE, FALSE, 0);
-    printf("3\n");
 
     GtkWidget *search_chat_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_widget_set_name(GTK_WIDGET(search_chat_box), "user_small_box");
     gtk_widget_set_size_request(GTK_WIDGET(search_chat_box), 300, 70);
     gtk_container_add(GTK_CONTAINER(search_chat_button), search_chat_box);
-        printf("4\n");
-
+    
     GtkWidget *add_new_chat_avatar = gtk_drawing_area_new();
     gtk_widget_set_size_request(GTK_WIDGET(add_new_chat_avatar), 80, 80);
     ////Image path of searching user
@@ -395,17 +394,16 @@ void show_search_result(GtkWidget *widget, GdkEventButton *event, gpointer *user
     gtk_box_pack_start(GTK_BOX(search_chat_box), add_new_chat_photo, FALSE, FALSE, 0);
 
     ////Name of searching user
+    send(sock, "@user_name", strlen("@user_name"), 0);
     recv(sock, s_message, 2000, 0);
-    send(sock, "@GET", strlen("@GET"), 0);
     GtkWidget* user_name_in_search = gtk_label_new(s_message);
     s_message = clear_client_message(s_message);
-    printf("search input:%s\n",s_message);
     gtk_widget_set_name(GTK_WIDGET(user_name_in_search), "user_name_in_search");
     gtk_box_pack_start(GTK_BOX(search_chat_box), user_name_in_search, FALSE, FALSE, 0);
 
     //////User_id of searching user
+    send(sock, "@user_id", strlen("@user_id"), 0);
     recv(sock, s_message, 2000, 0);
-    send(sock, "@GET", strlen("@GET"), 0);
     GtkWidget *user_id = gtk_label_new(s_message);
     s_message = clear_client_message(s_message);
     gtk_box_pack_start(GTK_BOX(search_chat_box), user_id, FALSE, FALSE, 0);

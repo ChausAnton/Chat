@@ -4,7 +4,7 @@ char *mx_autentification(int sock) {
 	char *user_name;
 	char *password = NULL;
 	int read_size;
-	//char *message;
+	char *message;
 	char *client_message = clear_client_message(NULL);
 
 	if ((read_size = recv(sock , client_message , 2000 , 0)) > 0 ) {

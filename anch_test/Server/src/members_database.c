@@ -45,7 +45,10 @@ char** get_all_user_id_for_chat(int chat_id, sqlite3* db)  {
        sqlite3_free(zErrMsg);
        exit(EXIT_FAILURE);
     } 
-    char** result = (char **)malloc(sizeof(char *)*(num_cols*num_rows + 1));
+    char** result = (char **)malloc(sizeof(char *)*(num_rows + 1));
+    for(int i = 0; i <= num_rows; i++){
+        result[i] = (char *)malloc(sizeof(char)*(num_cols));
+    }
     for(int i = 0; i < num_cols*num_rows; i++){
         //if(i%num_cols == 0) printf("%s\n", "");
         //printf("%s   ", result[i]);
@@ -73,7 +76,10 @@ char** get_all_chat_id_for_user(int user_id, sqlite3* db)  {
        sqlite3_free(zErrMsg);
        exit(EXIT_FAILURE);
     } 
-    char** result = (char **)malloc(sizeof(char *)*(num_cols*num_rows + 1));
+    char** result = (char **)malloc(sizeof(char *)*(num_rows + 1));
+    for(int i = 0; i <= num_rows; i++){
+        result[i] = (char *)malloc(sizeof(char)*(num_cols));
+    }
     for(int i = 0; i < num_cols*num_rows; i++){
         result[i] = strdup(tmp[i+num_cols]);
     }

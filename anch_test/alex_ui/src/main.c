@@ -72,7 +72,9 @@ int main(int argc, char *argv[]) {
     sock_work(&sock);
 
 	thread_info = NULL;
-	pthread_t sniffer_thread = NULL;
+	exit_thread = false;
+	sniffer_thread = NULL;
+	barashka = true;
 	if( pthread_create( &sniffer_thread , NULL ,  reader , NULL) < 0) {
 		perror("could not create thread");
 		return 1;
