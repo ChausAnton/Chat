@@ -1,10 +1,10 @@
 #include "Chat.h"
 
 void *scrolling_msg() {
-    usleep(50000);
+    usleep(5000);
     
-    gtk_adjustment_set_value(main_data.main_box.vadj, gtk_adjustment_get_upper(main_data.main_box.vadj) + 100);
-
+    gtk_adjustment_set_value(main_data.main_box.vadj, gtk_adjustment_get_upper(main_data.main_box.vadj) - gtk_adjustment_get_page_size(main_data.main_box.vadj));
+    
     /*gtk_widget_hide(main_data.main_box.messages_area_scroll);
     gtk_widget_show(main_data.main_box.messages_area_scroll);*/
 

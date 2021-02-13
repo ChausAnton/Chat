@@ -150,6 +150,7 @@ void chat_click(GtkWidget *widget) {
 
     load_right_chat_box();
     display_loaded_messages();
+    
     thread_info = strdup(mx_itoa(chat_id));
 
     barashka = true; 
@@ -223,6 +224,7 @@ void log_incorrect() {
 
 void scroll_handler(GtkWidget *widget, GdkEvent *event) {
     if(widget&&event){}
+
     gtk_adjustment_set_step_increment(main_data.main_box.vadj, 69.0);
     if ( event->type == GDK_SCROLL ) {
         if ( event->scroll.direction == GDK_SCROLL_DOWN ) {          

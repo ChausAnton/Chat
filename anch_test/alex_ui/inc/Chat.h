@@ -170,9 +170,6 @@ typedef struct s_main_box {
     GtkWidget *smile_button_clickable;
 
     GtkWidget *search_chat_button;
-
-    GtkAdjustment *vadj;
-    
     int is_first_search_destroy;
     int search_chat_id;
     int search_chat_index;
