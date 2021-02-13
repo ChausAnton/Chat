@@ -64,9 +64,6 @@ void main_reader(int sock_to) {
                 if(i == messages_num - 1) load_messages_for_chat(check, user_num + i, message_user, 1);
                 else load_messages_for_chat(check, user_num + i, message_user, 0);
                 free(message_user);
-
-                main_data.main_box.vadj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.messages_area_scroll)); 
-                scrolling_msg();
             }
         }
     }

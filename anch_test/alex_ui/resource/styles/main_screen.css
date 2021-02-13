@@ -609,7 +609,7 @@
         padding: 10px 10px 10px 10px;
         background: linear-gradient(231.16deg, #683487 5.87%, #433FEE 156.27%);
         border-radius: 15px 15px 5px 15px;
-        margin: 4px 8px 0 0;
+        margin: 2px 8px 2px 0;
         color: whitesmoke;
         font: 18px PTSansPro-Demi;
     }
@@ -618,23 +618,18 @@
             margin-right: 10px;
             color: whitesmoke;
         }
-    /*#message_body_file{
-        padding: 10px 10px 10px 10px;
-        background: linear-gradient(231.16deg, #683487 5.87%, #433FEE 156.27%);
-        border-radius: 15px 15px 5px 15px;
-    }*/
         #message_with_file {
             margin-top: 3px;
             margin-left: 8px;
         }
     #message_time_sticker {
         font-size: 12px;
-        margin-right: 5px;
+        margin-right: 10px;
         color: whitesmoke;
     }
     #obtained_message_time_sticker {
         font-size: 12px;
-        margin-left: 5px;
+        margin-left: 12px;
         color: whitesmoke;
     }
 
@@ -646,7 +641,7 @@
         padding: 10px 10px 10px 10px;
         background: rgb(47, 120, 117);
         border-radius: 15px 15px 15px 5px;
-        margin: 0 10px 0 8px;
+        margin: 2px 0 2px 8px;
         color: whitesmoke;
         font: 18px PTSansPro-Demi;
     }
