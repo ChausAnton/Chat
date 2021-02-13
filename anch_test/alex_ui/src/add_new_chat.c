@@ -36,8 +36,6 @@ void show_add_new_chat(GtkWidget *widget) {
     gtk_entry_set_placeholder_text (GTK_ENTRY(search_users), "Search");
     gtk_box_pack_start(GTK_BOX(horizontal_box), search_users, TRUE, TRUE, 0);
 
-    //printf("search_input:%s\n", search_input);
-
     // Search button
     GtkWidget *search_users_button = gtk_event_box_new();
     gtk_widget_set_name(GTK_WIDGET(search_users_button), "search_users_button");
@@ -142,7 +140,7 @@ void add_new_chat_from_server(int chat_id_num, int sock_to) {
     user_data.chat_array[user_data.amount_of_chat].chat_id = chat_id_num;
 
     //Пока не трогать сильно
-    user_data.chat_array[user_data.amount_of_chat].image_path = strdup("resource/images/stickers/047-hello.png");
+    //user_data.chat_array[user_data.amount_of_chat].image_path = strdup("resource/images/stickers/047-hello.png");
 
     //Остальное не трогать
     user_data.chat_array[user_data.amount_of_chat].chat_button = gtk_event_box_new();
@@ -254,7 +252,7 @@ void add_new_chat() {
     user_data.chat_array[user_data.amount_of_chat].chat_id = atoi(s_message);
     s_message = clear_client_message(s_message);
 
-    user_data.chat_array[user_data.amount_of_chat].image_path = strdup("resource/images/stickers/047-hello.png");
+    user_data.chat_array[user_data.amount_of_chat].image_path = strdup("resource/images/stickers/no_chat_avatar.png");
 
     user_data.chat_array[user_data.amount_of_chat].chat_button = gtk_event_box_new();
     gtk_widget_set_name(GTK_WIDGET(user_data.chat_array[user_data.amount_of_chat].chat_button), "chat_button");

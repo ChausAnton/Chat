@@ -36,17 +36,6 @@ void display_message(char *message_text) {
     gtk_label_set_max_width_chars(GTK_LABEL(message), 50);
     gtk_box_pack_start(GTK_BOX(message_body_box), message, FALSE, FALSE, 0);
 
-    ///Time
-    /*time_t rawtime;
-    struct tm * timeinfo;
-    time ( &rawtime );
-    timeinfo = localtime ( &rawtime );
-    char *time_message = strdup(int_to_str(timeinfo->tm_hour));
-    time_message = mx_strjoin(time_message, ":");
-    if(timeinfo->tm_min < 10){
-        time_message = mx_strjoin(time_message, "0");
-    }
-    time_message = mx_strjoin(time_message, int_to_str(timeinfo->tm_min));*/
     time_t t = time(NULL);
     struct tm *tm = localtime(&t);
     char **time_message = mx_strsplit(asctime(tm), ' ');
@@ -81,17 +70,6 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
         user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].chat_id = main_data.main_box.search_chat_id;//Chat id where msg
         user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].user_id = user_data.user_id;//User send id
         
-        /*time_t rawtime;
-        struct tm * timeinfo;
-        time ( &rawtime );
-        timeinfo = localtime ( &rawtime );
-        char *time_message = strdup(int_to_str(timeinfo->tm_hour));
-        time_message = mx_strjoin(time_message, ":");
-        if(timeinfo->tm_min < 10){
-            time_message = mx_strjoin(time_message, "0");
-        }
-
-        time_message = mx_strjoin(time_message, int_to_str(timeinfo->tm_min));*/
         time_t t = time(NULL);
         struct tm *tm = localtime(&t);
 
