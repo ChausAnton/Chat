@@ -115,6 +115,9 @@ typedef struct s_main_box {
     GtkWidget *chat_settings_event_box;
     GtkWidget *add_chats_scrollable_box;
     GtkWidget *search_chat_button;
+
+    GtkAdjustment *vadj;
+    
     int is_first_search_destroy;
     int search_chat_id;
     int search_chat_index;

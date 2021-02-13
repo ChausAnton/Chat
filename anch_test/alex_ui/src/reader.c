@@ -86,8 +86,10 @@ void main_reader(int sock_to) {
                 }
 
                 free(message_user);
-
+                main_data.main_box.vadj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.messages_area_scroll)); 
+                scrolling_msg();
                 if(i == messages_num - 1){
+                    
                     while(main_data.main_box.right_chat_box == NULL) {};
                     gtk_widget_hide(main_data.main_box.right_chat_box);
                     gtk_widget_show_all(main_data.main_box.right_chat_box);

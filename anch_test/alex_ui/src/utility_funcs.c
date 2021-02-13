@@ -144,6 +144,9 @@ void sign_in() {
 
     send(sock, "@sign_in", strlen("@sign_in"), 0);
     recv(sock, s_message, 2000, 0);
+    mx_printerr("Sign in back: ");
+    mx_printerr(s_message);
+    mx_printerr("\n");
 
     char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[0])));
     printf("login: %s\n", name);
@@ -155,20 +158,29 @@ void sign_in() {
         s_message = clear_client_message(s_message);
         send(sock, "Empty", strlen("Empty"), 0);
         recv(sock, s_message, 2000, 0);
+        mx_printerr("Empty back: ");
+        mx_printerr(s_message);
+        mx_printerr("\n");
     }
     else {
         s_message = clear_client_message(s_message);
         send(sock, "Nice", strlen("Nice"), 0);
         recv(sock, s_message, 2000, 0);
- 
+        mx_printerr("Nice back: ");
+        mx_printerr(s_message);
+        mx_printerr("\n");
         s_message = clear_client_message(s_message);
         send(sock, name, strlen(name), 0);
         recv(sock, s_message, 2000, 0);
-
+        mx_printerr("Name back: ");
+        mx_printerr(s_message);
+        mx_printerr("\n");
         s_message = clear_client_message(s_message);
         send(sock, password, strlen(password), 0);
         recv(sock, s_message, 2000, 0);
-
+        mx_printerr("Pass back: ");
+        mx_printerr(s_message);
+        mx_printerr("\n");
         if(strcmp(s_message, "@TRUE") == 0) {
             main_data.main_box.search_chat_id = -1;
             user_data.login = strdup(name);
@@ -186,11 +198,39 @@ void sign_in() {
     free(s_message);
 }
 
+void reg_empty() {
+
+    GList *children = gtk_container_get_children(GTK_CONTAINER(main_data.reg_box.reg_error_box));
+    
+    gtk_label_set_text(GTK_LABEL(children->data), strdup("Login or password is empty"));
+
+    gtk_widget_show_all(main_data.reg_box.reg_error_box);
+}
+
+void reg_is_used() {
+
+    GList *children = gtk_container_get_children(GTK_CONTAINER(main_data.reg_box.reg_error_box));
+    
+    gtk_label_set_text(GTK_LABEL(children->data), strdup("Login is used"));
+
+    gtk_widget_show_all(main_data.reg_box.reg_error_box);
+}
+void passwords_doesnt_match() {
+    GList *children = gtk_container_get_children(GTK_CONTAINER(main_data.reg_box.reg_error_box));
+    
+    gtk_label_set_text(GTK_LABEL(children->data), strdup("Passwords doesn`t match"));
+
+    gtk_widget_show_all(main_data.reg_box.reg_error_box);
+}
+
 void sign_up() {
     char *s_message = clear_client_message(NULL);
 
     send(sock, "@sign_up", strlen("@sign_up"), 0);
     recv(sock, s_message, 2000, 0);
+    mx_printerr("Sign up back: ");
+    mx_printerr(s_message);
+    mx_printerr("\n");
 
     char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[0])));
     printf("login: %s\n", name);
@@ -199,30 +239,70 @@ void sign_up() {
     char *repeat_password = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[2])));
     printf("repeat password: %s\n", repeat_password);
 
-    s_message = clear_client_message(s_message);
-    send(sock, name, strlen(name), 0);
-    recv(sock, s_message, 2000, 0);
-    s_message = clear_client_message(s_message);
+    if(strlen(name) == 0 || strlen(password) == 0 || strlen(repeat_password) == 0) {
+        reg_empty();
+        s_message = clear_client_message(s_message);
+        send(sock, "Empty", strlen("Empty"), 0);
+        recv(sock, s_message, 2000, 0);
+        mx_printerr("Sign in back: ");
+        mx_printerr(s_message);
+        mx_printerr("\n");
+    }
+    else if(strcmp(password, repeat_password) != 0) {
+        passwords_doesnt_match();
+        s_message = clear_client_message(s_message);
+        send(sock, "Match", strlen("Match"), 0);
+        recv(sock, s_message, 2000, 0);
+        mx_printerr("Pass not match in back: ");
+        mx_printerr(s_message);
+        mx_printerr("\n");
+    }
+    else {
+        s_message = clear_client_message(s_message);
+        send(sock, "Nice", strlen("Nice"), 0);
+        recv(sock, s_message, 2000, 0);
+        mx_printerr("Nice back: ");
+        mx_printerr(s_message);
+        mx_printerr("\n");
 
-    send(sock, password, strlen(password), 0);
-    recv(sock, s_message, 2000, 0);
-    s_message = clear_client_message(s_message);
+        s_message = clear_client_message(s_message);
+        send(sock, name, strlen(name), 0);
+        recv(sock, s_message, 2000, 0);
+        mx_printerr("Name in back: ");
+        mx_printerr(s_message);
+        mx_printerr("\n");
+        
+        if (strcmp(s_message, "Name back") == 0) {
+            s_message = clear_client_message(s_message);
+            send(sock, password, strlen(password), 0);
+            recv(sock, s_message, 2000, 0);
+            mx_printerr("Pass1 in back: ");
+            mx_printerr(s_message);
+            mx_printerr("\n");
 
-    send(sock, repeat_password, strlen(repeat_password), 0);
-    recv(sock, s_message, 2000, 0);
-	mx_printerr(s_message);
+            s_message = clear_client_message(s_message);
+            send(sock, repeat_password, strlen(repeat_password), 0);
+            recv(sock, s_message, 2000, 0);
+            mx_printerr("Pass2 in back: ");
+            mx_printerr(s_message);
+            mx_printerr("\n");
 
-    if(strcmp(s_message, "@TRUE") == 0) {
-        main_data.main_box.search_chat_id = -1;
-        user_data.login = strdup(name);
-        user_data.password = strdup(password);
+            if (strcmp(s_message, "@TRUE") == 0) {
+                main_data.main_box.search_chat_id = -1;
+                user_data.login = strdup(name);
+                user_data.password = strdup(password);
 
-        gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[0]), "");
-        gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[1]), "");
-        gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[2]), "");
+                gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[0]), "");
+                gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[1]), "");
+                gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[2]), "");
 
-        load_data_for_user();
-        main_screen();
+                load_data_for_user();
+                main_screen();
+            }
+        }
+        else {
+            reg_is_used();
+        }
     }
     free(s_message);
 }

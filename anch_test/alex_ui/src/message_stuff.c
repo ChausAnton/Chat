@@ -1,13 +1,12 @@
 #include "Chat.h"
 
 void *scrolling_msg() {
-
     usleep(50000);
-    GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.messages_area_scroll));
-    gtk_adjustment_set_value(adjustment, gtk_adjustment_get_upper(adjustment));
+    
+    gtk_adjustment_set_value(main_data.main_box.vadj, gtk_adjustment_get_upper(main_data.main_box.vadj) + 100);
 
-    gtk_widget_hide(main_data.main_box.messages_area_scroll);
-    gtk_widget_show(main_data.main_box.messages_area_scroll);
+    /*gtk_widget_hide(main_data.main_box.messages_area_scroll);
+    gtk_widget_show(main_data.main_box.messages_area_scroll);*/
 
     return NULL;
 }
@@ -103,6 +102,7 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
         send(sock, text, strlen(text), 0);
         recv(sock, s_message, 1000, 0);
         s_message = clear_client_message(s_message);
+        
         display_message(text);
 
         mx_printerr("After serever send\n");

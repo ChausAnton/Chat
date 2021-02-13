@@ -140,6 +140,7 @@ static void scrolling_chats() {
         GtkAdjustment *adj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.chat_bar_scroll));
         gtk_adjustment_set_value(adj, gtk_adjustment_get_upper(adj) - gtk_adjustment_get_page_size(adj));
         gtk_scrolled_window_set_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.chat_bar_scroll), adj);
+        gtk_main_iteration();
     }
 }
 
