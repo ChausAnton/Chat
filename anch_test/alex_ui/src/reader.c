@@ -99,8 +99,8 @@ void read_new_chats(int sock_to) {
 }
 
 void mx_reconect(int *sock_to) {
-    struct sockaddr_in serv_addr;
-	//struct hostent *serv;
+    struct sockaddr_in server;
+	struct hostent *serv;
 	
 	//Create socket
 	*sock_to = socket(AF_INET , SOCK_STREAM , 0);
@@ -109,14 +109,20 @@ void mx_reconect(int *sock_to) {
 		printf("Could not create socket");
 	}
 	puts("Socket created");
-    //pthread_t music;
-    //pthread_create(&music, NULL, play_music, NULL);
-    while (connect(*sock_to, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) == -1) {
+
+	serv = gethostbyname(SERVERADDR);
+    memset((char *) &server, 0, sizeof(server));
+	server.sin_family = AF_INET;
+	memcpy(&server.sin_addr.s_addr, serv->h_addr_list[0],  serv->h_length);
+	server.sin_port = htons(SERVERPORT);
+	//Connect to remote server
+    while (connect(*sock_to, (struct sockaddr *)&server, sizeof(server)) == -1) {
         //play_music();
         close(*sock_to);
         *sock_to = socket(AF_INET, SOCK_STREAM, 0);
         usleep(100000);
-    }    
+    }
+    mx_printerr("reconnect!!!\n");
 }
 
 void *reader() {
@@ -135,13 +141,12 @@ void *reader() {
             char *s_message = clear_client_message(NULL);
             send(sock_to, "@new_chat_from_server", strlen("@new_chat_from_server"), 0);
             if(recv(sock_to, s_message, 1000, MSG_DONTWAIT) == 0) {
-                thread_info = NULL;
+                thread_info = strdup("start");
                 barashka = false;
                 close(sock_to);
                 close(sock);
                 mx_reconect(&sock);
                 mx_reconect(&sock_to);
-
             }
             s_message = clear_client_message(s_message);
             read_new_chats(sock_to);

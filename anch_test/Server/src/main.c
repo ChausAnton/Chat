@@ -1,7 +1,8 @@
 #include "Chat.h"
 
-void sock_close(int sock) {
+void sock_close() {
 	close(global_sock);
+	exit(0);
 }
 
 int main(int argc, char *argv[]) {
