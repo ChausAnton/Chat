@@ -9,7 +9,8 @@ void register_screen() {
     gtk_container_add(GTK_CONTAINER(main_data.activity), main_data.activity_block);
 
     //main_data.reg_box.styles = gtk_css_provider_new();
-    gtk_css_provider_load_from_path(main_data.styles, "resource/styles/sign_up.css", NULL);
+
+    gtk_css_provider_load_from_path(main_data.styles, main_data.reg_box.css, NULL);
     gtk_style_context_add_provider_for_screen(gdk_screen_get_default(), GTK_STYLE_PROVIDER(main_data.styles), GTK_STYLE_PROVIDER_PRIORITY_USER);
 
     main_data.reg_box.all_reg_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
@@ -53,6 +54,14 @@ void register_screen() {
     gtk_entry_set_visibility(GTK_ENTRY(main_data.reg_box.sign_up_data[2]), FALSE);
     gtk_entry_set_max_length(GTK_ENTRY(main_data.reg_box.sign_up_data[2]), 28);
     gtk_box_pack_start(GTK_BOX(main_data.reg_box.all_reg_box), main_data.reg_box.sign_up_data[2], FALSE, FALSE, 0);
+
+    main_data.reg_box.reg_error_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_widget_set_size_request(GTK_WIDGET(main_data.reg_box.reg_error_box), 380, 30);
+    gtk_box_pack_start(GTK_BOX(main_data.reg_box.all_reg_box), main_data.reg_box.reg_error_box, FALSE, FALSE, 0);
+
+    GtkWidget *login_is_used_label = gtk_label_new("");
+    gtk_widget_set_name(GTK_WIDGET(login_is_used_label), "login_is_used_label");
+    gtk_box_pack_start(GTK_BOX(main_data.reg_box.reg_error_box), login_is_used_label, FALSE, FALSE, 0);
 
     GtkWidget *signup_button = gtk_button_new_with_label("Sign Up");
     gtk_widget_set_name(GTK_WIDGET(signup_button), "signup_button");

@@ -1,7 +1,6 @@
 #include "Chat.h"
 
 void event_enter_notify(GtkWidget *widget) {
-
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT, TRUE);
 }
 
@@ -17,10 +16,93 @@ void unpress_event_box(GtkWidget *widget, GdkEventButton *event, gpointer *p) {
     }
 }
 
+void unpress_chat_settings(GtkWidget *widget, GdkEventButton *event) {
+    if (widget) {}
+    if(event->type == GDK_BUTTON_PRESS && event->button == 1){
+        //gtk_widget_unset_state_flags(GTK_WIDGET(main_data.main_box.chat_settings_button), GTK_STATE_FLAG_ACTIVE);
+        gtk_widget_destroy(widget);
+        //gtk_widget_destroy(main_data.main_box.chat_settings_event_box);
+    }
+}
+
 static void unset_active_chats() {
     for(int i = 0; i < user_data.amount_of_chat; i++){
         gtk_widget_unset_state_flags(GTK_WIDGET(user_data.chat_array[i].chat_button), GTK_STATE_FLAG_ACTIVE);
     }
+}
+
+void change_chat_photo(GtkWidget *widget) {
+    GtkWidget *dialog = gtk_file_chooser_dialog_new("User image", GTK_WINDOW(main_data.window), GTK_FILE_CHOOSER_ACTION_OPEN, "Cancel", GTK_RESPONSE_CANCEL, "Open", GTK_RESPONSE_ACCEPT, NULL);
+    gint run = gtk_dialog_run(GTK_DIALOG(dialog));
+
+    if (run == GTK_RESPONSE_ACCEPT) {
+        GtkFileChooser *chooser = GTK_FILE_CHOOSER(dialog);
+
+        gtk_widget_destroy(user_data.chat_array[main_data.main_box.search_chat_index].chat_settings_photo);
+
+        user_data.chat_array[main_data.main_box.search_chat_index].chat_settings_avatar = gtk_drawing_area_new();
+        gtk_widget_set_size_request(GTK_WIDGET(user_data.chat_array[main_data.main_box.search_chat_index].chat_settings_avatar), 100, 100);
+        user_data.chat_array[main_data.main_box.search_chat_index].temp_source_path = gtk_file_chooser_get_filename(chooser);
+        g_signal_connect(G_OBJECT(user_data.chat_array[main_data.main_box.search_chat_index].chat_settings_avatar), "draw", G_CALLBACK(draw_user_settings_avatar), user_data.chat_array[main_data.main_box.search_chat_index].temp_source_path);
+        
+        user_data.chat_array[main_data.main_box.search_chat_index].chat_settings_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+        gtk_widget_set_name(GTK_WIDGET(user_data.chat_array[main_data.main_box.search_chat_index].chat_settings_photo), "user_settings_photo");
+        gtk_container_add(GTK_CONTAINER(user_data.chat_array[main_data.main_box.search_chat_index].chat_settings_photo), user_data.chat_array[main_data.main_box.search_chat_index].chat_settings_avatar);
+        gtk_container_add(GTK_CONTAINER(user_data.chat_array[main_data.main_box.search_chat_index].chat_settings_photo_event_box), user_data.chat_array[main_data.main_box.search_chat_index].chat_settings_photo);
+    }
+    gtk_widget_destroy(dialog);
+    gtk_widget_hide(main_data.main_box.edit_chat_event_box);
+    gtk_widget_show_all(main_data.main_box.edit_chat_event_box);
+    gtk_widget_unset_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT);
+}
+
+void change_user_photo(GtkWidget *widget) {
+    GtkWidget *dialog = gtk_file_chooser_dialog_new("User image", GTK_WINDOW(main_data.window), GTK_FILE_CHOOSER_ACTION_OPEN, "Cancel", GTK_RESPONSE_CANCEL, "Open", GTK_RESPONSE_ACCEPT, NULL);
+    gint run = gtk_dialog_run(GTK_DIALOG(dialog));
+
+    if (run == GTK_RESPONSE_ACCEPT) {
+        GtkFileChooser *chooser = GTK_FILE_CHOOSER(dialog);
+
+        gtk_widget_destroy(user_data.user_settings_photo);
+
+        user_data.user_settings_avatar = gtk_drawing_area_new();
+        gtk_widget_set_size_request(GTK_WIDGET(user_data.user_settings_avatar), 100, 100);
+        user_data.temp_image_path = gtk_file_chooser_get_filename(chooser);
+        g_signal_connect(G_OBJECT(user_data.user_settings_avatar), "draw", G_CALLBACK(draw_user_settings_avatar), user_data.temp_image_path);
+        
+        user_data.user_settings_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+        gtk_widget_set_name(GTK_WIDGET(user_data.user_settings_photo), "user_settings_photo");
+        gtk_container_add(GTK_CONTAINER(user_data.user_settings_photo), user_data.user_settings_avatar);
+        gtk_container_add(GTK_CONTAINER(user_data.user_settings_photo_event_box), user_data.user_settings_photo);
+    }
+    gtk_widget_destroy(dialog);
+    gtk_widget_hide(main_data.main_box.user_settings_event_box);
+    gtk_widget_show_all(main_data.main_box.user_settings_event_box);
+    gtk_widget_unset_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT);
+}
+
+void change_theme_to_default(GtkWidget *widget) {
+    if(widget){}
+    main_data.main_box.css = "resource/styles/main_screen.css";
+    main_data.login_box.css = "resource/styles/sign_in.css";
+    main_data.reg_box.css = "resource/styles/sign_up.css";
+
+    gtk_css_provider_load_from_path(main_data.styles, main_data.main_box.css, NULL);
+    gtk_style_context_add_provider_for_screen(gdk_screen_get_default(), GTK_STYLE_PROVIDER(main_data.styles), GTK_STYLE_PROVIDER_PRIORITY_USER);
+    
+    gtk_widget_destroy(main_data.main_box.change_theme_event_box);
+}
+
+void change_theme_to_dark(GtkWidget *widget) {
+    if(widget){}
+    main_data.main_box.css = "resource/styles/main_screen_dark_theme.css";
+    main_data.login_box.css = "resource/styles/sign_in_dark_theme.css";
+    main_data.reg_box.css = "resource/styles/sign_up_dark_theme.css";
+
+    gtk_css_provider_load_from_path(main_data.styles, main_data.main_box.css, NULL);
+    gtk_style_context_add_provider_for_screen(gdk_screen_get_default(), GTK_STYLE_PROVIDER(main_data.styles), GTK_STYLE_PROVIDER_PRIORITY_USER);
+
+    gtk_widget_destroy(main_data.main_box.change_theme_event_box);
 }
 
 void chat_click(GtkWidget *widget) {
@@ -103,23 +185,32 @@ void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *dat
     int number = *((int*)data);
     switch(number) {
         case 1:
-            write(1, "Chat renamed!\n", 14);
+            show_edit_chat(widget);
             break;
         case 2:
-            //write(1, "User added!\n", 12);
             show_add_new_user(widget);
             break;
         case 3:
-            write(1, "User deleted!\n", 14);
+            show_delete_user(widget);
             break;
         case 4:
-            write(1, "Chat deleted!\n", 14);
-            break;
-        case 5:
-            write(1, "Chat image changed!\n", 20);
+            show_delete_chat(widget);
             break;
         default:
             break;
+    }
+}
+
+void scroll_handler(GtkWidget *widget, GdkEvent *event) {
+    if(widget&&event){}
+    gtk_adjustment_set_step_increment(main_data.main_box.vadj, 69.0);
+    if ( event->type == GDK_SCROLL ) {
+        if ( event->scroll.direction == GDK_SCROLL_DOWN ) {          
+            gtk_adjustment_set_value(main_data.main_box.vadj, gtk_adjustment_get_value(main_data.main_box.vadj) + gtk_adjustment_get_step_increment(main_data.main_box.vadj));
+        }
+        if ( event->scroll.direction == GDK_SCROLL_UP ) {
+            gtk_adjustment_set_value(main_data.main_box.vadj, gtk_adjustment_get_value(main_data.main_box.vadj) - gtk_adjustment_get_step_increment(main_data.main_box.vadj));
+        }
     }
 }
 
@@ -184,7 +275,7 @@ void sign_up() {
 	mx_printerr(s_message);
 
     if(strcmp(s_message, "@TRUE") == 0) {
-        main_data.main_box.search_chat_id = -1;
+        main_data.main_box.search_chat_index = -1;
         user_data.login = strdup(name);
         user_data.password = strdup(passwrod);
 

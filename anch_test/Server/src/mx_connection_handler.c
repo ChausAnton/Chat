@@ -2,9 +2,6 @@
 
 int chat_id_g;
 
-
-
-
 void *connection_handler(void *new_sock) {
 	int sock_from = *(int *)new_sock;
 	int read_size;
@@ -74,7 +71,6 @@ void *connection_handler(void *new_sock) {
 			db_del_user_from_online(user_name, db);
 		}
 		
-
 		client_message = clear_client_message(client_message);
 	}
 	
