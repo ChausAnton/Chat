@@ -24,7 +24,7 @@
 #include <sys/types.h>
 #include <time.h>
 #include <assert.h>
-
+#include <signal.h>
 ////////gtk
 #include <gtk/gtk.h>
 
@@ -35,6 +35,7 @@
 
 bool server_access;
 bool thread_exit;
+int global_sock;
 ///////
 char *mx_autentification(int sock);
 void *connection_handler(void *new_sock);
