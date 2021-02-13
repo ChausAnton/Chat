@@ -37,9 +37,10 @@ int sock;
 //ipconfig getifaddr en0 for get ip
 //10.11.7.8 ansh
 //10.11.7.7 anch
+//10.11.6.7 alex
+//10.11.6.8 pepega
 
-// 10.11.6.7 alex
-#define SERVERADDR "10.11.6.7"
+#define SERVERADDR "10.11.6.8"
 #define SERVERPORT 8095
 int new_chat_users_id[100];
 char *thread_info;
@@ -164,9 +165,15 @@ typedef struct s_main_box {
     GtkWidget *chat_box_name_label;
 
     GtkWidget *add_chats_scrollable_box;
+
     GtkWidget *emoji_event_box;
     GtkWidget *smile_button_clickable;
 
+    GtkWidget *search_chat_button;
+
+    GtkAdjustment *vadj;
+    
+    int is_first_search_destroy;
     int search_chat_id;
     int search_chat_index;
 

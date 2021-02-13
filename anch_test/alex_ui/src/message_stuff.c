@@ -1,25 +1,12 @@
 #include "Chat.h"
 
 void *scrolling_msg() {
-
     usleep(50000);
-    GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.messages_area_scroll));
-    gtk_adjustment_set_value(adjustment, gtk_adjustment_get_upper(adjustment));
+    
+    gtk_adjustment_set_value(main_data.main_box.vadj, gtk_adjustment_get_upper(main_data.main_box.vadj) + 100);
 
-    gtk_widget_hide(main_data.main_box.messages_area_scroll);
-    gtk_widget_show(main_data.main_box.messages_area_scroll);
-
-    return NULL;
-}
-
-void *scrolling_obtained_msg() {
-
-    usleep(50000);
-    GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.messages_area_scroll));
-    gtk_adjustment_set_value(adjustment, gtk_adjustment_get_upper(adjustment));
-
-    gtk_widget_hide(main_data.main_box.messages_area_scroll);
-    gtk_widget_show(main_data.main_box.messages_area_scroll);
+    /*gtk_widget_hide(main_data.main_box.messages_area_scroll);
+    gtk_widget_show(main_data.main_box.messages_area_scroll);*/
 
     return NULL;
 }
@@ -95,17 +82,6 @@ void display_obtained_message(char *obtained_message_text) {
     gtk_label_set_max_width_chars(GTK_LABEL(obtained_message), 50);
     gtk_box_pack_start(GTK_BOX(obtained_message_body_box), obtained_message, FALSE, FALSE, 0);
 
-    //Time
-    /*time_t rawtime;
-    struct tm * timeinfo;
-    time ( &rawtime );
-    timeinfo = localtime ( &rawtime );
-    char *time_message = strdup(int_to_str(timeinfo->tm_hour));
-    time_message = mx_strjoin(time_message, ":");
-    if(timeinfo->tm_min < 10){
-        time_message = mx_strjoin(time_message, "0");
-    }
-    time_message = mx_strjoin(time_message, int_to_str(timeinfo->tm_min));*/
     time_t t = time(NULL);
     struct tm *tm = localtime(&t);
 
