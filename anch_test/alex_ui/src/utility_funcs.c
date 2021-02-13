@@ -9,6 +9,26 @@ void event_leave_notify(GtkWidget *widget) {
     gtk_widget_unset_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT);
 }
 
+void event_enter_notify_search(GtkWidget *widget) {
+    if(gtk_widget_get_state_flags(GTK_WIDGET(widget)) & GTK_STATE_FLAG_ACTIVE) {
+        mx_printerr("Enter: It is active\n");
+        return;
+    } else {
+        mx_printerr("Enter: It isn`t active\n");
+        gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT, TRUE);
+    }
+}
+
+void event_leave_notify_search(GtkWidget *widget) {
+    if(gtk_widget_get_state_flags(GTK_WIDGET(widget)) & GTK_STATE_FLAG_ACTIVE) {
+        mx_printerr("Leave: It is active\n");
+        return;
+    } else {
+        mx_printerr("Leave: It isn`t active\n");
+        gtk_widget_unset_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT);
+    }
+}
+
 void unpress_event_box(GtkWidget *widget, GdkEventButton *event, gpointer *p) {
     if (widget) {}
     if(event->type == GDK_BUTTON_PRESS && event->button == 1){
@@ -51,22 +71,6 @@ void chat_click(GtkWidget *widget) {
     thread_info = strdup(mx_itoa(chat_id));
     
     barashka = true; 
-}
-
-void event_enter_notify_search(GtkWidget *widget) {
-    if(gtk_widget_get_state_flags(GTK_WIDGET(widget)) & GTK_STATE_FLAG_ACTIVE) {
-        return;
-    } else {
-        gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT, TRUE);
-    }
-}
-
-void event_leave_notify_search(GtkWidget *widget) {
-    if(gtk_widget_get_state_flags(GTK_WIDGET(widget)) & GTK_STATE_FLAG_ACTIVE) {
-        return;
-    } else {
-        gtk_widget_unset_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT);
-    }
 }
 
 void search_user_click(GtkWidget *widget) {
