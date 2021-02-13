@@ -268,18 +268,18 @@ void add_new_chat() {
 
             user_data.chat_array[user_data.amount_of_chat].users_list[tmp_index].user_id = new_chat_users_id[i];
 
+            send(sock, "@login", strlen("@login"), 0);
             recv(sock, s_message, 1000, 0);
-            send(sock, "@GET", strlen("@GET"), 0);
             user_data.chat_array[user_data.amount_of_chat].users_list[tmp_index].login = strdup(s_message);
             s_message = clear_client_message(s_message);
 
+            send(sock, "@name", strlen("@name"), 0);
             recv(sock, s_message, 1000, 0);
-            send(sock, "@GET", strlen("@GET"), 0);
             user_data.chat_array[user_data.amount_of_chat].users_list[tmp_index].name = strdup(s_message);
             s_message = clear_client_message(s_message);
 
+            send(sock, "@image_path", strlen("@image_path"), 0);
             recv(sock, s_message, 1000, 0);
-            send(sock, "@GET", strlen("@GET"), 0);
             user_data.chat_array[user_data.amount_of_chat].users_list[tmp_index].image_path = strdup(s_message);
             s_message = clear_client_message(s_message);
             tmp_index++;
@@ -294,9 +294,9 @@ void add_new_chat() {
     //user_data.chat_array[user_data.amount_of_chat-1].chat_id = last(chat_id in db);
 
     s_message = clear_client_message(s_message);
+    send(sock, "@chat_id", strlen("@chat_id"), 0);
     recv(sock, s_message, 1000, 0);
     user_data.chat_array[user_data.amount_of_chat].chat_id = atoi(s_message);
-    send(sock, "@GET", strlen("@GET"), 0);
     s_message = clear_client_message(s_message);
 
     user_data.chat_array[user_data.amount_of_chat].image_path = strdup("resource/images/stickers/047-hello.png");

@@ -72,12 +72,13 @@ int main(int argc, char *argv[]) {
     sock_work(&sock);
 
 	thread_info = NULL;
+	exit_thread = false;
 	sniffer_thread = NULL;
+	barashka = true;
 	if( pthread_create( &sniffer_thread , NULL ,  reader , NULL) < 0) {
 		perror("could not create thread");
 		return 1;
 	}
-	exit_thread = false;
 	//mx_printerr("socket to: ");
    // mx_printerr(mx_itoa(sock));
     //mx_printerr("\n");
