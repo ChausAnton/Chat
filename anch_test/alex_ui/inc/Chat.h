@@ -165,7 +165,7 @@ typedef struct s_main_box {
     GtkWidget *smile_button_clickable;
     int search_chat_id;
     int search_chat_index;
-    
+
 }   t_main_box;
 
 typedef struct s_main_data {

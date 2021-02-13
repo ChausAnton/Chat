@@ -361,22 +361,26 @@ void show_search_result(GtkWidget *widget, GdkEventButton *event, gpointer *user
     recv(sock, s_message, 2000, 0);
     s_message = clear_client_message(s_message);
 
+    printf("1\n");
     if(widget&&event){}
     char *search_input = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget *)user_input)));
     send(sock, search_input, strlen(search_input), 0);
     recv(sock, s_message, 2000, 0);
     s_message = clear_client_message(s_message);
+    printf("2\n");
 
     GtkWidget *search_chat_button = gtk_event_box_new();
     gtk_widget_set_name(GTK_WIDGET(search_chat_button), "user_button");
     gtk_event_box_set_above_child(GTK_EVENT_BOX(search_chat_button), TRUE);
     gtk_box_pack_start(GTK_BOX(main_data.main_box.add_chats_scrollable_box), search_chat_button, FALSE, FALSE, 0);
+    printf("3\n");
 
     GtkWidget *search_chat_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_widget_set_name(GTK_WIDGET(search_chat_box), "user_small_box");
     gtk_widget_set_size_request(GTK_WIDGET(search_chat_box), 300, 70);
     gtk_container_add(GTK_CONTAINER(search_chat_button), search_chat_box);
-    
+        printf("4\n");
+
     GtkWidget *add_new_chat_avatar = gtk_drawing_area_new();
     gtk_widget_set_size_request(GTK_WIDGET(add_new_chat_avatar), 80, 80);
     ////Image path of searching user
@@ -395,6 +399,7 @@ void show_search_result(GtkWidget *widget, GdkEventButton *event, gpointer *user
     send(sock, "@GET", strlen("@GET"), 0);
     GtkWidget* user_name_in_search = gtk_label_new(s_message);
     s_message = clear_client_message(s_message);
+    printf("search input:%s\n",s_message);
     gtk_widget_set_name(GTK_WIDGET(user_name_in_search), "user_name_in_search");
     gtk_box_pack_start(GTK_BOX(search_chat_box), user_name_in_search, FALSE, FALSE, 0);
 

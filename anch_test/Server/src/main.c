@@ -9,6 +9,7 @@ int main() {
 
 	db_add_user("a", "1");
 	db_add_user("s", "1");
+	db_add_user("q", "1");
 
 	db_add_chat(2, "Lol", db);
 

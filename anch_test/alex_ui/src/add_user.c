@@ -58,16 +58,16 @@ void show_add_new_user(GtkWidget *widget) {
     gtk_widget_set_size_request(GTK_WIDGET(scrollable), 400, 520);
     gtk_box_pack_start(GTK_BOX(add_new_chat_box), scrollable, FALSE, FALSE, 0);
 
-    GtkWidget *add_chats_scrollable_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    gtk_widget_set_name(GTK_WIDGET(add_chats_scrollable_box), "add_chats_scrollable_box");
-    gtk_container_add(GTK_CONTAINER(scrollable), add_chats_scrollable_box);
+    main_data.main_box.add_chats_scrollable_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_widget_set_name(GTK_WIDGET( main_data.main_box.add_chats_scrollable_box), "add_chats_scrollable_box");
+    gtk_container_add(GTK_CONTAINER(scrollable),  main_data.main_box.add_chats_scrollable_box);
 
-    for(int i = 0; i < 15; i++) {
+    for(int i = 0; i < user_data.amount_of_chat; i++) {
 
         GtkWidget *search_chat_button = gtk_event_box_new();
         gtk_widget_set_name(GTK_WIDGET(search_chat_button), "user_button");
         gtk_event_box_set_above_child(GTK_EVENT_BOX(search_chat_button), TRUE);
-        gtk_box_pack_start(GTK_BOX(add_chats_scrollable_box), search_chat_button, FALSE, FALSE, 0);
+        gtk_box_pack_start(GTK_BOX(main_data.main_box.add_chats_scrollable_box), search_chat_button, FALSE, FALSE, 0);
 
         GtkWidget *search_chat_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
         gtk_widget_set_name(GTK_WIDGET(search_chat_box), "user_small_box");
@@ -87,6 +87,7 @@ void show_add_new_user(GtkWidget *widget) {
         gtk_box_pack_start(GTK_BOX(search_chat_box), add_new_chat_photo, FALSE, FALSE, 0);
 
         GtkWidget* user_name_in_search = gtk_label_new("Shrek))0)");
+        gtk_label_set_selectable(GTK_LABEL(user_name_in_search), TRUE);
         gtk_widget_set_name(GTK_WIDGET(user_name_in_search), "user_name_in_search");
         gtk_box_pack_start(GTK_BOX(search_chat_box), user_name_in_search, FALSE, FALSE, 0);
 
@@ -125,16 +126,17 @@ void show_add_new_user(GtkWidget *widget) {
 }
 
 void add_new_user() {
-    
-    int usr_amnt = user_data.chat_array[main_data.main_box.search_chat_id].count_users; // amount of users in current chat
+        printf("111111111\n");
+
+    int usr_amnt = user_data.chat_array[main_data.main_box.search_chat_index].count_users; // amount of users in current chat
     for(int i = 0; i < 100; i++){
         if(new_chat_users_id[i] != -1) {
-            usr_amnt += 1;
-            //printf("new_chat_users_id[%d]:%d\n", i, new_chat_users_id[i]);
+            user_data.chat_array[main_data.main_box.search_chat_index].users_list[usr_amnt].user_id = new_chat_users_id[i];
+            printf("all users id in curr chat:\n%d %d\n", i, new_chat_users_id[i]);
         }
     }
-    
-    user_data.chat_array[main_data.main_box.search_chat_id].count_users = usr_amnt;
+    printf("111111111\n");
+    user_data.chat_array[main_data.main_box.search_chat_index].count_users = usr_amnt;
     load_right_chat_box();
     //printf("usr_amnt: %d\n", usr_amnt);
 
