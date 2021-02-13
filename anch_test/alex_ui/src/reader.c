@@ -19,7 +19,6 @@ void sign_in_thread(int sock_to) {
     free(s_message);
 }
 
-
 void main_reader(int sock_to) {
     for(int j = 0; j < user_data.amount_of_chat; j++) {
         check = user_data.chat_array[j].chat_id;
@@ -64,9 +63,6 @@ void main_reader(int sock_to) {
 
                 if(i == messages_num - 1) { 
                     load_messages_for_chat(check, user_num + i, message_user, 1);
-                    //gtk_adjustment_set_value(main_data.main_box.vadj, gtk_adjustment_get_upper(main_data.main_box.vadj));
-                    //main_data.main_box.vadj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.messages_area_scroll));
-                    
                 } else {
                     load_messages_for_chat(check, user_num + i, message_user, 0);
                 }

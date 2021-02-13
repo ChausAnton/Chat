@@ -705,3 +705,12 @@
     border-radius: 15px;
     color: whitesmoke;
 }
+
+#date_cnahge {
+    background:  rgba(0, 0, 0, 0.4);
+    padding: 6px;
+    border-radius: 10px;
+    color: whitesmoke;
+    font-family: PTSansPro-Demi;
+    font-size: 18px;
+}

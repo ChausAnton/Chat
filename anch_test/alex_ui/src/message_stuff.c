@@ -12,7 +12,15 @@ void *scrolling_msg() {
 }
 
 void display_message(char *message_text) {
-    
+    int count = user_data.chat_array[main_data.main_box.search_chat_index].count_msg;
+    mx_printerr(int_to_str(count));
+    if(count == 1 || strncmp(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[count-1].date, user_data.chat_array[main_data.main_box.search_chat_index].msg_list[count-2].date, 11) != 0){
+        GtkWidget *date_cnahge = gtk_label_new(strndup(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[count-1].date, 11));
+        gtk_widget_set_name(GTK_WIDGET(date_cnahge), "date_cnahge");
+        gtk_widget_set_halign (date_cnahge, GTK_ALIGN_CENTER);
+        gtk_box_pack_start(GTK_BOX(main_data.main_box.messages_area_for_scroll), date_cnahge, FALSE, FALSE, 0);
+    }
+
     GtkWidget *message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
     gtk_widget_set_name(GTK_WIDGET(message_body), "message_body");
     gtk_box_pack_start(GTK_BOX(main_data.main_box.messages_area_for_scroll), message_body, FALSE, FALSE, 0);
@@ -28,21 +36,11 @@ void display_message(char *message_text) {
     gtk_label_set_max_width_chars(GTK_LABEL(message), 50);
     gtk_box_pack_start(GTK_BOX(message_body_box), message, FALSE, FALSE, 0);
 
-    ///Time
-    /*time_t rawtime;
-    struct tm * timeinfo;
-    time ( &rawtime );
-    timeinfo = localtime ( &rawtime );
-    char *time_message = strdup(int_to_str(timeinfo->tm_hour));
-    time_message = mx_strjoin(time_message, ":");
-    if(timeinfo->tm_min < 10){
-        time_message = mx_strjoin(time_message, "0");
-    }
-    time_message = mx_strjoin(time_message, int_to_str(timeinfo->tm_min));*/
     time_t t = time(NULL);
     struct tm *tm = localtime(&t);
-
-    GtkWidget *message_time = gtk_label_new(asctime(tm));
+    char **time_message = mx_strsplit(asctime(tm), ' ');
+    
+    GtkWidget *message_time = gtk_label_new(strndup(time_message[3], 5));
     gtk_widget_set_name(GTK_WIDGET(message_time), "message_time");
     gtk_widget_set_halign(GTK_WIDGET(message_time), GTK_ALIGN_END);
     gtk_box_pack_start(GTK_BOX(message_body_box), message_time, FALSE, FALSE, 0);
@@ -115,17 +113,6 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
         user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].chat_id = main_data.main_box.search_chat_id;//Chat id where msg
         user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].user_id = user_data.user_id;//User send id
         
-        /*time_t rawtime;
-        struct tm * timeinfo;
-        time ( &rawtime );
-        timeinfo = localtime ( &rawtime );
-        char *time_message = strdup(int_to_str(timeinfo->tm_hour));
-        time_message = mx_strjoin(time_message, ":");
-        if(timeinfo->tm_min < 10){
-            time_message = mx_strjoin(time_message, "0");
-        }
-
-        time_message = mx_strjoin(time_message, int_to_str(timeinfo->tm_min));*/
         time_t t = time(NULL);
         struct tm *tm = localtime(&t);
 
@@ -394,6 +381,47 @@ void obtained_message_file(GtkWidget *widget, GdkEventButton *event, gpointer *m
             gtk_text_view_set_buffer ((GtkTextView *)messsage, NULL);
         }
         gtk_widget_show_all(main_data.main_box.right_chat_box);
+
+        ///Add to db
+        char* path_for_db = strdup("$");
+        path_for_db = mx_strjoin(path_for_db, int_to_str(main_data.main_box.search_chat_id));
+        path_for_db = mx_strjoin(path_for_db, "$");
+        path_for_db = mx_strjoin(path_for_db, filename);
+        
+        ///Creating dir
+        char *dir_path = strdup("resource/cache/");
+        dir_path = mx_strjoin(dir_path, int_to_str(main_data.main_box.search_chat_id));
+        mkdir(dir_path, S_IRWXU | S_IRWXG | S_IRWXO);
+
+        int msg_index = user_data.chat_array[main_data.main_box.search_chat_index].count_msg;
+
+        user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].msg_id_in_chat = msg_index+1; //Msg id in selected chat
+        user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].chat_id = main_data.main_box.search_chat_id;//Chat id where msg
+        user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].user_id = user_data.user_id;//User send id
+        
+        time_t t = time(NULL);
+        struct tm *tm = localtime(&t);
+
+        user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].date = strdup(asctime(tm)); //Date of message
+        user_data.chat_array[main_data.main_box.search_chat_index].msg_list[msg_index].text = strdup(path_for_db);//Text of message
+
+        user_data.chat_array[main_data.main_box.search_chat_index].count_msg++;
+
+        char *s_message = clear_client_message(NULL);
+
+        send(sock, "@message_send", strlen("@message_send"), 0);
+        recv(sock, s_message, 1000, 0);
+        s_message = clear_client_message(s_message);
+
+        send(sock, thread_info, strlen(thread_info), 0);
+        recv(sock, s_message, 1000, 0);
+        s_message = clear_client_message(s_message);
+        
+        send(sock, path_for_db, strlen(path_for_db), 0);
+        recv(sock, s_message, 1000, 0);
+        s_message = clear_client_message(s_message);
+
+        free(path_for_db);
     }
     gtk_widget_destroy (dialog);
 

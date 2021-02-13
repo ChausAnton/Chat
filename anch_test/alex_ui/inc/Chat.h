@@ -17,6 +17,7 @@
 #include <netdb.h>
 #include <math.h>
 #include <netinet/in.h>
+#include <sys/stat.h>
 
 // Server
 #include <sys/socket.h>
@@ -40,7 +41,7 @@ int sock;
 //10.11.6.7 alex
 //10.11.6.8 pepega
 
-#define SERVERADDR "10.11.6.8"
+#define SERVERADDR "10.11.7.8"
 #define SERVERPORT 8095
 int new_chat_users_id[100];
 char *thread_info;
@@ -236,6 +237,8 @@ void added_same_user_to_chat();
 
 void show_search_result(GtkWidget *widget, GdkEventButton *event, gpointer *user_input);
 
+void show_search_result(GtkWidget *widget, GdkEventButton *event, gpointer *user_input);
+
 /* emotes.c */
 void *scrolling_sticker();
 void show_emoji_box(GtkWidget *widget);
@@ -274,6 +277,7 @@ void load_data_for_user();
 
 /* load_chat_list.c */
 void load_chat_list(); 
+void add_new_chat_from_server(int chat_id, int sock_to);
 
 /* load_chat_box.c */
 void load_right_chat_box();
@@ -298,12 +302,10 @@ void save_edit_chat_changes(GtkWidget *widget, GdkEventButton *event, gpointer *
 
 /* delete_chat.c */
 void show_delete_chat(GtkWidget *widget);
-
 char *clear_client_message(char *client_message);
 char *mx_itoa(int number);
 char *clear_client_message(char *client_message);
 
 /* exit.c */ 
 void exit_client() ;
-
 #endif
