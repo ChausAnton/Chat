@@ -140,6 +140,8 @@ typedef struct s_main_box {
     GtkWidget *chat_bar;
     GtkWidget *right_chat_box;
 
+    GtkWidget *search_chat_button;
+
     GtkAdjustment *vadj;
 
     GtkWidget *messages_area_scroll;
@@ -169,6 +171,7 @@ typedef struct s_main_box {
 
     int search_chat_id;
     int search_chat_index;
+    bool is_first_search_destroy;
 
 }   t_main_box;
 
