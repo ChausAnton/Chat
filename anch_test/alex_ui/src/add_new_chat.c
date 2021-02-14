@@ -128,9 +128,9 @@ void add_new_chat_from_server(int chat_id_num, int sock_to) {
             send(sock_to, "@name", strlen("@name"), 0);
             recv(sock_to, s_message, 1000, 0);
             user_data.chat_array[user_data.amount_of_chat].users_list[i].name = strdup(s_message);
-            mx_printerr("name : ");
-            mx_printerr(s_message);
-             mx_printerr("\n");
+            //mx_printerr("name : ");
+            //mx_printerr(s_message);
+             //mx_printerr("\n");
             s_message = clear_client_message(s_message);
 
             send(sock_to, "@image_path", strlen("@image_path"), 0);

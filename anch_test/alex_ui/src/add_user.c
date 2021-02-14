@@ -150,23 +150,23 @@ void add_new_user_from_server(int chat_id, int user_id, int j, int sock_to) {
 
     send(sock_to, "@login", strlen("@login"), 0);
     recv(sock_to, s_message, 1000, 0);
-    mx_printerr("\n\n");
-    mx_printerr(s_message);
-    mx_printerr("\n\n");
+    //mx_printerr("\n\n");
+    //mx_printerr(s_message);
+    //mx_printerr("\n\n");
     user_data.chat_array[main_data.main_box.search_chat_index].users_list[j].login = strdup(s_message);
     s_message = clear_client_message(s_message);
 
     send(sock_to, "@name", strlen("@name"), 0);
     recv(sock_to, s_message, 1000, 0);
-    mx_printerr(s_message);
-    mx_printerr("\n\n");
+    //mx_printerr(s_message);
+    //mx_printerr("\n\n");
     user_data.chat_array[main_data.main_box.search_chat_index].users_list[j].name = strdup(s_message);
     s_message = clear_client_message(s_message);
 
     send(sock_to, "@image_path", strlen("@image_path"), 0);
     recv(sock_to, s_message, 1000, 0);
-    mx_printerr("\n\n");
-    mx_printerr(s_message);
+    //mx_printerr("\n\n");
+    //mx_printerr(s_message);
     user_data.chat_array[main_data.main_box.search_chat_index].users_list[j].image_path = strdup(s_message);
     s_message = clear_client_message(s_message);
     user_data.chat_array[main_data.main_box.search_chat_index].count_users = j + 1;

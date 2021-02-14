@@ -45,30 +45,34 @@ void sock_work(int *sock_new) {
 	
 	//Create socket
 	*sock_new = socket(AF_INET , SOCK_STREAM , 0);
-	if (*sock_new == -1)
-	{
-		printf("Could not create socket");
-	}
-	puts("Socket created");
 
-	serv = gethostbyname(SERVERADDR);
+	//puts("Socket created");
+
+	serv = gethostbyname(ip);
     memset((char *) &server, 0, sizeof(server));
 	server.sin_family = AF_INET;
 	memcpy(&server.sin_addr.s_addr, serv->h_addr_list[0],  serv->h_length);
-	server.sin_port = htons(SERVERPORT);
+	server.sin_port = htons(serverport);
 	//Connect to remote server
 	if (connect(*sock_new , (struct sockaddr *)&server , sizeof(server)) < 0)
 	{
-		perror("connect failed. Error");
+		//perror("connect failed. Error");
 		return;
 	}	
-	puts("Connected\n");
+	//puts("Connected\n");
 	return;
 }
 
 
 
 int main(int argc, char *argv[]) {
+	if(argc <= 0) {
+		mx_printerr("usage: ./ucaht [SERVERADDR] [SERVERPORT]\n");
+		exit(0);
+	}
+	ip = strdup(argv[1]);
+	serverport = atoi(argv[2]);
+
     sock_work(&sock);
 
 	new_user = false;
@@ -77,13 +81,13 @@ int main(int argc, char *argv[]) {
 	sniffer_thread = NULL;
 	barashka = true;
 	if( pthread_create( &sniffer_thread , NULL ,  reader , NULL) < 0) {
-		perror("could not create thread");
+		//perror("could not create thread");
 		return 1;
 	}
 
-	//mx_printerr("socket to: ");
-   // mx_printerr(mx_itoa(sock));
-    //mx_printerr("\n");
+	////mx_printerr("socket to: ");
+   // //mx_printerr(mx_itoa(sock));
+    ////mx_printerr("\n");
 
     gtk_init(&argc, &argv);
 

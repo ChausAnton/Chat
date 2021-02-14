@@ -4,7 +4,7 @@ void delete_chat_from_server(char** chat_id) {
     for(int i = 0; i < user_data.amount_of_chat; i++){
         int index = -1;
         if(chat_id[i] == NULL) {
-            mx_printerr("Zaaaaluuuppaaaaa\n\n\n");
+            //mx_printerr("Zaaaaluuuppaaaaa\n\n\n");
             user_data.chat_array[i].chat_id = -1;
             index = i;
             for(int i = index; user_data.chat_array[user_data.amount_of_chat - 1].chat_id != -1; ++i) {
@@ -18,14 +18,14 @@ void delete_chat_from_server(char** chat_id) {
             gtk_widget_destroy(GTK_WIDGET(main_data.main_box.chat_bar_scroll));
             //gtk_widget_destroy(GTK_WIDGET(user_data.chat_array[user_data.amount_of_chat].chat_button));
 
-            mx_printerr("Bruuuuuuuuh\n");
+            //mx_printerr("Bruuuuuuuuh\n");
 
             load_chat_list();
             
             gtk_widget_hide(main_data.main_box.chat_bar_scroll);
             gtk_widget_show_all(main_data.main_box.chat_bar_scroll);
 
-            mx_printerr("Bruuuuuuuuh\n");
+            //mx_printerr("Bruuuuuuuuh\n");
 
             if(main_data.main_box.search_chat_index == index){
                 main_data.main_box.search_chat_id = -1;
@@ -50,12 +50,12 @@ void delete_chat_from_server(char** chat_id) {
 
         }
         else if(user_data.chat_array[i].chat_id != atoi(chat_id[i]) ) {
-            mx_printerr("Zaaaaluuuppaaaaa\n\n\n");
+            //mx_printerr("Zaaaaluuuppaaaaa\n\n\n");
             user_data.chat_array[i].chat_id = -1;
             index = i;
 
-            mx_printerr(int_to_str(index));
-            mx_printerr("\n");
+            //mx_printerr(int_to_str(index));
+            //mx_printerr("\n");
 
             for(int i = index; user_data.chat_array[user_data.amount_of_chat - 1].chat_id != -1; ++i) {
                 t_chat_list temp = user_data.chat_array[i];
@@ -68,14 +68,14 @@ void delete_chat_from_server(char** chat_id) {
             gtk_widget_destroy(GTK_WIDGET(main_data.main_box.chat_bar_scroll));
             //gtk_widget_destroy(GTK_WIDGET(user_data.chat_array[user_data.amount_of_chat].chat_button));
 
-            mx_printerr("Bruuuuuuuuh\n");
+            //mx_printerr("Bruuuuuuuuh\n");
 
             load_chat_list();
             
             gtk_widget_hide(main_data.main_box.chat_bar_scroll);
             gtk_widget_show_all(main_data.main_box.chat_bar_scroll);
 
-            mx_printerr("Bruuuuuuuuh\n");
+            //mx_printerr("Bruuuuuuuuh\n");
 
             if(main_data.main_box.search_chat_index == index){
                 main_data.main_box.search_chat_id = -1;
@@ -96,7 +96,7 @@ void delete_chat_from_server(char** chat_id) {
                 main_data.main_box.search_chat_index = -1;
                 thread_info = strdup("start");
             }
-            mx_printerr("Bruuuuuuuuh\n");
+            //mx_printerr("Bruuuuuuuuh\n");
         }
     }
 }

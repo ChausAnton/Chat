@@ -40,6 +40,8 @@ int sock;
 #define SERVERADDR "10.11.7.7"
 
 #define SERVERPORT 8095
+int serverport;
+char *ip;
 int new_chat_users_id[100];
 char *thread_info;
 bool new_user;

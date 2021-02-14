@@ -25,7 +25,7 @@ void *scrolling_obtained_msg() {
 
 void display_message(char *message_text) {
     int count = user_data.chat_array[main_data.main_box.search_chat_index].count_msg;
-    mx_printerr(int_to_str(count));
+    //mx_printerr(int_to_str(count));
     if(count == 1 || strncmp(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[count-1].date, user_data.chat_array[main_data.main_box.search_chat_index].msg_list[count-2].date, 11) != 0){
         GtkWidget *date_change = gtk_label_new(strndup(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[count-1].date, 11));
         gtk_widget_set_name(GTK_WIDGET(date_change), "date_change");
@@ -135,7 +135,7 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
         user_data.chat_array[main_data.main_box.search_chat_index].count_msg++;
         display_message(text);
 
-        mx_printerr("Behind serever send\n");
+        //mx_printerr("Behind serever send\n");
 
         char *s_message = clear_client_message(NULL);
 
@@ -147,13 +147,13 @@ void send_message(GtkWidget *widget, GdkEventButton *event, gpointer *messsage) 
         recv(sock, s_message, 1000, 0);
         s_message = clear_client_message(s_message);
 
-        mx_printerr("Into serever send\n");
+        //mx_printerr("Into serever send\n");
         
         send(sock, text, strlen(text), 0);
         recv(sock, s_message, 1000, 0);
         s_message = clear_client_message(s_message);
 
-        mx_printerr("After serever send\n");
+        //mx_printerr("After serever send\n");
         g_free (text);
         gtk_text_view_set_buffer ((GtkTextView *)messsage, NULL);
         barashka = true;

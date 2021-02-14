@@ -14,7 +14,7 @@ void sign_in_thread(int sock_to) {
     s_message = clear_client_message(s_message);
     send(sock_to, user_data.password, strlen(user_data.password), 0);
     recv(sock_to, s_message, 2000, 0);
-    mx_printerr(s_message);
+    //mx_printerr(s_message);
 
     free(s_message);
 }
@@ -131,13 +131,13 @@ void mx_reconect(int *sock_to) {
 	{
 		printf("Could not create socket");
 	}
-	puts("Socket created");
+	//puts("Socket created");
 
-	serv = gethostbyname(SERVERADDR);
+	serv = gethostbyname(ip);
     memset((char *) &server, 0, sizeof(server));
 	server.sin_family = AF_INET;
 	memcpy(&server.sin_addr.s_addr, serv->h_addr_list[0],  serv->h_length);
-	server.sin_port = htons(SERVERPORT);
+	server.sin_port = htons(serverport);
 	//Connect to remote server
     while (connect(*sock_to, (struct sockaddr *)&server, sizeof(server)) == -1) {
         //play_music();
@@ -145,7 +145,7 @@ void mx_reconect(int *sock_to) {
         *sock_to = socket(AF_INET, SOCK_STREAM, 0);
         usleep(100000);
     }
-    mx_printerr("reconnect!!!\n");
+    //mx_printerr("reconnect!!!\n");
 }
 
 void read_new_chat_name(int sock_to) {

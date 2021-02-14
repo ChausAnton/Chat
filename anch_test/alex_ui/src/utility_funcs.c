@@ -248,29 +248,29 @@ void sign_in() {
         s_message = clear_client_message(s_message);
         send(sock, "Empty", strlen("Empty"), 0);
         recv(sock, s_message, 2000, 0);
-        mx_printerr("Empty back: ");
-        mx_printerr(s_message);
-        mx_printerr("\n");
+        //mx_printerr("Empty back: ");
+        //mx_printerr(s_message);
+        //mx_printerr("\n");
     }
     else {
         s_message = clear_client_message(s_message);
         send(sock, "Nice", strlen("Nice"), 0);
         recv(sock, s_message, 2000, 0);
-        mx_printerr("Nice back: ");
-        mx_printerr(s_message);
-        mx_printerr("\n");
+        //mx_printerr("Nice back: ");
+        //mx_printerr(s_message);
+        //mx_printerr("\n");
         s_message = clear_client_message(s_message);
         send(sock, name, strlen(name), 0);
         recv(sock, s_message, 2000, 0);
-        mx_printerr("Name back: ");
-        mx_printerr(s_message);
-        mx_printerr("\n");
+        //mx_printerr("Name back: ");
+        //mx_printerr(s_message);
+        //mx_printerr("\n");
         s_message = clear_client_message(s_message);
         send(sock, password, strlen(password), 0);
         recv(sock, s_message, 2000, 0);
-        mx_printerr("Pass back: ");
-        mx_printerr(s_message);
-        mx_printerr("\n");
+        //mx_printerr("Pass back: ");
+        //mx_printerr(s_message);
+        //mx_printerr("\n");
         if(strcmp(s_message, "@TRUE") == 0) {
             main_data.main_box.search_chat_id = -1;
             user_data.login = strdup(name);
@@ -318,9 +318,9 @@ void sign_up() {
 
     send(sock, "@sign_up", strlen("@sign_up"), 0);
     recv(sock, s_message, 2000, 0);
-    mx_printerr("Sign up back: ");
-    mx_printerr(s_message);
-    mx_printerr("\n");
+    //mx_printerr("Sign up back: ");
+    //mx_printerr(s_message);
+    //mx_printerr("\n");
 
     char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[0])));
     printf("login: %s\n", name);
@@ -335,48 +335,48 @@ void sign_up() {
         s_message = clear_client_message(s_message);
         send(sock, "Empty", strlen("Empty"), 0);
         recv(sock, s_message, 2000, 0);
-        mx_printerr("Sign in back: ");
-        mx_printerr(s_message);
-        mx_printerr("\n");
+        //mx_printerr("Sign in back: ");
+        //mx_printerr(s_message);
+        //mx_printerr("\n");
     }
     else if(strcmp(password, repeat_password) != 0) {
         passwords_doesnt_match();
         s_message = clear_client_message(s_message);
         send(sock, "Match", strlen("Match"), 0);
         recv(sock, s_message, 2000, 0);
-        mx_printerr("Pass not match in back: ");
-        mx_printerr(s_message);
-        mx_printerr("\n");
+        //mx_printerr("Pass not match in back: ");
+        //mx_printerr(s_message);
+        //mx_printerr("\n");
     }
     else {
         s_message = clear_client_message(s_message);
         send(sock, "Nice", strlen("Nice"), 0);
         recv(sock, s_message, 2000, 0);
-        mx_printerr("Nice back: ");
-        mx_printerr(s_message);
-        mx_printerr("\n");
+        //mx_printerr("Nice back: ");
+        //mx_printerr(s_message);
+        //mx_printerr("\n");
 
         s_message = clear_client_message(s_message);
         send(sock, name, strlen(name), 0);
         recv(sock, s_message, 2000, 0);
-        mx_printerr("Name in back: ");
-        mx_printerr(s_message);
-        mx_printerr("\n");
+        //mx_printerr("Name in back: ");
+        //mx_printerr(s_message);
+        //mx_printerr("\n");
         
         if (strcmp(s_message, "Name back") == 0) {
             s_message = clear_client_message(s_message);
             send(sock, password, strlen(password), 0);
             recv(sock, s_message, 2000, 0);
-            mx_printerr("Pass1 in back: ");
-            mx_printerr(s_message);
-            mx_printerr("\n");
+            //mx_printerr("Pass1 in back: ");
+            //mx_printerr(s_message);
+            //mx_printerr("\n");
 
             s_message = clear_client_message(s_message);
             send(sock, repeat_password, strlen(repeat_password), 0);
             recv(sock, s_message, 2000, 0);
-            mx_printerr("Pass2 in back: ");
-            mx_printerr(s_message);
-            mx_printerr("\n");
+            //mx_printerr("Pass2 in back: ");
+            //mx_printerr(s_message);
+            //mx_printerr("\n");
 
             if (strcmp(s_message, "@TRUE") == 0) {
                 main_data.main_box.search_chat_id = -1;
