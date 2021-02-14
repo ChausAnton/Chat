@@ -1,7 +1,11 @@
 #include "Chat.h"
 
+void sock_close() {
+	close(global_sock);
+	exit(0);
+}
 
-int main(int argc, char *argv[]) {
+int main() {
     int socket_desc , client_sock , c , *new_sock;
 	struct sockaddr_in server , client;
 	server_access = true;
@@ -26,6 +30,7 @@ int main(int argc, char *argv[]) {
 	if (socket_desc == -1) {
 		printf("Could not create socket");
 	}
+	global_sock = socket_desc;
 	puts("Socket created");
 	
 	//Prepare the sockaddr_in structure
@@ -33,6 +38,7 @@ int main(int argc, char *argv[]) {
 	server.sin_addr.s_addr = INADDR_ANY;
 	server.sin_port = htons(SERVERPORT);
 	
+	signal(SIGINT, sock_close);
 	//Bind
 	if( bind(socket_desc,(struct sockaddr *)&server , sizeof(server)) < 0) {
 		perror("bind failed. Error");
@@ -47,12 +53,11 @@ int main(int argc, char *argv[]) {
 	puts("Waiting for incoming connections...");
 	c = sizeof(struct sockaddr_in);
 
-	int i = 0;
 	while( (client_sock = accept(socket_desc, (struct sockaddr *)&client, (socklen_t*)&c)) ) {
 		puts("Connection accepted");
 
 		pthread_t sniffer_thread;
-		int *new_sock = malloc(1);
+		new_sock = malloc(1);
 		*new_sock = client_sock;
 		if( pthread_create( &sniffer_thread , NULL ,  connection_handler , (void*) new_sock) < 0) {
 			perror("could not create thread");

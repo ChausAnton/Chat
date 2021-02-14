@@ -25,6 +25,7 @@ void db_del_user_from_online(char *login, sqlite3* db) {
 
 
 void db_del_all_users_from_online(char *login, sqlite3* db) {
+    if(login){}
     char* statement = strdup("delete from online_users;");
 
     db_exec(statement, db);

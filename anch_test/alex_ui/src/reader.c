@@ -61,8 +61,12 @@ void main_reader(int sock_to) {
                 send(sock_to, "@message_user", strlen("@message_user"), 0);
                 recv(sock_to, message_user, message_size, 0);
 
-                if(i == messages_num - 1) load_messages_for_chat(check, user_num + i, message_user, 1);
-                else load_messages_for_chat(check, user_num + i, message_user, 0);
+                if(i == messages_num - 1) { 
+                    load_messages_for_chat(check, user_num + i, message_user, 1);
+                } else {
+                    load_messages_for_chat(check, user_num + i, message_user, 0);
+                }
+                
                 free(message_user);
             }
         }
@@ -72,10 +76,6 @@ void main_reader(int sock_to) {
 void read_new_chats(int sock_to) {
     if(barashka == true) {
         char *s_message = clear_client_message(NULL);
-
-        send(sock_to, "@new_chat_from_server", strlen("@new_chat_from_server"), 0);
-        recv(sock_to, s_message, 1000, 0);
-        s_message = clear_client_message(s_message);
 
         send(sock_to, mx_itoa(user_data.user_id), strlen(mx_itoa(user_data.user_id)), 0);
         recv(sock_to, s_message, 1000, 0);
@@ -99,6 +99,71 @@ void read_new_chats(int sock_to) {
 
             s_message = clear_client_message(s_message);
         }
+
+    }
+}
+
+void mx_reconect(int *sock_to) {
+    struct sockaddr_in server;
+	struct hostent *serv;
+    close(*sock_to);
+	
+	//Create socket
+	*sock_to = socket(AF_INET , SOCK_STREAM , 0);
+	if (*sock_to == -1)
+	{
+		printf("Could not create socket");
+	}
+	puts("Socket created");
+
+	serv = gethostbyname(SERVERADDR);
+    memset((char *) &server, 0, sizeof(server));
+	server.sin_family = AF_INET;
+	memcpy(&server.sin_addr.s_addr, serv->h_addr_list[0],  serv->h_length);
+	server.sin_port = htons(SERVERPORT);
+	//Connect to remote server
+    while (connect(*sock_to, (struct sockaddr *)&server, sizeof(server)) == -1) {
+        //play_music();
+        close(*sock_to);
+        *sock_to = socket(AF_INET, SOCK_STREAM, 0);
+        usleep(100000);
+    }
+    mx_printerr("reconnect!!!\n");
+}
+
+void read_new_chat_name(int sock_to) {
+    if(barashka == true) {
+        char *s_message = clear_client_message(NULL);
+
+        send(sock_to, "@send_edit_chat_changes", strlen("@send_edit_chat_changes"), 0);
+        recv(sock_to, s_message, 1000, 0);
+        s_message = clear_client_message(s_message);
+
+
+        send(sock_to, mx_itoa(user_data.user_id), strlen(mx_itoa(user_data.user_id)), 0);
+        recv(sock_to, s_message, 1000, 0);
+        s_message = clear_client_message(s_message);
+
+        send(sock_to, mx_itoa(user_data.amount_of_chat), strlen(mx_itoa(user_data.amount_of_chat)), 0);
+        recv(sock_to, s_message, 1000, 0);
+        s_message = clear_client_message(s_message);
+
+        send(sock_to, "@server_chats_num", strlen("@server_chats_num"), 0);
+        recv(sock_to, s_message, 1000, 0);
+        int server_chats_num = atoi(s_message);
+        s_message = clear_client_message(s_message);
+
+        if(server_chats_num == user_data.amount_of_chat) {
+            for(int i = 0; i < server_chats_num; i++) {
+                send(sock_to, "@chat_name", strlen("@chat_name"), 0);
+                recv(sock_to, s_message, 1000, 0);
+
+                add_new_chat_from_server(atoi(s_message), sock_to);
+
+                s_message = clear_client_message(s_message);
+            }
+        }
+
     }
 }
 
@@ -106,19 +171,28 @@ void *reader() {
 	int sock_to;
 	sock_work(&sock_to);
     int exit_code = 1;
-    bool loaded_messages = false;
     while(thread_info == NULL && exit_thread != true) {};     
     if(exit_thread == true) pthread_exit(&exit_code);
 
     while(1) {
-        if(atoi(thread_info) > 0) {
-            if(loaded_messages == false) {
-                //display_loaded_messages();
-                loaded_messages = true;
+        if (thread_info != NULL) {
+            if(atoi(thread_info) > 0) {
+                main_reader(sock_to);
             }
-            main_reader(sock_to);
+
+
+            char *s_message = clear_client_message(NULL);
+            send(sock_to, "@new_chat_from_server", strlen("@new_chat_from_server"), 0);
+            if(recv(sock_to, s_message, 1000, MSG_DONTWAIT) == 0) {
+                thread_info = strdup("start");
+                barashka = false;
+                mx_reconect(&sock);
+                mx_reconect(&sock_to);
+                sign_in_thread(sock);
+            }
+            s_message = clear_client_message(s_message);
+            read_new_chats(sock_to);
         }
-        read_new_chats(sock_to);
         if(exit_thread == true) {
             char *s_message = clear_client_message(NULL);
             send(sock_to, "@exit_thread", strlen("@exit_thread"), 0);

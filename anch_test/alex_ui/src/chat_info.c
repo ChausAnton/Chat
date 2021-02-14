@@ -14,7 +14,7 @@ void show_chat_info(GtkWidget *widget) {
     gtk_container_add(GTK_CONTAINER(chat_info_event_box), position_chat_info);
 
     GtkWidget *clickable_chat_info = gtk_event_box_new();
-    gtk_widget_set_name(GTK_WIDGET(clickable_chat_info), "clickable_chat_info");
+    //gtk_widget_set_name(GTK_WIDGET(clickable_chat_info), "clickable_chat_info");
     gtk_widget_set_halign(GTK_WIDGET(clickable_chat_info), GTK_ALIGN_END);
     gtk_widget_set_valign(GTK_WIDGET(clickable_chat_info), GTK_ALIGN_END);
     g_signal_connect(G_OBJECT(clickable_chat_info), "button_press_event", G_CALLBACK(gtk_widget_show), NULL);
@@ -36,6 +36,7 @@ void show_chat_info(GtkWidget *widget) {
     gtk_box_pack_start(GTK_BOX(chat_info_box), chat_info_photo, FALSE, FALSE, 0);
 
     GtkWidget *chat_name_label = gtk_label_new(user_data.chat_array[main_data.main_box.search_chat_index].chat_name);
+    gtk_label_set_selectable(GTK_LABEL(chat_name_label), TRUE);
     gtk_widget_set_halign(GTK_WIDGET(chat_name_label), GTK_ALIGN_START);
     gtk_widget_set_name(GTK_WIDGET(chat_name_label), "chat_name_label");
     gtk_box_pack_start(GTK_BOX(chat_info_box), chat_name_label, FALSE, FALSE, 0);
@@ -70,6 +71,8 @@ void show_chat_info(GtkWidget *widget) {
         GtkWidget *chat_info_avatar = gtk_drawing_area_new();
         gtk_widget_set_size_request(GTK_WIDGET(chat_info_avatar), 80, 80);
         g_signal_connect(G_OBJECT(chat_info_avatar), "draw", G_CALLBACK(draw_user_avatar), user_data.chat_array[main_data.main_box.search_chat_index].users_list[i].image_path);
+        //mx_printerr(user_data.chat_array[main_data.main_box.search_chat_index].users_list[i].image_path);
+        //mx_printerr("\n");
 
         GtkWidget *chat_info_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
         gtk_widget_set_name(GTK_WIDGET(chat_info_photo), "chat_info_photo");
@@ -88,7 +91,7 @@ void show_chat_info(GtkWidget *widget) {
         g_signal_connect(G_OBJECT(search_chat_button), "enter-notify-event", G_CALLBACK(event_enter_notify_search), NULL);
         g_signal_connect(G_OBJECT(search_chat_button), "leave-notify-event", G_CALLBACK(event_leave_notify_search), NULL);
 
-        g_signal_connect(G_OBJECT(search_chat_button), "button_press_event", G_CALLBACK(search_user_click), NULL);
+        //g_signal_connect(G_OBJECT(search_chat_button), "button_press_event", G_CALLBACK(search_user_click), NULL);
     }
 
     gtk_widget_show_all(GTK_WIDGET(chat_info_event_box));
