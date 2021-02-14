@@ -86,9 +86,24 @@ void show_edit_chat(GtkWidget *widget) {
 
 void save_edit_chat_changes(GtkWidget *widget, GdkEventButton *event, gpointer *data) {
     if(widget&&event){}
+    char *s_message = clear_client_message(NULL);
+    send(sock, "@save_edit_chat_changes", strlen("@save_edit_chat_changes"), 0);
+    recv(sock, s_message, 2000, 0);
+    s_message = clear_client_message(s_message);//start server
+
+    send(sock, mx_itoa(main_data.main_box.search_chat_id), 
+    strlen(mx_itoa(main_data.main_box.search_chat_id)), 0);
+    recv(sock, s_message, 2000, 0);
+    s_message = clear_client_message(s_message);//send chat id
     //Nickname
     GList *parent = gtk_container_get_children(GTK_CONTAINER((GtkWidget *)data));
     user_data.chat_array[main_data.main_box.search_chat_id].chat_name = strdup((char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY(parent->next->data))));
+
+    send(sock, user_data.chat_array[main_data.main_box.search_chat_id].chat_name, 
+    strlen(user_data.chat_array[main_data.main_box.search_chat_id].chat_name), 0);
+    recv(sock, s_message, 2000, 0);
+    s_message = clear_client_message(s_message);
+
     gtk_label_set_text(GTK_LABEL(user_data.chat_array[main_data.main_box.search_chat_id].chat_label_name), user_data.chat_array[main_data.main_box.search_chat_id].chat_name);
     gtk_label_set_text(GTK_LABEL(main_data.main_box.chat_box_name_label), user_data.chat_array[main_data.main_box.search_chat_id].chat_name);
 

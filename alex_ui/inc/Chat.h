@@ -69,7 +69,7 @@ typedef struct s_chat_list {
     GtkWidget *chat_label_name;
     gchar *temp_source_path;
     //Chat list
-    GtkWidget *chat_list_photo_event_box;
+    GtkWidget *chat_list_box;
     GtkWidget *chat_list_photo;
     GtkWidget *chat_list_avatar;
     //Chat box

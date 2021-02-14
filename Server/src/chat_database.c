@@ -1,19 +1,17 @@
 #include "Chat.h"
 
-void db_add_chat(int count, char* name, sqlite3* db) {
-    char* statement = strdup("INSERT INTO chats (member_count, chat_name, chat_image) VALUES (");
+void db_add_chat(int count, char* name) {
+    char* statement = strdup("INSERT INTO chats (member_count, chat_name) VALUES (");
     statement = mx_strjoin(statement, int_to_str(count));
     statement = mx_strjoin(statement, ", '");
     statement = mx_strjoin(statement, name);
-    statement = mx_strjoin(statement, "', '");
-    statement = mx_strjoin(statement, NULL);
     statement = mx_strjoin(statement, "'); ");
 
     db_exec(statement, db);
     free(statement);
 }
 
-void db_del_chat(int chat_id, sqlite3* db) {
+void db_del_chat(int chat_id) {
     char* statement = strdup("DELETE FROM chats WHERE chat_id=");
     statement = mx_strjoin(statement, int_to_str(chat_id));
     statement = mx_strjoin(statement, ";");
@@ -24,10 +22,10 @@ void db_del_chat(int chat_id, sqlite3* db) {
     free(statement);
 }
 
-int db_get_last_chat_id(sqlite3* db) {
+int db_get_last_chat_id() {
     int last_chat_id = -1;
     sqlite3_stmt *result;
-    char* statement = strdup("SELECT MAX(chat_id) FROM chats;");
+    char* statement = strdup("SELECT MAX(chat_id) FROM chats");
 
     int rc = sqlite3_prepare_v2(db, statement, -1, &result, 0);    
     if (rc != SQLITE_OK) {
@@ -50,33 +48,9 @@ int db_get_last_chat_id(sqlite3* db) {
 char* db_get_chat_name(int chat_id, sqlite3* db) {
     char *chat_name = NULL;
     sqlite3_stmt *result;
-    char* statement = strdup("select chat_name from chats where chat_id=");
+    char* statement = "select chat_name from chats where chat_id=";
     statement = mx_strjoin(statement, int_to_str(chat_id));
-    statement = mx_strjoin(statement, ";");
- 
-    int rc = sqlite3_prepare_v2(db, statement, -1, &result, 0);    
-    if (rc != SQLITE_OK) {
-        fprintf(stderr, "Failed to fetch data: %s\n", sqlite3_errmsg(db));
-        sqlite3_close(db);
-    } 
-
-    rc = sqlite3_step(result);
-
-    if (rc == SQLITE_ROW) {
-        chat_name = strdup((char*)sqlite3_column_text(result, 0));
-    }
-
-    sqlite3_finalize(result);
-    free(statement);
-    return chat_name;
-}
-
-char* db_get_chat_image(int chat_id, sqlite3* db) {
-    char *chat_name = NULL;
-    sqlite3_stmt *result;
-    char* statement = strdup("select chat_image from chats where chat_id=");
-    statement = mx_strjoin(statement, int_to_str(chat_id));
-    statement = mx_strjoin(statement, ";");
+    statement = mx_strjoin(statement, "");
  
     int rc = sqlite3_prepare_v2(db, statement, -1, &result, 0);    
     if (rc != SQLITE_OK) {

@@ -70,9 +70,8 @@ void show_chat_info(GtkWidget *widget) {
         
         GtkWidget *chat_info_avatar = gtk_drawing_area_new();
         gtk_widget_set_size_request(GTK_WIDGET(chat_info_avatar), 80, 80);
+
         g_signal_connect(G_OBJECT(chat_info_avatar), "draw", G_CALLBACK(draw_user_avatar), user_data.chat_array[main_data.main_box.search_chat_index].users_list[i].image_path);
-        //mx_printerr(user_data.chat_array[main_data.main_box.search_chat_index].users_list[i].image_path);
-        //mx_printerr("\n");
 
         GtkWidget *chat_info_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
         gtk_widget_set_name(GTK_WIDGET(chat_info_photo), "chat_info_photo");

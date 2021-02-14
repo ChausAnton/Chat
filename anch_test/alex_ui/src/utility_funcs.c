@@ -8,6 +8,22 @@ void event_leave_notify(GtkWidget *widget) {
     gtk_widget_unset_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT);
 }
 
+void event_enter_notify_search(GtkWidget *widget) {
+    if(gtk_widget_get_state_flags(GTK_WIDGET(widget)) & GTK_STATE_FLAG_ACTIVE) {
+        return;
+    } else {
+        gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT, TRUE);
+    }
+}
+
+void event_leave_notify_search(GtkWidget *widget) {
+    if(gtk_widget_get_state_flags(GTK_WIDGET(widget)) & GTK_STATE_FLAG_ACTIVE) {
+        return;
+    } else {
+        gtk_widget_unset_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT);
+    }
+}
+
 void unpress_event_box(GtkWidget *widget, GdkEventButton *event, gpointer *p) {
     if (widget) {}
     if(event->type == GDK_BUTTON_PRESS && event->button == 1){
@@ -30,6 +46,81 @@ static void unset_active_chats() {
         gtk_widget_unset_state_flags(GTK_WIDGET(user_data.chat_array[i].chat_button), GTK_STATE_FLAG_ACTIVE);
     }
 }
+
+/*void update_user_name(char* name) {
+    gtk_label_set_text(GTK_LABEL(main_data.main_box.user_name_label), name);
+
+    gtk_widget_destroy(main_data.main_box.chat_bar_scroll);
+    gtk_widget_destroy(main_data.main_box.up_box);
+
+    main_screen_up_box();
+    load_chat_list();
+
+    gtk_widget_hide(main_data.main_box.up_box);
+    gtk_widget_show_all(main_data.main_box.up_box);
+    gtk_widget_hide(main_data.main_box.chat_bar_scroll);
+    gtk_widget_show_all(main_data.main_box.chat_bar_scroll);
+}
+
+void update_user_photo(char* photo) {
+    if(user_data.temp_image_path != NULL) user_data.image_path = user_data.temp_image_path;
+
+    gtk_widget_destroy(user_data.user_settings_photo);
+    gtk_widget_destroy(main_data.main_box.chat_bar_scroll);
+    gtk_widget_destroy(main_data.main_box.up_box);
+    
+    user_data.user_settings_avatar = gtk_drawing_area_new();
+    gtk_widget_set_size_request(GTK_WIDGET(user_data.user_settings_avatar), 40, 40);
+    g_signal_connect(G_OBJECT(user_data.user_settings_avatar), "draw", G_CALLBACK(draw_user_settings_avatar), user_data.image_path);
+    
+    user_data.user_settings_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_container_add(GTK_CONTAINER(user_data.user_settings_photo), user_data.user_settings_avatar);
+    gtk_container_add(GTK_CONTAINER(user_data.user_settings_photo_event_box), user_data.user_settings_photo);
+
+    main_screen_up_box();
+    load_chat_list();
+
+    gtk_widget_hide(main_data.main_box.up_box);
+    gtk_widget_show_all(main_data.main_box.up_box);
+    gtk_widget_hide(main_data.main_box.chat_bar_scroll);
+    gtk_widget_show_all(main_data.main_box.chat_bar_scroll);
+}*/
+
+void update_chat_name(char* name) {
+    gtk_label_set_text(GTK_LABEL(user_data.chat_array[main_data.main_box.search_chat_index].chat_label_name), name);
+    gtk_label_set_text(GTK_LABEL(main_data.main_box.chat_box_name_label), name);
+
+    gtk_widget_destroy(main_data.main_box.chat_bar_scroll);
+
+    load_chat_list();
+
+    gtk_widget_hide(main_data.main_box.right_chat_box);
+    gtk_widget_show_all(main_data.main_box.right_chat_box);
+    gtk_widget_hide(main_data.main_box.chat_bar_scroll);
+    gtk_widget_show_all(main_data.main_box.chat_bar_scroll);
+}
+
+/*void update_chat_photo(char* photo) {
+    user_data.chat_array[main_data.main_box.search_chat_index].image_path = user_data.chat_array[main_data.main_box.search_chat_index].temp_source_path;
+
+    gtk_widget_destroy(user_data.chat_array[main_data.main_box.search_chat_index].chat_box_photo);
+    gtk_widget_destroy(main_data.main_box.chat_bar_scroll);
+
+    user_data.chat_array[main_data.main_box.search_chat_index].chat_box_avatar = gtk_drawing_area_new();
+    gtk_widget_set_size_request(GTK_WIDGET(user_data.chat_array[main_data.main_box.search_chat_index].chat_box_avatar), 40, 40);
+    g_signal_connect(G_OBJECT(user_data.chat_array[main_data.main_box.search_chat_index].chat_box_avatar), "draw", G_CALLBACK(draw_chat_avatar), user_data.chat_array[main_data.main_box.search_chat_index].image_path);
+    
+    user_data.chat_array[main_data.main_box.search_chat_index].chat_box_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_container_add(GTK_CONTAINER(user_data.chat_array[main_data.main_box.search_chat_index].chat_box_photo), user_data.chat_array[main_data.main_box.search_chat_index].chat_box_avatar);
+    gtk_container_add(GTK_CONTAINER(user_data.chat_array[main_data.main_box.search_chat_index].chat_box_photo_event_box), user_data.chat_array[main_data.main_box.search_chat_index].chat_box_photo);
+
+    load_chat_list();
+
+    gtk_widget_hide(main_data.main_box.right_chat_box);
+    gtk_widget_show_all(main_data.main_box.right_chat_box);
+    gtk_widget_hide(main_data.main_box.chat_bar_scroll);
+    gtk_widget_show_all(main_data.main_box.chat_bar_scroll);
+}*/
 
 void change_chat_photo(GtkWidget *widget) {
     GtkWidget *dialog = gtk_file_chooser_dialog_new("User image", GTK_WINDOW(main_data.window), GTK_FILE_CHOOSER_ACTION_OPEN, "Cancel", GTK_RESPONSE_CANCEL, "Open", GTK_RESPONSE_ACCEPT, NULL);
@@ -130,25 +221,10 @@ void chat_click(GtkWidget *widget) {
 
     load_right_chat_box();
     display_loaded_messages();
+    
     thread_info = strdup(mx_itoa(chat_id));
 
     barashka = true; 
-}
-
-void event_enter_notify_search(GtkWidget *widget) {
-    if(gtk_widget_get_state_flags(GTK_WIDGET(widget)) & GTK_STATE_FLAG_ACTIVE) {
-        return;
-    } else {
-        gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT, TRUE);
-    }
-}
-
-void event_leave_notify_search(GtkWidget *widget) {
-    if(gtk_widget_get_state_flags(GTK_WIDGET(widget)) & GTK_STATE_FLAG_ACTIVE) {
-        return;
-    } else {
-        gtk_widget_unset_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_PRELIGHT);
-    }
 }
 
 void search_user_click(GtkWidget *widget) {
@@ -200,6 +276,7 @@ void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *dat
             break;
     }
 }
+
 
 void scroll_handler(GtkWidget *widget, GdkEvent *event) {
     if(widget&&event){}
@@ -260,31 +337,44 @@ void sign_up() {
     printf("password: %s\n", passwrod);
     char *repeat_passwrod = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[2])));
     printf("repeat password: %s\n", repeat_passwrod);
-
+  
     s_message = clear_client_message(s_message);
     send(sock, name, strlen(name), 0);
     recv(sock, s_message, 2000, 0);
-    s_message = clear_client_message(s_message);
+    mx_printerr("Name in back: ");
+    mx_printerr(s_message);
+    mx_printerr("\n");
 
-    send(sock, passwrod, strlen(passwrod), 0);
-    recv(sock, s_message, 2000, 0);
-    s_message = clear_client_message(s_message);
+    if (strcmp(s_message, "Name back") == 0) {
+        s_message = clear_client_message(s_message);
+        send(sock, password, strlen(password), 0);
+        recv(sock, s_message, 2000, 0);
+        mx_printerr("Pass1 in back: ");
+        mx_printerr(s_message);
+        mx_printerr("\n");
 
-    send(sock, repeat_passwrod, strlen(repeat_passwrod), 0);
-    recv(sock, s_message, 2000, 0);
-	mx_printerr(s_message);
+        s_message = clear_client_message(s_message);
+        send(sock, repeat_password, strlen(repeat_password), 0);
+        recv(sock, s_message, 2000, 0);
+        mx_printerr("Pass2 in back: ");
+        mx_printerr(s_message);
+        mx_printerr("\n");
 
-    if(strcmp(s_message, "@TRUE") == 0) {
-        main_data.main_box.search_chat_index = -1;
-        user_data.login = strdup(name);
-        user_data.password = strdup(passwrod);
+        if (strcmp(s_message, "@TRUE") == 0) {
+            main_data.main_box.search_chat_id = -1;
+            user_data.login = strdup(name);
+            user_data.password = strdup(password);
 
-        gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[0]), "");
-        gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[1]), "");
-        gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[2]), "");
+            gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[0]), "");
+            gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[1]), "");
+            gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[2]), "");
 
-        load_data_for_user();
-        main_screen();
+            load_data_for_user();
+            main_screen();
+        }
+    }
+    else {
+        reg_is_used();
     }
     free(s_message);
 }

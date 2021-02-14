@@ -2,14 +2,24 @@
 
 static void fill_chat_array(){
     for(int i = 0; i < user_data.amount_of_chat; i++){
-        user_data.chat_array[i].chat_id = i;
-        user_data.chat_array[i].chat_name = strdup("Chat N");
-        user_data.chat_array[i].chat_name = mx_strjoin(user_data.chat_array[i].chat_name, int_to_str(i+1));
-        if(i % 2 == 0) user_data.chat_array[i].count_users = 2;
-        else user_data.chat_array[i].count_users = i;
-        user_data.chat_array[i].image_path = strdup("resource/images/no_chat_avatar.png");
-        //user_data.chat_array[i].image_path =  mx_strjoin(user_data.chat_array[i].image_path, int_to_str(i+1));
-        //user_data.chat_array[i].image_path =  mx_strjoin(user_data.chat_array[i].image_path, ".png");
+	    recv(sock, s_message, 1000, 0);
+        send(sock, "@GET", strlen("@GET"), 0);
+        user_data.chat_array[i].chat_id = atoi(s_message);
+        s_message = clear_client_message(s_message);
+
+        recv(sock, s_message, 1000, 0);
+        send(sock, "@GET", strlen("@GET"), 0);
+        user_data.chat_array[i].chat_name = strdup(s_message);
+        s_message = clear_client_message(s_message);
+
+        recv(sock, s_message, 1000, 0);
+        send(sock, "@GET", strlen("@GET"), 0);
+        user_data.chat_array[i].count_users = atoi(s_message);
+        s_message = clear_client_message(s_message);
+
+        user_data.chat_array[i].image_path = strdup("resource/images/stickers/");//later 
+        user_data.chat_array[i].image_path =  mx_strjoin(user_data.chat_array[i].image_path, int_to_str(i+1));
+        user_data.chat_array[i].image_path =  mx_strjoin(user_data.chat_array[i].image_path, ".png");
         //user_data.chat_array[i].users_id = (char **)malloc( sizeof(char *) * user_data.chat_array[i].count_users);
     }
 }

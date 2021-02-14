@@ -209,6 +209,7 @@ void scroll_handler(GtkWidget *widget, GdkEvent *event) {
 void sign_in() {
 
     char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[0])));
+<<<<<<< HEAD
     name = mx_strtrim(name);
     //printf("login: %s\n", name);
     char *password = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[1])));
@@ -227,6 +228,24 @@ void sign_in() {
             main_data.main_box.search_chat_id = -1;
             user_data.login = strdup(name);
             user_data.password = strdup(password);
+=======
+    printf("login: %s\n", name);
+    char *passwrod = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[1])));
+    printf("password: %s\n", passwrod);
+
+    s_message = clear_client_message(s_message);
+    send(sock, name, strlen(name), 0);
+    recv(sock, s_message, 2000, 0);
+    s_message = clear_client_message(s_message);
+    send(sock, passwrod, strlen(passwrod), 0);
+    recv(sock, s_message, 2000, 0);
+    mx_printerr(s_message);
+
+    if(strcmp(s_message, "@TRUE") == 0) {
+        main_data.main_box.search_chat_id = -1;
+        user_data.login = strdup(name);
+        user_data.password = strdup(passwrod);
+>>>>>>> new_ashp
 
             gtk_entry_set_text(GTK_ENTRY(main_data.login_box.sign_in_data[0]), "");
             gtk_entry_set_text(GTK_ENTRY(main_data.login_box.sign_in_data[1]), "");

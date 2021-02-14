@@ -1,31 +1,50 @@
 NAME		=	server
 
-GTKFLAGS	=	`pkg-config --cflags --libs gtk+-3.0`
-#SQLFLAGS	=	`-l sqlite3`
-# GTKFLAGS	=	-I resource/GTK/include -L resource/GTK/lib \
-# 				-lgtk-3 -lgdk-3 -Wl,-framework,Cocoa -Wl,-framework,Carbon \
-# 				-Wl,-framework,CoreGraphics -lpangocairo-1.0 -lpango-1.0 \
-# 				-lharfbuzz -latk-1.0 -lcairo-gobject -lcairo -lgdk_pixbuf-2.0 \
-# 				-lgio-2.0 -lgobject-2.0 -lglib-2.0 -lintl
+GTKCFLAGSLIBS	=	`pkg-config --cflags --libs gtk+-3.0`
+GTKCFLAGS		=	`pkg-config --cflags gtk+-3.0`
 
-ORACLE		=	-std=c11 -Wall -Wextra -Werror -Wpedantic 
-CFLAGS		=	$(GTKFLAGS)
+ORACLE		=	-std=c11 -Wall -Wextra -Werror -Wpedantic
+CFLAGS		=	$(ORACLE) 
 
-INC 		=	inc/*.h
-SRC 		= 	src/*.c
+SRC_DIR = src
 
-all: install clean
+OBJ_DIR = obj
 
-install:
-	@cp $(SRC) .
-	@cp $(INC) .
-	@clang $(CFLAGS) -l sqlite3 -o $(NAME) *.c
+INC_DIR = inc
 
-clean:
-	@rm -rf *.h
-	@rm -rf *.c
+SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
 
-uninstall: clean
-	@rm -rf $(NAME)
+OBJ_FILES = $(addprefix $(OBJ_DIR)/, $(notdir $(SRC_FILES:%.c=%.o)))
+
+INC_FILES = $(wildcard $(INC_DIR)/*.h)
+
+MKDIR = mkdir -p
+RM = rm -rf
+
+all: cleandb $(NAME) #add clean here to delete obj dir
+cleandb:
+	@$(RM) database
+
+$(NAME): $(OBJ_FILES)
+	@$(CC) $(CFLAGS) -l sqlite3 $^ -o $(NAME) -I $(INC_DIR) $(GTKCFLAGSLIBS)
+	@printf "\r\33[2K$@\t \033[32;1mcreated\033[0m\n"
+
+$(OBJ_FILES): | $(OBJ_DIR)
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_FILES)
+	@$(CC) $(CFLAGS) -c $< -o $@ -I $(INC_DIR) $(GTKCFLAGS)
+	@printf "\r\33[2K$(NAME)\033[33;1m\t compile \033[0m$(<:$(SRC_DIR)/%.c=%)\r"
+
+$(OBJ_DIR):
+	@$(MKDIR) $@
+
+clean: cleandb
+	@$(RM) $(OBJ_DIR)
+	@printf "$(OBJ_DIR) in $(NAME)\t \033[31;1mdeleted\033[0m\n"
+
+uninstall: clean 
+	@$(RM) $(OBJ_DIR)
+	@$(RM) $(NAME)
+	@@printf "$(NAME)\t \033[31;1muninstalled\033[0m\n"
 	
-reinstall: uninstall install clean
+reinstall: uninstall all

@@ -37,9 +37,10 @@ int sock;
 //ipconfig getifaddr en0 for get ip
 //10.11.7.8 ansh
 //10.11.7.7 anch
+//10.11.6.7 alex
 
-// 10.11.6.7 alex
-#define SERVERADDR "10.11.6.7"
+#define SERVERADDR "10.11.6.8"
+
 #define SERVERPORT 8095
 int new_chat_users_id[100];
 char *thread_info;
@@ -99,7 +100,7 @@ typedef struct s_chat_list {
     GtkWidget *chat_label_name;
     gchar *temp_source_path;
     //Chat list
-    GtkWidget *chat_list_photo_event_box;
+    GtkWidget *chat_list_box;
     GtkWidget *chat_list_photo;
     GtkWidget *chat_list_avatar;
     //Chat box
@@ -169,6 +170,8 @@ typedef struct s_main_box {
     GtkWidget *emoji_event_box;
     GtkWidget *smile_button_clickable;
 
+    GtkWidget *search_chat_button;
+    int is_first_search_destroy;
     int search_chat_id;
     int search_chat_index;
     bool is_first_search_destroy;
@@ -209,6 +212,10 @@ void event_enter_notify(GtkWidget *widget);
 void event_leave_notify(GtkWidget *widget);
 void unpress_event_box(GtkWidget *widget, GdkEventButton *event, gpointer *p);
 void unpress_chat_settings(GtkWidget *widget, GdkEventButton *event);
+//void update_user_name(char* name);
+//void update_user_photo(char* photo);
+void update_chat_name(char* name);
+//void update_chat_photo(char* photo);
 void change_chat_photo(GtkWidget *widget);
 void change_user_photo(GtkWidget *widget);
 void change_theme_to_default(GtkWidget *widget);
@@ -232,6 +239,8 @@ void incorrect_log_or_pswd();
 void log_is_used();
 void passwords_doesnt_match();
 void added_same_user_to_chat();
+
+void show_search_result(GtkWidget *widget, GdkEventButton *event, gpointer *user_input);
 
 void show_search_result(GtkWidget *widget, GdkEventButton *event, gpointer *user_input);
 

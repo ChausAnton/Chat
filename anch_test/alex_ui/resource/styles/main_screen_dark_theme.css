@@ -503,6 +503,14 @@
                 border: 0px solid black;
                 border-radius: 0px;
             }
+    #date_change {
+        background:  rgba(0, 0, 0, 0.4);
+        padding: 6px;
+        border-radius: 10px;
+        color: whitesmoke;
+        font-family: PTSansPro-Demi;
+        font-size: 18px;
+    }
 /****************************************/
 
 /****************************************/
