@@ -15,7 +15,7 @@ void *connection_handler(void *new_sock) {
 	//mx_printerr("\n");
 	while(1) {
 		recv(sock_from , client_message , 2000 , 0);
-		send(sock_from, "@GET", strlen("@GET"), 0);
+		send(sock_from, "@GETcnnt", strlen("@GETcnnt"), 0);
 		//mx_printerr(client_message);
 		//mx_printerr("\n\n");
 

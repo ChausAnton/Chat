@@ -13,6 +13,8 @@ void search_user(int sock) {
 
 	server_access = true;
 
+	if(db_user_name == NULL) db_user_name = strdup("NULL_USERNAME");
+
 	recv(sock, message, 1000, 0);
 	send(sock, db_user_name, strlen(db_user_name), 0);
 	message = clear_client_message(message);

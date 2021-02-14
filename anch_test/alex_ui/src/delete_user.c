@@ -1,6 +1,9 @@
 #include "Chat.h"
 
 void show_delete_user(GtkWidget *widget) {
+
+    main_data.main_box.is_first_search_destroy = false;
+
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
 
     main_data.main_box.add_new_chat_event_box = gtk_event_box_new();
@@ -61,9 +64,7 @@ void show_delete_user(GtkWidget *widget) {
     gtk_widget_set_name(GTK_WIDGET(add_chats_scrollable_box), "add_chats_scrollable_box");
     gtk_container_add(GTK_CONTAINER(scrollable), add_chats_scrollable_box);
 
-    int usr_amnt = user_data.chat_array[main_data.main_box.search_chat_id].count_users;
-
-    for(int i = 0; i < usr_amnt; i++) {
+    for(int i = 0; i < user_data.chat_array[main_data.main_box.search_chat_index].count_users; i++) {
 
         GtkWidget *search_chat_button = gtk_event_box_new();
         gtk_widget_set_name(GTK_WIDGET(search_chat_button), "user_button");
@@ -77,9 +78,8 @@ void show_delete_user(GtkWidget *widget) {
         
         GtkWidget *add_new_chat_avatar = gtk_drawing_area_new();
         gtk_widget_set_size_request(GTK_WIDGET(add_new_chat_avatar), 80, 80);
-        char *path = strdup("resource/images/sh.jpg");
 
-        g_signal_connect(G_OBJECT(add_new_chat_avatar), "draw", G_CALLBACK(draw_user_avatar), path);
+        g_signal_connect(G_OBJECT(add_new_chat_avatar), "draw", G_CALLBACK(draw_user_avatar), user_data.chat_array[main_data.main_box.search_chat_index].users_list[i].image_path);
 
         GtkWidget *add_new_chat_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
         gtk_widget_set_name(GTK_WIDGET(add_new_chat_photo), "add_new_chat_photo");
@@ -87,11 +87,11 @@ void show_delete_user(GtkWidget *widget) {
         gtk_widget_set_size_request(GTK_WIDGET(add_new_chat_photo), 50, 30);
         gtk_box_pack_start(GTK_BOX(search_chat_box), add_new_chat_photo, FALSE, FALSE, 0);
 
-        GtkWidget* user_name_in_search = gtk_label_new("Shrek))0)");
+        GtkWidget* user_name_in_search = gtk_label_new(user_data.chat_array[main_data.main_box.search_chat_index].users_list[i].name);
         gtk_widget_set_name(GTK_WIDGET(user_name_in_search), "user_name_in_search");
         gtk_box_pack_start(GTK_BOX(search_chat_box), user_name_in_search, FALSE, FALSE, 0);
 
-        GtkWidget *chat_id = gtk_label_new(int_to_str(user_data.chat_array[i].chat_id));
+        GtkWidget *chat_id = gtk_label_new(int_to_str(user_data.chat_array[main_data.main_box.search_chat_index].users_list[i].user_id));
         gtk_box_pack_start(GTK_BOX(search_chat_box), chat_id, FALSE, FALSE, 0);
         gtk_widget_set_name(GTK_WIDGET(chat_id), "hidden");
 
@@ -126,18 +126,14 @@ void show_delete_user(GtkWidget *widget) {
 }
 
 void delete_user() {
-    
-    int usr_amnt = user_data.chat_array[main_data.main_box.search_chat_id].count_users; // amount of users in current chat
+    int usr_amnt = user_data.chat_array[main_data.main_box.search_chat_index].count_users; // amount of users in current chat
     for(int i = 0; i < 100; i++){
         if(new_chat_users_id[i] != -1) {
-            //new_chat_users_id[i] = -1;
             usr_amnt--;
         }
     }
     
-    user_data.chat_array[main_data.main_box.search_chat_id].count_users = usr_amnt;
-    load_right_chat_box();
-    //printf("usr_amnt: %d\n", usr_amnt);
+    user_data.chat_array[main_data.main_box.search_chat_index].count_users = usr_amnt;
 
     for(int i = 0; i < 100; i++) new_chat_users_id[i] = -1;
 

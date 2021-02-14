@@ -27,10 +27,10 @@ void display_message(char *message_text) {
     int count = user_data.chat_array[main_data.main_box.search_chat_index].count_msg;
     mx_printerr(int_to_str(count));
     if(count == 1 || strncmp(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[count-1].date, user_data.chat_array[main_data.main_box.search_chat_index].msg_list[count-2].date, 11) != 0){
-        GtkWidget *date_cnahge = gtk_label_new(strndup(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[count-1].date, 11));
-        gtk_widget_set_name(GTK_WIDGET(date_cnahge), "date_cnahge");
-        gtk_widget_set_halign (date_cnahge, GTK_ALIGN_CENTER);
-        gtk_box_pack_start(GTK_BOX(main_data.main_box.messages_area_for_scroll), date_cnahge, FALSE, FALSE, 0);
+        GtkWidget *date_change = gtk_label_new(strndup(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[count-1].date, 11));
+        gtk_widget_set_name(GTK_WIDGET(date_change), "date_change");
+        gtk_widget_set_halign (date_change, GTK_ALIGN_CENTER);
+        gtk_box_pack_start(GTK_BOX(main_data.main_box.messages_area_for_scroll), date_change, FALSE, FALSE, 0);
     }
 
     GtkWidget *message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);

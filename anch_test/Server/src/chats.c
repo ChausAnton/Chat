@@ -4,7 +4,7 @@ void new_chat_from_server(int sock) {
 
 	char *message = clear_client_message(NULL);
 	recv(sock, message, 1000, 0);
-	send(sock, "@GET", strlen("@GET"), 0);
+	send(sock, "@GETst", strlen("@GETst"), 0);
 	int user_id = atoi(message);
 	message = clear_client_message(message);
 
@@ -18,11 +18,14 @@ void new_chat_from_server(int sock) {
 
 	recv(sock, message, 1000, 0);
 	int user_chats_num = atoi(message);
-	send(sock, "@GET", strlen("@GET"), 0);
+	send(sock, "@GETnd", strlen("@GETnd"), 0);
 	message = clear_client_message(message);
 
 	recv(sock, message, 1000, 0);
 	send(sock, mx_itoa(size), strlen(mx_itoa(size)), 0);
+	mx_printerr("ITOA SIZE: ");
+	mx_printerr(mx_itoa(size));
+	mx_printerr("\n");
 	message = clear_client_message(message);
 
 	int new_chats_num = size - user_chats_num;
