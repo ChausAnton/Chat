@@ -1,9 +1,0 @@
-prefix=/Users/irazumeyko/.brew/Cellar/pango/1.48.1
-libdir=${prefix}/lib
-includedir=${prefix}/include
-
-Name: Pango OT
-Description: OpenType font support for Pango (deprecated)
-Version: 1.48.1
-Requires: pangoft2
-Cflags: -I${includedir}/pango-1.0

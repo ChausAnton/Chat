@@ -1,21 +1,5 @@
 #include "Chat.h"
 
-void mx_printerr(const char *s) {
-     int len = strlen(s);
-     write(2, s, len);
-}
-
-char *clear_client_message(char *client_message) {
-	if(client_message != NULL) {
-		free(client_message);
-	}
-
-	char *message = malloc(2000 * sizeof(char));
-	for(int i = 0; i < 2000; i++)
-		message[i] = '\0';
-	return message;
-}
-
 char *mx_strnew(const int size) {
 
     char *str = (char*) malloc((size + 1) * sizeof(char));
@@ -145,4 +129,42 @@ char *mx_strtrim(const char *str) {
     }
 
     return mx_strndup(str, i);
+}
+
+int mx_count_words(const char *str, char c) {
+    int count = 0;
+    bool was_c = true;
+    if (str == NULL) return -1;
+
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (str[i] == c && str[i + 1] != '\0')
+            was_c = true;
+        else if (was_c == true) {
+            was_c = false;
+            count++;
+        }        
+    }
+    return count;
+}
+
+char **mx_strsplit(char const *s, char c) {
+    if (s == NULL) return NULL;
+    int length = 0;
+    int i = 0;
+    char **arr = (char **) malloc((mx_count_words(s, c) + 1) * sizeof(char *));
+    while((*s) && (*s != '\0')) {
+        if(*s != c) {
+            length = 0;
+            while (s[length] != c && s[length]) {
+                length++;
+            }
+            arr[i] = mx_strndup(s, length);
+            s += length;
+            i++;
+            continue;
+        }
+        s++;
+    }
+    arr[i] = NULL;
+    return arr;
 }

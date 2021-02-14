@@ -14,7 +14,7 @@ void show_add_new_chat(GtkWidget *widget) {
     gtk_container_add(GTK_CONTAINER(main_data.main_box.add_new_chat_event_box), position_add_new_chat);
 
     GtkWidget *clickable_add_new_chat = gtk_event_box_new();
-    gtk_widget_set_name(GTK_WIDGET(clickable_add_new_chat), "clickable_add_new_chat");
+    //gtk_widget_set_name(GTK_WIDGET(clickable_add_new_chat), "clickable_add_new_chat");
     gtk_widget_set_halign(GTK_WIDGET(clickable_add_new_chat), GTK_ALIGN_END);
     gtk_widget_set_valign(GTK_WIDGET(clickable_add_new_chat), GTK_ALIGN_END);
     g_signal_connect(G_OBJECT(clickable_add_new_chat), "button_press_event", G_CALLBACK(gtk_widget_show), NULL);
@@ -35,8 +35,6 @@ void show_add_new_chat(GtkWidget *widget) {
     gtk_entry_set_max_length(GTK_ENTRY(search_users), 30);
     gtk_entry_set_placeholder_text (GTK_ENTRY(search_users), "Search");
     gtk_box_pack_start(GTK_BOX(horizontal_box), search_users, TRUE, TRUE, 0);
-
-    //printf("search_input:%s\n", search_input);
 
     // Search button
     GtkWidget *search_users_button = gtk_event_box_new();
@@ -64,7 +62,7 @@ void show_add_new_chat(GtkWidget *widget) {
     gtk_widget_set_name(GTK_WIDGET(add_chats_scrollable_box), "add_chats_scrollable_box");
     gtk_container_add(GTK_CONTAINER(scrollable), add_chats_scrollable_box);
 
-    for(int i = 0; i < 15; i++) {
+    for(int i = 0; i < user_data.amount_of_chat; i++) {
 
         GtkWidget *search_chat_button = gtk_event_box_new();
         gtk_widget_set_name(GTK_WIDGET(search_chat_button), "user_button");
@@ -89,10 +87,12 @@ void show_add_new_chat(GtkWidget *widget) {
         gtk_box_pack_start(GTK_BOX(search_chat_box), add_new_chat_photo, FALSE, FALSE, 0);
 
         GtkWidget* user_name_in_search = gtk_label_new("Shrek))0)");
+        gtk_label_set_selectable(GTK_LABEL(user_name_in_search), TRUE);
         gtk_widget_set_name(GTK_WIDGET(user_name_in_search), "user_name_in_search");
         gtk_box_pack_start(GTK_BOX(search_chat_box), user_name_in_search, FALSE, FALSE, 0);
 
         GtkWidget *chat_id = gtk_label_new(int_to_str(user_data.chat_array[i].chat_id));
+        gtk_label_set_selectable(GTK_LABEL(chat_id), TRUE);
         gtk_box_pack_start(GTK_BOX(search_chat_box), chat_id, FALSE, FALSE, 0);
         gtk_widget_set_name(GTK_WIDGET(chat_id), "hidden");
 
@@ -146,7 +146,8 @@ static void scrolling_chats() {
 void add_new_chat() { 
 
     int index_new = user_data.amount_of_chat;
-    user_data.amount_of_chat += 1;
+    user_data.total_chats++;
+    user_data.amount_of_chat ++;
     user_data.chat_array[index_new].chat_name = strdup("New Chat");
     user_data.chat_array[index_new].count_users = 1;
     
@@ -168,8 +169,8 @@ void add_new_chat() {
 
     //user_data.chat_array[user_data.amount_of_chat-1].count_users = amount(users_id);
     //user_data.chat_array[user_data.amount_of_chat-1].chat_id = last(chat_id in db);
-    user_data.chat_array[index_new].chat_id = index_new;
-    user_data.chat_array[index_new].image_path = strdup("resource/images/stickers/051-sad-1.png");
+    user_data.chat_array[index_new].chat_id = user_data.total_chats;
+    user_data.chat_array[index_new].image_path = strdup("resource/images/stickers/sticker_25.png");
 
     user_data.chat_array[index_new].chat_button = gtk_event_box_new();
     gtk_widget_set_name(GTK_WIDGET(user_data.chat_array[index_new].chat_button), "chat_button");
@@ -193,11 +194,13 @@ void add_new_chat() {
     gtk_widget_set_size_request(GTK_WIDGET(photo_chat), 50, 30);
     gtk_box_pack_start(GTK_BOX(chat_box), photo_chat, FALSE, FALSE, 0);
 
-    GtkWidget* name_chat = gtk_label_new(user_data.chat_array[index_new].chat_name);
-    gtk_widget_set_name(GTK_WIDGET(name_chat), "chat_name");
-    gtk_box_pack_start(GTK_BOX(chat_box), name_chat, FALSE, FALSE, 0);
+    user_data.chat_array[index_new].chat_label_name = gtk_label_new(user_data.chat_array[index_new].chat_name);
+    gtk_label_set_selectable(GTK_LABEL(user_data.chat_array[index_new].chat_label_name), TRUE);
+    gtk_widget_set_name(GTK_WIDGET(user_data.chat_array[index_new].chat_label_name), "chat_name");
+    gtk_box_pack_start(GTK_BOX(chat_box), user_data.chat_array[index_new].chat_label_name, FALSE, FALSE, 0);
 
     GtkWidget *chat_id = gtk_label_new(int_to_str(user_data.chat_array[index_new].chat_id));
+    gtk_label_set_selectable(GTK_LABEL(chat_id), TRUE);
     gtk_box_pack_start(GTK_BOX(chat_box), chat_id, FALSE, FALSE, 0);
     gtk_widget_set_name(GTK_WIDGET(chat_id), "hidden");
 

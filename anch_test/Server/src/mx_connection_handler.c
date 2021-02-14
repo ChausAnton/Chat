@@ -2,14 +2,11 @@
 
 int chat_id_g;
 
-
-
-
 void *connection_handler(void *new_sock) {
 	int sock_from = *(int *)new_sock;
-	int read_size;
+	/*int read_size;
 	int sock_to;
-	char *message;
+	char *message;*/
 	char *client_message = clear_client_message(NULL);
 	char *user_name = NULL;
 	int exit_code = 1;
@@ -36,7 +33,7 @@ void *connection_handler(void *new_sock) {
 		}
 
 		if(strcmp(client_message, "@search") == 0) {
-			search_user(sock_from, user_name);
+			search_user(sock_from);
 
 		}
 
@@ -53,7 +50,12 @@ void *connection_handler(void *new_sock) {
 		if (strcmp(client_message, "@new_chat_from_server") == 0) {
 			new_chat_from_server(sock_from);
 		}
-
+		if(strcmp(client_message, "@save_edit_chat_changes") == 0) {
+			save_edit_chat_changes(sock_from);
+		}
+		if(strcmp(client_message, "@send_edit_chat_changes") == 0) {
+			send_edit_chat_changes(sock_from);
+		}
 		if (strcmp(client_message, "@exit_client") == 0) {
 			db_del_user_from_online(user_name, db);
 			free(user_name);
@@ -74,7 +76,6 @@ void *connection_handler(void *new_sock) {
 			db_del_user_from_online(user_name, db);
 		}
 		
-
 		client_message = clear_client_message(client_message);
 	}
 	

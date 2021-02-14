@@ -79,9 +79,11 @@ int main(int argc, char *argv[]) {
 		perror("could not create thread");
 		return 1;
 	}
+
 	//mx_printerr("socket to: ");
    // mx_printerr(mx_itoa(sock));
     //mx_printerr("\n");
+
     gtk_init(&argc, &argv);
 
     main_data.window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -100,6 +102,11 @@ int main(int argc, char *argv[]) {
     //g_signal_connect(window, "activate-default", G_CALLBACK(start_screen), (void *)activity_block);
     main_data.styles = gtk_css_provider_new();
     //gtk_style_context_add_provider_for_screen(gdk_screen_get_default(), GTK_STYLE_PROVIDER(main_data.styles), GTK_STYLE_PROVIDER_PRIORITY_USER);
+	
+	main_data.main_box.css = "resource/styles/main_screen.css";
+    main_data.login_box.css = "resource/styles/sign_in.css";
+    main_data.reg_box.css = "resource/styles/sign_up.css";
+    main_data.reload_box.css = "resource/styles/reload_screen.css";
 
     start_screen();
      
