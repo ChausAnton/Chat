@@ -70,7 +70,6 @@ int main() {
 		puts("Handler assigned");
 		
 	}
-	perror("!!!!!!!!!!!!!!!sdfd\n");
 	close(socket_desc);
 	if (client_sock < 0) {
 		perror("accept failed");

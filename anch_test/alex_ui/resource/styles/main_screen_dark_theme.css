@@ -105,6 +105,16 @@
             border-radius: 15px;
             padding-bottom: 10px;
         }
+        #delete_chat_box {
+            background: #131313;
+            border-radius: 15px;
+            padding-bottom: 10px;
+        }
+        #horizontal_box {
+            margin: 10px;
+            padding: 0;
+            border-radius: 15px;
+        }
         #horizontal_box {
             margin: 10px;
             padding: 0;
