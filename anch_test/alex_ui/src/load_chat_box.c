@@ -7,7 +7,7 @@ int is_sticker(char *txt){
             if(!mx_isdigit(txt[i])) return -1;
         }
         num = mx_strjoin(num, &txt[1]);
-        if(atoi(num) < 11) return atoi(num);
+        if(atoi(num) < 51) return atoi(num);
         else  return -1;
     } else {
         return -1;

@@ -150,9 +150,9 @@ void show_emoji_box(GtkWidget *widget) {
               g_signal_connect(G_OBJECT(single_emoji), "button_press_event", G_CALLBACK(emoji_click), (void *)path_sticker_photo);
 
               sticker_num++;
-              if(sticker_num > 10) break;
+              if(sticker_num > 51) break;
           }
-          if(sticker_num > 10) break;
+          if(sticker_num > 51) break;
     }
     gtk_container_add(GTK_CONTAINER(scrollable_emoji), emoji_grid);
 
