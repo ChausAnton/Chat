@@ -1,7 +1,7 @@
 #include "Chat.h"
 
 void show_delete_user(GtkWidget *widget) {
-
+    
     main_data.main_box.is_first_search_destroy = false;
 
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
@@ -115,7 +115,7 @@ void delete_user() {
             send(sock, mx_itoa(new_chat_users_id[i]), strlen(mx_itoa(new_chat_users_id[i])),0);
             recv(sock, s_message, 1000, 0);
             s_message = clear_client_message(s_message);
-            
+
             send(sock, mx_itoa(main_data.main_box.search_chat_id), strlen(mx_itoa(main_data.main_box.search_chat_id)), 0);
             recv(sock, s_message, 1000, 0);
             s_message = clear_client_message(s_message);
@@ -123,8 +123,6 @@ void delete_user() {
             usr_amnt--;
         }
     }
-    
-   
 
     user_data.chat_array[main_data.main_box.search_chat_index].count_users = usr_amnt;
 

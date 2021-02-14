@@ -1,15 +1,124 @@
 #include "Chat.h"
 
+void delete_chat_from_server(char** chat_id) {
+    for(int i = 0; i < user_data.amount_of_chat; i++){
+        int index = -1;
+        if(chat_id[i] == NULL) {
+            mx_printerr("Zaaaaluuuppaaaaa\n\n\n");
+            user_data.chat_array[i].chat_id = -1;
+            index = i;
+            for(int i = index; user_data.chat_array[user_data.amount_of_chat - 1].chat_id != -1; ++i) {
+                t_chat_list temp = user_data.chat_array[i];
+                user_data.chat_array[i] = user_data.chat_array[i + 1];
+                user_data.chat_array[i + 1] = temp;
+            }
+
+            user_data.amount_of_chat--;
+
+            gtk_widget_destroy(GTK_WIDGET(main_data.main_box.chat_bar_scroll));
+            //gtk_widget_destroy(GTK_WIDGET(user_data.chat_array[user_data.amount_of_chat].chat_button));
+
+            mx_printerr("Bruuuuuuuuh\n");
+
+            load_chat_list();
+            
+            gtk_widget_hide(main_data.main_box.chat_bar_scroll);
+            gtk_widget_show_all(main_data.main_box.chat_bar_scroll);
+
+            mx_printerr("Bruuuuuuuuh\n");
+
+            if(main_data.main_box.search_chat_index == index){
+                main_data.main_box.search_chat_id = -1;
+                main_data.main_box.search_chat_index = -1;
+                gtk_widget_destroy(GTK_WIDGET(main_data.main_box.right_chat_box));
+                main_data.main_box.right_chat_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+                //gtk_widget_set_name(GTK_WIDGET(main_data.main_box.right_chat_box), "chat_box");
+                gtk_widget_set_size_request(GTK_WIDGET(main_data.main_box.right_chat_box), WINDOW_SIZE_X - 310, WINDOW_SIZE_Y);
+                gtk_fixed_put(GTK_FIXED(main_data.main_box.main_fixed), main_data.main_box.right_chat_box, 310, 0);
+
+                GtkWidget *right_mid_box = gtk_label_new("Whom you want to write?");
+                gtk_widget_set_name(GTK_WIDGET(right_mid_box), "right_mid_box");
+                gtk_widget_set_size_request(GTK_WIDGET(right_mid_box), 240, 40);
+                gtk_box_pack_start(GTK_BOX(main_data.main_box.right_chat_box), right_mid_box, TRUE, FALSE, 0);
+
+                gtk_widget_show_all(main_data.main_box.right_chat_box);
+                
+                main_data.main_box.search_chat_id = -1;
+                main_data.main_box.search_chat_index = -1;
+                thread_info = strdup("start");
+            }
+
+        }
+        else if(user_data.chat_array[i].chat_id != atoi(chat_id[i]) ) {
+            mx_printerr("Zaaaaluuuppaaaaa\n\n\n");
+            user_data.chat_array[i].chat_id = -1;
+            index = i;
+
+            mx_printerr(int_to_str(index));
+            mx_printerr("\n");
+
+            for(int i = index; user_data.chat_array[user_data.amount_of_chat - 1].chat_id != -1; ++i) {
+                t_chat_list temp = user_data.chat_array[i];
+                user_data.chat_array[i] = user_data.chat_array[i + 1];
+                user_data.chat_array[i + 1] = temp;
+            }
+
+            user_data.amount_of_chat--;
+
+            gtk_widget_destroy(GTK_WIDGET(main_data.main_box.chat_bar_scroll));
+            //gtk_widget_destroy(GTK_WIDGET(user_data.chat_array[user_data.amount_of_chat].chat_button));
+
+            mx_printerr("Bruuuuuuuuh\n");
+
+            load_chat_list();
+            
+            gtk_widget_hide(main_data.main_box.chat_bar_scroll);
+            gtk_widget_show_all(main_data.main_box.chat_bar_scroll);
+
+            mx_printerr("Bruuuuuuuuh\n");
+
+            if(main_data.main_box.search_chat_index == index){
+                main_data.main_box.search_chat_id = -1;
+                main_data.main_box.search_chat_index = -1;
+                gtk_widget_destroy(GTK_WIDGET(main_data.main_box.right_chat_box));
+                main_data.main_box.right_chat_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+                //gtk_widget_set_name(GTK_WIDGET(main_data.main_box.right_chat_box), "chat_box");
+                gtk_widget_set_size_request(GTK_WIDGET(main_data.main_box.right_chat_box), WINDOW_SIZE_X - 310, WINDOW_SIZE_Y);
+                gtk_fixed_put(GTK_FIXED(main_data.main_box.main_fixed), main_data.main_box.right_chat_box, 310, 0);
+
+                GtkWidget *right_mid_box = gtk_label_new("Whom you want to write?");
+                gtk_widget_set_name(GTK_WIDGET(right_mid_box), "right_mid_box");
+                gtk_widget_set_size_request(GTK_WIDGET(right_mid_box), 240, 40);
+                gtk_box_pack_start(GTK_BOX(main_data.main_box.right_chat_box), right_mid_box, TRUE, FALSE, 0);
+
+                gtk_widget_show_all(main_data.main_box.right_chat_box);
+                main_data.main_box.search_chat_id = -1;
+                main_data.main_box.search_chat_index = -1;
+                thread_info = strdup("start");
+            }
+            mx_printerr("Bruuuuuuuuh\n");
+        }
+    }
+}
+
 void delete_chat() {
+    barashka = false;
+    usleep(20000);
+    char *s_message = clear_client_message(NULL);
+    send(sock, "@delete_chat", strlen("@delete_chat"), 0);
+    recv(sock, s_message, 1000, 0);
+    s_message = clear_client_message(s_message);
+
+    send(sock, mx_itoa(main_data.main_box.search_chat_id), strlen(mx_itoa(main_data.main_box.search_chat_id)), 0);
+    recv(sock, s_message, 1000, 0);
+    s_message = clear_client_message(s_message);
 
     user_data.chat_array[main_data.main_box.search_chat_index].chat_id  = -1;
-
     for(int i = main_data.main_box.search_chat_index; user_data.chat_array[user_data.amount_of_chat - 1].chat_id != -1; ++i) {
         t_chat_list temp = user_data.chat_array[i];
         user_data.chat_array[i] = user_data.chat_array[i + 1];
         user_data.chat_array[i + 1] = temp;
     }
-
     user_data.amount_of_chat--;
 
     gtk_widget_destroy(GTK_WIDGET(user_data.chat_array[main_data.main_box.search_chat_index].chat_button));
@@ -17,23 +126,25 @@ void delete_chat() {
     gtk_widget_destroy(GTK_WIDGET(main_data.main_box.chat_settings_event_box));
     gtk_widget_destroy(GTK_WIDGET(main_data.main_box.right_chat_box));
     gtk_widget_destroy(GTK_WIDGET(main_data.main_box.chat_bar_scroll));
-
     main_data.main_box.right_chat_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     //gtk_widget_set_name(GTK_WIDGET(main_data.main_box.right_chat_box), "chat_box");
     gtk_widget_set_size_request(GTK_WIDGET(main_data.main_box.right_chat_box), WINDOW_SIZE_X - 310, WINDOW_SIZE_Y);
     gtk_fixed_put(GTK_FIXED(main_data.main_box.main_fixed), main_data.main_box.right_chat_box, 310, 0);
-
     GtkWidget *right_mid_box = gtk_label_new("Whom you want to write?");
     gtk_widget_set_name(GTK_WIDGET(right_mid_box), "right_mid_box");
     gtk_widget_set_size_request(GTK_WIDGET(right_mid_box), 240, 40);
     gtk_box_pack_start(GTK_BOX(main_data.main_box.right_chat_box), right_mid_box, TRUE, FALSE, 0);
-
     gtk_widget_show_all(main_data.main_box.right_chat_box);
 
     load_chat_list();
 
     gtk_widget_hide(main_data.main_box.chat_bar_scroll);
     gtk_widget_show_all(main_data.main_box.chat_bar_scroll);
+
+    main_data.main_box.search_chat_id = -1;
+    main_data.main_box.search_chat_index = -1;
+
+    barashka = true;
 }
 
 void show_delete_chat(GtkWidget *widget) {

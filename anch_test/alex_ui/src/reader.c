@@ -103,6 +103,20 @@ void read_new_chats(int sock_to) {
             s_message = clear_client_message(s_message);
         }
 
+        if(new_chats_num < 0) {
+            new_chats_num = new_chats_num * -1;
+            char **all_server_chat_id = (char **) malloc(sizeof(char *) * (server_chats_num + 1));
+            all_server_chat_id[server_chats_num] = NULL;
+            for(int i = 0; i < server_chats_num; i++) {
+                send(sock_to, "@chat_id", strlen("@chat_id"), 0);
+                recv(sock_to, s_message, 1000, 0);
+                all_server_chat_id[i] = strdup(s_message);
+
+                s_message = clear_client_message(s_message);
+            }
+            delete_chat_from_server(all_server_chat_id);
+        }
+
     }
 }
 
@@ -231,14 +245,6 @@ void *reader() {
             read_new_chat_name(sock_to);
 
             char *s_message = clear_client_message(NULL);
-            /*send(sock_to, "@new_chat_from_server", strlen("@new_chat_from_server"), 0);
-            if(recv(sock_to, s_message, 1000, MSG_DONTWAIT) == 0) {
-                thread_info = strdup("start");
-                barashka = false;
-                mx_reconect(&sock);
-                mx_reconect(&sock_to);
-                sign_in_thread(sock);
-            }*/
             s_message = clear_client_message(s_message);
             
         }
