@@ -498,7 +498,7 @@ void show_search_result(GtkWidget *widget, GdkEventButton *event, gpointer *user
         GtkWidget *add_new_chat_avatar = gtk_drawing_area_new();
         gtk_widget_set_size_request(GTK_WIDGET(add_new_chat_avatar), 80, 80);
         ////Image path of searching user
-        char *path = strdup("resource/images/sh.jpg");
+        char *path = strdup("resource/images/user_icon.png");
 
         g_signal_connect(G_OBJECT(add_new_chat_avatar), "draw", G_CALLBACK(draw_user_avatar), path);
 
