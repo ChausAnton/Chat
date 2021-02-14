@@ -129,3 +129,24 @@ void db_set_chat_count(int chat_id, int new_count) {
     db_exec(statement, db);
     free(statement);
 }
+
+void db_set_chat_image(int chat_id, char* new_iamge_path, sqlite3* db) {
+    char* statement = strdup("update chats set chat_image='");
+    statement = mx_strjoin(statement, new_iamge_path);
+    statement = mx_strjoin(statement, "' where chat_id=");
+    statement = mx_strjoin(statement, int_to_str(chat_id));
+    statement = mx_strjoin(statement, ";");
+
+    db_exec(statement, db);
+    free(statement);
+}
+void db_set_chat_name(int chat_id, char *new_name, sqlite3* db) {
+    char* statement = strdup("update chats set chat_name='");
+    statement = mx_strjoin(statement, new_name);
+    statement = mx_strjoin(statement, "' where chat_id=");
+    statement = mx_strjoin(statement, int_to_str(chat_id));
+    statement = mx_strjoin(statement, ";");
+
+    db_exec(statement, db);
+    free(statement);
+}

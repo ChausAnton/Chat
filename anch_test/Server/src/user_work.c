@@ -1,5 +1,24 @@
 #include "Chat.h"
 
+void save_user_changes(int sock) {
+	char *message = clear_client_message(NULL);
+	recv(sock, message, 1000, 0);
+    char *login = strdup(message);
+	send(sock, "@login", strlen("@login"), 0);
+	message = clear_client_message(message);
+
+	recv(sock, message, 1000, 0);
+    char *new_name = strdup(message);
+	send(sock, "@new_name", strlen("@new_name"), 0);
+	message = clear_client_message(message);
+
+	while(server_access == false) {};
+	server_access = false;
+	db_set_user_name(login, new_name);
+	server_access = true;
+}
+
+
 void add_user_to_chat(int sock) {
     char *message = clear_client_message(NULL);
     recv(sock, message, 1000, 0);

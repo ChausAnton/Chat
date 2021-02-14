@@ -51,7 +51,7 @@ bool exit_thread;
 pthread_t sniffer_thread;
 enum chat_settings_message {EDIT_CHAT = 1, ADD_USER, DELETE_USER, DELETE_CHAT};
 void add_new_user();
-
+void update_chat_name(int chat_id, char* name);
 void add_new_user_from_server(int chat_id, int user_id, int j, int sock_to);
 typedef struct s_login_box {
     const gchar *css;
