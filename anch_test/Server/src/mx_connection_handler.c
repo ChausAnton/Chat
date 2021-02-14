@@ -50,7 +50,12 @@ void *connection_handler(void *new_sock) {
 		if (strcmp(client_message, "@new_chat_from_server") == 0) {
 			new_chat_from_server(sock_from);
 		}
-
+		if(strcmp(client_message, "@save_edit_chat_changes") == 0) {
+			save_edit_chat_changes(sock_from);
+		}
+		if(strcmp(client_message, "@send_edit_chat_changes") == 0) {
+			send_edit_chat_changes(sock_from);
+		}
 		if (strcmp(client_message, "@exit_client") == 0) {
 			db_del_user_from_online(user_name, db);
 			free(user_name);
