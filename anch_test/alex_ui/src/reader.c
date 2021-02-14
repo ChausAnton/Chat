@@ -167,6 +167,39 @@ void read_new_chat_name(int sock_to) {
     }
 }
 
+void read_new_user(int sock_to) {
+     for(int j = 0; j < user_data.amount_of_chat; j++) {
+        int chat_id = user_data.chat_array[j].chat_id;
+
+        if(barashka == true) {
+
+            char *s_message = clear_client_message(NULL);
+            send(sock_to, "@read_new_user", strlen("@read_new_user"), 0);
+            recv(sock_to, s_message, 1000, 0);
+            s_message = clear_client_message(s_message);
+
+            send(sock_to, mx_itoa(chat_id), strlen(mx_itoa(chat_id)), 0);
+            recv(sock_to, s_message, 1000, 0);
+            s_message = clear_client_message(s_message);
+
+            send(sock_to, "@user_num", strlen("@user_num"),0);
+            recv(sock_to, s_message, 1000, 0);
+            int server_num = atoi(s_message);
+            s_message = clear_client_message(s_message);
+
+            
+            for(int i = 0; i < server_num; i++) {
+                send(sock_to, "@user_id", strlen("@user_id"),0);
+                recv(sock_to, s_message, 1000, 0);
+                int user_id = atoi(s_message);
+                s_message = clear_client_message(s_message);
+
+                add_new_user_from_server(chat_id, user_id, i, sock_to);
+            }
+        }
+    }
+    new_user = false;
+}
 void *reader() {
 	int sock_to;
 	sock_work(&sock_to);
@@ -178,6 +211,8 @@ void *reader() {
         if (thread_info != NULL) {
             if(atoi(thread_info) > 0) {
                 main_reader(sock_to);
+                if(new_user == true)
+                    read_new_user(sock_to);
             }
 
 

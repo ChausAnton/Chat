@@ -42,6 +42,7 @@ int sock;
 #define SERVERPORT 8095
 int new_chat_users_id[100];
 char *thread_info;
+bool new_user;
 void *reader();
 void mx_printerr(const char *s);
 void sock_work(int *sock_new);
@@ -51,7 +52,7 @@ pthread_t sniffer_thread;
 enum chat_settings_message {EDIT_CHAT = 1, ADD_USER, DELETE_USER, DELETE_CHAT};
 void add_new_user();
 
-void add_new_user_from_server(int chat_id, int user_id);
+void add_new_user_from_server(int chat_id, int user_id, int j, int sock_to);
 typedef struct s_login_box {
     const gchar *css;
     GtkWidget *all_login_box;

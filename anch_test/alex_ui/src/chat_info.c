@@ -1,7 +1,8 @@
 #include "../inc/Chat.h"
 
 void show_chat_info(GtkWidget *widget) {
-
+    new_user = true;
+    while(new_user == true) {};
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
 
     GtkWidget *chat_info_event_box = gtk_event_box_new();
@@ -56,6 +57,9 @@ void show_chat_info(GtkWidget *widget) {
     gtk_widget_set_name(GTK_WIDGET(chat_info_scrollable_box), "chat_info_scrollable_box");
     gtk_container_add(GTK_CONTAINER(scrollable), chat_info_scrollable_box);
 
+    mx_printerr("!!!!!!!!!\n");
+    mx_printerr(mx_itoa(user_data.chat_array[main_data.main_box.search_chat_index].count_users));
+    mx_printerr("!!!!!!!!!\n");
     for(int i = 0; i < user_data.chat_array[main_data.main_box.search_chat_index].count_users; i++) {
 
         GtkWidget *search_chat_button = gtk_event_box_new();

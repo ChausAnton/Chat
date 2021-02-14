@@ -237,9 +237,6 @@ void sign_in() {
 
     send(sock, "@sign_in", strlen("@sign_in"), 0);
     recv(sock, s_message, 2000, 0);
-    mx_printerr("Sign in back: ");
-    mx_printerr(s_message);
-    mx_printerr("\n");
 
     char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[0])));
     printf("login: %s\n", name);

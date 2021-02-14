@@ -1,6 +1,23 @@
 #include "Chat.h"
 
 int chat_id_g;
+void save_user_changes(int sock) {
+	char *message = clear_client_message(NULL);
+	recv(sock, message, 1000, 0);
+    char *login = strdup(message);
+	send(sock, "@login", strlen("@login"), 0);
+	message = clear_client_message(message);
+
+	recv(sock, message, 1000, 0);
+    char *new_name = strdup(message);
+	send(sock, "@new_name", strlen("@new_name"), 0);
+	message = clear_client_message(message);
+
+	while(server_access == false) {};
+	server_access = false;
+	db_set_user_name(login, new_name);
+	server_access = true;
+}
 
 void *connection_handler(void *new_sock) {
 	int sock_from = *(int *)new_sock;
@@ -43,9 +60,6 @@ void *connection_handler(void *new_sock) {
 		if (strcmp(client_message, "@message_send") == 0) {
 			send_message(sock_from, user_name);
 		}
-		if(strcmp(client_message, "@add_new_user") == 0) {
-			add_user_to_chat(sock_from);
-		}
 		if (strcmp(client_message, "@message_read") == 0) {
 			read_message(sock_from);
 		}
@@ -57,6 +71,15 @@ void *connection_handler(void *new_sock) {
 		}
 		if(strcmp(client_message, "@send_edit_chat_changes") == 0) {
 			send_edit_chat_changes(sock_from);
+		}
+		if(strcmp(client_message, "@add_new_user") == 0) {
+			add_user_to_chat(sock_from);
+		}
+		if(strcmp(client_message, "@read_new_user") == 0) {
+			read_new_user(sock_from);
+		}
+		if(strcmp(client_message, "@save_user_changes") == 0) {
+			save_user_changes(sock_from);
 		}
 		if (strcmp(client_message, "@exit_client") == 0) {
 			db_del_user_from_online(user_name, db);
