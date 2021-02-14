@@ -1,7 +1,8 @@
 #include "../inc/Chat.h"
 
 void show_add_new_chat(GtkWidget *widget) {
-    
+    main_data.main_box.is_first_search_destroy = false;
+
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
 
     main_data.main_box.add_new_chat_event_box = gtk_event_box_new();
@@ -14,7 +15,7 @@ void show_add_new_chat(GtkWidget *widget) {
     gtk_container_add(GTK_CONTAINER(main_data.main_box.add_new_chat_event_box), position_add_new_chat);
 
     GtkWidget *clickable_add_new_chat = gtk_event_box_new();
-    gtk_widget_set_name(GTK_WIDGET(clickable_add_new_chat), "clickable_add_new_chat");
+    //gtk_widget_set_name(GTK_WIDGET(clickable_add_new_chat), "clickable_add_new_chat");
     gtk_widget_set_halign(GTK_WIDGET(clickable_add_new_chat), GTK_ALIGN_END);
     gtk_widget_set_valign(GTK_WIDGET(clickable_add_new_chat), GTK_ALIGN_END);
     g_signal_connect(G_OBJECT(clickable_add_new_chat), "button_press_event", G_CALLBACK(gtk_widget_show), NULL);
@@ -128,13 +129,6 @@ void show_add_new_chat(GtkWidget *widget) {
 
 
 static void scrolling_chats() {
-    // usleep(15000);
-    // GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.chat_bar_scroll));
-    // gtk_adjustment_set_value(adjustment, gtk_adjustment_get_upper(adjustment));
-
-    // gtk_widget_hide(main_data.main_box.chat_bar_scroll);
-    // gtk_widget_show(main_data.main_box.chat_bar_scroll);
-    // return NULL;
     while (gtk_events_pending()) {
         gtk_main_iteration();
         GtkAdjustment *adj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.chat_bar_scroll));
@@ -254,7 +248,6 @@ void add_new_chat() {
         }
     }
 
-    user_data.chat_array[user_data.amount_of_chat].count_msg = 0;
     send(sock, mx_itoa(user_data.chat_array[user_data.amount_of_chat].count_users), strlen(mx_itoa(user_data.chat_array[user_data.amount_of_chat].count_users)), 0);
     recv(sock, s_message, 1000, 0);
 
@@ -289,9 +282,6 @@ void add_new_chat() {
     user_data.chat_array[user_data.amount_of_chat].users_list[tmp_index].login = strdup(user_data.login);
     user_data.chat_array[user_data.amount_of_chat].users_list[tmp_index].image_path = strdup(user_data.image_path);
     user_data.chat_array[user_data.amount_of_chat].users_list[tmp_index].name = strdup(user_data.name);
-
-    //user_data.chat_array[user_data.amount_of_chat-1].count_users = amount(users_id);
-    //user_data.chat_array[user_data.amount_of_chat-1].chat_id = last(chat_id in db);
 
     s_message = clear_client_message(s_message);
     send(sock, "@chat_id", strlen("@chat_id"), 0);

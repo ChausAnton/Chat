@@ -268,6 +268,10 @@ void logout(GtkWidget *widget, GdkEventButton *event) {
 
 
 void show_search_result(GtkWidget *widget, GdkEventButton *event, gpointer *user_input) {
+
+    if (main_data.main_box.is_first_search_destroy == true) gtk_widget_destroy(main_data.main_box.search_chat_button);
+    main_data.main_box.is_first_search_destroy = true;
+
     char *s_message = clear_client_message(NULL);
     send(sock, "@search", strlen("@search"), 0);
     recv(sock, s_message, 2000, 0);
