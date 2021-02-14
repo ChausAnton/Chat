@@ -24,36 +24,13 @@ void show_delete_user(GtkWidget *widget) {
     gtk_fixed_put(GTK_FIXED(position_add_new_chat), clickable_add_new_chat, 640, 120);
 
     GtkWidget *add_new_chat_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
-    gtk_widget_set_name(GTK_WIDGET(add_new_chat_box), "add_new_chat_box");
+    gtk_widget_set_name(GTK_WIDGET(add_new_chat_box), "delete_chat_box");
     gtk_container_add(GTK_CONTAINER(clickable_add_new_chat), add_new_chat_box);
 
     GtkWidget *horizontal_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_widget_set_name(GTK_WIDGET(horizontal_box), "horizontal_box");
     gtk_widget_set_size_request(GTK_WIDGET(horizontal_box), 400, 20);
     gtk_box_pack_start(GTK_BOX(add_new_chat_box), horizontal_box, FALSE, FALSE, 0);
-
-    GtkWidget *search_users = gtk_entry_new();
-    gtk_widget_set_name(GTK_WIDGET(search_users), "search_users");
-    gtk_entry_set_max_length(GTK_ENTRY(search_users), 30);
-    gtk_entry_set_placeholder_text (GTK_ENTRY(search_users), "Search");
-    gtk_box_pack_start(GTK_BOX(horizontal_box), search_users, TRUE, TRUE, 0);
-
-    // Search button
-    GtkWidget *search_users_button = gtk_event_box_new();
-    gtk_widget_set_name(GTK_WIDGET(search_users_button), "search_users_button");
-    gtk_widget_set_size_request(GTK_WIDGET(search_users_button), 40, 40);
-    gtk_widget_set_halign(GTK_WIDGET(search_users_button), GTK_ALIGN_CENTER);
-    gtk_widget_set_valign(GTK_WIDGET(clickable_add_new_chat), GTK_ALIGN_CENTER);
-    gtk_box_pack_start(GTK_BOX(horizontal_box), search_users_button, FALSE, FALSE, 0);
-
-    g_signal_connect(G_OBJECT(search_users_button), "enter-notify-event", G_CALLBACK(event_enter_notify), NULL);
-    g_signal_connect(G_OBJECT(search_users_button), "leave-notify-event", G_CALLBACK(event_leave_notify), NULL);
-
-    g_signal_connect(G_OBJECT(search_users_button), "button_press_event", G_CALLBACK(show_search_result), search_users);
-
-    GtkWidget *search_users_button_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    gtk_widget_set_name(GTK_WIDGET(search_users_button_box), "search_users_button_box");
-    gtk_container_add(GTK_CONTAINER(search_users_button), search_users_button_box);
 
     // Scroll
     GtkWidget *scrollable = gtk_scrolled_window_new(NULL, NULL);
@@ -79,7 +56,7 @@ void show_delete_user(GtkWidget *widget) {
         GtkWidget *add_new_chat_avatar = gtk_drawing_area_new();
         gtk_widget_set_size_request(GTK_WIDGET(add_new_chat_avatar), 80, 80);
 
-        g_signal_connect(G_OBJECT(add_new_chat_avatar), "draw", G_CALLBACK(draw_user_avatar), user_data.chat_array[main_data.main_box.search_chat_index].users_list[i].image_path);
+        g_signal_connect(G_OBJECT(add_new_chat_avatar), "draw", G_CALLBACK(draw_user_avatar), "resource/images/user_icon.png");
 
         GtkWidget *add_new_chat_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
         gtk_widget_set_name(GTK_WIDGET(add_new_chat_photo), "add_new_chat_photo");
@@ -89,7 +66,8 @@ void show_delete_user(GtkWidget *widget) {
 
         GtkWidget* user_name_in_search = gtk_label_new(user_data.chat_array[main_data.main_box.search_chat_index].users_list[i].name);
         gtk_widget_set_name(GTK_WIDGET(user_name_in_search), "user_name_in_search");
-        gtk_box_pack_start(GTK_BOX(search_chat_box), user_name_in_search, FALSE, FALSE, 0);
+
+gtk_box_pack_start(GTK_BOX(search_chat_box), user_name_in_search, FALSE, FALSE, 0);
 
         GtkWidget *chat_id = gtk_label_new(int_to_str(user_data.chat_array[main_data.main_box.search_chat_index].users_list[i].user_id));
         gtk_box_pack_start(GTK_BOX(search_chat_box), chat_id, FALSE, FALSE, 0);
@@ -129,10 +107,25 @@ void delete_user() {
     int usr_amnt = user_data.chat_array[main_data.main_box.search_chat_index].count_users; // amount of users in current chat
     for(int i = 0; i < 100; i++){
         if(new_chat_users_id[i] != -1) {
+            char *s_message = clear_client_message(NULL);
+            send(sock, "@delete_user", strlen("@delete_user"), 0);
+            recv(sock, s_message, 1000, 0);
+            s_message = clear_client_message(s_message);
+            
+            send(sock, mx_itoa(new_chat_users_id[i]), strlen(mx_itoa(new_chat_users_id[i])),0);
+            recv(sock, s_message, 1000, 0);
+            s_message = clear_client_message(s_message);
+            
+            send(sock, mx_itoa(main_data.main_box.search_chat_id), strlen(mx_itoa(main_data.main_box.search_chat_id)), 0);
+            recv(sock, s_message, 1000, 0);
+            s_message = clear_client_message(s_message);
+
             usr_amnt--;
         }
     }
     
+   
+
     user_data.chat_array[main_data.main_box.search_chat_index].count_users = usr_amnt;
 
     for(int i = 0; i < 100; i++) new_chat_users_id[i] = -1;
@@ -142,3 +135,4 @@ void delete_user() {
     
     gtk_widget_show_all(main_data.main_box.chat_bar);
 }
+

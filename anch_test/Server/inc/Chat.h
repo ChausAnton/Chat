@@ -62,7 +62,8 @@ void save_edit_chat_changes(int sock);
 void send_edit_chat_changes(int sock);
 void add_user_to_chat(int sock);
 void read_new_user(int sock);
-void save_user_changes(int sock) ;
+void save_user_changes(int sock);
+void delete_user(int sock);
 ////
 char *mx_strnew(const int size);
 int mx_strlen(const char *s);

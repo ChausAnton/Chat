@@ -40,6 +40,9 @@ void *connection_handler(void *new_sock) {
 		if(strcmp(client_message, "@new_chat") == 0) {
 			new_chat(sock_from, user_name);
 		}
+		if(strcmp(client_message, "@delete_user") == 0) {
+			delete_user(sock_from);
+		}
 		if (strcmp(client_message, "@message_send") == 0) {
 			send_message(sock_from, user_name);
 		}

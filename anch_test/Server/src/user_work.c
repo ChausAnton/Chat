@@ -1,5 +1,28 @@
 #include "Chat.h"
 
+void delete_user(int sock) {
+    char *message = clear_client_message(NULL);
+	recv(sock, message, 1000, 0);
+    int user_id = atoi(message);
+	send(sock, "@user_id", strlen("@user_id"), 0);
+	message = clear_client_message(message);
+
+	recv(sock, message, 1000, 0);
+    int chat_id = atoi(message);
+	send(sock, "@login", strlen("@login"), 0);
+	message = clear_client_message(message);
+
+    while(server_access == false) {};
+	server_access = false;
+	db_del_member(chat_id, user_id);
+	server_access = true;
+
+    while(server_access == false) {};
+	server_access = false;
+    db_set_chat_count(chat_id, get_count_users_for_chat(chat_id, db) - 1);
+    server_access = true;
+}
+
 void save_user_changes(int sock) {
 	char *message = clear_client_message(NULL);
 	recv(sock, message, 1000, 0);
