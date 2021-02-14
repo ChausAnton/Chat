@@ -168,7 +168,7 @@ void display_new_loaded_messages(int chat_id, int index) {
     int height = (strlen(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].text) / 50 + 1) * 15;
     gtk_adjustment_set_upper(main_data.main_box.vadj, gtk_adjustment_get_upper(main_data.main_box.vadj) + height*height);
    
-    if (gtk_adjustment_get_upper(main_data.main_box.vadj) > 1005) {
+    if (gtk_adjustment_get_upper(main_data.main_box.vadj) > 1005) { // 1005 probably is 780 + msg_amnt * msg_height
         scrolling_msg();
     }
     
