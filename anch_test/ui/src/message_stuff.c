@@ -260,7 +260,7 @@ void send_message_file(GtkWidget *widget) {
         path_for_db = mx_strjoin(path_for_db, filename);
         
         ///Creating dir
-        char *dir_path = strdup("resource/cache/");
+        char *dir_path = strdup("ui/resource/cache/");
         dir_path = mx_strjoin(dir_path, int_to_str(main_data.main_box.search_chat_id));
         mkdir(dir_path, S_IRWXU | S_IRWXG | S_IRWXO);
 
@@ -402,7 +402,7 @@ void obtained_message_file(GtkWidget *widget, GdkEventButton *event, gpointer *m
         path_for_db = mx_strjoin(path_for_db, filename);
         
         ///Creating dir
-        char *dir_path = strdup("resource/cache/");
+        char *dir_path = strdup("ui/resource/cache/");
         dir_path = mx_strjoin(dir_path, int_to_str(main_data.main_box.search_chat_id));
         mkdir(dir_path, S_IRWXU | S_IRWXG | S_IRWXO);
 

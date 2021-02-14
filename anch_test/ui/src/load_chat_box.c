@@ -26,7 +26,7 @@ void display_new_loaded_messages(int chat_id, int index) {
     if(sticker_id != -1){
         // Sticker
         if(user_data.user_id == user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].user_id){
-            char *sticker_path = strdup("resource/images/stickers/sticker_");
+            char *sticker_path = strdup("ui/resource/images/stickers/sticker_");
             sticker_path = mx_strjoin(sticker_path, mx_itoa(sticker_id));
             sticker_path = mx_strjoin(sticker_path, ".png");
 
@@ -60,7 +60,7 @@ void display_new_loaded_messages(int chat_id, int index) {
             gtk_box_pack_start(GTK_BOX(message_body_box), message_time, FALSE, FALSE, 0);
         }
         else {
-            char *sticker_path = strdup("resource/images/stickers/sticker_");
+            char *sticker_path = strdup("ui/resource/images/stickers/sticker_");
             sticker_path = mx_strjoin(sticker_path, mx_itoa(sticker_id));
             sticker_path = mx_strjoin(sticker_path, ".png");
 
@@ -176,7 +176,7 @@ void display_loaded_messages() {
         if(sticker_id != -1){
             // Sticker
             if(user_data.user_id == user_data.chat_array[main_data.main_box.search_chat_index].msg_list[i].user_id){
-                char *sticker_path = strdup("resource/images/stickers/sticker_");
+                char *sticker_path = strdup("ui/resource/images/stickers/sticker_");
                 sticker_path = mx_strjoin(sticker_path, mx_itoa(sticker_id));
                 sticker_path = mx_strjoin(sticker_path, ".png");
 
@@ -209,7 +209,7 @@ void display_loaded_messages() {
                 gtk_widget_set_halign(GTK_WIDGET(message_time), GTK_ALIGN_END);
                 gtk_box_pack_start(GTK_BOX(message_body_box), message_time, FALSE, FALSE, 0);
             } else {
-                char *sticker_path = strdup("resource/images/stickers/sticker_");
+                char *sticker_path = strdup("ui/resource/images/stickers/sticker_");
                 sticker_path = mx_strjoin(sticker_path, mx_itoa(sticker_id));
                 sticker_path = mx_strjoin(sticker_path, ".png");
 

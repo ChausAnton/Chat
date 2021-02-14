@@ -99,9 +99,9 @@ void change_user_photo(GtkWidget *widget) {
 
 void change_theme_to_default(GtkWidget *widget) {
     if(widget){}
-    main_data.main_box.css = "resource/styles/main_screen.css";
-    main_data.login_box.css = "resource/styles/sign_in.css";
-    main_data.reg_box.css = "resource/styles/sign_up.css";
+    main_data.main_box.css = "ui/resource/styles/main_screen.css";
+    main_data.login_box.css = "ui/resource/styles/sign_in.css";
+    main_data.reg_box.css = "ui/resource/styles/sign_up.css";
 
     gtk_css_provider_load_from_path(main_data.styles, main_data.main_box.css, NULL);
     gtk_style_context_add_provider_for_screen(gdk_screen_get_default(), GTK_STYLE_PROVIDER(main_data.styles), GTK_STYLE_PROVIDER_PRIORITY_USER);
@@ -111,9 +111,9 @@ void change_theme_to_default(GtkWidget *widget) {
 
 void change_theme_to_dark(GtkWidget *widget) {
     if(widget){}
-    main_data.main_box.css = "resource/styles/main_screen_dark_theme.css";
-    main_data.login_box.css = "resource/styles/sign_in_dark_theme.css";
-    main_data.reg_box.css = "resource/styles/sign_up_dark_theme.css";
+    main_data.main_box.css = "ui/resource/styles/main_screen_dark_theme.css";
+    main_data.login_box.css = "ui/resource/styles/sign_in_dark_theme.css";
+    main_data.reg_box.css = "ui/resource/styles/sign_up_dark_theme.css";
 
     gtk_css_provider_load_from_path(main_data.styles, main_data.main_box.css, NULL);
     gtk_style_context_add_provider_for_screen(gdk_screen_get_default(), GTK_STYLE_PROVIDER(main_data.styles), GTK_STYLE_PROVIDER_PRIORITY_USER);
@@ -498,7 +498,7 @@ void show_search_result(GtkWidget *widget, GdkEventButton *event, gpointer *user
         GtkWidget *add_new_chat_avatar = gtk_drawing_area_new();
         gtk_widget_set_size_request(GTK_WIDGET(add_new_chat_avatar), 80, 80);
         ////Image path of searching user
-        char *path = strdup("resource/images/user_icon.png");
+        char *path = strdup("ui/resource/images/user_icon.png");
 
         g_signal_connect(G_OBJECT(add_new_chat_avatar), "draw", G_CALLBACK(draw_user_avatar), path);
 

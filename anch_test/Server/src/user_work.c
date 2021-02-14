@@ -70,7 +70,7 @@ void add_user_to_chat(int sock) {
 	server_access = false;
     char *image = db_get_user_image_path(login, db);
     if (*image == '\0')
-			image = strdup("resource/images/anonymous.png");
+			image = strdup("ui/resource/images/anonymous.png");
 	server_access = true;
 	send(sock, image, strlen(image), 0);
     message = clear_client_message(message);
@@ -141,7 +141,7 @@ void read_new_user(int sock) {
 	    server_access = false;
         char *image_path = db_get_user_image_path(login, db);
         if (*image_path == '\0')
-			image_path = strdup("resource/images/anonymous.png");
+			image_path = strdup("ui/resource/images/anonymous.png");
         server_access = true;
 	    send(sock, image_path, strlen(image_path), 0);
 	    message = clear_client_message(message);

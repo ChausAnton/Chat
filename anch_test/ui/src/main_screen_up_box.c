@@ -12,7 +12,7 @@ void main_screen_up_box() {
 
         user_data.user_avatar = gtk_drawing_area_new();
         gtk_widget_set_size_request(GTK_WIDGET(user_data.user_avatar), 80, 80);
-        g_signal_connect(G_OBJECT(user_data.user_avatar), "draw", G_CALLBACK(draw_user_avatar), user_data.image_path);
+        g_signal_connect(G_OBJECT(user_data.user_avatar), "draw", G_CALLBACK(draw_user_avatar), "ui/resource/images/user_icon.png");
         
         user_data.user_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
         gtk_widget_set_name(GTK_WIDGET(user_data.user_photo), "user_photo");

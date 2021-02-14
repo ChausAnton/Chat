@@ -1,7 +1,7 @@
 #include "Chat.h"
 
 void show_delete_user(GtkWidget *widget) {
-    
+
     main_data.main_box.is_first_search_destroy = false;
 
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
@@ -56,7 +56,7 @@ void show_delete_user(GtkWidget *widget) {
         GtkWidget *add_new_chat_avatar = gtk_drawing_area_new();
         gtk_widget_set_size_request(GTK_WIDGET(add_new_chat_avatar), 80, 80);
 
-        g_signal_connect(G_OBJECT(add_new_chat_avatar), "draw", G_CALLBACK(draw_user_avatar), "resource/images/user_icon.png");
+        g_signal_connect(G_OBJECT(add_new_chat_avatar), "draw", G_CALLBACK(draw_user_avatar), "ui/resource/images/user_icon.png");
 
         GtkWidget *add_new_chat_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
         gtk_widget_set_name(GTK_WIDGET(add_new_chat_photo), "add_new_chat_photo");

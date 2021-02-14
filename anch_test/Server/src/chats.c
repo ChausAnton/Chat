@@ -1,5 +1,18 @@
 #include "Chat.h"
 
+void delete_chat(int sock) {
+	char *message = clear_client_message(NULL);
+	recv(sock, message, 1000, 0);
+	send(sock, "@GET", strlen("@GET"), 0);
+	int char_id = atoi(message);
+	message = clear_client_message(message);
+
+	while(server_access == false) {};
+	server_access = false;
+	db_del_chat(char_id, db);
+	server_access = true;
+}
+
 void new_chat_from_server(int sock) {
 
 	char *message = clear_client_message(NULL);
@@ -23,14 +36,16 @@ void new_chat_from_server(int sock) {
 
 	recv(sock, message, 1000, 0);
 	send(sock, mx_itoa(size), strlen(mx_itoa(size)), 0);
-	mx_printerr("ITOA SIZE: ");
-	mx_printerr(mx_itoa(size));
-	mx_printerr("\n");
+	//mx_printerr("ITOA SIZE: ");
+	//mx_printerr(mx_itoa(size));
+	//mx_printerr("\n");
 	message = clear_client_message(message);
 
 	int new_chats_num = size - user_chats_num;
-	for(int i = 0; i < user_chats_num; i++) {
-		all_chat_id++;
+	if(new_chats_num > 0) {
+		for(int i = 0; i < user_chats_num; i++) {
+			all_chat_id++;
+		}
 	}
 	for(int i = 0; i < new_chats_num; i++) {
 		recv(sock, message, 1000, 0);
@@ -87,12 +102,20 @@ void new_chat_from_server(int sock) {
 			char *image_path = db_get_user_image_path(login, db);
 			server_access = true;
 			if (*image_path == '\0')
-				image_path = strdup("resource/images/anonymous.png");
+				image_path = strdup("ui/resource/images/anonymous.png");
 
 			send(sock, image_path, strlen(image_path), 0);
 			message = clear_client_message(message);
 			free(login);
 			free(image_path);
+		}
+	}
+
+	if(new_chats_num < 0) {
+		for(int i = 0; i < size; i++) {
+			recv(sock, message, 1000, 0);
+			send(sock, all_chat_id[i], strlen(all_chat_id[i]), 0);
+			message = clear_client_message(message);
 		}
 	}
 }
@@ -103,9 +126,9 @@ void read_message(int sock) {
 	recv(sock, message, 1000, 0);
 	send(sock, "@GET", strlen("@GET"), 0);
 	int chat_id = atoi(message);
-	/*mx_printerr("char id: ");
-	mx_printerr(message);
-	mx_printerr("\n");*/
+	/*//mx_printerr("char id: ");
+	//mx_printerr(message);
+	//mx_printerr("\n");*/
 
 	message = clear_client_message(message);
 
@@ -137,12 +160,12 @@ void read_message(int sock) {
 		send(sock, messages[i], strlen(messages[i]), 0);
 		message = clear_client_message(message);
 
-		mx_printerr("char id: ");
-		mx_printerr(mx_itoa(chat_id));
-		mx_printerr("\n");
+		//mx_printerr("char id: ");
+		//mx_printerr(mx_itoa(chat_id));
+		//mx_printerr("\n");
 
-		mx_printerr(messages[i]);
-	    mx_printerr("\n");
+		//mx_printerr(messages[i]);
+	    //mx_printerr("\n");
 	}
 }
 
@@ -169,7 +192,7 @@ void send_message(int sock, char *user_name) {
     struct tm *tm = localtime(&t);
     char date[64];
     assert(strftime(date, sizeof(date), "%c", tm));
-    mx_printerr(date);
+    //mx_printerr(date);
 
 	while(server_access == false) {};
 	server_access = false;

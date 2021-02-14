@@ -35,9 +35,9 @@ void new_chat(int sock, char *user_name) {
 		server_access = false;
 		char *name = db_get_user_name(login, db);
 
-		    mx_printerr("\n\n\n");
-            mx_printerr(name);
-            mx_printerr("\n\n\n");
+		    //mx_printerr("\n\n\n");
+            //mx_printerr(name);
+            //mx_printerr("\n\n\n");
 
 		server_access = true;
 
@@ -51,7 +51,7 @@ void new_chat(int sock, char *user_name) {
 		server_access = true;
 
 		if (*image_path == '\0')
-		image_path = strdup("resource/images/anonymous.png");
+		image_path = strdup("ui/resource/images/anonymous.png");
 
 		recv(sock, message, 1000, 0);
 		send(sock, image_path, strlen(image_path), 0);

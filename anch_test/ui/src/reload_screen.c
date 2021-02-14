@@ -43,7 +43,7 @@ void reload_screen() {
     gtk_fixed_put(GTK_FIXED(main_data.activity_block), server_lost_label2, 530, 630);
 
     GError *error = NULL;
-    GdkPixbufAnimation *gif = gdk_pixbuf_animation_new_from_file("resource/images/coffe_cat.gif", &error);
+    GdkPixbufAnimation *gif = gdk_pixbuf_animation_new_from_file("ui/resource/images/coffe_cat.gif", &error);
 
     GtkWidget *cat_gif = gtk_image_new_from_animation (gif);
     gtk_widget_set_halign(GTK_WIDGET(cat_gif), GTK_ALIGN_CENTER);

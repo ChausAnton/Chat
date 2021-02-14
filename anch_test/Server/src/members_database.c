@@ -14,7 +14,7 @@ void db_add_member(int chat_id, int user_id) {
 void db_del_member(int chat_id, int user_id) {
     char* statement = strdup("DELETE FROM members WHERE chat_id=");
     statement = mx_strjoin(statement, int_to_str(chat_id));
-    statement = mx_strjoin(statement, "AND user_id=");
+    statement = mx_strjoin(statement, " AND user_id=");
     statement = mx_strjoin(statement, int_to_str(user_id));
     statement = mx_strjoin(statement, ";");
 

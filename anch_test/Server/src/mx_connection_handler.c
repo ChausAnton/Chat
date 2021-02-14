@@ -11,13 +11,13 @@ void *connection_handler(void *new_sock) {
 	char *user_name = NULL;
 	int exit_code = 1;
 
-	//mx_printerr(mx_itoa(sock_from));
-	//mx_printerr("\n");
+	////mx_printerr(mx_itoa(sock_from));
+	////mx_printerr("\n");
 	while(1) {
 		recv(sock_from , client_message , 2000 , 0);
 		send(sock_from, "@GETcnnt", strlen("@GETcnnt"), 0);
-		//mx_printerr(client_message);
-		//mx_printerr("\n\n");
+		////mx_printerr(client_message);
+		////mx_printerr("\n\n");
 
 		if(strcmp(client_message, "@sign_up") == 0) {
 			user_name = mx_registration(sock_from);
@@ -27,9 +27,9 @@ void *connection_handler(void *new_sock) {
 		}
 
 		if(strcmp(client_message, "@synchronization") == 0) {
-			mx_printerr("user_data_synchronization start\n");
+			//mx_printerr("user_data_synchronization start\n");
 			user_data_synchronization(sock_from, user_name);
-			mx_printerr("user_data_synchronization end\n");
+			//mx_printerr("user_data_synchronization end\n");
 		}
 
 		if(strcmp(client_message, "@search") == 0) {
@@ -42,6 +42,9 @@ void *connection_handler(void *new_sock) {
 		}
 		if(strcmp(client_message, "@delete_user") == 0) {
 			delete_user(sock_from);
+		}
+		if(strcmp(client_message, "@delete_chat") == 0) {
+			delete_chat(sock_from);
 		}
 		if (strcmp(client_message, "@message_send") == 0) {
 			send_message(sock_from, user_name);
@@ -72,14 +75,14 @@ void *connection_handler(void *new_sock) {
 			free(user_name);
 			fflush(stdout);
 			close(sock_from);
-			mx_printerr("Client out\n");
+			//mx_printerr("Client out\n");
 			pthread_exit(&exit_code);
 			return 0;
 		}
 		if (strcmp(client_message, "@exit_thread") == 0) {
 			fflush(stdout);
 			close(sock_from);
-			mx_printerr("Client thread out\n");
+			//mx_printerr("Client thread out\n");
 			pthread_exit(&exit_code);
 			return 0;
 		}
@@ -91,7 +94,7 @@ void *connection_handler(void *new_sock) {
 	}
 	
 	db_del_user_from_online(user_name, db);
-	puts("Client disconnected");
+	//puts("Client disconnected");
 	free(user_name);
 	
 	fflush(stdout);

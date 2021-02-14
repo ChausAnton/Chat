@@ -143,8 +143,8 @@ void add_new_chat_from_server(int chat_id_num, int sock_to) {
     user_data.chat_array[user_data.amount_of_chat].chat_id = chat_id_num;
 
     //Пока не трогать сильно
-    //user_data.chat_array[user_data.amount_of_chat].image_path = strdup("resource/images/stickers/sticker_50.png");
-    user_data.chat_array[user_data.amount_of_chat].image_path = strdup("resource/images/stickers/sticker_");
+    //user_data.chat_array[user_data.amount_of_chat].image_path = strdup("ui/resource/images/stickers/sticker_50.png");
+    user_data.chat_array[user_data.amount_of_chat].image_path = strdup("ui/resource/images/stickers/sticker_");
     user_data.chat_array[user_data.amount_of_chat].image_path = mx_strjoin(user_data.chat_array[user_data.amount_of_chat].image_path, int_to_str(user_data.amount_of_chat+1));
     user_data.chat_array[user_data.amount_of_chat].image_path = mx_strjoin(user_data.chat_array[user_data.amount_of_chat].image_path,  ".png");
 
@@ -255,8 +255,8 @@ void add_new_chat() {
     user_data.chat_array[user_data.amount_of_chat].chat_id = atoi(s_message);
     s_message = clear_client_message(s_message);
 
-    //user_data.chat_array[user_data.amount_of_chat].image_path = strdup("resource/images/stickers/sticker_50.png");
-    user_data.chat_array[user_data.amount_of_chat].image_path = strdup("resource/images/stickers/sticker_");
+    //user_data.chat_array[user_data.amount_of_chat].image_path = strdup("ui/resource/images/stickers/sticker_50.png");
+    user_data.chat_array[user_data.amount_of_chat].image_path = strdup("ui/resource/images/stickers/sticker_");
     user_data.chat_array[user_data.amount_of_chat].image_path = mx_strjoin(user_data.chat_array[user_data.amount_of_chat].image_path, int_to_str(user_data.amount_of_chat+1));
     user_data.chat_array[user_data.amount_of_chat].image_path = mx_strjoin(user_data.chat_array[user_data.amount_of_chat].image_path,  ".png");
 

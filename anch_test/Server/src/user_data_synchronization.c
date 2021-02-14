@@ -43,7 +43,7 @@ void chat_synchronization(int sock, char *user_name, char *chat_id) {
 		char *image_path = db_get_user_image_path(login, db);
 		server_access = true;
 		if (*image_path == '\0')
-			image_path = strdup("resource/images/anonymous.png");
+			image_path = strdup("ui/resource/images/anonymous.png");
 
 		recv(sock, message, 1000, 0);
 		send(sock, image_path, strlen(image_path), 0);
@@ -80,7 +80,7 @@ void user_data_synchronization(int sock, char *user_name) {
 	server_access = true;
 
 	if (*image_path == '\0')
-	  image_path = strdup("resource/images/anonymous.png");//image path
+	  image_path = strdup("ui/resource/images/anonymous.png");//image path
 	recv(sock, message, 1000, 0);
 	send(sock, image_path, strlen(image_path), 0);
 	free(image_path);
