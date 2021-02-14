@@ -75,24 +75,27 @@ void display_obtained_message(char *obtained_message_text) {
 
     GtkWidget *username_obtained_message = gtk_label_new("user nickname");
     gtk_widget_set_name(GTK_WIDGET(username_obtained_message), "username_obtained_message_label");
-    gtk_widget_set_halign(GTK_WIDGET(username_obtained_message), GTK_ALIGN_START);
-    gtk_widget_set_valign(GTK_WIDGET(username_obtained_message), GTK_ALIGN_START);
-    gtk_label_set_selectable(GTK_LABEL(username_obtained_message), TRUE);
-    gtk_label_set_line_wrap(GTK_LABEL(username_obtained_message), TRUE);
-    gtk_label_set_line_wrap_mode(GTK_LABEL(username_obtained_message), PANGO_WRAP_WORD_CHAR);
-    gtk_label_set_max_width_chars(GTK_LABEL(username_obtained_message), 30);
     gtk_box_pack_start(GTK_BOX(obtained_message_body_box), username_obtained_message, FALSE, FALSE, 0);
 
     GtkWidget *obtained_message = gtk_label_new(obtained_message_text);
     gtk_widget_set_name(GTK_WIDGET(obtained_message), "obtained_message");
-    gtk_widget_set_halign(GTK_WIDGET(obtained_message), GTK_ALIGN_START);
-    gtk_widget_set_valign(GTK_WIDGET(obtained_message), GTK_ALIGN_START);
     gtk_label_set_selectable(GTK_LABEL(obtained_message), TRUE);
     gtk_label_set_line_wrap(GTK_LABEL(obtained_message), TRUE);
     gtk_label_set_line_wrap_mode(GTK_LABEL(obtained_message), PANGO_WRAP_WORD_CHAR);
     gtk_label_set_max_width_chars(GTK_LABEL(obtained_message), 50);
     gtk_box_pack_start(GTK_BOX(obtained_message_body_box), obtained_message, FALSE, FALSE, 0);
 
+    //Time
+    /*time_t rawtime;
+    struct tm * timeinfo;
+    time ( &rawtime );
+    timeinfo = localtime ( &rawtime );
+    char *time_message = strdup(int_to_str(timeinfo->tm_hour));
+    time_message = mx_strjoin(time_message, ":");
+    if(timeinfo->tm_min < 10){
+        time_message = mx_strjoin(time_message, "0");
+    }
+    time_message = mx_strjoin(time_message, int_to_str(timeinfo->tm_min));*/
     time_t t = time(NULL);
     struct tm *tm = localtime(&t);
 

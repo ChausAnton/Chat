@@ -37,6 +37,8 @@ int sock;
 //ipconfig getifaddr en0 for get ip
 //10.11.7.8 ansh
 //10.11.7.7 anch
+//10.11.6.7 alex
+
 #define SERVERADDR "10.11.6.8"
 
 #define SERVERPORT 8095
@@ -139,6 +141,8 @@ typedef struct s_main_box {
     GtkWidget *chat_bar;
     GtkWidget *right_chat_box;
 
+    GtkWidget *search_chat_button;
+
     GtkAdjustment *vadj;
 
     GtkWidget *messages_area_scroll;
@@ -163,7 +167,6 @@ typedef struct s_main_box {
     GtkWidget *chat_box_name_label;
 
     GtkWidget *add_chats_scrollable_box;
-
     GtkWidget *emoji_event_box;
     GtkWidget *smile_button_clickable;
 
@@ -171,6 +174,7 @@ typedef struct s_main_box {
     int is_first_search_destroy;
     int search_chat_id;
     int search_chat_index;
+    bool is_first_search_destroy;
 
 }   t_main_box;
 

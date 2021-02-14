@@ -2,9 +2,9 @@
 
 void delete_chat() {
 
-    user_data.chat_array[main_data.main_box.search_chat_id].chat_id  = -1;
+    user_data.chat_array[main_data.main_box.search_chat_index].chat_id  = -1;
 
-    for(int i = main_data.main_box.search_chat_id; user_data.chat_array[user_data.amount_of_chat - 1].chat_id != -1; ++i) { 
+    for(int i = main_data.main_box.search_chat_index; user_data.chat_array[user_data.amount_of_chat - 1].chat_id != -1; ++i) {
         t_chat_list temp = user_data.chat_array[i];
         user_data.chat_array[i] = user_data.chat_array[i + 1];
         user_data.chat_array[i + 1] = temp;
@@ -12,11 +12,11 @@ void delete_chat() {
 
     user_data.amount_of_chat--;
 
-    gtk_widget_destroy(GTK_WIDGET(user_data.chat_array[main_data.main_box.search_chat_id].chat_button));
+    gtk_widget_destroy(GTK_WIDGET(user_data.chat_array[main_data.main_box.search_chat_index].chat_button));
     gtk_widget_destroy(GTK_WIDGET(main_data.main_box.delete_chat_event_box));
-    gtk_widget_destroy(main_data.main_box.chat_settings_event_box);
-    gtk_widget_destroy(main_data.main_box.right_chat_box);
-    gtk_widget_destroy(main_data.main_box.chat_bar_scroll);
+    gtk_widget_destroy(GTK_WIDGET(main_data.main_box.chat_settings_event_box));
+    gtk_widget_destroy(GTK_WIDGET(main_data.main_box.right_chat_box));
+    gtk_widget_destroy(GTK_WIDGET(main_data.main_box.chat_bar_scroll));
 
     main_data.main_box.right_chat_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     //gtk_widget_set_name(GTK_WIDGET(main_data.main_box.right_chat_box), "chat_box");
@@ -31,6 +31,7 @@ void delete_chat() {
     gtk_widget_show_all(main_data.main_box.right_chat_box);
 
     load_chat_list();
+
     gtk_widget_hide(main_data.main_box.chat_bar_scroll);
     gtk_widget_show_all(main_data.main_box.chat_bar_scroll);
 }

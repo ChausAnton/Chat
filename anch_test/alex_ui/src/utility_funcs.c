@@ -276,22 +276,6 @@ void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *dat
             break;
     }
 }
-void log_empty() {
-
-    GList *children = gtk_container_get_children(GTK_CONTAINER(main_data.login_box.log_error_box));
-    
-    gtk_label_set_text(GTK_LABEL(children->data), strdup("Login or password is empty"));
-
-    gtk_widget_show_all(main_data.login_box.log_error_box);
-}
-
-void log_incorrect() {
-    GList *children = gtk_container_get_children(GTK_CONTAINER(main_data.login_box.log_error_box));
-    
-    gtk_label_set_text(GTK_LABEL(children->data), strdup("Incorrect login or password"));
-
-    gtk_widget_show_all(main_data.login_box.log_error_box);
-}
 
 
 void scroll_handler(GtkWidget *widget, GdkEvent *event) {
@@ -312,83 +296,33 @@ void sign_in() {
 
     send(sock, "@sign_in", strlen("@sign_in"), 0);
     recv(sock, s_message, 2000, 0);
-    mx_printerr("Sign in back: ");
-    mx_printerr(s_message);
-    mx_printerr("\n");
 
     char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[0])));
     printf("login: %s\n", name);
-    char *password = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[1])));
-    printf("password: %s\n", password);
+    char *passwrod = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[1])));
+    printf("password: %s\n", passwrod);
 
-    if(strlen(name) == 0 || strlen(password) == 0) {
-        log_empty();
-        s_message = clear_client_message(s_message);
-        send(sock, "Empty", strlen("Empty"), 0);
-        recv(sock, s_message, 2000, 0);
-        mx_printerr("Empty back: ");
-        mx_printerr(s_message);
-        mx_printerr("\n");
-    }
-    else {
-        s_message = clear_client_message(s_message);
-        send(sock, "Nice", strlen("Nice"), 0);
-        recv(sock, s_message, 2000, 0);
-        mx_printerr("Nice back: ");
-        mx_printerr(s_message);
-        mx_printerr("\n");
-        s_message = clear_client_message(s_message);
-        send(sock, name, strlen(name), 0);
-        recv(sock, s_message, 2000, 0);
-        mx_printerr("Name back: ");
-        mx_printerr(s_message);
-        mx_printerr("\n");
-        s_message = clear_client_message(s_message);
-        send(sock, password, strlen(password), 0);
-        recv(sock, s_message, 2000, 0);
-        mx_printerr("Pass back: ");
-        mx_printerr(s_message);
-        mx_printerr("\n");
-        if(strcmp(s_message, "@TRUE") == 0) {
-            main_data.main_box.search_chat_id = -1;
-            user_data.login = strdup(name);
-            user_data.password = strdup(password);
 
-            gtk_entry_set_text(GTK_ENTRY(main_data.login_box.sign_in_data[0]), "");
-            gtk_entry_set_text(GTK_ENTRY(main_data.login_box.sign_in_data[1]), "");
+    s_message = clear_client_message(s_message);
+    send(sock, name, strlen(name), 0);
+    recv(sock, s_message, 2000, 0);
+    s_message = clear_client_message(s_message);
+    send(sock, passwrod, strlen(passwrod), 0);
+    recv(sock, s_message, 2000, 0);
+    mx_printerr(s_message);
 
-            load_data_for_user();
-            main_screen();
-        } else {
-            log_incorrect();
-        }
+    if(strcmp(s_message, "@TRUE") == 0) {
+        main_data.main_box.search_chat_id = -1;
+        user_data.login = strdup(name);
+        user_data.password = strdup(passwrod);
+
+        gtk_entry_set_text(GTK_ENTRY(main_data.login_box.sign_in_data[0]), "");
+        gtk_entry_set_text(GTK_ENTRY(main_data.login_box.sign_in_data[1]), "");
+
+        load_data_for_user();
+        main_screen();
     }
     free(s_message);
-}
-
-void reg_empty() {
-
-    GList *children = gtk_container_get_children(GTK_CONTAINER(main_data.reg_box.reg_error_box));
-    
-    gtk_label_set_text(GTK_LABEL(children->data), strdup("Login or password is empty"));
-
-    gtk_widget_show_all(main_data.reg_box.reg_error_box);
-}
-
-void reg_is_used() {
-
-    GList *children = gtk_container_get_children(GTK_CONTAINER(main_data.reg_box.reg_error_box));
-    
-    gtk_label_set_text(GTK_LABEL(children->data), strdup("Login is used"));
-
-    gtk_widget_show_all(main_data.reg_box.reg_error_box);
-}
-void passwords_doesnt_match() {
-    GList *children = gtk_container_get_children(GTK_CONTAINER(main_data.reg_box.reg_error_box));
-    
-    gtk_label_set_text(GTK_LABEL(children->data), strdup("Passwords doesn`t match"));
-
-    gtk_widget_show_all(main_data.reg_box.reg_error_box);
 }
 
 void sign_up() {
@@ -396,83 +330,51 @@ void sign_up() {
 
     send(sock, "@sign_up", strlen("@sign_up"), 0);
     recv(sock, s_message, 2000, 0);
-    mx_printerr("Sign up back: ");
-    mx_printerr(s_message);
-    mx_printerr("\n");
 
     char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[0])));
     printf("login: %s\n", name);
-    char *password = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[1])));
-    printf("password: %s\n", password);
-    char *repeat_password = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[2])));
-    printf("repeat password: %s\n", repeat_password);
+    char *passwrod = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[1])));
+    printf("password: %s\n", passwrod);
+    char *repeat_passwrod = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[2])));
+    printf("repeat password: %s\n", repeat_passwrod);
+  
+    s_message = clear_client_message(s_message);
+    send(sock, name, strlen(name), 0);
+    recv(sock, s_message, 2000, 0);
+    mx_printerr("Name in back: ");
+    mx_printerr(s_message);
+    mx_printerr("\n");
 
-
-    if(strlen(name) == 0 || strlen(password) == 0 || strlen(repeat_password) == 0) {
-        reg_empty();
+    if (strcmp(s_message, "Name back") == 0) {
         s_message = clear_client_message(s_message);
-        send(sock, "Empty", strlen("Empty"), 0);
+        send(sock, password, strlen(password), 0);
         recv(sock, s_message, 2000, 0);
-        mx_printerr("Sign in back: ");
+        mx_printerr("Pass1 in back: ");
         mx_printerr(s_message);
         mx_printerr("\n");
-    }
-    else if(strcmp(password, repeat_password) != 0) {
-        passwords_doesnt_match();
+
         s_message = clear_client_message(s_message);
-        send(sock, "Match", strlen("Match"), 0);
+        send(sock, repeat_password, strlen(repeat_password), 0);
         recv(sock, s_message, 2000, 0);
-        mx_printerr("Pass not match in back: ");
+        mx_printerr("Pass2 in back: ");
         mx_printerr(s_message);
         mx_printerr("\n");
+
+        if (strcmp(s_message, "@TRUE") == 0) {
+            main_data.main_box.search_chat_id = -1;
+            user_data.login = strdup(name);
+            user_data.password = strdup(password);
+
+            gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[0]), "");
+            gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[1]), "");
+            gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[2]), "");
+
+            load_data_for_user();
+            main_screen();
+        }
     }
     else {
-        s_message = clear_client_message(s_message);
-        send(sock, "Nice", strlen("Nice"), 0);
-        recv(sock, s_message, 2000, 0);
-        mx_printerr("Nice back: ");
-        mx_printerr(s_message);
-        mx_printerr("\n");
-
-        s_message = clear_client_message(s_message);
-        send(sock, name, strlen(name), 0);
-        recv(sock, s_message, 2000, 0);
-        mx_printerr("Name in back: ");
-        mx_printerr(s_message);
-        mx_printerr("\n");
-        
-        if (strcmp(s_message, "Name back") == 0) {
-            s_message = clear_client_message(s_message);
-            send(sock, password, strlen(password), 0);
-            recv(sock, s_message, 2000, 0);
-            mx_printerr("Pass1 in back: ");
-            mx_printerr(s_message);
-            mx_printerr("\n");
-
-            s_message = clear_client_message(s_message);
-            send(sock, repeat_password, strlen(repeat_password), 0);
-            recv(sock, s_message, 2000, 0);
-            mx_printerr("Pass2 in back: ");
-            mx_printerr(s_message);
-            mx_printerr("\n");
-
-            if (strcmp(s_message, "@TRUE") == 0) {
-                main_data.main_box.search_chat_id = -1;
-                user_data.login = strdup(name);
-                user_data.password = strdup(password);
-
-                gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[0]), "");
-                gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[1]), "");
-                gtk_entry_set_text(GTK_ENTRY(main_data.reg_box.sign_up_data[2]), "");
-
-                load_data_for_user();
-                main_screen();
-            }
-        }
-        else {
-            reg_is_used();
-        }
-
+        reg_is_used();
     }
     free(s_message);
 }
@@ -545,63 +447,76 @@ void logout(GtkWidget *widget, GdkEventButton *event) {
     }
 }
 
+
 void show_search_result(GtkWidget *widget, GdkEventButton *event, gpointer *user_input) {
-    char *s_message = clear_client_message(NULL);
-    send(sock, "@search", strlen("@search"), 0);
-    recv(sock, s_message, 2000, 0);
-    s_message = clear_client_message(s_message);
 
     if(widget&&event){}
-    char *search_input = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget *)user_input)));
-    send(sock, search_input, strlen(search_input), 0);
-    recv(sock, s_message, 2000, 0);
-    s_message = clear_client_message(s_message);
+    char *search_input = mx_strtrim((char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget *)user_input))));
+    if(strlen(search_input) != 0) {
 
-    GtkWidget *search_chat_button = gtk_event_box_new();
-    gtk_widget_set_name(GTK_WIDGET(search_chat_button), "user_button");
-    gtk_event_box_set_above_child(GTK_EVENT_BOX(search_chat_button), TRUE);
-    gtk_box_pack_start(GTK_BOX(main_data.main_box.add_chats_scrollable_box), search_chat_button, FALSE, FALSE, 0);
+        if (main_data.main_box.is_first_search_destroy == true) gtk_widget_destroy(main_data.main_box.search_chat_button);
+        main_data.main_box.is_first_search_destroy = true;
 
-    GtkWidget *search_chat_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-    gtk_widget_set_name(GTK_WIDGET(search_chat_box), "user_small_box");
-    gtk_widget_set_size_request(GTK_WIDGET(search_chat_box), 300, 70);
-    gtk_container_add(GTK_CONTAINER(search_chat_button), search_chat_box);
-    
-    GtkWidget *add_new_chat_avatar = gtk_drawing_area_new();
-    gtk_widget_set_size_request(GTK_WIDGET(add_new_chat_avatar), 80, 80);
-    ////Image path of searching user
-    char *path = strdup("resource/images/sh.jpg");
+        char *s_message = clear_client_message(NULL);
+        send(sock, "@search", strlen("@search"), 0);
+        recv(sock, s_message, 2000, 0);
+        s_message = clear_client_message(s_message);
 
-    g_signal_connect(G_OBJECT(add_new_chat_avatar), "draw", G_CALLBACK(draw_user_avatar), path);
+        send(sock, search_input, strlen(search_input), 0);
+        recv(sock, s_message, 2000, 0);
+        s_message = clear_client_message(s_message);
 
-    GtkWidget *add_new_chat_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    gtk_widget_set_name(GTK_WIDGET(add_new_chat_photo), "add_new_chat_photo");
-    gtk_container_add(GTK_CONTAINER(add_new_chat_photo), add_new_chat_avatar);
-    gtk_widget_set_size_request(GTK_WIDGET(add_new_chat_photo), 50, 30);
-    gtk_box_pack_start(GTK_BOX(search_chat_box), add_new_chat_photo, FALSE, FALSE, 0);
+        main_data.main_box.search_chat_button = gtk_event_box_new();
+        gtk_widget_set_name(GTK_WIDGET(main_data.main_box.search_chat_button), "user_button");
+        gtk_event_box_set_above_child(GTK_EVENT_BOX(main_data.main_box.search_chat_button), TRUE);
+        gtk_box_pack_start(GTK_BOX(main_data.main_box.add_chats_scrollable_box), main_data.main_box.search_chat_button, FALSE, FALSE, 0);
 
-    ////Name of searching user
-    send(sock, "@user_name", strlen("@user_name"), 0);
-    recv(sock, s_message, 2000, 0);
-    GtkWidget* user_name_in_search = gtk_label_new(s_message);
-    s_message = clear_client_message(s_message);
-    gtk_widget_set_name(GTK_WIDGET(user_name_in_search), "user_name_in_search");
-    gtk_box_pack_start(GTK_BOX(search_chat_box), user_name_in_search, FALSE, FALSE, 0);
+        GtkWidget *search_chat_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+        gtk_widget_set_name(GTK_WIDGET(search_chat_box), "user_small_box");
+        gtk_widget_set_size_request(GTK_WIDGET(search_chat_box), 300, 70);
+        gtk_container_add(GTK_CONTAINER(main_data.main_box.search_chat_button), search_chat_box);
+        
+        GtkWidget *add_new_chat_avatar = gtk_drawing_area_new();
+        gtk_widget_set_size_request(GTK_WIDGET(add_new_chat_avatar), 80, 80);
+        ////Image path of searching user
+        char *path = strdup("resource/images/sh.jpg");
 
-    //////User_id of searching user
-    send(sock, "@user_id", strlen("@user_id"), 0);
-    recv(sock, s_message, 2000, 0);
-    GtkWidget *user_id = gtk_label_new(s_message);
-    s_message = clear_client_message(s_message);
-    gtk_box_pack_start(GTK_BOX(search_chat_box), user_id, FALSE, FALSE, 0);
-    gtk_widget_set_name(GTK_WIDGET(user_id), "hidden");
+        g_signal_connect(G_OBJECT(add_new_chat_avatar), "draw", G_CALLBACK(draw_user_avatar), path);
 
-    g_signal_connect(G_OBJECT(search_chat_button), "enter-notify-event", G_CALLBACK(event_enter_notify_search), NULL);
-    g_signal_connect(G_OBJECT(search_chat_button), "leave-notify-event", G_CALLBACK(event_leave_notify_search), NULL);
-    
-    g_signal_connect(G_OBJECT(search_chat_button), "button_press_event", G_CALLBACK(search_user_click), NULL);
+        GtkWidget *add_new_chat_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+        gtk_widget_set_name(GTK_WIDGET(add_new_chat_photo), "add_new_chat_photo");
+        gtk_container_add(GTK_CONTAINER(add_new_chat_photo), add_new_chat_avatar);
+        gtk_widget_set_size_request(GTK_WIDGET(add_new_chat_photo), 50, 30);
+        gtk_box_pack_start(GTK_BOX(search_chat_box), add_new_chat_photo, FALSE, FALSE, 0);
 
-    gtk_widget_hide(main_data.main_box.add_new_chat_event_box);
-    gtk_widget_show_all(main_data.main_box.add_new_chat_event_box);
+        ////Name of searching user
+        send(sock, "@user_name", strlen("@user_name"), 0);
+        recv(sock, s_message, 2000, 0);
+        GtkWidget* user_name_in_search = gtk_label_new(s_message);
+        char *temp_s_message = strdup(s_message);
+        s_message = clear_client_message(s_message);
+        gtk_widget_set_name(GTK_WIDGET(user_name_in_search), "user_name_in_search");
+        gtk_box_pack_start(GTK_BOX(search_chat_box), user_name_in_search, FALSE, FALSE, 0);
 
+        //////User_id of searching user
+        send(sock, "@user_id", strlen("@user_id"), 0);
+        recv(sock, s_message, 2000, 0);
+        GtkWidget *user_id = gtk_label_new(s_message);
+        s_message = clear_client_message(s_message);
+        gtk_box_pack_start(GTK_BOX(search_chat_box), user_id, FALSE, FALSE, 0);
+        gtk_widget_set_name(GTK_WIDGET(user_id), "hidden");
+
+        g_signal_connect(G_OBJECT(main_data.main_box.search_chat_button), "enter-notify-event", G_CALLBACK(event_enter_notify_search), NULL);
+        g_signal_connect(G_OBJECT(main_data.main_box.search_chat_button), "leave-notify-event", G_CALLBACK(event_leave_notify_search), NULL);
+        
+        g_signal_connect(G_OBJECT(main_data.main_box.search_chat_button), "button_press_event", G_CALLBACK(search_user_click), NULL);
+
+        if(strcmp(temp_s_message, "NULL_USERNAME") == 0){
+            gtk_widget_destroy(search_chat_box);
+        }
+        else {
+            gtk_widget_hide(main_data.main_box.add_new_chat_event_box);
+            gtk_widget_show_all(main_data.main_box.add_new_chat_event_box);
+        }
+    }
 }
