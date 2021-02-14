@@ -1,15 +1,15 @@
 #include "Chat.h"
 
-void search_user(int sock, char *user_name) {
+void search_user(int sock) {
 	char *message = clear_client_message(NULL);
-	user_name = clear_client_message(NULL);
+	char *user_name = clear_client_message(NULL);
 	recv(sock, user_name, 1000, 0);
 	send(sock, "@GET", strlen("@GET"), 0);
 
 	while(server_access == false) {};
 	server_access = false;
 
-	char *db_user_name = db_get_user_name(user_name2, db);
+	char *db_user_name = db_get_user_name(user_name, db);
 
 	server_access = true;
 

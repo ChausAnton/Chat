@@ -33,7 +33,7 @@ void *connection_handler(void *new_sock) {
 		}
 
 		if(strcmp(client_message, "@search") == 0) {
-			search_user(sock_from, user_name);
+			search_user(sock_from);
 
 		}
 

@@ -54,7 +54,7 @@ char *mx_itoa(int number);
 void mx_printerr(const char *s);
 void user_data_synchronization(int sock, char *user_name);
 void new_chat(int sock, char *user_name);
-void search_user(int sock, char *user_name);
+void search_user(int sock);
 void read_message(int sock);
 void send_message(int sock, char *user_name);
 void new_chat_from_server(int sock);

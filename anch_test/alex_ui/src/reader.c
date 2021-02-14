@@ -111,6 +111,7 @@ void read_new_chats(int sock_to) {
 void mx_reconect(int *sock_to) {
     struct sockaddr_in server;
 	struct hostent *serv;
+    close(*sock_to);
 	
 	//Create socket
 	*sock_to = socket(AF_INET , SOCK_STREAM , 0);
@@ -154,10 +155,9 @@ void *reader() {
             if(recv(sock_to, s_message, 1000, MSG_DONTWAIT) == 0) {
                 thread_info = strdup("start");
                 barashka = false;
-                close(sock_to);
-                close(sock);
                 mx_reconect(&sock);
                 mx_reconect(&sock_to);
+                sign_in_thread(sock);
             }
             s_message = clear_client_message(s_message);
             read_new_chats(sock_to);
