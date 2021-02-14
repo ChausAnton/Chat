@@ -37,7 +37,7 @@ int sock;
 //ipconfig getifaddr en0 for get ip
 //10.11.7.8 ansh
 //10.11.7.7 anch
-#define SERVERADDR "10.11.7.7"
+#define SERVERADDR "10.11.6.8"
 
 #define SERVERPORT 8095
 int new_chat_users_id[100];
@@ -98,7 +98,7 @@ typedef struct s_chat_list {
     GtkWidget *chat_label_name;
     gchar *temp_source_path;
     //Chat list
-    GtkWidget *chat_list_photo_event_box;
+    GtkWidget *chat_list_box;
     GtkWidget *chat_list_photo;
     GtkWidget *chat_list_avatar;
     //Chat box
@@ -208,6 +208,10 @@ void event_enter_notify(GtkWidget *widget);
 void event_leave_notify(GtkWidget *widget);
 void unpress_event_box(GtkWidget *widget, GdkEventButton *event, gpointer *p);
 void unpress_chat_settings(GtkWidget *widget, GdkEventButton *event);
+//void update_user_name(char* name);
+//void update_user_photo(char* photo);
+void update_chat_name(char* name);
+//void update_chat_photo(char* photo);
 void change_chat_photo(GtkWidget *widget);
 void change_user_photo(GtkWidget *widget);
 void change_theme_to_default(GtkWidget *widget);

@@ -139,7 +139,6 @@ void read_new_chat_name(int sock_to) {
         recv(sock_to, s_message, 1000, 0);
         s_message = clear_client_message(s_message);
 
-
         send(sock_to, mx_itoa(user_data.user_id), strlen(mx_itoa(user_data.user_id)), 0);
         recv(sock_to, s_message, 1000, 0);
         s_message = clear_client_message(s_message);
@@ -158,7 +157,7 @@ void read_new_chat_name(int sock_to) {
                 send(sock_to, "@chat_name", strlen("@chat_name"), 0);
                 recv(sock_to, s_message, 1000, 0);
 
-                add_new_chat_from_server(atoi(s_message), sock_to);
+                update_chat_name(s_message);
 
                 s_message = clear_client_message(s_message);
             }

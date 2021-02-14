@@ -130,7 +130,6 @@ void save_edit_chat_changes(GtkWidget *widget, GdkEventButton *event, gpointer *
     gtk_widget_hide(main_data.main_box.chat_bar_scroll);
     gtk_widget_show_all(main_data.main_box.chat_bar_scroll);
 
-    gtk_widget_unset_state_flags(GTK_WIDGET(main_data.main_box.chat_settings_button), GTK_STATE_FLAG_ACTIVE);
     gtk_widget_destroy(main_data.main_box.chat_settings_event_box);
     gtk_widget_destroy(main_data.main_box.edit_chat_event_box);
 }

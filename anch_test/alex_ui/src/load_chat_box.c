@@ -29,10 +29,10 @@ void display_new_loaded_messages(int chat_id, int index) {
     chat_id++;
     int sticker_id = is_sticker(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].text);
     if(index == 0 || strncmp(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].date, user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index-1].date, 11) != 0){
-        GtkWidget *date_cnahge = gtk_label_new(strndup(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].date, 11));
-        gtk_widget_set_name(GTK_WIDGET(date_cnahge), "date_cnahge");
-        gtk_widget_set_halign (date_cnahge, GTK_ALIGN_CENTER);
-        gtk_box_pack_start(GTK_BOX(main_data.main_box.messages_area_for_scroll), date_cnahge, FALSE, FALSE, 0);
+        GtkWidget *date_change = gtk_label_new(strndup(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].date, 11));
+        gtk_widget_set_name(GTK_WIDGET(date_change), "date_change");
+        gtk_widget_set_halign (date_change, GTK_ALIGN_CENTER);
+        gtk_box_pack_start(GTK_BOX(main_data.main_box.messages_area_for_scroll), date_change, FALSE, FALSE, 0);
     }
     GtkWidget *message_body_box;
     if(sticker_id != -1) {
@@ -100,10 +100,10 @@ void display_loaded_messages() {
     for(int i = 0;  i < user_data.chat_array[main_data.main_box.search_chat_index].count_msg; i++){
         int sticker_id = is_sticker(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[i].text);
         if(i == 0 || strncmp(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[i].date, user_data.chat_array[main_data.main_box.search_chat_index].msg_list[i-1].date, 11) != 0){
-            GtkWidget *date_cnahge = gtk_label_new(strndup(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[i].date, 11));
-            gtk_widget_set_name(GTK_WIDGET(date_cnahge), "date_cnahge");
-            gtk_widget_set_halign (date_cnahge, GTK_ALIGN_CENTER);
-            gtk_box_pack_start(GTK_BOX(main_data.main_box.messages_area_for_scroll), date_cnahge, FALSE, FALSE, 0);
+            GtkWidget *date_change = gtk_label_new(strndup(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[i].date, 11));
+            gtk_widget_set_name(GTK_WIDGET(date_change), "date_change");
+            gtk_widget_set_halign (date_change, GTK_ALIGN_CENTER);
+            gtk_box_pack_start(GTK_BOX(main_data.main_box.messages_area_for_scroll), date_change, FALSE, FALSE, 0);
         }
         GtkWidget *message_body_box;
         if(sticker_id != -1){
