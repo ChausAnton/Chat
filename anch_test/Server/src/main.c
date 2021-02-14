@@ -5,7 +5,7 @@ void sock_close() {
 	exit(0);
 }
 
-int main(int argc, char *argv[]) {
+int main() {
     int socket_desc , client_sock , c , *new_sock;
 	struct sockaddr_in server , client;
 	server_access = true;
@@ -19,14 +19,11 @@ int main(int argc, char *argv[]) {
 	db_add_member(db_get_last_chat_id(db), 1);
 	db_add_member(db_get_last_chat_id(db), 2);
 
-	db_add_msg(db_get_count_msg_for_chat(1, db)+1, 1, 1, "Bruh", "Bruh1");
-	db_add_msg(db_get_count_msg_for_chat(1, db)+1, 1, 2, "Bruh", "Bruh2");
-	db_add_msg(db_get_count_msg_for_chat(1, db)+1, 1, 1, "Bruh", "Bruh3");
-	db_add_msg(db_get_count_msg_for_chat(1, db)+1, 1, 2, "Bruh", "Bruh4");
-	db_add_msg(db_get_count_msg_for_chat(1, db)+1, 1, 2, "Bruh", "~1");
-	db_add_msg(db_get_count_msg_for_chat(1, db)+1, 1, 2, "Bruh", "~1s");
-	db_add_msg(db_get_count_msg_for_chat(1, db)+1, 1, 2, "Bruh", "~111");
-	db_add_msg(db_get_count_msg_for_chat(1, db)+1, 1, 2, "Bruh", "~18");
+	db_add_msg(db_get_count_msg_for_chat(1, db)+1, 1, 1, "Sat Feb 10 15:49:17 2021", "Bruh1");
+	db_add_msg(db_get_count_msg_for_chat(1, db)+1, 1, 2, "Sat Feb 10 15:49:27 2021", "Bruh2");
+	db_add_msg(db_get_count_msg_for_chat(1, db)+1, 1, 1, "Sat Feb 11 15:49:37 2021", "Bruh3");
+	db_add_msg(db_get_count_msg_for_chat(1, db)+1, 1, 2, "Sat Feb 12 15:50:47 2021", "Bruh4");
+	db_add_msg(db_get_count_msg_for_chat(1, db)+1, 1, 2, "Sat Feb 12 15:51:47 2021", "~1");
 
 	//Create socket
 	socket_desc = socket(AF_INET , SOCK_STREAM , 0);
@@ -56,12 +53,11 @@ int main(int argc, char *argv[]) {
 	puts("Waiting for incoming connections...");
 	c = sizeof(struct sockaddr_in);
 
-	int i = 0;
 	while( (client_sock = accept(socket_desc, (struct sockaddr *)&client, (socklen_t*)&c)) ) {
 		puts("Connection accepted");
 
 		pthread_t sniffer_thread;
-		int *new_sock = malloc(1);
+		new_sock = malloc(1);
 		*new_sock = client_sock;
 		if( pthread_create( &sniffer_thread , NULL ,  connection_handler , (void*) new_sock) < 0) {
 			perror("could not create thread");

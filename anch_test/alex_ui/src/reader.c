@@ -61,8 +61,12 @@ void main_reader(int sock_to) {
                 send(sock_to, "@message_user", strlen("@message_user"), 0);
                 recv(sock_to, message_user, message_size, 0);
 
-                if(i == messages_num - 1) load_messages_for_chat(check, user_num + i, message_user, 1);
-                else load_messages_for_chat(check, user_num + i, message_user, 0);
+                if(i == messages_num - 1) { 
+                    load_messages_for_chat(check, user_num + i, message_user, 1);
+                } else {
+                    load_messages_for_chat(check, user_num + i, message_user, 0);
+                }
+                
                 free(message_user);
             }
         }
@@ -72,6 +76,11 @@ void main_reader(int sock_to) {
 void read_new_chats(int sock_to) {
     if(barashka == true) {
         char *s_message = clear_client_message(NULL);
+
+        send(sock_to, "@new_chat_from_server", strlen("@new_chat_from_server"), 0);
+        recv(sock_to, s_message, 1000, 0);
+        s_message = clear_client_message(s_message);
+
 
         send(sock_to, mx_itoa(user_data.user_id), strlen(mx_itoa(user_data.user_id)), 0);
         recv(sock_to, s_message, 1000, 0);
@@ -95,6 +104,7 @@ void read_new_chats(int sock_to) {
 
             s_message = clear_client_message(s_message);
         }
+
     }
 }
 
@@ -137,6 +147,7 @@ void *reader() {
             if(atoi(thread_info) > 0) {
                 main_reader(sock_to);
             }
+
 
             char *s_message = clear_client_message(NULL);
             send(sock_to, "@new_chat_from_server", strlen("@new_chat_from_server"), 0);

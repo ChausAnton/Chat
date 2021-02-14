@@ -1,6 +1,7 @@
 #include "Chat.h"
 
 void chat_synchronization(int sock, char *user_name, char *chat_id) {
+	if(user_name){};
 	char *message = clear_client_message(NULL);
 
 	recv(sock, message, 1000, 0);

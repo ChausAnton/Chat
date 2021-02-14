@@ -4,9 +4,9 @@ int chat_id_g;
 
 void *connection_handler(void *new_sock) {
 	int sock_from = *(int *)new_sock;
-	int read_size;
+	/*int read_size;
 	int sock_to;
-	char *message;
+	char *message;*/
 	char *client_message = clear_client_message(NULL);
 	char *user_name = NULL;
 	int exit_code = 1;

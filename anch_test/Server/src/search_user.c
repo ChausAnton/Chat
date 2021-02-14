@@ -2,13 +2,15 @@
 
 void search_user(int sock, char *user_name) {
 	char *message = clear_client_message(NULL);
-	char *user_name2 = clear_client_message(NULL);
-	recv(sock, user_name2, 1000, 0);
+	user_name = clear_client_message(NULL);
+	recv(sock, user_name, 1000, 0);
 	send(sock, "@GET", strlen("@GET"), 0);
 
 	while(server_access == false) {};
 	server_access = false;
+
 	char *db_user_name = db_get_user_name(user_name2, db);
+
 	server_access = true;
 
 	recv(sock, message, 1000, 0);
@@ -18,7 +20,7 @@ void search_user(int sock, char *user_name) {
 
 	while(server_access == false) {};
 	server_access = false;
-	int user_id = db_get_user_id(user_name2, db);
+	int user_id = db_get_user_id(user_name, db);
 	server_access = true;
 
 	recv(sock, message, 1000, 0);
