@@ -149,3 +149,73 @@ void add_new_user() {
 
     //added_same_user_to_chat();
 }
+
+void add_new_user() {
+
+    int usr_amnt = user_data.chat_array[main_data.main_box.search_chat_index].count_users;
+    
+    for(int i = 0; i < 100; i++){
+        if(new_chat_users_id[i] != -1) {
+            char *s_message = clear_client_message(NULL);
+            send(sock_to, "@add_new_user", strlen("@add_new_user"), 0);
+            recv(sock_to, s_message, 1000, 0);
+            s_message = clear_client_message(s_message);
+            //Все эти данные нужно загружать с базы данных
+            user_data.chat_array[main_data.main_box.search_chat_index].users_list[usr_amnt].user_id = new_chat_users_id[i];
+            send(sock_to, mx_itoa(new_chat_users_id[i]), strlen(mx_itoa(new_chat_users_id[i])), 0);
+            recv(sock_to, s_message, 1000, 0);
+            s_message = clear_client_message(s_message);
+
+            send(sock_to, "@login", strlen("@login"), 0);
+            recv(sock_to, s_message, 1000, 0);
+            user_data.chat_array[main_data.main_box.search_chat_index].users_list[usr_amnt].login = strdup(s_message);
+            s_message = clear_client_message(s_message);
+
+            send(sock_to, "@name", strlen("@name"), 0);
+            recv(sock_to, s_message, 1000, 0);
+            user_data.chat_array[main_data.main_box.search_chat_index].users_list[usr_amnt].name = strdup(s_message);
+            s_message = clear_client_message(s_message);
+
+            send(sock_to, "@image_path", strlen("@image_path"), 0);
+            recv(sock_to, s_message, 1000, 0);
+            user_data.chat_array[main_data.main_box.search_chat_index].users_list[usr_amnt].image_path = strdup(s_message);
+            s_message = clear_client_message(s_message);
+            usr_amnt++;
+
+            send(sock_to, mx_itoa(main_data.main_box.search_chat_id), strlen(mx_itoa(main_data.main_box.search_chat_id)), 0);
+            recv(sock_to, s_message, 1000, 0);
+            s_message = clear_client_message(s_message);
+            ///По идее добавление в бд нужно делать каждую итерацию цикла 
+        }
+    }
+    user_data.chat_array[main_data.main_box.search_chat_index].count_users = usr_amnt;
+
+    ///Это изменения на стороне клиента
+
+    for(int i = 0; i < 100; i++) new_chat_users_id[i] = -1;
+
+    gtk_widget_destroy(main_data.main_box.add_new_chat_event_box);
+    gtk_widget_destroy(main_data.main_box.chat_settings_event_box);
+}
+
+void add_new_user_from_server(int chat_id, int user_id) {
+    int tmp_chat_index = -1;
+    for(int i = 0; i < user_data.amount_of_chat; i++){
+        if(user_data.chat_array[i].chat_id == chat_id){
+            tmp_chat_index = i;
+            break;
+        }
+    }
+
+    int usr_amnt = user_data.chat_array[tmp_chat_index].count_users;
+    
+    ///Вcе это с базы данных загружать
+    user_data.chat_array[tmp_chat_index].users_list[usr_amnt].user_id = user_id;;
+    user_data.chat_array[tmp_chat_index].users_list[usr_amnt].login = strdup("Abarmot");
+    user_data.chat_array[tmp_chat_index].users_list[usr_amnt].name = strdup("Abarmot");
+    user_data.chat_array[tmp_chat_index].users_list[usr_amnt].image_path = strdup("resource/images/anonymous.png");
+    usr_amnt++;
+
+    user_data.chat_array[main_data.main_box.search_chat_index].count_users = usr_amnt;
+
+}

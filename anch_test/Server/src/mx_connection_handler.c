@@ -43,7 +43,9 @@ void *connection_handler(void *new_sock) {
 		if (strcmp(client_message, "@message_send") == 0) {
 			send_message(sock_from, user_name);
 		}
-	
+		if(strcmp(client_message, "@add_new_user") == 0) {
+			add_user_to_chat(sock_from);
+		}
 		if (strcmp(client_message, "@message_read") == 0) {
 			read_message(sock_from);
 		}

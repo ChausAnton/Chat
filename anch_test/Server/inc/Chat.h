@@ -60,6 +60,7 @@ void send_message(int sock, char *user_name);
 void new_chat_from_server(int sock);
 void save_edit_chat_changes(int sock);
 void send_edit_chat_changes(int sock);
+void add_user_to_chat(int sock);
 ////
 char *mx_strnew(const int size);
 int mx_strlen(const char *s);
@@ -108,7 +109,7 @@ void db_del_chat(int chat_id, sqlite3* db);
 int db_get_last_chat_id(sqlite3* db);
 char* db_get_chat_name(int chat_id, sqlite3* db);
 int get_count_users_for_chat(int chat_id, sqlite3* db);
-
+void db_set_chat_count(int chat_id, int new_count);
 //Messages table
 void db_add_msg(int msg_id_in_chat, int chat_id, int user_id, char* date, char* text);
 void db_del_all_msg_from_chat(int chat_id);
@@ -124,6 +125,7 @@ void db_del_all_member_for_chat(int chat_id);
 char** get_all_user_id_for_chat(int chat_id, sqlite3* db);
 char** get_all_chat_id_for_user(int user_id, sqlite3* db); 
 int get_count_chat_id_for_user(int user_id, sqlite3* db);
+int get_last_user_id_for_chat(int chat_id, sqlite3* db);
 
 /**Database**/
 #endif

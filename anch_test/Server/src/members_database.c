@@ -112,3 +112,36 @@ int get_count_chat_id_for_user(int user_id, sqlite3* db)  {
     free(statement);
     return count;
 }
+
+int get_count_user_id_for_chat(int chat_id, sqlite3* db)  {
+    char* statement = strdup("select count(user_id) from members where chat_id=");
+    statement = mx_strjoin(statement, int_to_str(chat_id));
+    statement = mx_strjoin(statement, ";");
+    
+    int count = -1;
+    sqlite3_stmt *result;
+    
+    int rc = sqlite3_prepare_v2(db, statement, -1, &result, 0);    
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "Failed to fetch data: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+    }
+
+    rc = sqlite3_step(result);
+    if (rc == SQLITE_ROW) {
+        count = sqlite3_column_int(result, 0);
+    }
+
+    sqlite3_finalize(result);
+    free(statement);
+    return count;
+}
+
+int get_last_user_id_for_chat(int chat_id, sqlite3* db)  {
+    char **user_id_list = get_all_user_id_for_chat(chat_id, db);
+    int last_user_id;
+    for(int i = 0; user_id_list[i]; i++){
+        last_user_id = atoi(user_id_list[i]);
+    }
+    return last_user_id;
+}

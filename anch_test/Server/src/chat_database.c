@@ -118,3 +118,14 @@ int get_count_users_for_chat(int chat_id, sqlite3* db)  {
     free(statement);
     return count;
 }
+
+void db_set_chat_count(int chat_id, int new_count) {
+    char* statement = strdup("update chats set member_count=");
+    statement = mx_strjoin(statement, int_to_str(new_count));
+    statement = mx_strjoin(statement, " where chat_id=");
+    statement = mx_strjoin(statement, int_to_str(chat_id));
+    statement = mx_strjoin(statement, ";");
+
+    db_exec(statement, db);
+    free(statement);
+}
