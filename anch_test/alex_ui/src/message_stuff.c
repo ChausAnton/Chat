@@ -11,18 +11,6 @@ void *scrolling_msg() {
     return NULL;
 }
 
-void *scrolling_obtained_msg() {
-
-    usleep(50000);
-    GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.messages_area_scroll));
-    gtk_adjustment_set_value(adjustment, gtk_adjustment_get_upper(adjustment));
-
-    gtk_widget_hide(main_data.main_box.messages_area_scroll);
-    gtk_widget_show(main_data.main_box.messages_area_scroll);
-
-    return NULL;
-}
-
 void display_message(char *message_text) {
     int count = user_data.chat_array[main_data.main_box.search_chat_index].count_msg;
     mx_printerr(int_to_str(count));
