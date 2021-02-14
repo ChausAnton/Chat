@@ -206,7 +206,7 @@ void chat_click(GtkWidget *widget) {
     unset_active_chats();
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
 
-    printf("Chat_id: %d\n", chat_id);
+    //printf("Chat_id: %d\n", chat_id);
     
     main_data.main_box.search_chat_id = chat_id;
     for(int i = 0; i < user_data.amount_of_chat; i++){
@@ -215,7 +215,7 @@ void chat_click(GtkWidget *widget) {
             break;
         }
     }
-    printf("Search_chat_index: %d\n", main_data.main_box.search_chat_index);
+    //printf("Search_chat_index: %d\n", main_data.main_box.search_chat_index);
     g_list_free(g_steal_pointer(&children));
     g_list_free(g_steal_pointer(&parent));
 
@@ -317,10 +317,8 @@ void sign_in() {
     mx_printerr(s_message);
     mx_printerr("\n");
 
-    char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[0])));
-    printf("login: %s\n", name);
-    char *password = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[1])));
-    printf("password: %s\n", password);
+    char *name = mx_strtrim((char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[0]))));
+    char *password = mx_strtrim((char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[1]))));
 
     if(strlen(name) == 0 || strlen(password) == 0) {
         log_empty();
@@ -401,12 +399,9 @@ void sign_up() {
     mx_printerr(s_message);
     mx_printerr("\n");
 
-    char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[0])));
-    printf("login: %s\n", name);
-    char *password = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[1])));
-    printf("password: %s\n", password);
-    char *repeat_password = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[2])));
-    printf("repeat password: %s\n", repeat_password);
+    char *name = mx_strtrim((char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[0]))));
+    char *password = mx_strtrim((char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[1]))));
+    char *repeat_password = mx_strtrim((char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[2]))));
 
 
     if(strlen(name) == 0 || strlen(password) == 0 || strlen(repeat_password) == 0) {

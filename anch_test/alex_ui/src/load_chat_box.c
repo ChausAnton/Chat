@@ -166,9 +166,8 @@ void display_new_loaded_messages(int chat_id, int index) {
     }
     
     int height = (strlen(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].text) / 50 + 1) * 15;
-    //int height = gtk_widget_get_allocated_height(message_body);
     gtk_adjustment_set_upper(main_data.main_box.vadj, gtk_adjustment_get_upper(main_data.main_box.vadj) + height*height);
-    write(1, int_to_str(gtk_adjustment_get_upper(main_data.main_box.vadj)), 12);
+   
     if (gtk_adjustment_get_upper(main_data.main_box.vadj) > 1005) {
         scrolling_msg();
     }
@@ -328,9 +327,6 @@ void load_messages_for_chat(int chat_id, int index, char *msg, int last){
             break;
         }
     }
-    mx_printerr("Chat Index on Load:   ");
-    mx_printerr(int_to_str(chat_index));
-    mx_printerr("\n");
     
     /////Split
     char **str = mx_strsplit(msg, '#');
@@ -398,7 +394,6 @@ void load_right_chat_box() {
             gtk_label_set_selectable(GTK_LABEL(main_data.main_box.chat_box_name_label), TRUE);
             //gtk_widget_set_name(GTK_WIDGET(main_data.main_box.chat_box_name_label), "top_chat_name");
             gtk_container_add(GTK_CONTAINER(chat_name_box), main_data.main_box.chat_box_name_label);
-                        printf("Chat name\n");
 
             // Chat settings
             main_data.main_box.chat_settings_button = gtk_event_box_new();

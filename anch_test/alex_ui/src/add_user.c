@@ -128,19 +128,14 @@ void show_add_new_user(GtkWidget *widget) {
 }
 
 void add_new_user() {
-        printf("111111111\n");
 
     int usr_amnt = user_data.chat_array[main_data.main_box.search_chat_index].count_users; // amount of users in current chat
     for(int i = 0; i < 100; i++){
         if(new_chat_users_id[i] != -1) {
             user_data.chat_array[main_data.main_box.search_chat_index].users_list[usr_amnt].user_id = new_chat_users_id[i];
-            printf("all users id in curr chat:\n%d %d\n", i, new_chat_users_id[i]);
         }
     }
-    printf("111111111\n");
     user_data.chat_array[main_data.main_box.search_chat_index].count_users = usr_amnt;
-    load_right_chat_box();
-    //printf("usr_amnt: %d\n", usr_amnt);
 
     for(int i = 0; i < 100; i++) new_chat_users_id[i] = -1;
 
