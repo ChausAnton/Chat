@@ -8,7 +8,9 @@ void search_user(int sock, char *user_name) {
 
 	while(server_access == false) {};
 	server_access = false;
-	char *db_user_name = db_get_user_name(user_name, db);
+
+	char *db_user_name = db_get_user_name(user_name2, db);
+
 	server_access = true;
 
 	recv(sock, message, 1000, 0);

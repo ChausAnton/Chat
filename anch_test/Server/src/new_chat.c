@@ -34,6 +34,11 @@ void new_chat(int sock, char *user_name) {
 		while(server_access == false) {};
 		server_access = false;
 		char *name = db_get_user_name(login, db);
+
+		    mx_printerr("\n\n\n");
+            mx_printerr(name);
+            mx_printerr("\n\n\n");
+
 		server_access = true;
 
 		recv(sock, message, 1000, 0);

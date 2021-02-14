@@ -51,6 +51,7 @@ void start_screen() {
     gtk_widget_set_name(GTK_WIDGET(log_incorrect), "log_incorrect");
     gtk_box_pack_start(GTK_BOX(main_data.login_box.log_error_box), log_incorrect, FALSE, FALSE, 0);
 
+
     GtkWidget *signin_button = gtk_button_new_with_label ("Sign in");
     gtk_widget_set_name(GTK_WIDGET(signin_button), "signin_button");
     gtk_button_set_relief(GTK_BUTTON(signin_button), GTK_RELIEF_NONE);

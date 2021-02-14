@@ -45,6 +45,7 @@ void display_new_loaded_messages(int chat_id, int index) {
         gtk_widget_set_name(GTK_WIDGET(message_body), "message_body");
         gtk_box_pack_start(GTK_BOX(main_data.main_box.messages_area_for_scroll), message_body, FALSE, FALSE, 0);
 
+
         message_body_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
         gtk_box_pack_end(GTK_BOX(message_body), message_body_box, FALSE, FALSE, 0);
 
@@ -197,10 +198,65 @@ void load_messages_for_chat(int chat_id, int index, char *msg, int last){
         gtk_widget_hide(main_data.main_box.right_chat_box);
         gtk_widget_show_all(main_data.main_box.right_chat_box);
     }*/last++;
+    if(last == 1) {
+        gtk_widget_hide(main_data.main_box.right_chat_box);
+        gtk_widget_show_all(main_data.main_box.right_chat_box);
+    }
+    /*int sticker_id = is_sticker(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].text);
+    if(sticker_id != -1){
+        char *sticker_path = strdup("resource/images/stickers/");
+        sticker_path = mx_strjoin(sticker_path, mx_itoa(sticker_id));
+        sticker_path = mx_strjoin(sticker_path, ".png");
+
+        GtkWidget *message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+        gtk_widget_set_name(GTK_WIDGET(message_body), "message_body");
+        gtk_box_pack_start(GTK_BOX(main_data.main_box.messages_area_for_scroll), message_body, FALSE, FALSE, 0);
+
+        GtkWidget *message_body_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
+        gtk_box_pack_end(GTK_BOX(message_body), message_body_box, FALSE, FALSE, 0);
+
+        GtkWidget *message_file = gtk_image_new();
+        GdkPixbuf *message_file_pixbuf = gdk_pixbuf_new_from_file((gchar *)sticker_path, NULL);
+        
+        gint width = gdk_pixbuf_get_width(message_file_pixbuf);
+        gint height = gdk_pixbuf_get_height(message_file_pixbuf);
+
+        if (width > 52 || height > 52) {
+            gtk_image_set_from_pixbuf(GTK_IMAGE(message_file), gdk_pixbuf_new_from_file_at_scale((gchar *)sticker_path, 52, 52, TRUE, NULL));
+        } else {
+            gtk_image_set_from_pixbuf(GTK_IMAGE(message_file), message_file_pixbuf);
+        }
+        g_object_unref(G_OBJECT(message_file_pixbuf));
+
+        gtk_box_pack_start(GTK_BOX(message_body_box), message_file, FALSE, FALSE, 0);
+
+        GtkWidget *message_time = gtk_label_new(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].date);
+        gtk_widget_set_name(GTK_WIDGET(message_time), "message_time_sticker");
+        gtk_widget_set_halign(GTK_WIDGET(message_time), GTK_ALIGN_END);
+        gtk_box_pack_start(GTK_BOX(message_body_box), message_time, FALSE, FALSE, 0);
+    } else {
+        GtkWidget *message_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+        gtk_widget_set_name(GTK_WIDGET(message_body), "messages_body");
+        gtk_box_pack_start(GTK_BOX(main_data.main_box.messages_area_for_scroll), message_body, FALSE, FALSE, 0);
+
+        GtkWidget *message_body_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
+        gtk_box_pack_end(GTK_BOX(message_body), message_body_box, FALSE, FALSE, 0);
+
+        GtkWidget *message = gtk_label_new(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].text);
+        gtk_widget_set_name(GTK_WIDGET(message), "message");
+        gtk_label_set_line_wrap(GTK_LABEL(message), TRUE);
+        gtk_label_set_line_wrap_mode(GTK_LABEL(message), PANGO_WRAP_WORD_CHAR);
+        gtk_label_set_max_width_chars(GTK_LABEL(message), 50);
+        gtk_box_pack_start(GTK_BOX(message_body_box), message, FALSE, FALSE, 0);
+        ///Time
+        GtkWidget *message_time = gtk_label_new(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].date);
+        gtk_widget_set_name(GTK_WIDGET(message_time), "message_time");
+        gtk_widget_set_halign(GTK_WIDGET(message_time), GTK_ALIGN_END);
+        gtk_box_pack_start(GTK_BOX(message_body_box), message_time, FALSE, FALSE, 0);
+    }()*/
 }
 
 void load_right_chat_box() {
-    barashka = true;
     gtk_widget_destroy(main_data.main_box.right_chat_box);
     
     // Chat box
@@ -275,8 +331,8 @@ void load_right_chat_box() {
             gtk_widget_set_size_request(GTK_WIDGET(main_data.main_box.messages_area_scroll), WINDOW_SIZE_X - 310, 780);
             gtk_box_pack_start(GTK_BOX(chatting_area),  main_data.main_box.messages_area_scroll, FALSE, FALSE, 0);
 
-            main_data.main_box.vadj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.messages_area_scroll));
-            
+            main_data.main_box.vadj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.messages_area_scroll)); 
+
             g_signal_connect(main_data.main_box.messages_area_scroll, "scroll_event", G_CALLBACK(scroll_handler), NULL);
             
             main_data.main_box.messages_area_for_scroll = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
@@ -317,7 +373,6 @@ void load_right_chat_box() {
             gtk_text_view_set_top_margin(GTK_TEXT_VIEW(msg_enter), 10);
             gtk_text_view_set_left_margin(GTK_TEXT_VIEW(msg_enter), 20);
             gtk_container_add(GTK_CONTAINER(scrolled_message), msg_enter);
-
 
             g_signal_connect(G_OBJECT(clip_event_box), "button_press_event", G_CALLBACK(send_message_file), msg_enter);
             //g_signal_connect(G_OBJECT(clip_event_box), "button_press_event", G_CALLBACK(obtained_message_file), msg_enter);

@@ -1,5 +1,9 @@
 #include "Chat.h"
 
+void sock_close() {
+	close(global_sock);
+	exit(0);
+}
 
 int main() {
     int socket_desc , client_sock , c , *new_sock;
@@ -26,6 +30,7 @@ int main() {
 	if (socket_desc == -1) {
 		printf("Could not create socket");
 	}
+	global_sock = socket_desc;
 	puts("Socket created");
 	
 	//Prepare the sockaddr_in structure
@@ -33,6 +38,7 @@ int main() {
 	server.sin_addr.s_addr = INADDR_ANY;
 	server.sin_port = htons(SERVERPORT);
 	
+	signal(SIGINT, sock_close);
 	//Bind
 	if( bind(socket_desc,(struct sockaddr *)&server , sizeof(server)) < 0) {
 		perror("bind failed. Error");

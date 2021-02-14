@@ -236,6 +236,19 @@ void scroll_handler(GtkWidget *widget, GdkEvent *event) {
     }
 }
 
+void scroll_handler(GtkWidget *widget, GdkEvent *event) {
+    if(widget&&event){}
+    gtk_adjustment_set_step_increment(main_data.main_box.vadj, 69.0);
+    if ( event->type == GDK_SCROLL ) {
+        if ( event->scroll.direction == GDK_SCROLL_DOWN ) {          
+            gtk_adjustment_set_value(main_data.main_box.vadj, gtk_adjustment_get_value(main_data.main_box.vadj) + gtk_adjustment_get_step_increment(main_data.main_box.vadj));
+        }
+        if ( event->scroll.direction == GDK_SCROLL_UP ) {
+            gtk_adjustment_set_value(main_data.main_box.vadj, gtk_adjustment_get_value(main_data.main_box.vadj) - gtk_adjustment_get_step_increment(main_data.main_box.vadj));
+        }
+    }
+}
+
 void sign_in() {
     char *s_message = clear_client_message(NULL);
 
@@ -401,6 +414,7 @@ void sign_up() {
         else {
             reg_is_used();
         }
+
     }
     free(s_message);
 }

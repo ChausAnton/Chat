@@ -11,6 +11,18 @@ void *scrolling_msg() {
     return NULL;
 }
 
+void *scrolling_obtained_msg() {
+
+    usleep(50000);
+    GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.messages_area_scroll));
+    gtk_adjustment_set_value(adjustment, gtk_adjustment_get_upper(adjustment));
+
+    gtk_widget_hide(main_data.main_box.messages_area_scroll);
+    gtk_widget_show(main_data.main_box.messages_area_scroll);
+
+    return NULL;
+}
+
 void display_message(char *message_text) {
     int count = user_data.chat_array[main_data.main_box.search_chat_index].count_msg;
     mx_printerr(int_to_str(count));
@@ -41,6 +53,7 @@ void display_message(char *message_text) {
     char **time_message = mx_strsplit(asctime(tm), ' ');
     
     GtkWidget *message_time = gtk_label_new(strndup(time_message[3], 5));
+
     gtk_widget_set_name(GTK_WIDGET(message_time), "message_time");
     gtk_widget_set_halign(GTK_WIDGET(message_time), GTK_ALIGN_END);
     gtk_box_pack_start(GTK_BOX(message_body_box), message_time, FALSE, FALSE, 0);
@@ -422,6 +435,7 @@ void obtained_message_file(GtkWidget *widget, GdkEventButton *event, gpointer *m
         s_message = clear_client_message(s_message);
 
         free(path_for_db);
+
     }
     gtk_widget_destroy (dialog);
 
