@@ -397,8 +397,7 @@ void load_right_chat_box() {
             // Send message
             GtkWidget *send_button_clickable = gtk_event_box_new();
             gtk_widget_set_name(GTK_WIDGET(send_button_clickable), "send_button_clickable");
-            gtk_widget_set_halign(GTK_Wbool exit_thread;
-pthread_t sniffer_thread;IDGET(send_button_clickable), GTK_ALIGN_CENTER);
+            gtk_widget_set_halign(GTK_WIDGET(send_button_clickable), GTK_ALIGN_CENTER);
             gtk_widget_set_valign(GTK_WIDGET(send_button_clickable), GTK_ALIGN_CENTER);
             gtk_box_pack_start(GTK_BOX(bottom_area), send_button_clickable, FALSE, FALSE, 0);
 

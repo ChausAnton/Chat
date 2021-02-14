@@ -37,8 +37,9 @@ int sock;
 //ipconfig getifaddr en0 for get ip
 //10.11.7.8 ansh
 //10.11.7.7 anch
-#define SERVERADDR "10.11.6.7"
-#define SERVERPORT 8093
+#define SERVERADDR "10.11.7.7"
+
+#define SERVERPORT 8095
 int new_chat_users_id[100];
 char *thread_info;
 void *reader();
@@ -170,7 +171,7 @@ typedef struct s_main_box {
     int is_first_search_destroy;
     int search_chat_id;
     int search_chat_index;
-    bool is_first_search_destroy;
+
 }   t_main_box;
 
 typedef struct s_main_data {
