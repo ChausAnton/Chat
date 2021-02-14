@@ -47,81 +47,6 @@ static void unset_active_chats() {
     }
 }
 
-/*void update_user_name(char* name) {
-    gtk_label_set_text(GTK_LABEL(main_data.main_box.user_name_label), name);
-
-    gtk_widget_destroy(main_data.main_box.chat_bar_scroll);
-    gtk_widget_destroy(main_data.main_box.up_box);
-
-    main_screen_up_box();
-    load_chat_list();
-
-    gtk_widget_hide(main_data.main_box.up_box);
-    gtk_widget_show_all(main_data.main_box.up_box);
-    gtk_widget_hide(main_data.main_box.chat_bar_scroll);
-    gtk_widget_show_all(main_data.main_box.chat_bar_scroll);
-}
-
-void update_user_photo(char* photo) {
-    if(user_data.temp_image_path != NULL) user_data.image_path = user_data.temp_image_path;
-
-    gtk_widget_destroy(user_data.user_settings_photo);
-    gtk_widget_destroy(main_data.main_box.chat_bar_scroll);
-    gtk_widget_destroy(main_data.main_box.up_box);
-    
-    user_data.user_settings_avatar = gtk_drawing_area_new();
-    gtk_widget_set_size_request(GTK_WIDGET(user_data.user_settings_avatar), 40, 40);
-    g_signal_connect(G_OBJECT(user_data.user_settings_avatar), "draw", G_CALLBACK(draw_user_settings_avatar), user_data.image_path);
-    
-    user_data.user_settings_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    gtk_container_add(GTK_CONTAINER(user_data.user_settings_photo), user_data.user_settings_avatar);
-    gtk_container_add(GTK_CONTAINER(user_data.user_settings_photo_event_box), user_data.user_settings_photo);
-
-    main_screen_up_box();
-    load_chat_list();
-
-    gtk_widget_hide(main_data.main_box.up_box);
-    gtk_widget_show_all(main_data.main_box.up_box);
-    gtk_widget_hide(main_data.main_box.chat_bar_scroll);
-    gtk_widget_show_all(main_data.main_box.chat_bar_scroll);
-}*/
-
-void update_chat_name(char* name) {
-    gtk_label_set_text(GTK_LABEL(user_data.chat_array[main_data.main_box.search_chat_index].chat_label_name), name);
-    gtk_label_set_text(GTK_LABEL(main_data.main_box.chat_box_name_label), name);
-
-    gtk_widget_destroy(main_data.main_box.chat_bar_scroll);
-
-    load_chat_list();
-
-    gtk_widget_hide(main_data.main_box.right_chat_box);
-    gtk_widget_show_all(main_data.main_box.right_chat_box);
-    gtk_widget_hide(main_data.main_box.chat_bar_scroll);
-    gtk_widget_show_all(main_data.main_box.chat_bar_scroll);
-}
-
-/*void update_chat_photo(char* photo) {
-    user_data.chat_array[main_data.main_box.search_chat_index].image_path = user_data.chat_array[main_data.main_box.search_chat_index].temp_source_path;
-
-    gtk_widget_destroy(user_data.chat_array[main_data.main_box.search_chat_index].chat_box_photo);
-    gtk_widget_destroy(main_data.main_box.chat_bar_scroll);
-
-    user_data.chat_array[main_data.main_box.search_chat_index].chat_box_avatar = gtk_drawing_area_new();
-    gtk_widget_set_size_request(GTK_WIDGET(user_data.chat_array[main_data.main_box.search_chat_index].chat_box_avatar), 40, 40);
-    g_signal_connect(G_OBJECT(user_data.chat_array[main_data.main_box.search_chat_index].chat_box_avatar), "draw", G_CALLBACK(draw_chat_avatar), user_data.chat_array[main_data.main_box.search_chat_index].image_path);
-    
-    user_data.chat_array[main_data.main_box.search_chat_index].chat_box_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    gtk_container_add(GTK_CONTAINER(user_data.chat_array[main_data.main_box.search_chat_index].chat_box_photo), user_data.chat_array[main_data.main_box.search_chat_index].chat_box_avatar);
-    gtk_container_add(GTK_CONTAINER(user_data.chat_array[main_data.main_box.search_chat_index].chat_box_photo_event_box), user_data.chat_array[main_data.main_box.search_chat_index].chat_box_photo);
-
-    load_chat_list();
-
-    gtk_widget_hide(main_data.main_box.right_chat_box);
-    gtk_widget_show_all(main_data.main_box.right_chat_box);
-    gtk_widget_hide(main_data.main_box.chat_bar_scroll);
-    gtk_widget_show_all(main_data.main_box.chat_bar_scroll);
-}*/
-
 void change_chat_photo(GtkWidget *widget) {
     GtkWidget *dialog = gtk_file_chooser_dialog_new("User image", GTK_WINDOW(main_data.window), GTK_FILE_CHOOSER_ACTION_OPEN, "Cancel", GTK_RESPONSE_CANCEL, "Open", GTK_RESPONSE_ACCEPT, NULL);
     gint run = gtk_dialog_run(GTK_DIALOG(dialog));
@@ -206,7 +131,7 @@ void chat_click(GtkWidget *widget) {
     unset_active_chats();
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
 
-    //printf("Chat_id: %d\n", chat_id);
+    printf("Chat_id: %d\n", chat_id);
     
     main_data.main_box.search_chat_id = chat_id;
     for(int i = 0; i < user_data.amount_of_chat; i++){
@@ -215,7 +140,7 @@ void chat_click(GtkWidget *widget) {
             break;
         }
     }
-    //printf("Search_chat_index: %d\n", main_data.main_box.search_chat_index);
+    printf("Search_chat_index: %d\n", main_data.main_box.search_chat_index);
     g_list_free(g_steal_pointer(&children));
     g_list_free(g_steal_pointer(&parent));
 
@@ -276,21 +201,6 @@ void chat_settings_click(GtkWidget *widget, GdkEventButton *event, gpointer *dat
             break;
     }
 }
-
-
-void scroll_handler(GtkWidget *widget, GdkEvent *event) {
-    if(widget&&event){}
-    gtk_adjustment_set_step_increment(main_data.main_box.vadj, 69.0);
-    if ( event->type == GDK_SCROLL ) {
-        if ( event->scroll.direction == GDK_SCROLL_DOWN ) {          
-            gtk_adjustment_set_value(main_data.main_box.vadj, gtk_adjustment_get_value(main_data.main_box.vadj) + gtk_adjustment_get_step_increment(main_data.main_box.vadj));
-        }
-        if ( event->scroll.direction == GDK_SCROLL_UP ) {
-            gtk_adjustment_set_value(main_data.main_box.vadj, gtk_adjustment_get_value(main_data.main_box.vadj) - gtk_adjustment_get_step_increment(main_data.main_box.vadj));
-        }
-    }
-}
-
 void log_empty() {
 
     GList *children = gtk_container_get_children(GTK_CONTAINER(main_data.login_box.log_error_box));
@@ -308,17 +218,30 @@ void log_incorrect() {
     gtk_widget_show_all(main_data.login_box.log_error_box);
 }
 
+
+void scroll_handler(GtkWidget *widget, GdkEvent *event) {
+    if(widget&&event){}
+    gtk_adjustment_set_step_increment(main_data.main_box.vadj, 69.0);
+    if ( event->type == GDK_SCROLL ) {
+        if ( event->scroll.direction == GDK_SCROLL_DOWN ) {          
+            gtk_adjustment_set_value(main_data.main_box.vadj, gtk_adjustment_get_value(main_data.main_box.vadj) + gtk_adjustment_get_step_increment(main_data.main_box.vadj));
+        }
+        if ( event->scroll.direction == GDK_SCROLL_UP ) {
+            gtk_adjustment_set_value(main_data.main_box.vadj, gtk_adjustment_get_value(main_data.main_box.vadj) - gtk_adjustment_get_step_increment(main_data.main_box.vadj));
+        }
+    }
+}
+
 void sign_in() {
     char *s_message = clear_client_message(NULL);
 
     send(sock, "@sign_in", strlen("@sign_in"), 0);
     recv(sock, s_message, 2000, 0);
-    mx_printerr("Sign in back: ");
-    mx_printerr(s_message);
-    mx_printerr("\n");
 
-    char *name = mx_strtrim((char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[0]))));
-    char *password = mx_strtrim((char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[1]))));
+    char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[0])));
+    printf("login: %s\n", name);
+    char *password = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.login_box.sign_in_data[1])));
+    printf("password: %s\n", password);
 
     if(strlen(name) == 0 || strlen(password) == 0) {
         log_empty();
@@ -399,9 +322,12 @@ void sign_up() {
     mx_printerr(s_message);
     mx_printerr("\n");
 
-    char *name = mx_strtrim((char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[0]))));
-    char *password = mx_strtrim((char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[1]))));
-    char *repeat_password = mx_strtrim((char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[2]))));
+    char *name = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[0])));
+    printf("login: %s\n", name);
+    char *password = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[1])));
+    printf("password: %s\n", password);
+    char *repeat_password = (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY((GtkWidget*)main_data.reg_box.sign_up_data[2])));
+    printf("repeat password: %s\n", repeat_password);
 
 
     if(strlen(name) == 0 || strlen(password) == 0 || strlen(repeat_password) == 0) {
@@ -540,7 +466,6 @@ void logout(GtkWidget *widget, GdkEventButton *event) {
         gtk_widget_show_all(GTK_WIDGET(logout_event_box));
     }
 }
-
 
 void show_search_result(GtkWidget *widget, GdkEventButton *event, gpointer *user_input) {
 

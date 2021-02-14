@@ -71,6 +71,7 @@ void sock_work(int *sock_new) {
 int main(int argc, char *argv[]) {
     sock_work(&sock);
 
+	new_user = false;
 	thread_info = NULL;
 	exit_thread = false;
 	sniffer_thread = NULL;

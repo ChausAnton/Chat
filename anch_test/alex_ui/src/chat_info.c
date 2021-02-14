@@ -1,7 +1,8 @@
 #include "../inc/Chat.h"
 
 void show_chat_info(GtkWidget *widget) {
-
+    new_user = true;
+    while(new_user == true) {};
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
 
     GtkWidget *chat_info_event_box = gtk_event_box_new();
@@ -56,6 +57,9 @@ void show_chat_info(GtkWidget *widget) {
     gtk_widget_set_name(GTK_WIDGET(chat_info_scrollable_box), "chat_info_scrollable_box");
     gtk_container_add(GTK_CONTAINER(scrollable), chat_info_scrollable_box);
 
+    mx_printerr("!!!!!!!!!\n");
+    mx_printerr(mx_itoa(user_data.chat_array[main_data.main_box.search_chat_index].count_users));
+    mx_printerr("!!!!!!!!!\n");
     for(int i = 0; i < user_data.chat_array[main_data.main_box.search_chat_index].count_users; i++) {
 
         GtkWidget *search_chat_button = gtk_event_box_new();
@@ -70,8 +74,9 @@ void show_chat_info(GtkWidget *widget) {
         
         GtkWidget *chat_info_avatar = gtk_drawing_area_new();
         gtk_widget_set_size_request(GTK_WIDGET(chat_info_avatar), 80, 80);
-
         g_signal_connect(G_OBJECT(chat_info_avatar), "draw", G_CALLBACK(draw_user_avatar), user_data.chat_array[main_data.main_box.search_chat_index].users_list[i].image_path);
+        //mx_printerr(user_data.chat_array[main_data.main_box.search_chat_index].users_list[i].image_path);
+        //mx_printerr("\n");
 
         GtkWidget *chat_info_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
         gtk_widget_set_name(GTK_WIDGET(chat_info_photo), "chat_info_photo");

@@ -1,5 +1,31 @@
 #include "Chat.h"
 
+void update_chat_name(int chat_id, char* name) {
+    int tmp_chat_index = -1;
+    for(int i = 0; i < user_data.amount_of_chat; i++){
+        if(user_data.chat_array[i].chat_id == chat_id){
+            tmp_chat_index = i;
+            break;
+        }
+    }
+    if(strcmp(user_data.chat_array[tmp_chat_index].chat_name, name) != 0) {
+        user_data.chat_array[tmp_chat_index].chat_name = strdup(name);
+        gtk_label_set_text(GTK_LABEL(user_data.chat_array[tmp_chat_index].chat_label_name), name);
+        gtk_label_set_text(GTK_LABEL(main_data.main_box.chat_box_name_label), name);
+
+        //gtk_widget_destroy(main_data.main_box.chat_bar_scroll);
+
+        //load_chat_list();
+        gtk_widget_hide(user_data.chat_array[tmp_chat_index].chat_button);
+        gtk_widget_show_all(user_data.chat_array[tmp_chat_index].chat_button);
+
+        gtk_widget_hide(main_data.main_box.right_chat_box);
+        gtk_widget_show_all(main_data.main_box.right_chat_box);
+        //gtk_widget_hide(main_data.main_box.chat_bar_scroll);
+        //gtk_widget_show_all(main_data.main_box.chat_bar_scroll);
+    }
+}
+
 void show_edit_chat(GtkWidget *widget) {
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
     
@@ -130,6 +156,7 @@ void save_edit_chat_changes(GtkWidget *widget, GdkEventButton *event, gpointer *
     gtk_widget_hide(main_data.main_box.chat_bar_scroll);
     gtk_widget_show_all(main_data.main_box.chat_bar_scroll);
 
+    gtk_widget_unset_state_flags(GTK_WIDGET(main_data.main_box.chat_settings_button), GTK_STATE_FLAG_ACTIVE);
     gtk_widget_destroy(main_data.main_box.chat_settings_event_box);
     gtk_widget_destroy(main_data.main_box.edit_chat_event_box);
 }

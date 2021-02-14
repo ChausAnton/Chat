@@ -14,17 +14,6 @@ int is_sticker(char *txt){
     }
 }
 
-/*tatic void scrolling_messages() {
-    mx_printerr("Bruuuuuuuuuh\n");
-    while (gtk_events_pending()) {
-        gtk_main_iteration();
-        GtkAdjustment *adj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.messages_area_scroll));
-        gtk_adjustment_set_value(adj, gtk_adjustment_get_upper(adj) - gtk_adjustment_get_page_size(adj));
-        gtk_scrolled_window_set_vadjustment(GTK_SCROLLED_WINDOW(main_data.main_box.messages_area_scroll), adj);
-        gtk_main_iteration();
-    }
-}*/
-
 void display_new_loaded_messages(int chat_id, int index) {
     chat_id++;
     int sticker_id = is_sticker(user_data.chat_array[main_data.main_box.search_chat_index].msg_list[index].text);

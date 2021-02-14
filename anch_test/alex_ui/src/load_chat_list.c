@@ -24,7 +24,6 @@ void load_chat_list() {
         gtk_widget_set_size_request(GTK_WIDGET(user_data.chat_array[i].chat_list_avatar), 40, 40);
         char *path = strdup(user_data.chat_array[i].image_path);
         user_data.chat_array[i].temp_source_path = user_data.chat_array[i].image_path;
-
         g_signal_connect(G_OBJECT(user_data.chat_array[i].chat_list_avatar), "draw", G_CALLBACK(draw_chat_avatar), path);
 
         user_data.chat_array[i].chat_list_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);

@@ -84,7 +84,29 @@ void show_user_settings(GtkWidget *widget) {
 
 void save_user_changes(GtkWidget *widget, GdkEventButton *event, gpointer *data) {
     if(widget&&event){}
+
+    
+
     GList *parent = gtk_container_get_children(GTK_CONTAINER((GtkWidget *)data));
+    if(strcmp(user_data.name, (char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY(parent->next->data)))) != 0) {
+
+        char *new_name = strdup((char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY(parent->next->data))));
+
+        char *s_message = clear_client_message(NULL);
+
+        send(sock, "@save_user_changes", strlen("@save_user_changes"), 0);
+        recv(sock, s_message, 2000, 0);
+        s_message = clear_client_message(s_message);
+
+        send(sock, user_data.login, strlen(user_data.login), 0);
+        recv(sock, s_message, 2000, 0);
+        s_message = clear_client_message(s_message);
+
+        send(sock, new_name, strlen(new_name), 0);
+        recv(sock, s_message, 2000, 0);
+        s_message = clear_client_message(s_message);
+    }
+
     user_data.name = strdup((char*)gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY(parent->next->data))));
     gtk_label_set_text(GTK_LABEL(main_data.main_box.user_name_label), user_data.name);
 

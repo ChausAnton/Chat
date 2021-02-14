@@ -1,5 +1,9 @@
 #activity {
-    background: white;
+    /*background-image: url("../images/sh.jpg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;*/
+    background: whitesmoke;
 }
 #reload_screen {
     background: white;

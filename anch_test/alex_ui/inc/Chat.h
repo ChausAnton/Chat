@@ -37,13 +37,12 @@ int sock;
 //ipconfig getifaddr en0 for get ip
 //10.11.7.8 ansh
 //10.11.7.7 anch
-//10.11.6.7 alex
-
 #define SERVERADDR "10.11.6.8"
 
 #define SERVERPORT 8095
 int new_chat_users_id[100];
 char *thread_info;
+bool new_user;
 void *reader();
 void mx_printerr(const char *s);
 void sock_work(int *sock_new);
@@ -51,7 +50,9 @@ bool barashka;
 bool exit_thread;
 pthread_t sniffer_thread;
 enum chat_settings_message {EDIT_CHAT = 1, ADD_USER, DELETE_USER, DELETE_CHAT};
-
+void add_new_user();
+void update_chat_name(int chat_id, char* name);
+void add_new_user_from_server(int chat_id, int user_id, int j, int sock_to);
 typedef struct s_login_box {
     const gchar *css;
     GtkWidget *all_login_box;
@@ -141,8 +142,6 @@ typedef struct s_main_box {
     GtkWidget *chat_bar;
     GtkWidget *right_chat_box;
 
-    GtkWidget *search_chat_button;
-
     GtkAdjustment *vadj;
 
     GtkWidget *messages_area_scroll;
@@ -167,12 +166,14 @@ typedef struct s_main_box {
     GtkWidget *chat_box_name_label;
 
     GtkWidget *add_chats_scrollable_box;
+
     GtkWidget *emoji_event_box;
     GtkWidget *smile_button_clickable;
 
+    GtkWidget *search_chat_button;
+    bool is_first_search_destroy;
     int search_chat_id;
     int search_chat_index;
-    bool is_first_search_destroy;
 
 }   t_main_box;
 
@@ -210,10 +211,6 @@ void event_enter_notify(GtkWidget *widget);
 void event_leave_notify(GtkWidget *widget);
 void unpress_event_box(GtkWidget *widget, GdkEventButton *event, gpointer *p);
 void unpress_chat_settings(GtkWidget *widget, GdkEventButton *event);
-//void update_user_name(char* name);
-//void update_user_photo(char* photo);
-void update_chat_name(char* name);
-//void update_chat_photo(char* photo);
 void change_chat_photo(GtkWidget *widget);
 void change_user_photo(GtkWidget *widget);
 void change_theme_to_default(GtkWidget *widget);

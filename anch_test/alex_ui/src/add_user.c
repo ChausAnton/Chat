@@ -2,8 +2,6 @@
 
 void show_add_new_user(GtkWidget *widget) {
     
-    main_data.main_box.is_first_search_destroy = false;
-
     gtk_widget_set_state_flags(GTK_WIDGET(widget), GTK_STATE_FLAG_ACTIVE, TRUE);
 
     main_data.main_box.add_new_chat_event_box = gtk_event_box_new();
@@ -63,45 +61,6 @@ void show_add_new_user(GtkWidget *widget) {
     main_data.main_box.add_chats_scrollable_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_name(GTK_WIDGET( main_data.main_box.add_chats_scrollable_box), "add_chats_scrollable_box");
     gtk_container_add(GTK_CONTAINER(scrollable),  main_data.main_box.add_chats_scrollable_box);
-
-    for(int i = 0; i < user_data.amount_of_chat; i++) {
-
-        GtkWidget *search_chat_button = gtk_event_box_new();
-        gtk_widget_set_name(GTK_WIDGET(search_chat_button), "user_button");
-        gtk_event_box_set_above_child(GTK_EVENT_BOX(search_chat_button), TRUE);
-        gtk_box_pack_start(GTK_BOX(main_data.main_box.add_chats_scrollable_box), search_chat_button, FALSE, FALSE, 0);
-
-        GtkWidget *search_chat_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-        gtk_widget_set_name(GTK_WIDGET(search_chat_box), "user_small_box");
-        gtk_widget_set_size_request(GTK_WIDGET(search_chat_box), 300, 70);
-        gtk_container_add(GTK_CONTAINER(search_chat_button), search_chat_box);
-        
-        GtkWidget *add_new_chat_avatar = gtk_drawing_area_new();
-        gtk_widget_set_size_request(GTK_WIDGET(add_new_chat_avatar), 80, 80);
-        char *path = strdup("resource/images/sh.jpg");
-
-        g_signal_connect(G_OBJECT(add_new_chat_avatar), "draw", G_CALLBACK(draw_user_avatar), path);
-
-        GtkWidget *add_new_chat_photo = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-        gtk_widget_set_name(GTK_WIDGET(add_new_chat_photo), "add_new_chat_photo");
-        gtk_container_add(GTK_CONTAINER(add_new_chat_photo), add_new_chat_avatar);
-        gtk_widget_set_size_request(GTK_WIDGET(add_new_chat_photo), 50, 30);
-        gtk_box_pack_start(GTK_BOX(search_chat_box), add_new_chat_photo, FALSE, FALSE, 0);
-
-        GtkWidget* user_name_in_search = gtk_label_new("Shrek))0)");
-        gtk_label_set_selectable(GTK_LABEL(user_name_in_search), TRUE);
-        gtk_widget_set_name(GTK_WIDGET(user_name_in_search), "user_name_in_search");
-        gtk_box_pack_start(GTK_BOX(search_chat_box), user_name_in_search, FALSE, FALSE, 0);
-
-        GtkWidget *chat_id = gtk_label_new(int_to_str(user_data.chat_array[i].chat_id));
-        gtk_box_pack_start(GTK_BOX(search_chat_box), chat_id, FALSE, FALSE, 0);
-        gtk_widget_set_name(GTK_WIDGET(chat_id), "hidden");
-
-        g_signal_connect(G_OBJECT(search_chat_button), "enter-notify-event", G_CALLBACK(event_enter_notify_search), NULL);
-        g_signal_connect(G_OBJECT(search_chat_button), "leave-notify-event", G_CALLBACK(event_leave_notify_search), NULL);
-        
-        g_signal_connect(G_OBJECT(search_chat_button), "button_press_event", G_CALLBACK(search_user_click), NULL);
-    }
     
     GtkWidget *new_user_event_box = gtk_event_box_new();
     gtk_widget_set_name(GTK_WIDGET(new_user_event_box), "new_chat_event_box");
@@ -129,20 +88,86 @@ void show_add_new_user(GtkWidget *widget) {
 
 void add_new_user() {
 
-    int usr_amnt = user_data.chat_array[main_data.main_box.search_chat_index].count_users; // amount of users in current chat
+    int usr_amnt = user_data.chat_array[main_data.main_box.search_chat_index].count_users;
+    
     for(int i = 0; i < 100; i++){
         if(new_chat_users_id[i] != -1) {
+            char *s_message = clear_client_message(NULL);
+            send(sock, "@add_new_user", strlen("@add_new_user"), 0);
+            recv(sock, s_message, 1000, 0);
+            s_message = clear_client_message(s_message);
+
+            //Все эти данные нужно загружать с базы данных
             user_data.chat_array[main_data.main_box.search_chat_index].users_list[usr_amnt].user_id = new_chat_users_id[i];
+            send(sock, mx_itoa(new_chat_users_id[i]), strlen(mx_itoa(new_chat_users_id[i])), 0);
+            recv(sock, s_message, 1000, 0);
+            s_message = clear_client_message(s_message);
+
+            send(sock, "@login", strlen("@login"), 0);
+            recv(sock, s_message, 1000, 0);
+            user_data.chat_array[main_data.main_box.search_chat_index].users_list[usr_amnt].login = strdup(s_message);
+            s_message = clear_client_message(s_message);
+
+            send(sock, "@name", strlen("@name"), 0);
+            recv(sock, s_message, 1000, 0);
+            user_data.chat_array[main_data.main_box.search_chat_index].users_list[usr_amnt].name = strdup(s_message);
+            s_message = clear_client_message(s_message);
+
+            send(sock, "@image_path", strlen("@image_path"), 0);
+            recv(sock, s_message, 1000, 0);
+            user_data.chat_array[main_data.main_box.search_chat_index].users_list[usr_amnt].image_path = strdup(s_message);
+            s_message = clear_client_message(s_message);
+
+            send(sock, mx_itoa(main_data.main_box.search_chat_id), strlen(mx_itoa(main_data.main_box.search_chat_id)), 0);
+            recv(sock, s_message, 1000, 0);
+            s_message = clear_client_message(s_message);
+
+            ///По идее добавление в бд нужно делать каждую итерацию цикла 
+            usr_amnt++;
         }
     }
     user_data.chat_array[main_data.main_box.search_chat_index].count_users = usr_amnt;
+
+    ///Это изменения на стороне клиента
 
     for(int i = 0; i < 100; i++) new_chat_users_id[i] = -1;
 
     gtk_widget_destroy(main_data.main_box.add_new_chat_event_box);
     gtk_widget_destroy(main_data.main_box.chat_settings_event_box);
+}
 
-    gtk_widget_show_all(main_data.main_box.chat_bar);
+void add_new_user_from_server(int chat_id, int user_id, int j, int sock_to) {
+    int tmp_chat_index = -1;
+    for(int i = 0; i < user_data.amount_of_chat; i++){
+        if(user_data.chat_array[i].chat_id == chat_id){
+            tmp_chat_index = i;
+            break;
+        }
+    }
+    char *s_message = clear_client_message(NULL);
+    //Все эти данные нужно загружать с базы данных
+    user_data.chat_array[main_data.main_box.search_chat_index].users_list[j].user_id = user_id;
 
-    //added_same_user_to_chat();
+    send(sock_to, "@login", strlen("@login"), 0);
+    recv(sock_to, s_message, 1000, 0);
+    mx_printerr("\n\n");
+    mx_printerr(s_message);
+    mx_printerr("\n\n");
+    user_data.chat_array[main_data.main_box.search_chat_index].users_list[j].login = strdup(s_message);
+    s_message = clear_client_message(s_message);
+
+    send(sock_to, "@name", strlen("@name"), 0);
+    recv(sock_to, s_message, 1000, 0);
+    mx_printerr(s_message);
+    mx_printerr("\n\n");
+    user_data.chat_array[main_data.main_box.search_chat_index].users_list[j].name = strdup(s_message);
+    s_message = clear_client_message(s_message);
+
+    send(sock_to, "@image_path", strlen("@image_path"), 0);
+    recv(sock_to, s_message, 1000, 0);
+    mx_printerr("\n\n");
+    mx_printerr(s_message);
+    user_data.chat_array[main_data.main_box.search_chat_index].users_list[j].image_path = strdup(s_message);
+    s_message = clear_client_message(s_message);
+    user_data.chat_array[main_data.main_box.search_chat_index].count_users = j + 1;
 }
