@@ -60,6 +60,7 @@ int main(int argc, char *argv[]) {
     int socket_desc , client_sock , c , *new_sock;
 	struct sockaddr_in server , client;
 	server_access = true;
+
 	db_open("database/uchat.db", &db);
 
 	//Create socket
@@ -78,6 +79,7 @@ int main(int argc, char *argv[]) {
 	if( bind(socket_desc,(struct sockaddr *)&server , sizeof(server)) < 0) {
 		return 1;
 	}
+
 	
 	//Listen
 	listen(socket_desc , 0x100);	

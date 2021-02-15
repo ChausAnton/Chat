@@ -60,6 +60,7 @@ void show_chat_info(GtkWidget *widget) {
     //mx_printerr("!!!!!!!!!\n");
     //mx_printerr(mx_itoa(user_data.chat_array[main_data.main_box.search_chat_index].count_users));
     //mx_printerr("!!!!!!!!!\n");
+
     for(int i = 0; i < user_data.chat_array[main_data.main_box.search_chat_index].count_users; i++) {
 
         GtkWidget *search_chat_button = gtk_event_box_new();

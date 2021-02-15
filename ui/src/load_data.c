@@ -3,7 +3,7 @@
 static void fill_chat_array(){
     char *s_message = clear_client_message(NULL);
     for(int i = 0; i < user_data.amount_of_chat; i++){
-        user_data.chat_array[i].msg_list = NULL;
+        user_data.chat_array[i].msg_list = (t_message *)malloc(sizeof(t_message) * 30000);
         user_data.chat_array[i].count_msg = 0;
 
         send(sock, "@chat_id", strlen("@chat_id"), 0);
@@ -19,6 +19,8 @@ static void fill_chat_array(){
         send(sock, "@count_users", strlen("@count_users"), 0);
         recv(sock, s_message, 1000, 0);
         user_data.chat_array[i].count_users = atoi(s_message);
+        mx_printerr(int_to_str(user_data.chat_array[i].count_users));
+        mx_printerr("\n");
         s_message = clear_client_message(s_message);
 
         user_data.chat_array[i].image_path = strdup("ui/resource/images/stickers/sticker_");//later 
