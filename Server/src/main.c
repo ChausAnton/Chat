@@ -11,7 +11,6 @@ static void skeleton_daemon()
 
     /* Fork off the parent process */
     pid = fork();
-	printf("%d",getpid());
 
     /* An error occurred */
     if (pid < 0)
@@ -32,7 +31,6 @@ static void skeleton_daemon()
 
     /* Fork off for the second time*/
     pid = fork();
-
     /* An error occurred */
     if (pid < 0)
         exit(EXIT_FAILURE);
@@ -49,32 +47,20 @@ static void skeleton_daemon()
 }
 
 int main(int argc, char *argv[]) {
-	skeleton_daemon();
-	if(argc <= 0) {
-		mx_printerr("usage: ./server [serverport]\n");
+
+	if(argc <= 1) {
+		mx_printerr("usage: ./server [SERVERPORT]\n");
 		exit(0);
 	}
 	serverport = atoi(argv[1]);
+
+	skeleton_daemon();
+	printf("Sever PID: %d\n", getpid());
 
     int socket_desc , client_sock , c , *new_sock;
 	struct sockaddr_in server , client;
 	server_access = true;
 	db_open("database/uchat.db", &db);
-
-	db_add_user("a", "1");
-	db_add_user("s", "1");
-	db_add_user("f", "1");
-
-	db_add_chat(2, "Lol", db);
-
-	db_add_member(db_get_last_chat_id(db), 1);
-	db_add_member(db_get_last_chat_id(db), 2);
-
-	db_add_msg(db_get_count_msg_for_chat(1, db)+1, 1, 1, "Sat Feb 10 15:49:17 2021", "Bruh1");
-	db_add_msg(db_get_count_msg_for_chat(1, db)+1, 1, 2, "Sat Feb 10 15:49:27 2021", "Bruh2");
-	db_add_msg(db_get_count_msg_for_chat(1, db)+1, 1, 1, "Sat Feb 11 15:49:37 2021", "Bruh3");
-	db_add_msg(db_get_count_msg_for_chat(1, db)+1, 1, 2, "Sat Feb 12 15:50:47 2021", "Bruh4");
-	db_add_msg(db_get_count_msg_for_chat(1, db)+1, 1, 2, "Sat Feb 12 15:51:47 2021", "~1");
 
 	//Create socket
 	socket_desc = socket(AF_INET , SOCK_STREAM , 0);

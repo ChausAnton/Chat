@@ -66,7 +66,7 @@ void sock_work(int *sock_new) {
 
 
 int main(int argc, char *argv[]) {
-	if(argc <= 0) {
+	if(argc <= 2) {
 		mx_printerr("usage: ./ucaht [SERVERADDR] [SERVERPORT]\n");
 		exit(0);
 	}
