@@ -23,6 +23,12 @@ SERVER_SRC_FILES = $(wildcard $(SERVER_SRC_DIR)/*.c)
 SERVER_OBJ_FILES = $(addprefix $(SERVER_OBJ_DIR)/, $(notdir $(SERVER_SRC_FILES:%.c=%.o)))
 SERVER_INC_FILES = $(wildcard $(SERVER_INC_DIR)/*.h)
 
+SQLITE3_DIR = sqlite3/
+SQLITE3_FILES:= $(SQLITE3_DIR)/libsqlite3.a
+SQLITE3_INC_FILES:= $(SQLITE3_DIR)/include
+
+LIBS_FLAGS = -lsqlite3 -L$(SQLITE3_DIR) -I$(SQLITE3_INC_FILES)
+
 MKDIR = mkdir -p
 RM = rm -rf
 
@@ -33,7 +39,7 @@ cleandb:
 
 #Server
 $(SERVER): $(SERVER_OBJ_FILES)
-	@$(CC) $(CFLAGS) -l sqlite3 $^ -o $(SERVER) -I $(SERVER_INC_DIR) $(GTKCFLAGSLIBS)
+	@$(CC) $(CFLAGS) $(LIBS_FLAGS) $^ -o $(SERVER) -I $(SERVER_INC_DIR) $(GTKCFLAGSLIBS)
 	@printf "\r\33[2K$@\t \033[32;1mcreated\033[0m\n"
 
 $(SERVER_OBJ_FILES): | $(SERVER_OBJ_DIR)
